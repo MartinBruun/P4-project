@@ -17,8 +17,6 @@ namespace GPlusPlusCompiler
             IParseTree tree = parser.r();
             Console.WriteLine(tree.ToStringTree());
             
-            
-            
         }
     }
 }

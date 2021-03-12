@@ -1,0 +1,53 @@
+Machine.WorkArea.size(xmin, ymin, xmax, ymax); //Hvis ikke defineret, da er området 100x100
+
+
+Draw 
+{
+   A;
+   B;
+}
+
+Shape A {
+	point startPoint = (10,10);
+	line.from(startPoint).to(10,15);
+	curve.withAngle(23).from(startPoint).to(15,10);
+}
+
+
+
+Shape B {
+	//B's startPoint er implicit sat til global_startPoint;
+	A.startPoint = startpoint; //Vi har en ny A inde i B. Dennes startpunkt sættes til global_start_point <--- ikke defineret endnu
+	A; /*Tegn A*/
+	line.From(A.endpoint).to(C.startPoint); //No from betyder implicit sidst brugte punkt (Sidst brugte punkt holdes styr på som global værdi)
+	C;
+}
+
+Shape C {
+	point a = (5,5);
+	point b = (13,13);
+	
+	startPoint = a;
+	curve.withAngle(273).from(a).to(b);
+	
+	number myNumber = 1.3;
+
+	repeat.until (!boolFunc(a,D.startPoint)) //Oversættes til GOTO i G-code
+		D.startPoint = (a.x, b.y);
+		D;
+		
+		a += (0.4, 0.7);
+		
+	repeat.end;
+}
+
+
+
+function bool boolFunc (point a, point b) {
+	return dist(a, b) < 6.6;
+}
+
+function number dist (point a, point b) {
+ return __*AFSTANDSFORMEL*__;
+} 
+
