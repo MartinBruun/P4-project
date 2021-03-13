@@ -1,7 +1,7 @@
 
 grammar OG;
 program: machine draw functionDeclaration* shapeDefinition*;
-machine: 'Machine''.''WorkArea''.''size' '(' machineVariables ')'';';
+machine: 'Machine' '.WorkArea''.size' '(' machineVariables ')'';';
 machineVariables : number ',' number ',' number',' number;
 draw: 'draw' '{' (ID';')* '}';
 
@@ -9,19 +9,22 @@ draw: 'draw' '{' (ID';')* '}';
 shapeDefinition: 'shape' ID '{' body '}';
 body: declaration* command* expression;
 
-//Generel expressions:
-expression: (mathExpression* | booleanExpression*);
-booleanExpression: mathExpression Comparer mathExpression | booleanExpression Comparer booleanExpression | Boolean;
-mathExpression: (valueReference Operator valueReference (Operator valueReference)*);
-valueReference: ID | number | Integer;
-
-//Basic declarations:
+//Basic declarations and assignments:
 declaration: (numberDeclaration | pointDeclaration | booleanDeclaration)';';
 numberDeclaration: 'number' ID '=' mathExpression | valueReference;
 pointDeclaration:  'point'  ID '=' ( coordinateReference | ID );
 booleanDeclaration:  'bool'   ID '=' booleanExpression;
 coordinateReference:  '(' numberTuple ')';
-numberTuple: (mathExpression | number) ',' (mathExpression | number);
+numberTuple: (mathExpression | numberRefence) ',' (mathExpression | numberRefence);
+assignment: ID '=' (expression | ID);
+
+//Generel expressions:
+expression: (mathExpression* | booleanExpression*);
+booleanExpression: mathExpression Comparer mathExpression | booleanExpression Comparer booleanExpression | Boolean;
+
+mathExpression: mathExpression AdditionTerm term | term;
+term: term MultiplicationTerm factor | factor;
+factor: '(' mathExpression ')' | valueReference;
 
 
 //Commands:
@@ -39,27 +42,38 @@ untilIteration: 'repeat''.until''('booleanExpression')' body 'repeat''.end';
 
 
 //Functions: 
-functionDeclaration: returnFunction | voidFunction;
-returnFunction: 'function' Type ID parameterDeclerationList '{' body returnStatement '}';
-voidFunction: 'function' 'void' ID parameterDeclerationList '{' body '}';
-parameterDeclerationList: '('parameters')';
+functionDeclaration: returnFunctionDCL | voidFunctionDCL;
+returnFunctionDCL: 'function' Type ID parameterDeclerations '{' body returnStatement '}';
+voidFunctionDCL: 'function' 'void' ID parameterDeclerations '{' body '}';
+parameterDeclerations: '('parameters')';
 parameters: Type ID | (Type ID',')+ Type ID  | ;
 parameterList: (ID | expression);
 functionCall: ID '(' parameterList ')'';';
 returnStatement: 'return' (expression | valueReference) ';';
 
+//Mathematics:
+mathFunction: squareRoot;
+squareRoot: ('sqrt(' mathExpression | ID)')';
 
-//Tokens and help types:
+
+//Tokens and help variables:
+numberRefence: number | coordinatePropertyValue; //Anything that evaluates to a number, but is not in itself a number.
 number: Integer | Float;
+coordinatePropertyValue: ID'.x' | ID'.y';
+operator: MultiplicationTerm | AdditionTerm;
+valueReference: ID | number | mathFunction;
+
+MultiplicationTerm: '/'|'*';
+AdditionTerm: '+' | '-';
 Type: 'bool' | 'number' | 'int' | 'point'; //If named 'bool' it gives clash with bool declaration
 Comparer: '<' |'>'|'=='|'!='|'>='|'<='|'||'|'&&';
-Operator: '+'|'-'|'*'|'/';
 Integer: [0-9]+ | '-'[0-9]+;
 Boolean: 'false' | 'true';
 ID: [a-zA-Z]+[0-9a-zA-Z]*;
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
-Float : [0-9]+ | [0-9]+'.'[0-9]+ | '-'[0-9]+ | '-'[0-9]+'.'[0-9]+;
+Float : [0-9]+'.'[0-9]+ | '-'[0-9]+ | '-'[0-9]+'.'[0-9]+;
 COMMENT: '/*' .*? '*/' -> skip;
 NumberDeclarationWord: 'number';
 BoolDeclarationWord: 'bool';
 PointDeclarationWord: 'point';
+Terminator: ';';
