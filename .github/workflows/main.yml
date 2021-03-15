@@ -1,4 +1,4 @@
-name: TTRA CI
+name: OG
 
 # This action will activate at each pull request
 on:
@@ -6,7 +6,7 @@ on:
 
 # This is the description of the different "Jobs" which will be done (ie. The "main" application, Android and Unittest, where IOS can be added later)
 jobs:          
-  Android
+  Build
     runs-on: macos-latest
     steps:
       - name: Checks out to current branch
