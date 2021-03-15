@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Checks out to current branch
         uses: actions/checkout@v1
+      - name: Adds antlr4 as possible commandline
+        uses: NiccoMlt/setup-antlr4@v0.0.6
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Generate updated ANTLR lexer and parser
