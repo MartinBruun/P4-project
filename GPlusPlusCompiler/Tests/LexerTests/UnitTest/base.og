@@ -1,0 +1,10 @@
+using NUnit.Framework;
+
+namespace Tests.LexerTests.UnitTest
+{
+    [TestFixture]
+    public class base_OG
+    {
+        
+    }
+}
