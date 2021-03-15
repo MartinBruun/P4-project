@@ -1,10 +1,6 @@
-using NUnit.Framework;
 
-namespace Tests.LexerTests.UnitTest
-{
-    [TestFixture]
-    public class base_OG
-    {
-        
-    }
+Machine.WorkArea.size(Xmin:0,Ymin:0,Xmax:100,Ymax:100);
+
+Draw {
+    
 }

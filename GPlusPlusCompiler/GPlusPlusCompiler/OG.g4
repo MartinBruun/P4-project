@@ -2,7 +2,7 @@
 grammar OG;
 
 program: machine draw functionDeclaration* shapeDefinition*;
-machineVariables : Number ',' Number ',' Number',' Number;
+machineVariables : 'Xmin:'Number ',' Number ',' Number',' Number;
 machine          : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
 draw             : 'draw' '{' (ID';')* '}';
 
