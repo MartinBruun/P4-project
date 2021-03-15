@@ -26,8 +26,9 @@ jobs:
         uses: actions/checkout@v1
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
-      #- name: Generate updated ANTLR lexer and parser
-      # I don't know how to do that yet :(
+      - name: Generate updated ANTLR lexer and parser
+        run: |
+          antlr4 -Dlanguage=CSharp -o GPlusPlusCompiler\GPlusPlusCompiler\gen -listener -visitor -lib GPlusPlusCompiler/GPlusPlusCompiler GPlusPlusCompiler/GPlusPlusCompiler\OG.g4
       - name: Rebuild TestUnit to create tests
         run: |
           cd GPlusPlusCompiler
