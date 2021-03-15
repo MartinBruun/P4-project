@@ -24,7 +24,10 @@ jobs:
     steps:
       - name: Checks out to current branch
         uses: actions/checkout@v1
+      - name: Uses java to make use of antlr4 possible
+        uses: actions/setup-java
       - name: Adds antlr4 as possible commandline
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         uses: NiccoMlt/setup-antlr4@v0.0.6
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
