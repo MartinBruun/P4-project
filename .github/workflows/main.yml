@@ -30,14 +30,12 @@ jobs:
           java-version: '9.0.4' # The JDK version to make available on the path.
           java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
           architecture: x64 # (x64 or x86) - defaults to x64
-      - name: Adds antlr4 as possible commandline
-        #ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        uses: NiccoMlt/setup-antlr4@v0.0.6
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
-      - name: Generate updated ANTLR lexer and parser
-        run: |
-          antlr4 -Dlanguage=CSharp -o GPlusPlusCompiler\GPlusPlusCompiler\gen -listener -visitor -lib GPlusPlusCompiler/GPlusPlusCompiler GPlusPlusCompiler/GPlusPlusCompiler\OG.g4
+      # NOT WORKING! Needs to install antlr4 locally just as with NUnit
+      #- name: Generate updated ANTLR lexer and parser
+      #  run: |
+      #    antlr4 -Dlanguage=CSharp -o GPlusPlusCompiler\GPlusPlusCompiler\gen -listener -visitor -lib GPlusPlusCompiler/GPlusPlusCompiler GPlusPlusCompiler/GPlusPlusCompiler\OG.g4
       - name: Rebuild TestUnit to create tests
         run: |
           cd GPlusPlusCompiler
