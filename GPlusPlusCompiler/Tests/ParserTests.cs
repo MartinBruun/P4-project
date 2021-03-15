@@ -9,27 +9,30 @@ using GPlusPlusCompiler;
 namespace Tests
 
 {
-    public class LexerTests
+    public class ParserTests
     {
-        private CommonTokenStream CreateTokenStream(string fileName)
+        private IParseTree CreateTree(string fileName)
         {
             string code = File.ReadAllText("../../../Fixtures/" + fileName);
             ICharStream stream = new AntlrInputStream(code);
             var lexer = new OGLexer(stream);
-            ErrorListenerHelper<int> listener = new ErrorListenerHelper<int>();
-            lexer.AddErrorListener(listener);
-            return new CommonTokenStream(lexer);
+            var tokenStream = new CommonTokenStream(lexer);
+            tokenStream.Fill();
+            OGParser parser = new OGParser(tokenStream);
+            ErrorListenerHelper<IToken> listener = new ErrorListenerHelper<IToken>();
+            parser.AddErrorListener(listener);
+            return parser.program();
         }
 
         [TestCase("base.og", "Testing the minimal meaningful product")]
         [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
-            CommonTokenStream tokenStream = CreateTokenStream(fileName);
+            IParseTree tree = CreateTree(fileName);
 
             Assert.DoesNotThrow(() =>
             {
-                tokenStream.Fill();
+                tree.ToStringTree();
             }, description);
         }
     }

@@ -8,17 +8,15 @@ namespace GPlusPlusCompiler
     {
         private static void Main(string[] args)
         {
-            
+            /*
             const string program = "hello world HELLO";
-    /*
             ICharStream charStream = new AntlrInputStream(program);
             ITokenSource lexer = new OGLexer(charStream);
             ITokenStream tokens = new CommonTokenStream(lexer);
-            GPlusPlusParser parser = new GPlusPlusParser(tokens);
+            OGParser parser = new OGParser(tokens);
             IParseTree tree = parser.r();
             Console.WriteLine(tree.ToStringTree());
             */
-            
         }
     }
 }
