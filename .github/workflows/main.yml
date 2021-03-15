@@ -1,7 +1,7 @@
 name: OG
 
 # This action will activate at each pull request
-on [pull_request]
+on: [pull_request]
 
 # This is the description of the different "Jobs" which will be done.
 jobs:
