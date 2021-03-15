@@ -40,32 +40,26 @@ namespace Tests
     
     public class LexerTests
     {
-        [SetUp]
-        public void Setup()
+        private CommonTokenStream CreateTokenStream(string fileName)
         {
-        }
-
-        [Test]
-        public void BaseTest()
-        {
-            //Arr Load file 
-            string code = File.ReadAllText("../../../LexerTests/UnitTest/base.og");
+            string code = File.ReadAllText("../../../Fixtures/" + fileName);
             ICharStream stream = new AntlrInputStream(code);
             var lexer = new OGLexer(stream);
             BErrorListener listener = new BErrorListener();
             lexer.AddErrorListener(listener);
-            var tokenStream = new CommonTokenStream(lexer);
-            
-            //Act Brug parseren til at parse filen
-            
-            
-            
-            //Assert ingen syntaks fejl
-            
-           Assert.DoesNotThrow(() =>
+            return new CommonTokenStream(lexer);
+        }
+
+        [TestCase("base.og", "Testing the minimal meaningful product")]
+        [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
+        public void Test_Lexer_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
+        {
+            CommonTokenStream tokenStream = CreateTokenStream(fileName);
+
+            Assert.DoesNotThrow(() =>
            {
                tokenStream.Fill();
-           });
+           }, description);
         }
     }
 }
