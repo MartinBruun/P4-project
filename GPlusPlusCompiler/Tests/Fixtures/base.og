@@ -1,5 +1,5 @@
 
-Machine.WorkArea.size(0,0,100,100);
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
 
 Draw {
     
