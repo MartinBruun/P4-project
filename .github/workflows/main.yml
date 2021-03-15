@@ -25,7 +25,7 @@ jobs:
       - name: Checks out to current branch
         uses: actions/checkout@v1
       - name: Uses java to make use of antlr4 possible
-        uses: actions/setup-java
+        uses: actions/setup-java@v1
       - name: Adds antlr4 as possible commandline
         #ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         uses: NiccoMlt/setup-antlr4@v0.0.6
