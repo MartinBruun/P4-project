@@ -26,6 +26,10 @@ jobs:
         uses: actions/checkout@v1
       - name: Uses java to make use of antlr4 possible
         uses: actions/setup-java@v1
+        with:
+          java-version: '9.0.4' # The JDK version to make available on the path.
+          java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+          architecture: x64 # (x64 or x86) - defaults to x64
       - name: Adds antlr4 as possible commandline
         #ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         uses: NiccoMlt/setup-antlr4@v0.0.6
