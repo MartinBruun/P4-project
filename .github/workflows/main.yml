@@ -11,12 +11,12 @@ jobs:
     steps:
       - name: Checks out to current branch
         uses: actions/checkout@v1
-      #- name: Try 
-      #  run: |
-      #    cd TurfTankRegistrationApplication
-      #    nuget restore
-      #    cd TurfTankRegistrationApplication.Android
-      #    msbuild TurfTankRegistrationApplication.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+      - name: Try 
+        run: |
+          cd GPlusPlusCompiler
+          nuget restore
+          cd GPlusPlusCompiler
+          msbuild GPlusPlusCompiler.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
 
   UnitTest:
     runs-on: windows-latest
