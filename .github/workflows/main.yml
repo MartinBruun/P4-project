@@ -1,16 +1,17 @@
 name: OG
 
 # This action will activate at each pull request
-on:
-  pull_request:
+on [pull_request]
 
 # This is the description of the different "Jobs" which will be done.
 jobs:
-  Build
+  CheckBuild:
     runs-on: windows-latest
     steps:
       - name: Checks out to current branch
         uses: actions/checkout@v1
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
       - name: Build program
         run: |
           cd GPlusPlusCompiler
@@ -18,19 +19,21 @@ jobs:
           cd GPlusPlusCompiler
           msbuild GPlusPlusCompiler.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
 
-  UnitTest:
+  AutoTests:
     runs-on: windows-latest
     steps:
       - name: Checks out to current branch
         uses: actions/checkout@v1
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
+      #- name: Generate updated ANTLR lexer and parser
+      # I don't know how to do that yet :(
       - name: Rebuild TestUnit to create tests
         run: |
-          cd TurfTankRegistrationApplication
+          cd GPlusPlusCompiler
           nuget restore
-          cd TestUnit
-          msbuild TestUnit.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+          cd Tests
+          msbuild Tests/verbosity:normal /t:Rebuild /p:Configuration=Debug
           cd ..
           cd ..
       - name: Run Automated Unittest
