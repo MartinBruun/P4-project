@@ -18,4 +18,8 @@
       <ProjectReference Include="..\GPlusPlusCompiler\GPlusPlusCompiler.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Fixtures" />
+    </ItemGroup>
+
 </Project>

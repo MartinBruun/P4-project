@@ -49,12 +49,7 @@ namespace Tests
         public void BaseTest()
         {
             //Arr Load file 
-            string code = @" Machine.WorkArea.size(0,0,100,100);
-                           
-            Draw {
-                               
-            }";
-    
+            string code = File.ReadAllText("../../../LexerTests/UnitTest/base.og");
             ICharStream stream = new AntlrInputStream(code);
             var lexer = new OGLexer(stream);
             BErrorListener listener = new BErrorListener();
