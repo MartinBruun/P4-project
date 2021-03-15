@@ -39,4 +39,4 @@ jobs:
           cd ..
       - name: Run Automated Unittest
         run: |
-          NUnitConsole/net20/nunit3-console.exe TurfTankRegistrationApplication\TestUnit\bin\Debug\net48\TestUnit.dll
+          NUnitConsole/net20/nunit3-console.exe GPlusPlusCompiler\Tests\bin\Debug\net5.0\TestUnit.dll
