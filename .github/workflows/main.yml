@@ -7,32 +7,32 @@ on:
 # This is the description of the different "Jobs" which will be done.
 jobs:
   Build
-    runs-on: macos-latest
+    runs-on: windows-latest
     steps:
-      name: Checks out to current branch
-      uses: actions/checkout@v1
-      name: Build program
-      run: |
-        cd GPlusPlusCompiler
-        nuget restore
-        cd GPlusPlusCompiler
-        msbuild GPlusPlusCompiler.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+      - name: Checks out to current branch
+        uses: actions/checkout@v1
+      - name: Build program
+        run: |
+          cd GPlusPlusCompiler
+          nuget restore
+          cd GPlusPlusCompiler
+          msbuild GPlusPlusCompiler.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
 
   UnitTest:
     runs-on: windows-latest
     steps:
-      name: Checks out to current branch
-      uses: actions/checkout@v1
-      name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
-      name: Rebuild TestUnit to create tests
-      run: |
-        cd TurfTankRegistrationApplication
-        nuget restore
-        cd TestUnit
-        msbuild TestUnit.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
-        cd ..
-        cd ..
-      name: Run Automated Unittest
-      run: |
-        NUnitConsole/net20/nunit3-console.exe TurfTankRegistrationApplication\TestUnit\bin\Debug\net48\TestUnit.dll
+      - name: Checks out to current branch
+        uses: actions/checkout@v1
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Rebuild TestUnit to create tests
+        run: |
+          cd TurfTankRegistrationApplication
+          nuget restore
+          cd TestUnit
+          msbuild TestUnit.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+          cd ..
+          cd ..
+      - name: Run Automated Unittest
+        run: |
+          NUnitConsole/net20/nunit3-console.exe TurfTankRegistrationApplication\TestUnit\bin\Debug\net48\TestUnit.dll
