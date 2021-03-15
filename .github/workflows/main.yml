@@ -33,7 +33,7 @@ jobs:
           cd GPlusPlusCompiler
           nuget restore
           cd Tests
-          msbuild Tests/verbosity:normal /t:Rebuild /p:Configuration=Debug
+          msbuild Tests.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
           cd ..
           cd ..
       - name: Run Automated Unittest
