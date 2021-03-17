@@ -39,7 +39,7 @@ jobs:
         run: |
           cd GPlusPlusCompiler
           cd GPlusPlusCompiler
-          java org.antlr.v4.Tool -Dlanguage=CSharp -o gen -listener -visitor -lib gen OG.g4
+          antlr -Dlanguage=CSharp -o gen -listener -visitor -lib gen OG.g4
           cd ..
           cd ..
       - name: Rebuild Tests project to create tests
