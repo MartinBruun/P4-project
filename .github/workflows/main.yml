@@ -34,7 +34,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Add antlr to PATH
         run: |
-          SET CLASSPATH=.;./antlr-4.9-complete.jar;%CLASSPATH%
+          SET CLASSPATH=.;${{ github.workspace }}/antlr-4.9-complete.jar;%CLASSPATH%
       - name: Generate updated ANTLR lexer and parser
         run: |
           cd GPlusPlusCompiler
