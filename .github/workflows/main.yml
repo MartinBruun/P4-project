@@ -46,4 +46,4 @@ jobs:
           cd ..
       - name: Run Automated Unittest
         run: |
-          NUnitConsole/netcoreapp3.1/nunit3-console.exe GPlusPlusCompiler\Tests\bin\Debug\net5.0\Tests.dll
+          dotnet test GPlusPlusCompiler\Tests\bin\Debug\net5.0\Tests.dll
