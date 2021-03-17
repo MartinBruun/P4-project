@@ -1,6 +1,6 @@
 Machine.WorkArea.size(Xmin=0,Xmax=100,Ymin=0,Ymax=100);
 
-Draw 
+draw 
 {
    A;
    B;
