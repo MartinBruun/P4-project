@@ -32,11 +32,11 @@ jobs:
           architecture: x64 # (x64 or x86) - defaults to x64
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
-      # NOT WORKING! Needs to install antlr4 locally just as with NUnit
+      # NOT WORKING! Needs to install antlr4.jar file and run the command below
       #- name: Generate updated ANTLR lexer and parser
       #  run: |
       #    antlr4 -Dlanguage=CSharp -o GPlusPlusCompiler\GPlusPlusCompiler\gen -listener -visitor -lib GPlusPlusCompiler/GPlusPlusCompiler GPlusPlusCompiler/GPlusPlusCompiler\OG.g4
-      - name: Rebuild TestUnit to create tests
+      - name: Rebuild Tests project to create tests
         run: |
           cd GPlusPlusCompiler
           nuget restore
@@ -44,6 +44,6 @@ jobs:
           msbuild Tests.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
           cd ..
           cd ..
-      - name: Run Automated Unittest
+      - name: Run Automated Tests
         run: |
           dotnet test GPlusPlusCompiler\Tests\bin\Debug\net5.0\Tests.dll
