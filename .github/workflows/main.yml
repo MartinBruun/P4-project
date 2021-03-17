@@ -34,12 +34,12 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Add antlr to PATH
         run: |
-          SET CLASSPATH=.;${{ github.workspace }}\antlr-4.9.2-complete.jar;
+          SET CLASSPATH=.;${{ github.workspace }}\antlr-4.9.2-complete.jar;$%CLASSPATH%
       - name: Generate updated ANTLR lexer and parser
         run: |
           cd GPlusPlusCompiler
           cd GPlusPlusCompiler
-          antlr -Dlanguage=CSharp -o gen -listener -visitor -lib gen OG.g4
+          java org.antlr.v4.Tool-Dlanguage=CSharp -o gen -listener -visitor -lib gen OG.g4
           cd ..
           cd ..
       - name: Rebuild Tests project to create tests
