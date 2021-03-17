@@ -32,10 +32,16 @@ jobs:
           architecture: x64 # (x64 or x86) - defaults to x64
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
-      # NOT WORKING! Needs to install antlr4.jar file and run the command below
-      #- name: Generate updated ANTLR lexer and parser
-      #  run: |
-      #    antlr4 -Dlanguage=CSharp -o GPlusPlusCompiler\GPlusPlusCompiler\gen -listener -visitor -lib GPlusPlusCompiler/GPlusPlusCompiler GPlusPlusCompiler/GPlusPlusCompiler\OG.g4
+      - name: Add antlr to PATH
+        run: |
+          SET CLASSPATH=.;antlr-4.9-complete.jar;%CLASSPATH%
+      - name: Generate updated ANTLR lexer and parser
+        run: |
+          cd GPlusPlusCompiler
+          cd GPlusPlusCompiler
+          java org.antlr.v4.Tool -Dlanguage=CSharp -o gen -listener -visitor -lib gen OG.g4
+          cd ..
+          cd ..
       - name: Rebuild Tests project to create tests
         run: |
           cd GPlusPlusCompiler
