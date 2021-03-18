@@ -3,7 +3,7 @@ name: OG
 # This action will activate at each pull request
 on: [pull_request]
 
-# This is the description of the different "Jobs" which will be done.
+# This is the description of the different groupings of commands which will be runs.
 jobs:
   CheckBuild:
     runs-on: windows-latest
@@ -14,10 +14,10 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Build program
         run: |
-          cd GPlusPlusCompiler
+          cd OG
           nuget restore
-          cd GPlusPlusCompiler
-          msbuild GPlusPlusCompiler.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+          cd OG
+          msbuild OG.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
 
   AutoTests:
     runs-on: windows-latest
@@ -34,14 +34,14 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
       - name: Generate updated ANTLR lexer and parser
         run: |
-          cd GPlusPlusCompiler
-          cd GPlusPlusCompiler
+          cd OG
+          cd OG
           java -jar ${{ github.workspace }}\antlr-4.9.2-complete.jar -Dlanguage=CSharp -o gen -listener -visitor -lib gen OG.g4
           cd ..
           cd ..
       - name: Rebuild Tests project to create tests
         run: |
-          cd GPlusPlusCompiler
+          cd OG
           nuget restore
           cd Tests
           msbuild Tests.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
@@ -49,4 +49,4 @@ jobs:
           cd ..
       - name: Run Automated Tests
         run: |
-          dotnet test GPlusPlusCompiler\Tests\bin\Debug\net5.0\Tests.dll
+          dotnet test OG\Tests\bin\Debug\net5.0\Tests.dll
