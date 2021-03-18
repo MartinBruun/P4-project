@@ -3,7 +3,7 @@ name: OG
 # This action will activate at each pull request
 on: [pull_request]
 
-# This is the description of the different "Jobs" which will be done.
+# This is the description of the different groupings of commands which will be runs.
 jobs:
   CheckBuild:
     runs-on: windows-latest
