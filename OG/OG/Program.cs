@@ -2,7 +2,7 @@ using System;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
-namespace GPlusPlusCompiler
+namespace OG
 {
     public static class Program
     {
