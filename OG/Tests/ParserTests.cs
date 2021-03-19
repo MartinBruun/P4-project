@@ -26,6 +26,9 @@ namespace Tests
 
         [TestCase("base.og", "Testing the minimal meaningful product")]
         [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
+        [TestCase("draw.og", "Testing if Draw can contain previously declared and defined shapes")]
+        [TestCase("math.og", "Testing mathematical expressions are ok")]
+
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
             IParseTree tree = CreateTree(fileName);
