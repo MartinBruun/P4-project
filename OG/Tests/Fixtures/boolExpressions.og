@@ -19,7 +19,7 @@ function bool evaluateCoordinateValidity (point p)
 shape SomeLines 
 {
 	point currentPoint = (10,10);
-	point nextPoint = currentPoint
+	point nextPoint = currentPoint;
 	repeat.until( currentPoint.x > 300 || currentPoint.y > 200)
 		nextPoint.x = currentPoint.x + 9;
 		nextPoint.y = currentPoint.x * 1.3;
