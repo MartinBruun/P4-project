@@ -21,6 +21,8 @@ namespace Tests
             return new CommonTokenStream(lexer);
         }
         
+        [TestCase("base.og", "Testing the minimal meaningful product")]
+        [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
         [TestCase("mathAddition.og", "Testing a file with additive math expressions")]
         [TestCase("mathMultiplication.og", "Testing a file with multiplicative math expressions")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
