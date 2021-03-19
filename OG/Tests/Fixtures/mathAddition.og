@@ -13,7 +13,6 @@ function number Subtract(number a, number b) {
 }
 
 shape L {
-    // fejl her!
     VerticalLineL + HorizontalLineL
 }
 
