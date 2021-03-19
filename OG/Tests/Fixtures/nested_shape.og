@@ -1,0 +1,29 @@
+
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    
+}
+
+shape someShape {
+    
+    shape nestedShape {
+        
+    }
+    
+    nestedShape;
+}
+
+shape someShape {
+    
+    shape nestedShape {
+    
+        shape nestedNestedShape {
+            Line.from(0,0).to(10,0);
+        }
+        
+        nestedNestedShape;
+    }
+    
+    nestedShape;
+}
