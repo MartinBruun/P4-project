@@ -1,0 +1,41 @@
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw 
+{
+   C;
+  
+}
+
+Shape C {
+	
+	number myXNumber = 5;
+	number myYNumber = 5;
+	number max = 10;
+	point myStartPoint = (0,5);
+
+	repeat.until (myXNumber == max) 
+		line.from(myStartPoint).to(myXNumber,myYNumber);
+		
+		myStartPoint = (myXNumber, myYNumber);
+		myXNumber += 1;
+		
+	repeat.end;
+}
+
+Shape D {
+    point origin = (0,0);
+    number numberOfTriangles = 0;
+    number desiredAmountOfTriangles = 27;
+    repeat.until (numberOfTriangles == desiredAmountOfTriangles)
+        at(origin).do(triangle());
+        
+    repeat.end;
+
+    
+
+
+}
+
+function void triangle() {
+    line.from(startPoint).to(x,y).to(x,y).to(startPoint);
+}
