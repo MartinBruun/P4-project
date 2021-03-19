@@ -1,38 +1,52 @@
-name: TTRA CI
+name: OG
 
 # This action will activate at each pull request
-on:
-  pull_request:
+on: [pull_request]
 
-# This is the description of the different "Jobs" which will be done (ie. The "main" application, Android and Unittest, where IOS can be added later)
-jobs:          
-  Android
-    runs-on: macos-latest
-    steps:
-      - name: Checks out to current branch
-        uses: actions/checkout@v1
-      #- name: Try 
-      #  run: |
-      #    cd TurfTankRegistrationApplication
-      #    nuget restore
-      #    cd TurfTankRegistrationApplication.Android
-      #    msbuild TurfTankRegistrationApplication.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
-
-  UnitTest:
+# This is the description of the different groupings of commands which will be runs.
+jobs:
+  CheckBuild:
     runs-on: windows-latest
     steps:
       - name: Checks out to current branch
         uses: actions/checkout@v1
-      #- name: Add msbuild to PATH
-      #  uses: microsoft/setup-msbuild@v1.0.2
-      #- name: Rebuild TestUnit to create tests
-      #  run: |
-      #    cd TurfTankRegistrationApplication
-      #    nuget restore
-      #    cd TestUnit
-      #    msbuild TestUnit.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
-      #    cd ..
-      #    cd ..
-      #- name: Run Automated Unittest
-        #run: |
-          #NUnitConsole/net20/nunit3-console.exe TurfTankRegistrationApplication\TestUnit\bin\Debug\net48\TestUnit.dll
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Build program
+        run: |
+          cd OG
+          nuget restore
+          cd OG
+          msbuild OG.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+
+  AutoTests:
+    runs-on: windows-latest
+    steps:
+      - name: Checks out to current branch
+        uses: actions/checkout@v1
+      - name: Uses java to make use of antlr4 possible
+        uses: actions/setup-java@v1
+        with:
+          java-version: '9.0.4' # The JDK version to make available on the path.
+          java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+          architecture: x64 # (x64 or x86) - defaults to x64
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Generate updated ANTLR lexer and parser
+        run: |
+          cd OG
+          cd OG
+          java -jar ${{ github.workspace }}\antlr-4.9.2-complete.jar -Dlanguage=CSharp -o gen -listener -visitor -lib gen OG.g4
+          cd ..
+          cd ..
+      - name: Rebuild Tests project to create tests
+        run: |
+          cd OG
+          nuget restore
+          cd Tests
+          msbuild Tests.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+          cd ..
+          cd ..
+      - name: Run Automated Tests
+        run: |
+          dotnet test OG\Tests\bin\Debug\net5.0\Tests.dll
