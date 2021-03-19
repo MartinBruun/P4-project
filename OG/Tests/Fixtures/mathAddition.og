@@ -1,0 +1,26 @@
+﻿Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    L;
+}
+
+function number Add(number a, number b) {
+    return (a + b);
+}
+
+function number Subtract(number a, number b) {
+    return (a - b);
+}
+
+shape L {
+    VerticalLineL + HorizontalLineL;
+}
+
+shape VerticalLineL {
+    line.from(5,5).to(2,5);
+}
+
+shape HorizontalLineL {
+    line.from(2,5).to(2,8);
+}
+

@@ -1,0 +1,28 @@
+﻿Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    Line;
+}
+
+function point Lengthen(point oldEndPoint, number factor) {
+    newEndpoint.x = oldEndpoint.x * factor;
+    newEndpoint.y = oldEndpoint.y * factor;
+
+    return newEndpoint;
+}
+
+function number RelativeSize(number LengthA, number LenghtB) {
+    return LengthA/LengthB;
+}
+
+function number AreaOfSquare(number sideLength) {
+    return sideLength^2;
+}
+
+shape Line {
+    startPoint = (5,6);
+    endPoint = (6,7);
+    
+    endPoint = Lengthen(endPoint);
+}
+
