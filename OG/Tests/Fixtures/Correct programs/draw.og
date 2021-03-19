@@ -1,0 +1,16 @@
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    a;
+    a;
+    b;
+    c;
+    
+    
+}
+
+shape a {}
+shape b {}
+shape c {
+}
+

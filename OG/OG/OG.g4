@@ -7,13 +7,14 @@ draw             : 'draw' '{' drawCommand* '}';
 
 //Shapes:
 shapeDefinition     : 'shape' ID '{' body '}';
-body                :  (expression | declaration |  assignment | command)+ |  ; //Fix
+body                :  (declaration |  assignment | command)+ |  ; //Fix
 
 declaration         : (numberDeclaration | pointDeclaration | booleanDeclaration)';' ;
 booleanDeclaration  : 'bool' ID   '=' boolExpression;
 numberDeclaration   : 'number' ID '=' mathExpression;
 pointDeclaration    : 'point'  ID '=' ( pointReference | ID );
-pointReference :      '(' numberTuple ')' | StartPointReference | EndPointReference | functionCall;
+
+pointReference      : '('ID')' |  '(' numberTuple ')' | StartPointReference | EndPointReference | functionCall;
 numberTuple         : mathExpression ',' mathExpression;
 
 //Basic declarations and assignments:
@@ -55,7 +56,8 @@ movementCommand : (lineCommand | curveCommand)';';
 lineCommand     : 'line' '.' 'from' '(' (numberTuple | ID | pointReference)')' toCommand+;
 curveCommand    : 'curve' '.' 'withAngle' '(' mathExpression ')' '.' 'from' '('(numberTuple | ID)')' toCommand;
 toCommand       : '.to''(' (numberTuple | ID) ')';
-drawCommand     : ID';';
+drawCommand     : ID';' | ID '.'fromCommand;
+fromCommand     :  'from' ( '('ID')' |  '(' numberTuple ')' | '(' StartPointReference ')' | '(' EndPointReference ')'| functionCall );
 
 
 
