@@ -26,6 +26,7 @@ namespace Tests
         [TestCase("draw.og", "Testing if Draw can contain previously declared and defined shapes")]
         [TestCase("math.og", "Testing mathematical expressions are ok")]
 
+        [TestCase("while.og", "testing while loops")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
             CommonTokenStream tokenStream = CreateTokenStream(fileName);
