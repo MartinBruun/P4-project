@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -91,16 +91,6 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitBody([NotNull] OGParser.BodyContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.assignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAssignment([NotNull] OGParser.AssignmentContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.assignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAssignment([NotNull] OGParser.AssignmentContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.declaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -141,15 +131,15 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitPointDeclaration([NotNull] OGParser.PointDeclarationContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.coordinateReference"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.pointReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterCoordinateReference([NotNull] OGParser.CoordinateReferenceContext context);
+	void EnterPointReference([NotNull] OGParser.PointReferenceContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.coordinateReference"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.pointReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitCoordinateReference([NotNull] OGParser.CoordinateReferenceContext context);
+	void ExitPointReference([NotNull] OGParser.PointReferenceContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.numberTuple"/>.
 	/// </summary>
@@ -161,6 +151,96 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitNumberTuple([NotNull] OGParser.NumberTupleContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.assignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAssignment([NotNull] OGParser.AssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.assignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAssignment([NotNull] OGParser.AssignmentContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.propertyAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPropertyAssignment([NotNull] OGParser.PropertyAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.propertyAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPropertyAssignment([NotNull] OGParser.PropertyAssignmentContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.variableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterVariableAssignment([NotNull] OGParser.VariableAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.variableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitVariableAssignment([NotNull] OGParser.VariableAssignmentContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.idAssign"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIdAssign([NotNull] OGParser.IdAssignContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.idAssign"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIdAssign([NotNull] OGParser.IdAssignContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.boolAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBoolAssignment([NotNull] OGParser.BoolAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.boolAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBoolAssignment([NotNull] OGParser.BoolAssignmentContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.numberAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNumberAssignment([NotNull] OGParser.NumberAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.numberAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNumberAssignment([NotNull] OGParser.NumberAssignmentContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.pointAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPointAssignment([NotNull] OGParser.PointAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.pointAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPointAssignment([NotNull] OGParser.PointAssignmentContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.startPointAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStartPointAssignment([NotNull] OGParser.StartPointAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.startPointAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStartPointAssignment([NotNull] OGParser.StartPointAssignmentContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.endPointAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterEndPointAssignment([NotNull] OGParser.EndPointAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.endPointAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitEndPointAssignment([NotNull] OGParser.EndPointAssignmentContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -170,16 +250,6 @@ public interface IOGListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitExpression([NotNull] OGParser.ExpressionContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.boolExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterBoolExpression([NotNull] OGParser.BoolExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.boolExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitBoolExpression([NotNull] OGParser.BoolExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.mathExpression"/>.
 	/// </summary>
@@ -211,16 +281,6 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitFactor([NotNull] OGParser.FactorContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.signedAtom"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSignedAtom([NotNull] OGParser.SignedAtomContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.signedAtom"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSignedAtom([NotNull] OGParser.SignedAtomContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.atom"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -230,6 +290,16 @@ public interface IOGListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitAtom([NotNull] OGParser.AtomContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBoolExpression([NotNull] OGParser.BoolExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBoolExpression([NotNull] OGParser.BoolExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.command"/>.
 	/// </summary>
@@ -280,6 +350,16 @@ public interface IOGListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitToCommand([NotNull] OGParser.ToCommandContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.drawCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDrawCommand([NotNull] OGParser.DrawCommandContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.drawCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDrawCommand([NotNull] OGParser.DrawCommandContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.iterationCommand"/>.
 	/// </summary>
@@ -400,24 +480,4 @@ public interface IOGListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitReturnStatement([NotNull] OGParser.ReturnStatementContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.numberRefence"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterNumberRefence([NotNull] OGParser.NumberRefenceContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.numberRefence"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitNumberRefence([NotNull] OGParser.NumberRefenceContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.valueReference"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterValueReference([NotNull] OGParser.ValueReferenceContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.valueReference"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitValueReference([NotNull] OGParser.ValueReferenceContext context);
 }

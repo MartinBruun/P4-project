@@ -2,104 +2,112 @@
 grammar OG;
 
 program: machine draw functionDeclaration* shapeDefinition*;
-machineVariables : 'Xmin' '=' Number ',' 'Xmax' '=' Number ',' 'Ymin' '=' Number',' 'Ymax' '=' Number;
+machineVariables : 'xmin' '=' mathExpression ',' 'xmax' '=' mathExpression ',' 'ymin' '=' mathExpression',' 'ymax' '=' mathExpression;
 machine          : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
-draw             : 'draw' '{' (ID';')* '}';
+draw             : 'draw' '{' drawCommand* '}';
 
 //Shapes:
 shapeDefinition     : 'shape' ID '{' body '}';
-//body                : declaration* command* expression;
-body: '{' (expression | declaration |  assignment |  functionCall | command)* '}'| '{' body '}' |  ; //Fix
+body                :  (expression | declaration |  assignment | command)+ |  ; //Fix
 
-//Basic declarations and assignments:
-assignment          : ID '=' (ID |expression); //Byt ikke om på rækkefølgen! Et expression kan også indeholde ID, 
-                                                // så myVar = a bliver evalueret som expression
-                                                
 declaration         : (numberDeclaration | pointDeclaration | booleanDeclaration)';' ;
 booleanDeclaration  : 'bool' ID   '=' boolExpression;
-numberDeclaration   : 'number' ID '=' (ID | mathExpression | valueReference); //Check val.ref
-pointDeclaration    : 'point'  ID '=' ( coordinateReference | ID );
-coordinateReference : '(' numberTuple ')';
-numberTuple         : (Number | mathExpression | numberRefence) ',' (Number | mathExpression | numberRefence); //Overvej om man skal kunne skrive maths.
+numberDeclaration   : 'number' ID '=' mathExpression;
+pointDeclaration    : 'point'  ID '=' ( pointReference | ID );
+pointReference : '(' numberTuple ')' | StartPointReference | EndPointReference | functionCall;
+numberTuple         : mathExpression ',' mathExpression;
+
+//Basic declarations and assignments:
+assignment          : variableAssignment | propertyAssignment;
+propertyAssignment  : CoordinateXYValue '=' mathExpression';';
+
+variableAssignment  : (idAssign | boolAssignment | numberAssignment | pointAssignment) ';';  //Problematisk med ID = ID, da alt bliver til bool assign. Skal man lave overordnet assign med ID som besluttes semantisk?.
+idAssign            :   ID'='ID;
+boolAssignment      :   ID'=' boolExpression;
+numberAssignment    :   ID'=' mathExpression; 
+pointAssignment     :  endPointAssignment | startPointAssignment | (ID'=' pointReference | ID);
+
+startPointAssignment: StartPointReference '=' pointReference;
+endPointAssignment  : EndPointReference '=' pointReference;
+
 
 //Generel expressions:
-expression      : (mathExpression | boolExpression);
+expression      : (ID | mathExpression | boolExpression | functionCall);
 
-boolExpression  :  (mathExpression BoolOperator mathExpression) | BooleanValue | boolExpression LogicOperator boolExpression | functionCall; //Overvej function call
+mathExpression  : term   ((Plus_Minus) term)*;
+term            : factor ((Mul_Div) factor)*;
+factor          : atom ('^' atom)*;
+atom            : functionCall | Number | CoordinateXYValue | ID | '(' mathExpression ')'  ; //Atom is a sub-equation
+//signedAtom : PLUS signedAtom | MINUS signedAtom | atom   ;
 
-mathExpression  : term   (('+' | '-') term)*;
-term            : factor (('*' | '/') factor)*;
-factor          : signedAtom ('^' signedAtom)*;
-signedAtom      : /*signedAtom | '-' signedAtom |*/ atom;
-atom             : Number | ID | '(' mathExpression ')' | functionCall; //Atom is a sub-equation
+boolExpression  : ID |  BooleanValue |  functionCall 
+                | mathExpression BoolOperator mathExpression 
+                | boolExpression LogicOperator boolExpression 
+                | '!'boolExpression;  //Overvej function call
+
+//a == true er ikke gyldigt!
 
 
 //Commands:
 //Movement commands:
-command         : iterationCommand | movementCommand;
-movementCommand : (lineCommand | curveCommand)';';
-lineCommand     : 'line' '.' 'from' '(' (numberTuple | ID)')' toCommand+;
-curveCommand    : 'curve' '.' 'withAngle' '(' Number ')' '.' 'from' '('(numberTuple | ID)')' toCommand;
-toCommand       : '.to''(' (numberTuple | ID) ')';
+command         : iterationCommand | movementCommand | drawCommand;
 
-//Iteration commands:
+movementCommand : (lineCommand | curveCommand)';';
+lineCommand     : 'line' '.' 'from' '(' (numberTuple | ID | pointReference)')' toCommand+;
+curveCommand    : 'curve' '.' 'withAngle' '(' mathExpression ')' '.' 'from' '('(numberTuple | ID)')' toCommand;
+toCommand       : '.to''(' (numberTuple | ID) ')';
+drawCommand     : ID';';
+
+
+
+//Iterative statements:
 iterationCommand: numberIteration | untilIteration;
-numberIteration : 'repeat''('Number')' body 'repeat.end'; //Ret krop?
-untilIteration  : 'repeat''.''until''('boolExpression')' body 'repeat.end';
+numberIteration : 'repeat''('mathExpression')' body 'repeat.end'; //Ret krop?
+untilIteration  : 'repeat''.''until''('(boolExpression | functionCall)')' body 'repeat.end';
 
 
 //Functions: 
 functionDeclaration     : returnFunctionDCL | voidFunctionDCL;
 returnFunctionDCL       : 'function' typeWord ID parameterDeclarations '{' body returnStatement '}';
-
 typeWord                : (PointDCLWord | BoolDCLWord | NumberDCLWord);
-
 voidFunctionDCL         : 'function' 'void' ID parameterDeclarations '{' body '}';
 
 parameterDeclarations   : '('parameters')';
 parameters              :  (typeWord ID',')* typeWord ID | ;
 functionCall            : ID '(' parameterList ')';
-parameterList           : ( (ID | expression)',')* (ID | expression) | ;
+parameterList           : ( (ID | expression | CoordinateXYValue)',')* (ID | expression | CoordinateXYValue) | ;
 returnStatement         : 'return' (ID | expression) ';';
 
 
-numberRefence : Number | CoordinatePropRef; //Anything that evaluates to a number, but is not in itself a number.
-valueReference: ID | Number | BooleanValue | CoordinatePropRef;
-
-
-
-//RÆKKEFØLGE AF TOKENS//
-//Sammensatte værdier 
-
-//Tokens and help variables:
-BooleanValue: 'true'| 'false';
-
 
 Number: Integer|Float;
-fragment Integer: [0-9]+ | '-'[0-9]+;
-fragment Float : [0-9]+'.'[0-9]+ | '-'[0-9]+ | '-'[0-9]+'.'[0-9]+; // this is træls
 
-WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
+//Tokens and help variables:
+BooleanValue    : 'true'| 'false';
+fragment Integer: [0-9]+ | '-'[0-9]+;
+fragment Float  : [0-9]+'.'[0-9]+ | '-'[0-9]+ | '-'[0-9]+'.'[0-9]+;
+
+WS     : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 COMMENT: '/*' .*? '*/' -> skip;
 
-
 //Startwords
-ShapeDCLWord: 'shape';
-PointDCLWord: 'point';
-BoolDCLWord : 'bool';
+ShapeDCLWord : 'shape';
+PointDCLWord : 'point';
+BoolDCLWord  : 'bool';
 NumberDCLWord:'number';
-DrawDCLWord:  'draw';
+DrawDCLWord  :  'draw';
+
 
 //CommandWords: 
-WithAngle: 'withAngle';
-Curve    : 'curve';
-Line     : 'line';
-To       : 'to';
-From     : 'from';
-RepeatStart: 'repeat';
-RepeatEnd: 'repeat.end';
-Until: 'until';
-DOT: '.';
+WithAngle    : 'withAngle';
+Curve        : 'curve';
+Line         : 'line';
+To           : 'to';
+From         : 'from';
+RepeatStart  : 'repeat';
+RepeatEnd    : 'repeat.end';
+Until        : 'until';
+DOT          : '.';
 
 //Function specific words
 FunctionStartWord : 'function';
@@ -107,32 +115,52 @@ FunctionReturnWord: 'return';
 Void              : 'void';
 
 //Operators for mathematics and expressions
-LPAREN   : '('   ;
-RPAREN   : ')'   ;
+LParen   : '('   ;
+RParen   : ')'   ;
 
-PLUS     : '+'   ;
-MINUS    : '-'   ;
-TIMES    : '*'   ;
-DIV      : '/'   ;
-POW      : '^'   ;
+Plus_Minus: Plus | Minus;
+Plus     : '+'   ;
+Minus    : '-'   ;
 
-LogicOperator    :  AND | OR ;
+Mul_Div  : Times | Div;
+Times    : '*'   ;
+Div      : '/'   ;
+
+Pow      : '^'   ;
+
+LogicOperator    :  AND | OR;
 BoolOperator     :  LT  | GT | EQ;
-GT       : '>'   ;
-LT       : '<'   ;
-EQ       : '=='  ;
-AND      : '&&'  ;
-OR       : '||'  ;
+fragment GT       : '>'   ;
+fragment LT       : '<'   ;
+fragment EQ       : '=='  ;
+fragment AND      : '&&'  ;
+NOT               : '!'   ;
+fragment OR       : '||'  ;
 
 Assign   : '=';
 
 //Scopes and terminators;
-OpenScope:  '{';
-CloseScope: '}';
-Terminator: ';';
-Seperator: ',';
+OpenScope   :  '{';
+CloseScope  : '}';
+Terminator  : ';';
+Seperator   : ',';
 
-CoordinatePropRef: (ID'.x') | (ID'.y');
+XMIN: 'xmin';
+XMAX: 'xmax';
+YMAX: 'ymin';
+YMIN: 'ymax';
+
+// 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';'
+Machine : 'Machine'; 
+WorkArea: 'WorkArea';
+Size    : 'size';
+
+StartPointReference : ID'.''startPoint';
+EndPointReference   : ID'.''endPoint';
+If  : 'if';
+Then: 'then';
+
+CoordinateXYValue: (ID'.x') | (ID'.y') | (StartPointReference|EndPointReference) ('.x'|'.y') ;
 ID: [a-zA-Z]+[0-9a-zA-Z]*; //ID skal være nederst for ikke at overwrite alle de andre keywords.
 
 
