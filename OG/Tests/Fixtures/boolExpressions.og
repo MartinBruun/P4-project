@@ -65,8 +65,12 @@ shape BoolComparissons
 }
 
 
-Shape A {
-2*2*--3
+Shape MathComparison {
+	number a = 10;
+	number b = -10;
+	point p = (b, a);
+	
+	
 }
 
 
