@@ -11,16 +11,17 @@ namespace Tests
 {
     public class LexerTests
     {
-        private CommonTokenStream CreateTokenStream(string fileName)
+        private CommonTokenStream CreateTokenStream(string fileName, string dirName)
         {
-            string code = File.ReadAllText("../../../Fixtures/" + fileName);
+            string code = File.ReadAllText("../../../Fixtures/" +dirName + fileName);
+
             ICharStream stream = new AntlrInputStream(code);
-            var lexer = new OGLexer(stream);
+            OGLexer lexer = new OGLexer(stream);
             ErrorListenerHelper<int> listener = new ErrorListenerHelper<int>();
             lexer.AddErrorListener(listener);
             return new CommonTokenStream(lexer);
         }
-        
+
         [TestCase("base.og", "Testing the minimal meaningful product")]
         [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
         [TestCase("draw.og", "Testing if Draw can contain previously declared and defined shapes")]
@@ -30,9 +31,19 @@ namespace Tests
         [TestCase("while.og", "testing while loops")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
-            CommonTokenStream tokenStream = CreateTokenStream(fileName);
+            CommonTokenStream tokenStream = CreateTokenStream(fileName, "Correct programs/");
 
             Assert.DoesNotThrow(() =>
+            {
+                tokenStream.Fill();
+            }, description);
+        }
+        
+        public void Test_Fixtures_ShouldRaiseSyntaxExceptions(string fileName, string description)
+        {
+            CommonTokenStream tokenStream = CreateTokenStream(fileName, "Incorrect programs/");
+
+            Assert.Throws<LexerExceptionHelper>(() =>
             {
                 tokenStream.Fill();
             }, description);

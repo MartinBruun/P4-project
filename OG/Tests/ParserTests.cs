@@ -11,11 +11,11 @@ namespace Tests
 {
     public class ParserTests
     {
-        private IParseTree CreateTree(string fileName)
+        private IParseTree CreateTree(string fileName, string dirName)
         {
-            string code = File.ReadAllText("../../../Fixtures/" + fileName);
+            string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
             ICharStream stream = new AntlrInputStream(code);
-            var lexer = new OGLexer(stream);
+            OGLexer lexer = new OGLexer(stream);
             var tokenStream = new CommonTokenStream(lexer);
             tokenStream.Fill();
             OGParser parser = new OGParser(tokenStream);
@@ -33,9 +33,19 @@ namespace Tests
         [TestCase("while.og", "testing while loops")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
-            IParseTree tree = CreateTree(fileName);
+            IParseTree tree = CreateTree(fileName, "Correct programs/");
 
             Assert.DoesNotThrow(() =>
+            {
+                tree.ToStringTree();
+            }, description);
+        }
+        
+        public void Test_Fixtures_ShouldRaiseSyntaxExceptions(string fileName, string description)
+        {
+            IParseTree tree = CreateTree(fileName, "Incorrect programs/");
+
+            Assert.Throws<ParserExceptionHelper>(() =>
             {
                 tree.ToStringTree();
             }, description);
