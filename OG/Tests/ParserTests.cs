@@ -15,8 +15,8 @@ namespace Tests
         {
             string code = File.ReadAllText("../../../Fixtures/" + fileName);
             ICharStream stream = new AntlrInputStream(code);
-            var lexer = new OGLexer(stream);
-            var tokenStream = new CommonTokenStream(lexer);
+            OGLexer lexer = new OGLexer(stream);
+            CommonTokenStream tokenStream = new CommonTokenStream(lexer);
             tokenStream.Fill();
             OGParser parser = new OGParser(tokenStream);
             ErrorListenerHelper<IToken> listener = new ErrorListenerHelper<IToken>();
@@ -26,6 +26,7 @@ namespace Tests
 
         [TestCase("base.og", "Testing the minimal meaningful product")]
         [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
+        [TestCase("boolExpressions.og", "Testing declaration and use of bool expressions")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
             IParseTree tree = CreateTree(fileName);

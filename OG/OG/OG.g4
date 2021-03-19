@@ -1,4 +1,3 @@
-
 grammar OG;
 
 program: machine draw functionDeclaration* shapeDefinition*;
@@ -14,7 +13,7 @@ declaration         : (numberDeclaration | pointDeclaration | booleanDeclaration
 booleanDeclaration  : 'bool' ID   '=' boolExpression;
 numberDeclaration   : 'number' ID '=' mathExpression;
 pointDeclaration    : 'point'  ID '=' ( pointReference | ID );
-pointReference : '(' numberTuple ')' | StartPointReference | EndPointReference | functionCall;
+pointReference :      '(' numberTuple ')' | StartPointReference | EndPointReference | functionCall;
 numberTuple         : mathExpression ',' mathExpression;
 
 //Basic declarations and assignments:
@@ -32,7 +31,7 @@ endPointAssignment  : EndPointReference '=' pointReference;
 
 
 //Generel expressions:
-expression      : (ID | mathExpression | boolExpression | functionCall);
+expression      : (ID | mathExpression | boolExpression | functionCall);    
 
 mathExpression  : term   ((Plus_Minus) term)*;
 term            : factor ((Mul_Div) factor)*;

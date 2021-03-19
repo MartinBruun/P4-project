@@ -15,17 +15,20 @@ namespace Tests
         {
             string code = File.ReadAllText("../../../Fixtures/" + fileName);
             ICharStream stream = new AntlrInputStream(code);
-            var lexer = new OGLexer(stream);
+            OGLexer lexer = new OGLexer(stream);
             ErrorListenerHelper<int> listener = new ErrorListenerHelper<int>();
             lexer.AddErrorListener(listener);
             return new CommonTokenStream(lexer);
         }
-
+        
+        
         [TestCase("base.og", "Testing the minimal meaningful product")]
+        [TestCase("boolExpressions.og", "Testing declaration and use of bool expressions")]
         [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
             CommonTokenStream tokenStream = CreateTokenStream(fileName);
+            
 
             Assert.DoesNotThrow(() =>
             {
