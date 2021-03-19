@@ -1,5 +1,5 @@
 #Our ignored files ---------------------------------------------------------------------------------------
-
+GPlusPlusCompiler/
 
 
 #Plagierede ignore file ----------------------------------------------------------------------------------
@@ -217,6 +217,7 @@ project.lock.json
 *.feature.cs
 *.feature.xlsx.*
 *.Specs_*.html
+
 
 
 
