@@ -43,53 +43,53 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProg([NotNull] OGParser.ProgContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>shapeDclsChildren</c>
+	/// Enter a parse tree produced by the <c>shapeDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterShapeDclsChildren([NotNull] OGParser.ShapeDclsChildrenContext context);
+	void EnterShapeDeclarations([NotNull] OGParser.ShapeDeclarationsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>shapeDclsChildren</c>
+	/// Exit a parse tree produced by the <c>shapeDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitShapeDclsChildren([NotNull] OGParser.ShapeDclsChildrenContext context);
+	void ExitShapeDeclarations([NotNull] OGParser.ShapeDeclarationsContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>shapeDclEmpty</c>
+	/// Enter a parse tree produced by the <c>noShapesDefined</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterShapeDclEmpty([NotNull] OGParser.ShapeDclEmptyContext context);
+	void EnterNoShapesDefined([NotNull] OGParser.NoShapesDefinedContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>shapeDclEmpty</c>
+	/// Exit a parse tree produced by the <c>noShapesDefined</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitShapeDclEmpty([NotNull] OGParser.ShapeDclEmptyContext context);
+	void ExitNoShapesDefined([NotNull] OGParser.NoShapesDefinedContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>functionCallChildren</c>
+	/// Enter a parse tree produced by the <c>functionDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterFunctionCallChildren([NotNull] OGParser.FunctionCallChildrenContext context);
+	void EnterFunctionDeclarations([NotNull] OGParser.FunctionDeclarationsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>functionCallChildren</c>
+	/// Exit a parse tree produced by the <c>functionDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitFunctionCallChildren([NotNull] OGParser.FunctionCallChildrenContext context);
+	void ExitFunctionDeclarations([NotNull] OGParser.FunctionDeclarationsContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>functionCallEmpty</c>
+	/// Enter a parse tree produced by the <c>noFunctionsDefined</c>
 	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterFunctionCallEmpty([NotNull] OGParser.FunctionCallEmptyContext context);
+	void EnterNoFunctionsDefined([NotNull] OGParser.NoFunctionsDefinedContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>functionCallEmpty</c>
+	/// Exit a parse tree produced by the <c>noFunctionsDefined</c>
 	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitFunctionCallEmpty([NotNull] OGParser.FunctionCallEmptyContext context);
+	void ExitNoFunctionsDefined([NotNull] OGParser.NoFunctionsDefinedContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.machineVariables"/>.
 	/// </summary>
@@ -121,17 +121,17 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitDraw([NotNull] OGParser.DrawContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>drawCommandsChildren</c>
+	/// Enter a parse tree produced by the <c>drawCmds</c>
 	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterDrawCommandsChildren([NotNull] OGParser.DrawCommandsChildrenContext context);
+	void EnterDrawCmds([NotNull] OGParser.DrawCmdsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>drawCommandsChildren</c>
+	/// Exit a parse tree produced by the <c>drawCmds</c>
 	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitDrawCommandsChildren([NotNull] OGParser.DrawCommandsChildrenContext context);
+	void ExitDrawCmds([NotNull] OGParser.DrawCmdsContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>drawCommandsEmpty</c>
 	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
@@ -144,6 +144,30 @@ public interface IOGListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitDrawCommandsEmpty([NotNull] OGParser.DrawCommandsEmptyContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>drawCmd</c>
+	/// labeled alternative in <see cref="OGParser.drawCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDrawCmd([NotNull] OGParser.DrawCmdContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>drawCmd</c>
+	/// labeled alternative in <see cref="OGParser.drawCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDrawCmd([NotNull] OGParser.DrawCmdContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>drawFromCmd</c>
+	/// labeled alternative in <see cref="OGParser.drawCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDrawFromCmd([NotNull] OGParser.DrawFromCmdContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>drawFromCmd</c>
+	/// labeled alternative in <see cref="OGParser.drawCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDrawFromCmd([NotNull] OGParser.DrawFromCmdContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.shapeDcl"/>.
 	/// </summary>
@@ -165,77 +189,97 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitBody([NotNull] OGParser.BodyContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>assignmentsChildren</c>
+	/// Enter a parse tree produced by <see cref="OGParser.stmts"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStmts([NotNull] OGParser.StmtsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.stmts"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStmts([NotNull] OGParser.StmtsContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.stmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStmt([NotNull] OGParser.StmtContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.stmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStmt([NotNull] OGParser.StmtContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>assgnments</c>
 	/// labeled alternative in <see cref="OGParser.assignments"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterAssignmentsChildren([NotNull] OGParser.AssignmentsChildrenContext context);
+	void EnterAssgnments([NotNull] OGParser.AssgnmentsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>assignmentsChildren</c>
+	/// Exit a parse tree produced by the <c>assgnments</c>
 	/// labeled alternative in <see cref="OGParser.assignments"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitAssignmentsChildren([NotNull] OGParser.AssignmentsChildrenContext context);
+	void ExitAssgnments([NotNull] OGParser.AssgnmentsContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>assignmentsEmpty</c>
+	/// Enter a parse tree produced by the <c>noAssignmentsDefined</c>
 	/// labeled alternative in <see cref="OGParser.assignments"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterAssignmentsEmpty([NotNull] OGParser.AssignmentsEmptyContext context);
+	void EnterNoAssignmentsDefined([NotNull] OGParser.NoAssignmentsDefinedContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>assignmentsEmpty</c>
+	/// Exit a parse tree produced by the <c>noAssignmentsDefined</c>
 	/// labeled alternative in <see cref="OGParser.assignments"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitAssignmentsEmpty([NotNull] OGParser.AssignmentsEmptyContext context);
+	void ExitNoAssignmentsDefined([NotNull] OGParser.NoAssignmentsDefinedContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>declarationsChildren</c>
+	/// Enter a parse tree produced by the <c>dcls</c>
 	/// labeled alternative in <see cref="OGParser.declarations"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterDeclarationsChildren([NotNull] OGParser.DeclarationsChildrenContext context);
+	void EnterDcls([NotNull] OGParser.DclsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>declarationsChildren</c>
+	/// Exit a parse tree produced by the <c>dcls</c>
 	/// labeled alternative in <see cref="OGParser.declarations"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitDeclarationsChildren([NotNull] OGParser.DeclarationsChildrenContext context);
+	void ExitDcls([NotNull] OGParser.DclsContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>declarationsEmpty</c>
+	/// Enter a parse tree produced by the <c>noDeclarationsDefined</c>
 	/// labeled alternative in <see cref="OGParser.declarations"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterDeclarationsEmpty([NotNull] OGParser.DeclarationsEmptyContext context);
+	void EnterNoDeclarationsDefined([NotNull] OGParser.NoDeclarationsDefinedContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>declarationsEmpty</c>
+	/// Exit a parse tree produced by the <c>noDeclarationsDefined</c>
 	/// labeled alternative in <see cref="OGParser.declarations"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitDeclarationsEmpty([NotNull] OGParser.DeclarationsEmptyContext context);
+	void ExitNoDeclarationsDefined([NotNull] OGParser.NoDeclarationsDefinedContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>commandsChildren</c>
+	/// Enter a parse tree produced by the <c>cmds</c>
 	/// labeled alternative in <see cref="OGParser.commands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterCommandsChildren([NotNull] OGParser.CommandsChildrenContext context);
+	void EnterCmds([NotNull] OGParser.CmdsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>commandsChildren</c>
+	/// Exit a parse tree produced by the <c>cmds</c>
 	/// labeled alternative in <see cref="OGParser.commands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitCommandsChildren([NotNull] OGParser.CommandsChildrenContext context);
+	void ExitCmds([NotNull] OGParser.CmdsContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>commandsEmpty</c>
+	/// Enter a parse tree produced by the <c>noCmdsDeclared</c>
 	/// labeled alternative in <see cref="OGParser.commands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterCommandsEmpty([NotNull] OGParser.CommandsEmptyContext context);
+	void EnterNoCmdsDeclared([NotNull] OGParser.NoCmdsDeclaredContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>commandsEmpty</c>
+	/// Exit a parse tree produced by the <c>noCmdsDeclared</c>
 	/// labeled alternative in <see cref="OGParser.commands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitCommandsEmpty([NotNull] OGParser.CommandsEmptyContext context);
+	void ExitNoCmdsDeclared([NotNull] OGParser.NoCmdsDeclaredContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>numberDcl</c>
 	/// labeled alternative in <see cref="OGParser.declaration"/>.
@@ -615,6 +659,30 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLineCommand([NotNull] OGParser.LineCommandContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>chainedToCommand</c>
+	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterChainedToCommand([NotNull] OGParser.ChainedToCommandContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>chainedToCommand</c>
+	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitChainedToCommand([NotNull] OGParser.ChainedToCommandContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>singleToCommand</c>
+	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSingleToCommand([NotNull] OGParser.SingleToCommandContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>singleToCommand</c>
+	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSingleToCommand([NotNull] OGParser.SingleToCommandContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.curveCommand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -625,35 +693,101 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitCurveCommand([NotNull] OGParser.CurveCommandContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.toCommand"/>.
+	/// Enter a parse tree produced by the <c>toWithId</c>
+	/// labeled alternative in <see cref="OGParser.toCommand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterToCommand([NotNull] OGParser.ToCommandContext context);
+	void EnterToWithId([NotNull] OGParser.ToWithIdContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.toCommand"/>.
+	/// Exit a parse tree produced by the <c>toWithId</c>
+	/// labeled alternative in <see cref="OGParser.toCommand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitToCommand([NotNull] OGParser.ToCommandContext context);
+	void ExitToWithId([NotNull] OGParser.ToWithIdContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.drawCommand"/>.
+	/// Enter a parse tree produced by the <c>toWithNumberTuple</c>
+	/// labeled alternative in <see cref="OGParser.toCommand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterDrawCommand([NotNull] OGParser.DrawCommandContext context);
+	void EnterToWithNumberTuple([NotNull] OGParser.ToWithNumberTupleContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.drawCommand"/>.
+	/// Exit a parse tree produced by the <c>toWithNumberTuple</c>
+	/// labeled alternative in <see cref="OGParser.toCommand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitDrawCommand([NotNull] OGParser.DrawCommandContext context);
+	void ExitToWithNumberTuple([NotNull] OGParser.ToWithNumberTupleContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.fromCommand"/>.
+	/// Enter a parse tree produced by the <c>toWithStartPointRef</c>
+	/// labeled alternative in <see cref="OGParser.toCommand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterFromCommand([NotNull] OGParser.FromCommandContext context);
+	void EnterToWithStartPointRef([NotNull] OGParser.ToWithStartPointRefContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.fromCommand"/>.
+	/// Exit a parse tree produced by the <c>toWithStartPointRef</c>
+	/// labeled alternative in <see cref="OGParser.toCommand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitFromCommand([NotNull] OGParser.FromCommandContext context);
+	void ExitToWithStartPointRef([NotNull] OGParser.ToWithStartPointRefContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>toWithEndPointRef</c>
+	/// labeled alternative in <see cref="OGParser.toCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterToWithEndPointRef([NotNull] OGParser.ToWithEndPointRefContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>toWithEndPointRef</c>
+	/// labeled alternative in <see cref="OGParser.toCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitToWithEndPointRef([NotNull] OGParser.ToWithEndPointRefContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>fromWithId</c>
+	/// labeled alternative in <see cref="OGParser.fromCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFromWithId([NotNull] OGParser.FromWithIdContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>fromWithId</c>
+	/// labeled alternative in <see cref="OGParser.fromCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFromWithId([NotNull] OGParser.FromWithIdContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>fromWithNumberTuple</c>
+	/// labeled alternative in <see cref="OGParser.fromCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFromWithNumberTuple([NotNull] OGParser.FromWithNumberTupleContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>fromWithNumberTuple</c>
+	/// labeled alternative in <see cref="OGParser.fromCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFromWithNumberTuple([NotNull] OGParser.FromWithNumberTupleContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>fromWithStartPointRef</c>
+	/// labeled alternative in <see cref="OGParser.fromCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFromWithStartPointRef([NotNull] OGParser.FromWithStartPointRefContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>fromWithStartPointRef</c>
+	/// labeled alternative in <see cref="OGParser.fromCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFromWithStartPointRef([NotNull] OGParser.FromWithStartPointRefContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>fromWithEndPointRef</c>
+	/// labeled alternative in <see cref="OGParser.fromCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFromWithEndPointRef([NotNull] OGParser.FromWithEndPointRefContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>fromWithEndPointRef</c>
+	/// labeled alternative in <see cref="OGParser.fromCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFromWithEndPointRef([NotNull] OGParser.FromWithEndPointRefContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.iterationCommand"/>.
 	/// </summary>
@@ -675,15 +809,29 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitNumberIteration([NotNull] OGParser.NumberIterationContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.untilIteration"/>.
+	/// Enter a parse tree produced by the <c>untilFuncCall</c>
+	/// labeled alternative in <see cref="OGParser.untilIteration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterUntilIteration([NotNull] OGParser.UntilIterationContext context);
+	void EnterUntilFuncCall([NotNull] OGParser.UntilFuncCallContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.untilIteration"/>.
+	/// Exit a parse tree produced by the <c>untilFuncCall</c>
+	/// labeled alternative in <see cref="OGParser.untilIteration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitUntilIteration([NotNull] OGParser.UntilIterationContext context);
+	void ExitUntilFuncCall([NotNull] OGParser.UntilFuncCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>untilCondition</c>
+	/// labeled alternative in <see cref="OGParser.untilIteration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUntilCondition([NotNull] OGParser.UntilConditionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>untilCondition</c>
+	/// labeled alternative in <see cref="OGParser.untilIteration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUntilCondition([NotNull] OGParser.UntilConditionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.functionDcl"/>.
 	/// </summary>
@@ -725,25 +873,51 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitVoidFunctionDCL([NotNull] OGParser.VoidFunctionDCLContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.parameterDeclarations"/>.
+	/// Enter a parse tree produced by the <c>multiParamDcl</c>
+	/// labeled alternative in <see cref="OGParser.parameterDeclarations"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterParameterDeclarations([NotNull] OGParser.ParameterDeclarationsContext context);
+	void EnterMultiParamDcl([NotNull] OGParser.MultiParamDclContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.parameterDeclarations"/>.
+	/// Exit a parse tree produced by the <c>multiParamDcl</c>
+	/// labeled alternative in <see cref="OGParser.parameterDeclarations"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitParameterDeclarations([NotNull] OGParser.ParameterDeclarationsContext context);
+	void ExitMultiParamDcl([NotNull] OGParser.MultiParamDclContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.parameters"/>.
+	/// Enter a parse tree produced by the <c>singleParamDcl</c>
+	/// labeled alternative in <see cref="OGParser.parameterDeclarations"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterParameters([NotNull] OGParser.ParametersContext context);
+	void EnterSingleParamDcl([NotNull] OGParser.SingleParamDclContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.parameters"/>.
+	/// Exit a parse tree produced by the <c>singleParamDcl</c>
+	/// labeled alternative in <see cref="OGParser.parameterDeclarations"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitParameters([NotNull] OGParser.ParametersContext context);
+	void ExitSingleParamDcl([NotNull] OGParser.SingleParamDclContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>noParamsDcl</c>
+	/// labeled alternative in <see cref="OGParser.parameterDeclarations"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNoParamsDcl([NotNull] OGParser.NoParamsDclContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>noParamsDcl</c>
+	/// labeled alternative in <see cref="OGParser.parameterDeclarations"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNoParamsDcl([NotNull] OGParser.NoParamsDclContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.parameterDcl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParameterDcl([NotNull] OGParser.ParameterDclContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.parameterDcl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParameterDcl([NotNull] OGParser.ParameterDclContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.functionCall"/>.
 	/// </summary>
@@ -755,23 +929,123 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitFunctionCall([NotNull] OGParser.FunctionCallContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.parameterList"/>.
+	/// Enter a parse tree produced by the <c>multiParameters</c>
+	/// labeled alternative in <see cref="OGParser.passedParams"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterParameterList([NotNull] OGParser.ParameterListContext context);
+	void EnterMultiParameters([NotNull] OGParser.MultiParametersContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.parameterList"/>.
+	/// Exit a parse tree produced by the <c>multiParameters</c>
+	/// labeled alternative in <see cref="OGParser.passedParams"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitParameterList([NotNull] OGParser.ParameterListContext context);
+	void ExitMultiParameters([NotNull] OGParser.MultiParametersContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.returnStatement"/>.
+	/// Enter a parse tree produced by the <c>singleParameter</c>
+	/// labeled alternative in <see cref="OGParser.passedParams"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterReturnStatement([NotNull] OGParser.ReturnStatementContext context);
+	void EnterSingleParameter([NotNull] OGParser.SingleParameterContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.returnStatement"/>.
+	/// Exit a parse tree produced by the <c>singleParameter</c>
+	/// labeled alternative in <see cref="OGParser.passedParams"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitReturnStatement([NotNull] OGParser.ReturnStatementContext context);
+	void ExitSingleParameter([NotNull] OGParser.SingleParameterContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>noParameter</c>
+	/// labeled alternative in <see cref="OGParser.passedParams"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNoParameter([NotNull] OGParser.NoParameterContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>noParameter</c>
+	/// labeled alternative in <see cref="OGParser.passedParams"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNoParameter([NotNull] OGParser.NoParameterContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>passedID</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPassedID([NotNull] OGParser.PassedIDContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>passedID</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPassedID([NotNull] OGParser.PassedIDContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>passedFunctionCall</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPassedFunctionCall([NotNull] OGParser.PassedFunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>passedFunctionCall</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPassedFunctionCall([NotNull] OGParser.PassedFunctionCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>passedDirectValue</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPassedDirectValue([NotNull] OGParser.PassedDirectValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>passedDirectValue</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPassedDirectValue([NotNull] OGParser.PassedDirectValueContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>passedEndPointReference</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPassedEndPointReference([NotNull] OGParser.PassedEndPointReferenceContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>passedEndPointReference</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPassedEndPointReference([NotNull] OGParser.PassedEndPointReferenceContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>passedStartPointReference</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPassedStartPointReference([NotNull] OGParser.PassedStartPointReferenceContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>passedStartPointReference</c>
+	/// labeled alternative in <see cref="OGParser.passedParam"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPassedStartPointReference([NotNull] OGParser.PassedStartPointReferenceContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>returnValueReference</c>
+	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterReturnValueReference([NotNull] OGParser.ReturnValueReferenceContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>returnValueReference</c>
+	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitReturnValueReference([NotNull] OGParser.ReturnValueReferenceContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>returnDirectValue</c>
+	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>returnDirectValue</c>
+	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context);
 }

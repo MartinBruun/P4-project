@@ -15,9 +15,9 @@ function number dist (point a, point b) {
 
 
 shape A {
-	point startPoint = (10,10);
+	point startpoint = (10,10);
 	line.from(startPoint).to(10,15);
-	curve.withAngle(23).from(startPoint).to(15,10);
+	curve.withAngle(23).from(startpoint).to(15,10);
 }
 
 

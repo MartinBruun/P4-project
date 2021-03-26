@@ -1,61 +1,68 @@
 grammar OG;
 
-program: tool=machine main=draw functions=functionDcls? shapes=shapeDcls #prog
+program: machineSettings=machine drawFunction=draw functionsDeclarations=functionDcls? shapeDeclarations=shapeDcls #prog
        ;
        
-shapeDcls   : lhc=shapeDcl rhc=shapeDcls #shapeDclsChildren
-            |                            #shapeDclEmpty
+shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclarations
+            |                                                      #noShapesDefined
             ;
             
-functionDcls: functionDcl functionDcls   #functionCallChildren
-            |                            #functionCallEmpty
+functionDcls: functionDcl functionDcls   #functionDeclarations
+            |                            #noFunctionsDefined
             ;
        
 
 machineVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
 machine          : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
-draw             : 'draw' '{' drawCommands '}';
+draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
-drawCommands: drawCommand drawCommands #drawCommandsChildren
+drawCommands: drawCommand drawCommands #drawCmds
             |                          #drawCommandsEmpty
             ;
-
+drawCommand     : id=ID';'                             #drawCmd
+                | id=ID fromCmd=fromCommand ';'        #drawFromCmd
+                ;
 //Shapes:
-shapeDcl            : 'shape' ID '{' bdy=body '}'
+shapeDcl            : 'shape' id=ID '{' bdy=body '}'
                     ;
 
 
-body                :  (declaration |  assignment | command)+ 
-                    |  
-                    ;
+body: statements=stmts;
+
+stmts: currentStatement = stmt statements =stmts | ;
+stmt:  dcl  =declaration 
+    | assign=assignment
+    | cmd   =command;             
+
                     
-assignments : assignment assignments    #assignmentsChildren
-            |                           #assignmentsEmpty
+assignments : assign=assignment assignmnts = assignments    #assgnments
+            |                                               #noAssignmentsDefined
             ;
-declarations: declaration declarations  #declarationsChildren
-            |                           #declarationsEmpty
+declarations: dcl=declaration dcls=declarations  #dcls
+            |                                    #noDeclarationsDefined
             ;
-commands: command commands              #commandsChildren
-        |                               #commandsEmpty
+            
+commands: cmd=command cmds=commands              #cmds
+        |                                        #noCmdsDeclared
         ;
 
 declaration         : numberDcl=numberDeclaration';' #numberDcl
                     | pointDcl=pointDeclaration';'   #pointDcl
                     | boolDcl=booleanDeclaration';'  #boolDcl
                     ;
-booleanDeclaration  : 'bool' lhs=ID   '=' rhs=boolExpression
+booleanDeclaration  : 'bool'   id=ID   '=' value=boolExpression
                     ;
-numberDeclaration   : 'number' lhs=ID '=' rhs=mathExpression
+numberDeclaration   : 'number' id=ID '=' value=mathExpression
                     ;
-pointDeclaration    : 'point'  lhs=ID '=' rhs=pointReference    #pointDclPointRefAssign
-                    | 'point'  lhs=ID  '='rhs=ID                #pointDclIdAssign
+pointDeclaration    : 'point'  id=ID '='  value=pointReference    #pointDclPointRefAssign
+                    | 'point'  id=ID  '=' value=ID                #pointDclIdAssign
                     ;
 
 pointReference      :  '(' tuple=numberTuple ')' 
-                    | StartPointReference
-                    | EndPointReference 
-                    | ID
-                    | functionCall
+                    | point=StartPointReference
+                    | point=EndPointReference 
+                    | point=ID
+                    | funcCall=functionCall
                     ;
 numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
 
@@ -63,28 +70,28 @@ numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
 assignment          : variableAssignment 
                     | propertyAssignment
                     ;
-propertyAssignment  : CoordinateXYValue '=' mathExpression';'
+propertyAssignment  : xyVal=CoordinateXYValue '=' value=mathExpression';'
                     ;
 
-variableAssignment  : lhs=ID'=' rhs=ID             ';' #idAssign
-                    | lhs=ID'=' rhs=boolExpression ';' #boolAssign    
-                    | lhs=ID'=' rhs=mathExpression ';' #numberAssign
-                    | pointAssignment              ';' #pointAssign
+variableAssignment  : id=ID'=' value=ID             ';' #idAssign
+                    | id=ID'=' value=boolExpression ';' #boolAssign    
+                    | id=ID'=' value=mathExpression ';' #numberAssign
+                    | pointAssignment               ';' #pointAssign
                     ; 
 
-pointAssignment     :  endPointAssignment  //Bemærk navn på pointAssign! De er ikke ens!
-                    |  startPointAssignment 
-                    |  lhs=ID '=' rhs=pointReference
+pointAssignment     :  endPointAssignment
+                    |  startPointAssignment     
+                    |  id=ID '=' value=pointReference
                     ;
 
-startPointAssignment: lhs=StartPointReference '=' rhs=pointReference
+startPointAssignment: id=StartPointReference '=' value=pointReference
                     ;
-endPointAssignment  : lhs=EndPointReference '=' rhs=pointReference
+endPointAssignment  : id=EndPointReference '=' value=pointReference
                     ;
 
 
 //Generel expressions:
-expression      : ID 
+expression      : id=ID 
                 | mathExpression 
                 | boolExpression 
                 | functionCall
@@ -104,63 +111,63 @@ factor          : lhs=atom pow='^' rhs=factor
 
 atom            : funcCall=functionCall
                 | value=Number 
-                | coordinateValue=CoordinateXYValue 
-                | idReference=ID
+                | xyValue=CoordinateXYValue 
+                | id=ID
                 ;
-                
-//signedAtom : PLUS signedAtom | MINUS signedAtom | atom   ;
+               
 
-boolExpression  : ID                                                    #boolExprID
-                | BooleanValue                                          #boolExprTrueFalse
-                | functionCall                                          #boolExprFuncCall
+boolExpression  : id=ID                                                    #boolExprID
+                | value=BooleanValue                                          #boolExprTrueFalse
+                | funcCall=functionCall                                          #boolExprFuncCall
                 | lhs=mathExpression BoolOperator rhs=mathExpression    #boolExprMathComp
                 | lhs=boolExpression LogicOperator rhs=boolExpression   #boolExprBoolComp
-                | '!'boolExpression                                     #boolExprNotPrefix   
+                | '!'boolExpr=boolExpression                                     #boolExprNotPrefix   
                 ;
 
-//a == true er ikke gyldigt!
+
 
 
 //Commands:
 //Movement commands:
-command         : iterationCommand
-                | movementCommand
-                | drawCommand
+command         : iterCmd=iterationCommand
+                | movementCmd=movementCommand
+                | drawCmd=drawCommand
                 ;
 
-movementCommand : lineCommand ';' 
-                | curveCommand';'
+movementCommand : lineCmd=lineCommand ';' 
+                | curveCmd=curveCommand';'
                 ;
                 
-lineCommand     : 'line' '.' 'from' '(' (numberTuple | ID | pointReference)')' toCommand+
+lineCommand     : 'line' fromCmd=fromCommand  toCmds=toCommands;
 
+toCommands: toCmd=toCommand chainedToCmds=toCommands          #chainedToCommand
+          | toCmd=toCommand                                   #singleToCommand
+          ;
 
-
-
-
-
-
-                ; //Udvid til flere regler?
-curveCommand    : 'curve' '.' 'withAngle' '(' mathExpression ')' '.' 'from' '('(numberTuple | ID)')' toCommand
-                ;
-toCommand       : '.to''(' (numberTuple | pointReference) ')'
+   
+curveCommand    : 'curve''.''withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmd=toCommand;
                 
+toCommand       : '.to''(' id=ID ')'                   #toWithId
+                | '.to''(' tuple=numberTuple ')'          #toWithNumberTuple
+                | '.to''(' toPoint=StartPointReference ')'  #toWithStartPointRef
+                | '.to''(' toPoint=EndPointReference ')'    #toWithEndPointRef
                 ;
-drawCommand     : ID';' 
-                | ID '.'fromCommand ';'
-                ;
-fromCommand     :  'from' ( '('ID')' |  '(' numberTuple ')' | '(' StartPointReference ')' | '(' EndPointReference ')'| functionCall )
-                ; //Udvid til flere regler?
 
+fromCommand     :  '.from' '(' id=ID')'                             #fromWithId
+                |  '.from' '(' tuple=numberTuple ')'                #fromWithNumberTuple
+                |  '.from' '(' fromPoint=StartPointReference ')'    #fromWithStartPointRef
+                |  '.from' '(' fromPoint=EndPointReference ')'      #fromWithEndPointRef
+                ;
 
 
 //Iterative statements:
-iterationCommand: numberIteration 
-                | untilIteration
+iterationCommand: numberIterCmd=numberIteration 
+                | untilIterCmd=untilIteration
                 ;
-numberIteration : 'repeat''('mathExpression')' body 'repeat.end'
+numberIteration : 'repeat''('iterator=mathExpression')' statements=body 'repeat.end'
                 ;
-untilIteration  : 'repeat''.''until''('(boolExpression | functionCall)')' body 'repeat.end'
+untilIteration  : 'repeat''.''until''(' iterator=functionCall')' statements=body 'repeat.end'    #untilFuncCall
+                | 'repeat''.''until''(' iterator=boolExpression')' statements=body 'repeat.end'  #untilCondition
                 ; //Udvid til flere regler?
 
 
@@ -168,20 +175,41 @@ untilIteration  : 'repeat''.''until''('(boolExpression | functionCall)')' body '
 functionDcl             : returnFunctionDCL 
                         | voidFunctionDCL
                         ;
-returnFunctionDCL       : 'function' typeWord ID parameterDeclarations '{' body returnStatement '}';
-typeWord                : (PointDCLWord | BoolDCLWord | NumberDCLWord);
-voidFunctionDCL         : 'function' 'void' ID parameterDeclarations '{' body '}';
+                        
+returnFunctionDCL       : 'function' type=typeWord funcName=ID '('paramDcls=parameterDeclarations ')''{' statements=body returnStmt=returnStatement '}';
 
-parameterDeclarations   : '('parameters')';
-parameters              :  (typeWord ID',')* typeWord ID 
-                        | 
+typeWord                : PointDCLWord 
+                        | BoolDCLWord 
+                        | NumberDCLWord
                         ;
-functionCall            : ID '(' parameterList ')'
+voidFunctionDCL         : 'function' 'void' id=ID '(' paramDcls=parameterDeclarations ')'  '{' statements=body '}';
+
+parameterDeclarations   :  currentParamDcl=parameterDcl ',' paramDcls=parameterDeclarations #multiParamDcl
+                        |  paramDcl=parameterDcl                                 #singleParamDcl
+                        |                                                        #noParamsDcl
                         ;
-parameterList           : ( (ID | expression | pointReference)',')* (ID | expression | pointReference) 
-                        |
-                        ; //Kan den simplificeres? Udvid til flere regler?
-returnStatement         : 'return' (ID | expression) ';'
+parameterDcl: type=typeWord id=ID;      
+                  
+functionCall            : id=ID '(' params=passedParams ')' 
+                        ;
+
+
+passedParams: firstParameter=passedParam ',' params=passedParams #multiParameters
+            | parameter=passedParam                          #singleParameter
+            |                                                #noParameter
+            ;
+
+passedParam : id = ID                                       #passedID
+            | funcCall = functionCall                       #passedFunctionCall
+            | expr = expression                             #passedDirectValue
+            | endpointRef =  EndPointReference              #passedEndPointReference
+            | startpointRef = StartPointReference           #passedStartPointReference
+            ;
+
+
+
+returnStatement         : 'return' id=ID ';'         #returnValueReference
+                        | 'return' expr=expression ';' #returnDirectValue
                         ;
 
 
