@@ -17,7 +17,7 @@ namespace Tests
         
         public void SyntaxError(TextWriter output, IRecognizer recognizer, T offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
         {
-            throw new LexerExceptionHelper($"{msg}.\n Line {line} and column {charPositionInLine}");
+            throw new SyntaxException($"{msg}.\n Line {line} and column {charPositionInLine}");
         }
         public void ReportAmbiguity(TextWriter output, IRecognizer recognizer, T offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
         {
@@ -25,13 +25,13 @@ namespace Tests
         }
     }
     
-    public class LexerExceptionHelper : Exception
+    public class SyntaxException : Exception
     {
-        public LexerExceptionHelper(string msg) : base(msg)
+        public SyntaxException(string msg) : base(msg)
         {
         }
 
-        public LexerExceptionHelper() : base("Syntax error in lexer without Custom Message")
+        public SyntaxException() : base("Syntax error in lexer without Custom Message")
         {
             
         }

@@ -11,7 +11,7 @@ namespace Tests
 {
     public class ParserTests
     {
-        private IParseTree CreateTree(string fileName, string dirName)
+        private OGParser CreateParser(string fileName, string dirName)
         {
             string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
             ICharStream stream = new AntlrInputStream(code);
@@ -21,11 +21,13 @@ namespace Tests
             OGParser parser = new OGParser(tokenStream);
             ErrorListenerHelper<IToken> listener = new ErrorListenerHelper<IToken>();
             parser.AddErrorListener(listener);
-            return parser.program();
+            return parser;
         }
         
         [TestCase("base.og", "Testing the minimal meaningful product")]
         [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
+        [TestCase("base_function.og", "Testing the base case for declaring a function")]
+        [TestCase("base_shape.og", "Testing the base case for declaring a shape")]
         [TestCase("boolExpressions.og", "Testing declaration and use of bool expressions")]
         [TestCase("draw.og", "Testing if Draw can contain previously declared and defined shapes")]
         [TestCase("math.og", "Testing mathematical expressions are ok")]
@@ -34,21 +36,22 @@ namespace Tests
         [TestCase("while.og", "testing while loops")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
-            IParseTree tree = CreateTree(fileName, "Correct programs/");
+            OGParser parser = CreateParser(fileName, "Correct programs/");
 
             Assert.DoesNotThrow(() =>
             {
-                tree.ToStringTree();
+                IParseTree tree = parser.program();
             }, description);
         }
         
+        [TestCase("nested_shape.og", "Testing that nested shapes are not valid")]
         public void Test_Fixtures_ShouldRaiseSyntaxExceptions(string fileName, string description)
         {
-            IParseTree tree = CreateTree(fileName, "Incorrect programs/");
+            OGParser parser = CreateParser(fileName, "Incorrect programs/");
 
-            Assert.Throws<ParserExceptionHelper>(() =>
+            Assert.Throws<SyntaxException>(() =>
             {
-                tree.ToStringTree();
+                IParseTree tree = parser.program();
             }, description);
         }
     }
