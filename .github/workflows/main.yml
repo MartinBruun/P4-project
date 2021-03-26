@@ -36,7 +36,7 @@ jobs:
         run: |
           cd OG
           cd OG
-          java -jar ${{ github.workspace }}\antlr-4.9.2-complete.jar -Dlanguage=CSharp -o gen -listener -visitor -lib gen OG.g4
+          java -jar ${{ github.workspace }}\antlr-4.9.2-complete.jar -Dlanguage=CSharp -o OG/OG/gen -listener -visitor -lib OG/OG/gen OG/OG/OG.g4
           cd ..
           cd ..
       - name: Rebuild Tests project to create tests
