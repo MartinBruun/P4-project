@@ -5,8 +5,11 @@ draw
    C;
   
 }
+function void triangle() {
+    line.from(startPoint).to(x,y).to(x,y).to(startPoint);
+}
 
-Shape C {
+shape C {
 	
 	number myXNumber = 5;
 	number myYNumber = 5;
@@ -17,25 +20,18 @@ Shape C {
 		line.from(myStartPoint).to(myXNumber,myYNumber);
 		
 		myStartPoint = (myXNumber, myYNumber);
-		myXNumber += 1;
+		myXNumber = 1;
 		
-	repeat.end;
+	repeat.end
 }
 
-Shape D {
+shape D {
     point origin = (0,0);
     number numberOfTriangles = 0;
     number desiredAmountOfTriangles = 27;
     repeat.until (numberOfTriangles == desiredAmountOfTriangles)
-        at(origin).do(triangle());
+        triangle.from(origin);
         
-    repeat.end;
-
-    
-
-
+    repeat.end
 }
 
-function void triangle() {
-    line.from(startPoint).to(x,y).to(x,y).to(startPoint);
-}

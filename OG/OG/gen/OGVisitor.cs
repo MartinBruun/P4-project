@@ -32,11 +32,40 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.program"/>.
+	/// Visit a parse tree produced by the <c>prog</c>
+	/// labeled alternative in <see cref="OGParser.program"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitProgram([NotNull] OGParser.ProgramContext context);
+	Result VisitProg([NotNull] OGParser.ProgContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>shapeDclsChildren</c>
+	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitShapeDclsChildren([NotNull] OGParser.ShapeDclsChildrenContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>shapeDclEmpty</c>
+	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitShapeDclEmpty([NotNull] OGParser.ShapeDclEmptyContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>functionCallChildren</c>
+	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionCallChildren([NotNull] OGParser.FunctionCallChildrenContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>functionCallEmpty</c>
+	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionCallEmpty([NotNull] OGParser.FunctionCallEmptyContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.machineVariables"/>.
 	/// </summary>
@@ -56,11 +85,25 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitDraw([NotNull] OGParser.DrawContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.shapeDefinition"/>.
+	/// Visit a parse tree produced by the <c>drawCommandsChildren</c>
+	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitShapeDefinition([NotNull] OGParser.ShapeDefinitionContext context);
+	Result VisitDrawCommandsChildren([NotNull] OGParser.DrawCommandsChildrenContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>drawCommandsEmpty</c>
+	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDrawCommandsEmpty([NotNull] OGParser.DrawCommandsEmptyContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="OGParser.shapeDcl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitShapeDcl([NotNull] OGParser.ShapeDclContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.body"/>.
 	/// </summary>
@@ -68,11 +111,68 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitBody([NotNull] OGParser.BodyContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.declaration"/>.
+	/// Visit a parse tree produced by the <c>assignmentsChildren</c>
+	/// labeled alternative in <see cref="OGParser.assignments"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitDeclaration([NotNull] OGParser.DeclarationContext context);
+	Result VisitAssignmentsChildren([NotNull] OGParser.AssignmentsChildrenContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>assignmentsEmpty</c>
+	/// labeled alternative in <see cref="OGParser.assignments"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAssignmentsEmpty([NotNull] OGParser.AssignmentsEmptyContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>declarationsChildren</c>
+	/// labeled alternative in <see cref="OGParser.declarations"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDeclarationsChildren([NotNull] OGParser.DeclarationsChildrenContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>declarationsEmpty</c>
+	/// labeled alternative in <see cref="OGParser.declarations"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDeclarationsEmpty([NotNull] OGParser.DeclarationsEmptyContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>commandsChildren</c>
+	/// labeled alternative in <see cref="OGParser.commands"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCommandsChildren([NotNull] OGParser.CommandsChildrenContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>commandsEmpty</c>
+	/// labeled alternative in <see cref="OGParser.commands"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCommandsEmpty([NotNull] OGParser.CommandsEmptyContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>numberDcl</c>
+	/// labeled alternative in <see cref="OGParser.declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNumberDcl([NotNull] OGParser.NumberDclContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>pointDcl</c>
+	/// labeled alternative in <see cref="OGParser.declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPointDcl([NotNull] OGParser.PointDclContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>boolDcl</c>
+	/// labeled alternative in <see cref="OGParser.declaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBoolDcl([NotNull] OGParser.BoolDclContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.booleanDeclaration"/>.
 	/// </summary>
@@ -86,11 +186,19 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitNumberDeclaration([NotNull] OGParser.NumberDeclarationContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.pointDeclaration"/>.
+	/// Visit a parse tree produced by the <c>pointDclPointRefAssign</c>
+	/// labeled alternative in <see cref="OGParser.pointDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitPointDeclaration([NotNull] OGParser.PointDeclarationContext context);
+	Result VisitPointDclPointRefAssign([NotNull] OGParser.PointDclPointRefAssignContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>pointDclIdAssign</c>
+	/// labeled alternative in <see cref="OGParser.pointDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPointDclIdAssign([NotNull] OGParser.PointDclIdAssignContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.pointReference"/>.
 	/// </summary>
@@ -116,29 +224,33 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitPropertyAssignment([NotNull] OGParser.PropertyAssignmentContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.variableAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitVariableAssignment([NotNull] OGParser.VariableAssignmentContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.idAssign"/>.
+	/// Visit a parse tree produced by the <c>idAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitIdAssign([NotNull] OGParser.IdAssignContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.boolAssignment"/>.
+	/// Visit a parse tree produced by the <c>boolAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBoolAssignment([NotNull] OGParser.BoolAssignmentContext context);
+	Result VisitBoolAssign([NotNull] OGParser.BoolAssignContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.numberAssignment"/>.
+	/// Visit a parse tree produced by the <c>numberAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitNumberAssignment([NotNull] OGParser.NumberAssignmentContext context);
+	Result VisitNumberAssign([NotNull] OGParser.NumberAssignContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>pointAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPointAssign([NotNull] OGParser.PointAssignContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// </summary>
@@ -164,17 +276,33 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitExpression([NotNull] OGParser.ExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.mathExpression"/>.
+	/// Visit a parse tree produced by the <c>infixAdditionExpr</c>
+	/// labeled alternative in <see cref="OGParser.mathExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitMathExpression([NotNull] OGParser.MathExpressionContext context);
+	Result VisitInfixAdditionExpr([NotNull] OGParser.InfixAdditionExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.term"/>.
+	/// Visit a parse tree produced by the <c>singleTermExpr</c>
+	/// labeled alternative in <see cref="OGParser.mathExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitTerm([NotNull] OGParser.TermContext context);
+	Result VisitSingleTermExpr([NotNull] OGParser.SingleTermExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>infixMultExpr</c>
+	/// labeled alternative in <see cref="OGParser.term"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInfixMultExpr([NotNull] OGParser.InfixMultExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>singleTermChild</c>
+	/// labeled alternative in <see cref="OGParser.term"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSingleTermChild([NotNull] OGParser.SingleTermChildContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.factor"/>.
 	/// </summary>
@@ -188,11 +316,47 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitAtom([NotNull] OGParser.AtomContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.boolExpression"/>.
+	/// Visit a parse tree produced by the <c>boolExprID</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBoolExpression([NotNull] OGParser.BoolExpressionContext context);
+	Result VisitBoolExprID([NotNull] OGParser.BoolExprIDContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>boolExprBoolComp</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBoolExprBoolComp([NotNull] OGParser.BoolExprBoolCompContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>boolExprMathComp</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBoolExprMathComp([NotNull] OGParser.BoolExprMathCompContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>boolExprNotPrefix</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBoolExprNotPrefix([NotNull] OGParser.BoolExprNotPrefixContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>boolExprTrueFalse</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBoolExprTrueFalse([NotNull] OGParser.BoolExprTrueFalseContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>boolExprFuncCall</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBoolExprFuncCall([NotNull] OGParser.BoolExprFuncCallContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.command"/>.
 	/// </summary>
@@ -230,6 +394,12 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitDrawCommand([NotNull] OGParser.DrawCommandContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="OGParser.fromCommand"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFromCommand([NotNull] OGParser.FromCommandContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.iterationCommand"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -248,11 +418,11 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitUntilIteration([NotNull] OGParser.UntilIterationContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.functionDeclaration"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.functionDcl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFunctionDeclaration([NotNull] OGParser.FunctionDeclarationContext context);
+	Result VisitFunctionDcl([NotNull] OGParser.FunctionDclContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.returnFunctionDCL"/>.
 	/// </summary>

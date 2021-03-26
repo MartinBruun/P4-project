@@ -1,83 +1,188 @@
 grammar OG;
 
-program: machine draw functionDeclaration* shapeDefinition*;
-machineVariables : 'xmin' '=' mathExpression ',' 'xmax' '=' mathExpression ',' 'ymin' '=' mathExpression',' 'ymax' '=' mathExpression;
+program: tool=machine main=draw functions=functionDcls? shapes=shapeDcls #prog
+       ;
+       
+shapeDcls   : lhc=shapeDcl rhc=shapeDcls #shapeDclsChildren
+            |                            #shapeDclEmpty
+            ;
+            
+functionDcls: functionDcl functionDcls   #functionCallChildren
+            |                            #functionCallEmpty
+            ;
+       
+
+machineVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
 machine          : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
-draw             : 'draw' '{' drawCommand* '}';
+draw             : 'draw' '{' drawCommands '}';
+
+drawCommands: drawCommand drawCommands #drawCommandsChildren
+            |                          #drawCommandsEmpty
+            ;
 
 //Shapes:
-shapeDefinition     : 'shape' ID '{' body '}';
-body                :  (declaration |  assignment | command)+ |  ; //Fix
+shapeDcl            : 'shape' ID '{' bdy=body '}'
+                    ;
 
-declaration         : (numberDeclaration | pointDeclaration | booleanDeclaration)';' ;
-booleanDeclaration  : 'bool' ID   '=' boolExpression;
-numberDeclaration   : 'number' ID '=' mathExpression;
-pointDeclaration    : 'point'  ID '=' ( pointReference | ID );
 
-pointReference      : '('ID')' |  '(' numberTuple ')' | StartPointReference | EndPointReference | functionCall;
-numberTuple         : mathExpression ',' mathExpression;
+body                :  (declaration |  assignment | command)+ 
+                    |  
+                    ;
+                    
+assignments : assignment assignments    #assignmentsChildren
+            |                           #assignmentsEmpty
+            ;
+declarations: declaration declarations  #declarationsChildren
+            |                           #declarationsEmpty
+            ;
+commands: command commands              #commandsChildren
+        |                               #commandsEmpty
+        ;
+
+declaration         : numberDcl=numberDeclaration';' #numberDcl
+                    | pointDcl=pointDeclaration';'   #pointDcl
+                    | boolDcl=booleanDeclaration';'  #boolDcl
+                    ;
+booleanDeclaration  : 'bool' lhs=ID   '=' rhs=boolExpression
+                    ;
+numberDeclaration   : 'number' lhs=ID '=' rhs=mathExpression
+                    ;
+pointDeclaration    : 'point'  lhs=ID '=' rhs=pointReference    #pointDclPointRefAssign
+                    | 'point'  lhs=ID  '='rhs=ID                #pointDclIdAssign
+                    ;
+
+pointReference      :  '(' tuple=numberTuple ')' 
+                    | StartPointReference
+                    | EndPointReference 
+                    | ID
+                    | functionCall
+                    ;
+numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
 
 //Basic declarations and assignments:
-assignment          : variableAssignment | propertyAssignment;
-propertyAssignment  : CoordinateXYValue '=' mathExpression';';
+assignment          : variableAssignment 
+                    | propertyAssignment
+                    ;
+propertyAssignment  : CoordinateXYValue '=' mathExpression';'
+                    ;
 
-variableAssignment  : (idAssign | boolAssignment | numberAssignment | pointAssignment) ';';  //Problematisk med ID = ID, da alt bliver til bool assign. Skal man lave overordnet assign med ID som besluttes semantisk?.
-idAssign            :   ID'='ID;
-boolAssignment      :   ID'=' boolExpression;
-numberAssignment    :   ID'=' mathExpression; 
-pointAssignment     :  endPointAssignment | startPointAssignment | (ID'=' pointReference | ID);
+variableAssignment  : lhs=ID'=' rhs=ID             ';' #idAssign
+                    | lhs=ID'=' rhs=boolExpression ';' #boolAssign    
+                    | lhs=ID'=' rhs=mathExpression ';' #numberAssign
+                    | pointAssignment              ';' #pointAssign
+                    ; 
 
-startPointAssignment: StartPointReference '=' pointReference;
-endPointAssignment  : EndPointReference '=' pointReference;
+pointAssignment     :  endPointAssignment  //Bemærk navn på pointAssign! De er ikke ens!
+                    |  startPointAssignment 
+                    |  lhs=ID '=' rhs=pointReference
+                    ;
+
+startPointAssignment: lhs=StartPointReference '=' rhs=pointReference
+                    ;
+endPointAssignment  : lhs=EndPointReference '=' rhs=pointReference
+                    ;
 
 
 //Generel expressions:
-expression      : (ID | mathExpression | boolExpression | functionCall);    
+expression      : ID 
+                | mathExpression 
+                | boolExpression 
+                | functionCall
+                ;    
+                     //term   ((Plus_Minus) term)*
+mathExpression  : lhs=term op=Plus_Minus rhs=mathExpression        #infixAdditionExpr //operand står i midten
+                | child=term                                       #singleTermExpr
+                ;
+                
+term            : lhs=factor op=Mul_Div rhs=term                   #infixMultExpr              
+                | child=factor                                     #singleTermChild //Child er et vidtdækkende begreb
+                ;      
+factor          : lhs=atom pow='^' rhs=factor                      
+                | child=atom                                          
+                |'(' mathExpr=mathExpression ')'
+                ;
 
-mathExpression  : term   ((Plus_Minus) term)*;
-term            : factor ((Mul_Div) factor)*;
-factor          : atom ('^' atom)*;
-atom            : functionCall | Number | CoordinateXYValue | ID | '(' mathExpression ')'  ; //Atom is a sub-equation
+atom            : funcCall=functionCall
+                | value=Number 
+                | coordinateValue=CoordinateXYValue 
+                | idReference=ID
+                ;
+                
 //signedAtom : PLUS signedAtom | MINUS signedAtom | atom   ;
 
-boolExpression  : ID |  BooleanValue |  functionCall 
-                | mathExpression BoolOperator mathExpression 
-                | boolExpression LogicOperator boolExpression 
-                | '!'boolExpression;  //Overvej function call
+boolExpression  : ID                                                    #boolExprID
+                | BooleanValue                                          #boolExprTrueFalse
+                | functionCall                                          #boolExprFuncCall
+                | lhs=mathExpression BoolOperator rhs=mathExpression    #boolExprMathComp
+                | lhs=boolExpression LogicOperator rhs=boolExpression   #boolExprBoolComp
+                | '!'boolExpression                                     #boolExprNotPrefix   
+                ;
 
 //a == true er ikke gyldigt!
 
 
 //Commands:
 //Movement commands:
-command         : iterationCommand | movementCommand | drawCommand;
+command         : iterationCommand
+                | movementCommand
+                | drawCommand
+                ;
 
-movementCommand : (lineCommand | curveCommand)';';
-lineCommand     : 'line' '.' 'from' '(' (numberTuple | ID | pointReference)')' toCommand+;
-curveCommand    : 'curve' '.' 'withAngle' '(' mathExpression ')' '.' 'from' '('(numberTuple | ID)')' toCommand;
-toCommand       : '.to''(' (numberTuple | ID) ')';
-drawCommand     : ID';' | ID '.'fromCommand;
-fromCommand     :  'from' ( '('ID')' |  '(' numberTuple ')' | '(' StartPointReference ')' | '(' EndPointReference ')'| functionCall );
+movementCommand : lineCommand ';' 
+                | curveCommand';'
+                ;
+                
+lineCommand     : 'line' '.' 'from' '(' (numberTuple | ID | pointReference)')' toCommand+
+
+
+
+
+
+
+
+                ; //Udvid til flere regler?
+curveCommand    : 'curve' '.' 'withAngle' '(' mathExpression ')' '.' 'from' '('(numberTuple | ID)')' toCommand
+                ;
+toCommand       : '.to''(' (numberTuple | pointReference) ')'
+                
+                ;
+drawCommand     : ID';' 
+                | ID '.'fromCommand ';'
+                ;
+fromCommand     :  'from' ( '('ID')' |  '(' numberTuple ')' | '(' StartPointReference ')' | '(' EndPointReference ')'| functionCall )
+                ; //Udvid til flere regler?
 
 
 
 //Iterative statements:
-iterationCommand: numberIteration | untilIteration;
-numberIteration : 'repeat''('mathExpression')' body 'repeat.end'; //Ret krop?
-untilIteration  : 'repeat''.''until''('(boolExpression | functionCall)')' body 'repeat.end';
+iterationCommand: numberIteration 
+                | untilIteration
+                ;
+numberIteration : 'repeat''('mathExpression')' body 'repeat.end'
+                ;
+untilIteration  : 'repeat''.''until''('(boolExpression | functionCall)')' body 'repeat.end'
+                ; //Udvid til flere regler?
 
 
 //Functions: 
-functionDeclaration     : returnFunctionDCL | voidFunctionDCL;
+functionDcl             : returnFunctionDCL 
+                        | voidFunctionDCL
+                        ;
 returnFunctionDCL       : 'function' typeWord ID parameterDeclarations '{' body returnStatement '}';
 typeWord                : (PointDCLWord | BoolDCLWord | NumberDCLWord);
 voidFunctionDCL         : 'function' 'void' ID parameterDeclarations '{' body '}';
 
 parameterDeclarations   : '('parameters')';
-parameters              :  (typeWord ID',')* typeWord ID | ;
-functionCall            : ID '(' parameterList ')';
-parameterList           : ( (ID | expression | CoordinateXYValue)',')* (ID | expression | CoordinateXYValue) | ;
-returnStatement         : 'return' (ID | expression) ';';
+parameters              :  (typeWord ID',')* typeWord ID 
+                        | 
+                        ;
+functionCall            : ID '(' parameterList ')'
+                        ;
+parameterList           : ( (ID | expression | pointReference)',')* (ID | expression | pointReference) 
+                        |
+                        ; //Kan den simplificeres? Udvid til flere regler?
+returnStatement         : 'return' (ID | expression) ';'
+                        ;
 
 
 
