@@ -12,7 +12,6 @@ function number Subtract(number a, number b) {
     return (a - b);
 }
 
-
 shape VerticalLineL {
     line.from(5,5).to(2,5);
 }

@@ -20,7 +20,6 @@
 
     <ItemGroup>
       <Folder Include="Fixtures\Full programs" />
-      <Folder Include="Fixtures\Incorrect programs" />
     </ItemGroup>
 
 </Project>

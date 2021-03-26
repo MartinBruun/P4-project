@@ -3,14 +3,13 @@ Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
 draw 
 {
    C;
-  
+   
 }
 function void triangle() {
     line.from(startPoint).to(x,y).to(x,y).to(startPoint);
 }
 
 shape C {
-	
 	number myXNumber = 5;
 	number myYNumber = 5;
 	number max = 10;
