@@ -11,24 +11,32 @@ namespace Tests
 {
     public class LexerTests
     {
-        private CommonTokenStream CreateTokenStream(string fileName)
+        private CommonTokenStream CreateTokenStream(string fileName, string dirName)
         {
-            string code = File.ReadAllText("../../../Fixtures/" + fileName);
+            string code = File.ReadAllText("../../../Fixtures/" +dirName + fileName);
+
             ICharStream stream = new AntlrInputStream(code);
-            var lexer = new OGLexer(stream);
+            OGLexer lexer = new OGLexer(stream);
             ErrorListenerHelper<int> listener = new ErrorListenerHelper<int>();
             lexer.AddErrorListener(listener);
             return new CommonTokenStream(lexer);
         }
-
+        
+        
         [TestCase("base.og", "Testing the minimal meaningful product")]
+        [TestCase("boolExpressions.og", "Testing declaration and use of bool expressions")]
         [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
         [TestCase("base_function.og", "Testing the base case for declaring a function")]
         [TestCase("base_shape.og", "Testing the base case for declaring a shape")]
-        [TestCase("nested_shape.og", "Testing that shapes can be nested inside themselves")]
+        [TestCase("draw.og", "Testing if Draw can contain previously declared and defined shapes")]
+        [TestCase("math.og", "Testing mathematical expressions are ok")]
+        [TestCase("mathAddition.og", "Testing a file with additive math expressions")]
+        [TestCase("mathMultiplication.og", "Testing a file with multiplicative math expressions")]
+        [TestCase("while.og", "testing while loops")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
-            CommonTokenStream tokenStream = CreateTokenStream(fileName);
+
+            CommonTokenStream tokenStream = CreateTokenStream(fileName, "Correct programs/");
 
             Assert.DoesNotThrow(() =>
             {
@@ -36,12 +44,11 @@ namespace Tests
             }, description);
         }
         
-        [TestCase("Errors/forbidden_signs.og", "Testing that the signs specified should give a lexical error")]
         public void Test_Fixtures_ShouldRaiseSyntaxExceptions(string fileName, string description)
         {
-            CommonTokenStream tokenStream = CreateTokenStream(fileName);
+            CommonTokenStream tokenStream = CreateTokenStream(fileName, "Incorrect programs/");
 
-            Assert.Throws<LexerExceptionHelper>(() =>
+            Assert.Throws<SyntaxException>(() =>
             {
                 tokenStream.Fill();
             }, description);

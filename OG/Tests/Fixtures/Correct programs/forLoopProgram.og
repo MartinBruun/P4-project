@@ -1,0 +1,11 @@
+﻿
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    
+}
+
+function bool isItGreaterThanFive(number x) {
+repeat( x < 7 && x > 5 ) 
+
+}
