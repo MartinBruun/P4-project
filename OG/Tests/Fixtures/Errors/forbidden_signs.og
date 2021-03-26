@@ -1,8 +1,0 @@
-
-Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
-
-draw {
-    æ;
-    ø;
-    å;
-}
