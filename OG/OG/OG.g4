@@ -1,6 +1,6 @@
 grammar OG;
 
-program: machineSettings=machine drawFunction=draw functionsDeclarations=functionDcls? shapeDeclarations=shapeDcls #prog
+program: machineSettings=machine drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls #prog
        ;
        
 shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclarations
