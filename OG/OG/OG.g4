@@ -126,7 +126,6 @@ boolExpression  : id=ID                                                    #bool
 
 
 
-
 //Commands:
 //Movement commands:
 command         : iterCmd=iterationCommand
