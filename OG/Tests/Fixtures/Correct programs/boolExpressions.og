@@ -20,7 +20,7 @@ shape SomeLines
 {
 	point currentPoint = (10,10);
 	point nextPoint = currentPoint;
-	repeat.until( currentPoint.x > 300 || currentPoint.y > 200)
+	repeat.until(currentPoint.x > 300 || currentPoint.y > 200)
 		nextPoint.x = currentPoint.x + 9;
 		nextPoint.y = currentPoint.x * 1.3;
 		line.from(currentPoint).to(nextPoint);
@@ -33,13 +33,13 @@ shape SomePointsAndALine
 {	
 	number i = 0;
 	point currentPoint = (10,10);
-	repeat.until( 50 < 60 && currentPoint.x == 0 ||  currentPoint.y == 10)
+	repeat.until(50 < 60 && currentPoint.x == 0 ||  currentPoint.y == 10)
 		i = i + 1;
 		currentPoint.x = currentPoint.x - i;
 	repeat.end
 	
 	point coordinate = (50, 50);
-	repeat.until( ! evaluateCoordinateValidity(coordinate) )
+	repeat.until(! evaluateCoordinateValidity(coordinate) )
 		number temp = coordinate.x;
 		coordinate.x = coordinate.y - 3;
 		line.from(coordinate).to(0,0);
@@ -63,9 +63,7 @@ shape BoolComparissons
    bool falseORtrue = false || true;
    bool trueORFalse = true  || false;
 }
-
-
-Shape MathComparison {
+shape MathComparison {
 	number a = 10;
 	number b = -10;
 	point p = (a,y);
@@ -80,14 +78,14 @@ Shape MathComparison {
    	bool test5 = a < p.y;
    	bool test6 = b > p.y && a - b > 3 || b-a == -20;
    	
-   	bool test7 = (7^2) + 45 - 34 2 * 4 / (a*b) => 49;
+   	bool test7 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
    	bool test8 = 7^2^6^7^4^2 / 123 == 49;
-   	bool test9 = 7^2 >= 49;
-   	bool test01 = 7^2 <= 48;
+   	bool test9 = 7^2 > 49;
+   	bool test01 = 7^2 < 48;
    	
    	
-    bool test02 = a <= b && a + b > 9;
-    bool test03 = a > b  || a + b <= 10^2;
+    bool test02 = a < b && a + b > 9;
+    bool test03 = a > b  || a + b < 10^2;
    	
 	
 	
