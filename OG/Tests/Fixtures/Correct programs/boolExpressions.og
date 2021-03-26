@@ -68,7 +68,27 @@ shape BoolComparissons
 Shape MathComparison {
 	number a = 10;
 	number b = -10;
-	point p = (b, a);
+	point p = (a,y);
+    bool t = true;
+    bool f = false;
+    
+   	bool test1 = a < b;
+   	bool test2 = a > b;
+   	
+   	bool test3 = a + b == 0;
+   	bool test4 = a - b == 20;
+   	bool test5 = a < p.y;
+   	bool test6 = b > p.y && a - b > 3 || b-a == -20;
+   	
+   	bool test7 = (7^2) + 45 - 34 2 * 4 / (a*b) => 49;
+   	bool test8 = 7^2^6^7^4^2 / 123 == 49;
+   	bool test9 = 7^2 >= 49;
+   	bool test01 = 7^2 <= 48;
+   	
+   	
+    bool test02 = a <= b && a + b > 9;
+    bool test03 = a > b  || a + b <= 10^2;
+   	
 	
 	
 }
