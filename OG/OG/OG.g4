@@ -1,83 +1,215 @@
 grammar OG;
 
-program: machine draw functionDeclaration* shapeDefinition*;
-machineVariables : 'xmin' '=' mathExpression ',' 'xmax' '=' mathExpression ',' 'ymin' '=' mathExpression',' 'ymax' '=' mathExpression;
+program: machineSettings=machine drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls EOF #prog
+       ;
+       
+shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclarations
+            |                                                      #noShapesDefined
+            ;
+            
+functionDcls: functionDcl functionDcls   #functionDeclarations
+            |                            #noFunctionsDefined
+            ;
+       
+
+machineVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
 machine          : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
-draw             : 'draw' '{' drawCommand* '}';
+draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
+drawCommands: drawCommand drawCommands #drawCmds
+            |                          #drawCommandsEmpty
+            ;
+drawCommand     : id=ID';'                             #drawCmd
+                | id=ID fromCmd=fromCommand ';'        #drawFromCmd
+                ;
 //Shapes:
-shapeDefinition     : 'shape' ID '{' body '}';
-body                :  (declaration |  assignment | command)+ |  ; //Fix
+shapeDcl            : 'shape' id=ID '{' bdy=body '}'
+                    ;
 
-declaration         : (numberDeclaration | pointDeclaration | booleanDeclaration)';' ;
-booleanDeclaration  : 'bool' ID   '=' boolExpression;
-numberDeclaration   : 'number' ID '=' mathExpression;
-pointDeclaration    : 'point'  ID '=' ( pointReference | ID );
 
-pointReference      : '('ID')' |  '(' numberTuple ')' | StartPointReference | EndPointReference | functionCall;
-numberTuple         : mathExpression ',' mathExpression;
+body: statements=stmts;
+
+stmts: currentStatement = stmt statements =stmts | ;
+stmt:  dcl  =declaration 
+    | assign=assignment
+    | cmd   =command;             
+
+                    
+assignments : assign=assignment assignmnts = assignments    #assgnments
+            |                                               #noAssignmentsDefined
+            ;
+declarations: dcl=declaration dcls=declarations  #dcls
+            |                                    #noDeclarationsDefined
+            ;
+            
+commands: cmd=command cmds=commands              #cmds
+        |                                        #noCmdsDeclared
+        ;
+
+declaration         : numberDcl=numberDeclaration';' #numberDcl
+                    | pointDcl=pointDeclaration';'   #pointDcl
+                    | boolDcl=booleanDeclaration';'  #boolDcl
+                    ;
+booleanDeclaration  : 'bool'   id=ID   '=' value=boolExpression
+                    ;
+numberDeclaration   : 'number' id=ID '=' value=mathExpression
+                    ;
+pointDeclaration    : 'point'  id=ID '='  value=pointReference    #pointDclPointRefAssign
+                    | 'point'  id=ID  '=' value=ID                #pointDclIdAssign
+                    ;
+
+pointReference      :  '(' tuple=numberTuple ')' 
+                    | point=StartPointReference
+                    | point=EndPointReference 
+                    | point=ID
+                    | funcCall=functionCall
+                    ;
+numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
 
 //Basic declarations and assignments:
-assignment          : variableAssignment | propertyAssignment;
-propertyAssignment  : CoordinateXYValue '=' mathExpression';';
+assignment          : variableAssignment 
+                    | propertyAssignment
+                    ;
+propertyAssignment  : xyVal=CoordinateXYValue '=' value=mathExpression';'
+                    ;
 
-variableAssignment  : (idAssign | boolAssignment | numberAssignment | pointAssignment) ';';  //Problematisk med ID = ID, da alt bliver til bool assign. Skal man lave overordnet assign med ID som besluttes semantisk?.
-idAssign            :   ID'='ID;
-boolAssignment      :   ID'=' boolExpression;
-numberAssignment    :   ID'=' mathExpression; 
-pointAssignment     :  endPointAssignment | startPointAssignment | (ID'=' pointReference | ID);
+variableAssignment  : id=ID'=' value=ID             ';' #idAssign
+                    | id=ID'=' value=boolExpression ';' #boolAssign    
+                    | id=ID'=' value=mathExpression ';' #numberAssign
+                    | pointAssignment               ';' #pointAssign
+                    ; 
 
-startPointAssignment: StartPointReference '=' pointReference;
-endPointAssignment  : EndPointReference '=' pointReference;
+pointAssignment     :  endPointAssignment
+                    |  startPointAssignment     
+                    |  id=ID '=' value=pointReference
+                    ;
+
+startPointAssignment: id=StartPointReference '=' value=pointReference
+                    ;
+endPointAssignment  : id=EndPointReference '=' value=pointReference
+                    ;
 
 
 //Generel expressions:
-expression      : (ID | mathExpression | boolExpression | functionCall);    
+expression      : id=ID 
+                | mathExpression 
+                | boolExpression 
+                | functionCall
+                ;    
+                     //term   ((Plus_Minus) term)*
+mathExpression  : lhs=term op=Plus_Minus rhs=mathExpression        #infixAdditionExpr //operand står i midten
+                | child=term                                       #singleTermExpr
+                ;
+                
+term            : lhs=factor op=Mul_Div rhs=term                   #infixMultExpr              
+                | child=factor                                     #singleTermChild //Child er et vidtdækkende begreb
+                ;      
+factor          : lhs=atom pow='^' rhs=factor                      
+                | child=atom                                          
+                |'(' mathExpr=mathExpression ')'
+                ;
 
-mathExpression  : term   ((Plus_Minus) term)*;
-term            : factor ((Mul_Div) factor)*;
-factor          : atom ('^' atom)*;
-atom            : functionCall | Number | CoordinateXYValue | ID | '(' mathExpression ')'  ; //Atom is a sub-equation
-//signedAtom : PLUS signedAtom | MINUS signedAtom | atom   ;
+atom            : funcCall=functionCall
+                | value=Number 
+                | xyValue=CoordinateXYValue 
+                | id=ID
+                ;
+               
 
-boolExpression  : ID |  BooleanValue |  functionCall 
-                | mathExpression BoolOperator mathExpression 
-                | boolExpression LogicOperator boolExpression 
-                | '!'boolExpression;  //Overvej function call
+boolExpression  : id=ID                                                    #boolExprID
+                | value=BooleanValue                                          #boolExprTrueFalse
+                | funcCall=functionCall                                          #boolExprFuncCall
+                | lhs=mathExpression BoolOperator rhs=mathExpression    #boolExprMathComp
+                | lhs=boolExpression LogicOperator rhs=boolExpression   #boolExprBoolComp
+                | '!'boolExpr=boolExpression                                     #boolExprNotPrefix   
+                ;
 
-//a == true er ikke gyldigt!
 
 
 //Commands:
 //Movement commands:
-command         : iterationCommand | movementCommand | drawCommand;
+command         : iterCmd=iterationCommand
+                | movementCmd=movementCommand
+                | drawCmd=drawCommand
+                ;
 
-movementCommand : (lineCommand | curveCommand)';';
-lineCommand     : 'line' '.' 'from' '(' (numberTuple | ID | pointReference)')' toCommand+;
-curveCommand    : 'curve' '.' 'withAngle' '(' mathExpression ')' '.' 'from' '('(numberTuple | ID)')' toCommand;
-toCommand       : '.to''(' (numberTuple | ID) ')';
-drawCommand     : ID';' | ID '.'fromCommand;
-fromCommand     :  'from' ( '('ID')' |  '(' numberTuple ')' | '(' StartPointReference ')' | '(' EndPointReference ')'| functionCall );
+movementCommand : lineCmd=lineCommand ';' 
+                | curveCmd=curveCommand';'
+                ;
+                
+lineCommand     : 'line' fromCmd=fromCommand  toCmds=toCommands;
 
+toCommands: toCmd=toCommand chainedToCmds=toCommands          #chainedToCommand
+          | toCmd=toCommand                                   #singleToCommand
+          ;
+
+   
+curveCommand    : 'curve''.''withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmd=toCommand;
+                
+toCommand       : '.to''(' id=ID ')'                   #toWithId
+                | '.to''(' tuple=numberTuple ')'          #toWithNumberTuple
+                | '.to''(' toPoint=StartPointReference ')'  #toWithStartPointRef
+                | '.to''(' toPoint=EndPointReference ')'    #toWithEndPointRef
+                ;
+
+fromCommand     :  '.from' '(' id=ID')'                             #fromWithId
+                |  '.from' '(' tuple=numberTuple ')'                #fromWithNumberTuple
+                |  '.from' '(' fromPoint=StartPointReference ')'    #fromWithStartPointRef
+                |  '.from' '(' fromPoint=EndPointReference ')'      #fromWithEndPointRef
+                ;
 
 
 //Iterative statements:
-iterationCommand: numberIteration | untilIteration;
-numberIteration : 'repeat''('mathExpression')' body 'repeat.end'; //Ret krop?
-untilIteration  : 'repeat''.''until''('(boolExpression | functionCall)')' body 'repeat.end';
+iterationCommand: numberIterCmd=numberIteration 
+                | untilIterCmd=untilIteration
+                ;
+numberIteration : 'repeat''('iterator=mathExpression')' statements=body 'repeat.end'
+                ;
+untilIteration  : 'repeat''.''until''(' iterator=functionCall')' statements=body 'repeat.end'    #untilFuncCall
+                | 'repeat''.''until''(' iterator=boolExpression')' statements=body 'repeat.end'  #untilCondition
+                ; //Udvid til flere regler?
 
 
 //Functions: 
-functionDeclaration     : returnFunctionDCL | voidFunctionDCL;
-returnFunctionDCL       : 'function' typeWord ID parameterDeclarations '{' body returnStatement '}';
-typeWord                : (PointDCLWord | BoolDCLWord | NumberDCLWord);
-voidFunctionDCL         : 'function' 'void' ID parameterDeclarations '{' body '}';
+functionDcl             : returnFunctionDCL 
+                        | voidFunctionDCL
+                        ;
+                        
+returnFunctionDCL       : 'function' type=typeWord funcName=ID '('paramDcls=parameterDeclarations ')''{' statements=body returnStmt=returnStatement '}';
 
-parameterDeclarations   : '('parameters')';
-parameters              :  (typeWord ID',')* typeWord ID | ;
-functionCall            : ID '(' parameterList ')';
-parameterList           : ( (ID | expression | CoordinateXYValue)',')* (ID | expression | CoordinateXYValue) | ;
-returnStatement         : 'return' (ID | expression) ';';
+typeWord                : PointDCLWord 
+                        | BoolDCLWord 
+                        | NumberDCLWord
+                        ;
+voidFunctionDCL         : 'function' 'void' id=ID '(' paramDcls=parameterDeclarations ')'  '{' statements=body '}';
+
+parameterDeclarations   :  currentParamDcl=parameterDcl ',' paramDcls=parameterDeclarations #multiParamDcl
+                        |  paramDcl=parameterDcl                                 #singleParamDcl
+                        |                                                        #noParamsDcl
+                        ;
+parameterDcl: type=typeWord id=ID;      
+                  
+functionCall            : id=ID '(' params=passedParams ')' 
+                        ;
+
+
+passedParams: firstParameter=passedParam ',' params=passedParams #multiParameters
+            | parameter=passedParam                          #singleParameter
+            |                                                #noParameter
+            ;
+
+passedParam : id = ID                                       #passedID
+            | funcCall = functionCall                       #passedFunctionCall
+            | expr = expression                             #passedDirectValue
+            | endpointRef =  EndPointReference              #passedEndPointReference
+            | startpointRef = StartPointReference           #passedStartPointReference
+            ;
+
+
+
+returnStatement         : 'return' id=ID ';'         #returnValueReference
+                        | 'return' expr=expression ';' #returnDirectValue
+                        ;
 
 
 
