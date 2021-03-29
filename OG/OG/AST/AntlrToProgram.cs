@@ -5,7 +5,7 @@ namespace OG.gen
 {
     internal class AntlrToProgram: OGBaseVisitor<OGProgram>
     {
-        private List<String> variables = new List<String>();
+        private List<string> variables = new List<string>();
         public override OGProgram VisitProg(OGParser.ProgContext context)
         {
             
@@ -39,6 +39,6 @@ namespace OG.gen
             return base.VisitNumber(context);
         }
         
-        visit
+        
     }
 }

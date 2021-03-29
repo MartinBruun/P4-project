@@ -4,7 +4,7 @@ using Antlr4.Runtime.Atn;
 
 namespace OG.gen
 {
-    public class ASTNode
+    public class @string
     {
         
         }
@@ -35,16 +35,17 @@ namespace OG.gen
         }
     }
     
-        internal abstract class DeclarationNode: ASTNode
+        internal abstract class DeclarationNode: @string
         { 
-           public ASTNode LHS;
-           public ASTNode RHS;
+           public @string LHS;
+           public @string RHS;
         }
 
-         class ShapeDCLNode : DeclarationNode
-        {
-            
-        }
+         class ShapeDCLNode : ShapeNode
+         {
+             public string id;
+             public string body;
+         }
 
          class BoolianDCLNode: DeclarationNode
          {
@@ -67,8 +68,8 @@ namespace OG.gen
          
          abstract class AssignmentNode
          {
-             public ASTNode LHS;
-             public ASTNode RHS;
+             public @string LHS;
+             public @string RHS;
              
          }
 
@@ -117,7 +118,7 @@ namespace OG.gen
          
          abstract class ReferenceNode
          {
-             public ASTNode get;
+             public @string get;
          }
 
          class pointReferenceNode:ReferenceNode
@@ -141,6 +142,7 @@ namespace OG.gen
 
          class ShapeNode : ReferenceNode
          {
+             public string id;
              
          }
          
@@ -376,7 +378,7 @@ namespace OG.gen
            
        }
        
-        class ID: ASTNode
+        class ID: @string
         {
             
         }

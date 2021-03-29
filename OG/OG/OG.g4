@@ -16,8 +16,8 @@ machineVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpres
 machine          : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';' #machineSettings ;
 draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
-drawCommands: drawCommand drawCommands #drawCmds
-            |                          #drawCommandsEmpty
+drawCommands: drawCommand drawCommands                  #drawCmds
+            |                                           #drawCommandsEmpty
             ;
 drawCommand     : id=ID';'                             #drawCmd
                 | id=ID fromCmd=fromCommand ';'        #drawFromCmd
