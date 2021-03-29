@@ -19,7 +19,7 @@ namespace OG.AST.MathExpression
             return VisitChildren(context);
         }
 
-        public override NumberNode<int> VisitNumber([NotNull] OGParser.NumberContext context)
+        public override NumberNode<int> VisitNumber([NotNull] OGParser.NumberContext context) // TODO: Skal gøres mere generisk så den accepterer float eller double.
         {
             int number = int.Parse(context.GetChild(0).GetText());
             return new NumberNode<int>(number);
