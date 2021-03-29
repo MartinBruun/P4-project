@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using OG.AST;
@@ -16,9 +17,9 @@ namespace OG
             ITokenStream tokens = new CommonTokenStream(lexer);
             OGParser parser = new OGParser(tokens);
             IParseTree tree = parser.machineStns();
-            ASTNode machineSettingNodes = new MachineSettingVisitor().Visit(tree);
+            Dictionary<string, MachineSettingNode> machineSettingNodes = new MachineSettingVisitor().Visit(tree);
             
-            Console.WriteLine(machineSettingNodes);
+            Console.WriteLine(machineSettingNodes["WorkArea"]);
 
         }
     }

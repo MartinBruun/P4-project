@@ -1,6 +1,6 @@
 ﻿namespace OG.AST.MachineSettings
 {
-    public class WorkAreaModificationNode : MachineModificationNode
+    public class WorkAreaModificationNode : MachineSettingNode
     {
         public SizePropertyNode SizeProperty { get; set; }
 

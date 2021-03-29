@@ -9,9 +9,9 @@ using OG.AST.Terminals;
 
 namespace OG.AST.MachineSettings
 {
-    public class MachineSettingVisitor : OGBaseVisitor<ASTNode>
+    public class MachineSettingVisitor : OGBaseVisitor<Dictionary<string,MachineSettingNode>>
     {
-        private MachineNode MachineNode { get; set; }
+        private Dictionary<string,MachineSettingNode> MachineSettings { get; set; }
         private MathExpressionVisitor MathExpressionVisitor { get; }
         
         public MachineSettingVisitor()
@@ -19,49 +19,50 @@ namespace OG.AST.MachineSettings
             MathExpressionVisitor = new MathExpressionVisitor();
         }
         
-        public override ASTNode VisitMachineSettings([NotNull] OGParser.MachineSettingsContext context)
+        public override Dictionary<string,MachineSettingNode> VisitMachineSettings([NotNull] OGParser.MachineSettingsContext context)
         {
-            MachineNode = new MachineNode();
+            MachineSettings = new Dictionary<string,MachineSettingNode>();
 
             VisitChildren(context);
             
-            return MachineNode;
+            return MachineSettings;
         }
 
-        public override ASTNode VisitNoMachineSettings([NotNull] OGParser.NoMachineSettingsContext context)
+        public override Dictionary<string,MachineSettingNode> VisitNoMachineSettings([NotNull] OGParser.NoMachineSettingsContext context)
         {
             return VisitChildren(context);
         }
 
-        public override ASTNode VisitMachineModifiers([NotNull] OGParser.MachineModifiersContext context)
+        public override Dictionary<string,MachineSettingNode> VisitMachineModifiers([NotNull] OGParser.MachineModifiersContext context)
         {
             return VisitChildren(context);
         }
 
-        public override ASTNode VisitEndOfMachineModifiers([NotNull] OGParser.EndOfMachineModifiersContext context)
+        public override Dictionary<string,MachineSettingNode> VisitEndOfMachineModifiers([NotNull] OGParser.EndOfMachineModifiersContext context)
         {
             return VisitChildren(context);
         }
 
-        public override ASTNode VisitWorkAreaModifier([NotNull] OGParser.WorkAreaModifierContext context)
+        public override Dictionary<string,MachineSettingNode> VisitWorkAreaModifier([NotNull] OGParser.WorkAreaModifierContext context)
         {
-            MachineNode.WorkArea = new WorkAreaModificationNode();
+            // if MachineSettings.Contain(WorkAreaNode) -> Semantic Error!
+            MachineSettings["WorkArea"] = new WorkAreaModificationNode();
             return VisitChildren(context);
         }
 
-        public override ASTNode VisitWorkAreaModifierProperties(
+        public override Dictionary<string,MachineSettingNode> VisitWorkAreaModifierProperties(
             [NotNull] OGParser.WorkAreaModifierPropertiesContext context)
         {
             return VisitChildren(context);
         }
 
-        public override ASTNode VisitEndOfWorkAreaModifierProperties(
+        public override Dictionary<string,MachineSettingNode> VisitEndOfWorkAreaModifierProperties(
             [NotNull] OGParser.EndOfWorkAreaModifierPropertiesContext context)
         {
             return VisitChildren(context);
         }
 
-        public override ASTNode VisitSizeProperty([NotNull] OGParser.SizePropertyContext context)
+        public override Dictionary<string,MachineSettingNode> VisitSizeProperty([NotNull] OGParser.SizePropertyContext context)
         {
             NumberNode<int> xMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables().xmin);
             NumberNode<int> xMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables().xmax);
@@ -69,11 +70,12 @@ namespace OG.AST.MachineSettings
             NumberNode<int> yMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables().ymax);
             
             SizePropertyNode sizeProperty = new SizePropertyNode(xMin,xMax,yMin,yMax);
-            MachineNode.WorkArea.SizeProperty = sizeProperty;
+            WorkAreaModificationNode workNode = (WorkAreaModificationNode) MachineSettings["WorkArea"];
+            workNode.SizeProperty = sizeProperty;
             return VisitChildren(context);
         }
 
-        public override ASTNode VisitWorkAreaVariables([NotNull] OGParser.WorkAreaVariablesContext context)
+        public override Dictionary<string,MachineSettingNode> VisitWorkAreaVariables([NotNull] OGParser.WorkAreaVariablesContext context)
         {
             return VisitChildren(context);
         }
