@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/saxjax/developer/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -49,6 +49,130 @@ public partial class OGBaseListener : IOGListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitProg([NotNull] OGParser.ProgContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>machineSettings</c>
+	/// labeled alternative in <see cref="OGParser.machineStns"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMachineSettings([NotNull] OGParser.MachineSettingsContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>machineSettings</c>
+	/// labeled alternative in <see cref="OGParser.machineStns"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMachineSettings([NotNull] OGParser.MachineSettingsContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>noMachineSettings</c>
+	/// labeled alternative in <see cref="OGParser.machineStns"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNoMachineSettings([NotNull] OGParser.NoMachineSettingsContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>noMachineSettings</c>
+	/// labeled alternative in <see cref="OGParser.machineStns"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNoMachineSettings([NotNull] OGParser.NoMachineSettingsContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>machineModifiers</c>
+	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMachineModifiers([NotNull] OGParser.MachineModifiersContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>machineModifiers</c>
+	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMachineModifiers([NotNull] OGParser.MachineModifiersContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>endOfMachineModifiers</c>
+	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterEndOfMachineModifiers([NotNull] OGParser.EndOfMachineModifiersContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>endOfMachineModifiers</c>
+	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitEndOfMachineModifiers([NotNull] OGParser.EndOfMachineModifiersContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>workAreaModifier</c>
+	/// labeled alternative in <see cref="OGParser.workAreaMod"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterWorkAreaModifier([NotNull] OGParser.WorkAreaModifierContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>workAreaModifier</c>
+	/// labeled alternative in <see cref="OGParser.workAreaMod"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitWorkAreaModifier([NotNull] OGParser.WorkAreaModifierContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>workAreaModifierProperties</c>
+	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterWorkAreaModifierProperties([NotNull] OGParser.WorkAreaModifierPropertiesContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>workAreaModifierProperties</c>
+	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitWorkAreaModifierProperties([NotNull] OGParser.WorkAreaModifierPropertiesContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>endOfWorkAreaModifierProperties</c>
+	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterEndOfWorkAreaModifierProperties([NotNull] OGParser.EndOfWorkAreaModifierPropertiesContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>endOfWorkAreaModifierProperties</c>
+	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitEndOfWorkAreaModifierProperties([NotNull] OGParser.EndOfWorkAreaModifierPropertiesContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>sizeProperty</c>
+	/// labeled alternative in <see cref="OGParser.sizePrpt"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSizeProperty([NotNull] OGParser.SizePropertyContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>sizeProperty</c>
+	/// labeled alternative in <see cref="OGParser.sizePrpt"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSizeProperty([NotNull] OGParser.SizePropertyContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.workAreaVariables"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterWorkAreaVariables([NotNull] OGParser.WorkAreaVariablesContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.workAreaVariables"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitWorkAreaVariables([NotNull] OGParser.WorkAreaVariablesContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>shapeDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
@@ -105,30 +229,6 @@ public partial class OGBaseListener : IOGListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.machineVariables"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterMachineVariables([NotNull] OGParser.MachineVariablesContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.machineVariables"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitMachineVariables([NotNull] OGParser.MachineVariablesContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.machineSettings"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterMachineSettings([NotNull] OGParser.MachineSettingsContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.machineSettings"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitMachineSettings([NotNull] OGParser.MachineSettingsContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.draw"/>.
 	/// <para>The default implementation does nothing.</para>

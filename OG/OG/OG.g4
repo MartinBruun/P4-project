@@ -1,8 +1,30 @@
 grammar OG;
 
-program: machineSett=machineSettings drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls #prog
+program: settings=machineStns drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls #prog
        ;
-       
+
+// Machine Settings
+machineStns  : 'Machine' machineMods ';' #machineSettings
+             |                           #noMachineSettings
+             ;
+
+machineMods : '.' workAreaMod machineMods   #machineModifiers
+            |                               #endOfMachineModifiers
+            ;
+
+workAreaMod : 'WorkArea' workAreaModPrpts #workAreaModifier
+            ;
+                 
+workAreaModPrpts : '.' sizePrpt workAreaModPrpts #workAreaModifierProperties
+                 |                               #endOfWorkAreaModifierProperties
+                 ;
+                           
+sizePrpt : 'size' '(' workAreaVariables ')' #sizeProperty
+         ;
+
+workAreaVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
+
+// Shape Declarations and Function Declarations (Could maybe be moved down in their respective region?)
 shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclarations
             |                                                      #endOfShapesDefined
             ;
@@ -10,10 +32,8 @@ shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclara
 functionDcls: functionDcl functionDcls   #functionDeclarations
             |                            #endOfFunctionsDefined
             ;
-       
 
-machineVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
-machineSettings  : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
+// Draw
 draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
 drawCommands: drawCommand drawCommands #drawCmds
