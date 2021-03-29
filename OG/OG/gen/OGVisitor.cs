@@ -73,11 +73,12 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitMachineVariables([NotNull] OGParser.MachineVariablesContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.machine"/>.
+	/// Visit a parse tree produced by the <c>machineSettings</c>
+	/// labeled alternative in <see cref="OGParser.machine"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitMachine([NotNull] OGParser.MachineContext context);
+	Result VisitMachineSettings([NotNull] OGParser.MachineSettingsContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.draw"/>.
 	/// </summary>
@@ -336,11 +337,33 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFactor([NotNull] OGParser.FactorContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.atom"/>.
+	/// Visit a parse tree produced by the <c>atomfuncCall</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAtom([NotNull] OGParser.AtomContext context);
+	Result VisitAtomfuncCall([NotNull] OGParser.AtomfuncCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>number</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNumber([NotNull] OGParser.NumberContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>atomXYValue</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAtomXYValue([NotNull] OGParser.AtomXYValueContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>atomId</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAtomId([NotNull] OGParser.AtomIdContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>boolExprID</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.

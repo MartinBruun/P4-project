@@ -499,6 +499,18 @@ public partial class OGParser : Parser {
 	}
 
 	public partial class MachineContext : ParserRuleContext {
+		public MachineContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_machine; } }
+	 
+		public MachineContext() { }
+		public virtual void CopyFrom(MachineContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class MachineSettingsContext : MachineContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Machine() { return GetToken(OGParser.Machine, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] DOT() { return GetTokens(OGParser.DOT); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DOT(int i) {
@@ -512,25 +524,21 @@ public partial class OGParser : Parser {
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RParen() { return GetToken(OGParser.RParen, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Terminator() { return GetToken(OGParser.Terminator, 0); }
-		public MachineContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_machine; } }
+		public MachineSettingsContext(MachineContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterMachine(this);
+			if (typedListener != null) typedListener.EnterMachineSettings(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitMachine(this);
+			if (typedListener != null) typedListener.ExitMachineSettings(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitMachine(this);
+			if (typedVisitor != null) return typedVisitor.VisitMachineSettings(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -540,6 +548,7 @@ public partial class OGParser : Parser {
 		MachineContext _localctx = new MachineContext(Context, State);
 		EnterRule(_localctx, 8, RULE_machine);
 		try {
+			_localctx = new MachineSettingsContext(_localctx);
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 140;
@@ -2828,35 +2837,100 @@ public partial class OGParser : Parser {
 	}
 
 	public partial class AtomContext : ParserRuleContext {
-		public FunctionCallContext funcCall;
-		public IToken value;
-		public IToken xyValue;
-		public IToken id;
-		[System.Diagnostics.DebuggerNonUserCode] public FunctionCallContext functionCall() {
-			return GetRuleContext<FunctionCallContext>(0);
-		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Number() { return GetToken(OGParser.Number, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CoordinateXYValue() { return GetToken(OGParser.CoordinateXYValue, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(OGParser.ID, 0); }
 		public AtomContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
 		public override int RuleIndex { get { return RULE_atom; } }
+	 
+		public AtomContext() { }
+		public virtual void CopyFrom(AtomContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class AtomIdContext : AtomContext {
+		public IToken id;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(OGParser.ID, 0); }
+		public AtomIdContext(AtomContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterAtom(this);
+			if (typedListener != null) typedListener.EnterAtomId(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitAtom(this);
+			if (typedListener != null) typedListener.ExitAtomId(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitAtom(this);
+			if (typedVisitor != null) return typedVisitor.VisitAtomId(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class NumberContext : AtomContext {
+		public IToken value;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Number() { return GetToken(OGParser.Number, 0); }
+		public NumberContext(AtomContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IOGListener typedListener = listener as IOGListener;
+			if (typedListener != null) typedListener.EnterNumber(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IOGListener typedListener = listener as IOGListener;
+			if (typedListener != null) typedListener.ExitNumber(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumber(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class AtomfuncCallContext : AtomContext {
+		public FunctionCallContext funcCall;
+		[System.Diagnostics.DebuggerNonUserCode] public FunctionCallContext functionCall() {
+			return GetRuleContext<FunctionCallContext>(0);
+		}
+		public AtomfuncCallContext(AtomContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IOGListener typedListener = listener as IOGListener;
+			if (typedListener != null) typedListener.EnterAtomfuncCall(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IOGListener typedListener = listener as IOGListener;
+			if (typedListener != null) typedListener.ExitAtomfuncCall(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitAtomfuncCall(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class AtomXYValueContext : AtomContext {
+		public IToken xyValue;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode CoordinateXYValue() { return GetToken(OGParser.CoordinateXYValue, 0); }
+		public AtomXYValueContext(AtomContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IOGListener typedListener = listener as IOGListener;
+			if (typedListener != null) typedListener.EnterAtomXYValue(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IOGListener typedListener = listener as IOGListener;
+			if (typedListener != null) typedListener.ExitAtomXYValue(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitAtomXYValue(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -2870,31 +2944,35 @@ public partial class OGParser : Parser {
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,19,Context) ) {
 			case 1:
+				_localctx = new AtomfuncCallContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 325;
-				_localctx.funcCall = functionCall();
+				((AtomfuncCallContext)_localctx).funcCall = functionCall();
 				}
 				break;
 			case 2:
+				_localctx = new NumberContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 326;
-				_localctx.value = Match(Number);
+				((NumberContext)_localctx).value = Match(Number);
 				}
 				break;
 			case 3:
+				_localctx = new AtomXYValueContext(_localctx);
 				EnterOuterAlt(_localctx, 3);
 				{
 				State = 327;
-				_localctx.xyValue = Match(CoordinateXYValue);
+				((AtomXYValueContext)_localctx).xyValue = Match(CoordinateXYValue);
 				}
 				break;
 			case 4:
+				_localctx = new AtomIdContext(_localctx);
 				EnterOuterAlt(_localctx, 4);
 				{
 				State = 328;
-				_localctx.id = Match(ID);
+				((AtomIdContext)_localctx).id = Match(ID);
 				}
 				break;
 			}
