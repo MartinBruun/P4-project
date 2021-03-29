@@ -1,23 +1,23 @@
 grammar OG;
 
-program: machineSettings=machine drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls #prog
+program: machineSett=machineSettings drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls #prog
        ;
        
 shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclarations
-            |                                                      #noShapesDefined
+            |                                                      #endOfShapesDefined
             ;
             
 functionDcls: functionDcl functionDcls   #functionDeclarations
-            |                            #noFunctionsDefined
+            |                            #endOfFunctionsDefined
             ;
        
 
 machineVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
-machine          : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
+machineSettings  : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
 draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
 drawCommands: drawCommand drawCommands #drawCmds
-            |                          #drawCommandsEmpty
+            |                          #endOfDrawCommands
             ;
 drawCommand     : id=ID';'                             #drawCmd
                 | id=ID fromCmd=fromCommand ';'        #drawFromCmd
@@ -116,9 +116,9 @@ atom            : funcCall=functionCall
                 ;
                
 
-boolExpression  : id=ID                                                    #boolExprID
-                | value=BooleanValue                                          #boolExprTrueFalse
-                | funcCall=functionCall                                          #boolExprFuncCall
+boolExpression  : id=ID                                                 #boolExprID
+                | value=BooleanValue                                    #boolExprTrueFalse
+                | funcCall=functionCall                                 #boolExprFuncCall
                 | lhs=mathExpression BoolOperator rhs=mathExpression    #boolExprMathComp
                 | lhs=boolExpression LogicOperator rhs=boolExpression   #boolExprBoolComp
                 | '!'boolExpr=boolExpression                                     #boolExprNotPrefix   
@@ -137,25 +137,25 @@ movementCommand : lineCmd=lineCommand ';'
                 | curveCmd=curveCommand';'
                 ;
                 
-lineCommand     : 'line' fromCmd=fromCommand  toCmds=toCommands;
+lineCommand     : type='line' fromCmd=fromCommand  toCmds=toCommands;
 
 toCommands: toCmd=toCommand chainedToCmds=toCommands          #chainedToCommand
           | toCmd=toCommand                                   #singleToCommand
           ;
 
    
-curveCommand    : 'curve''.''withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmd=toCommand;
+curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmd=toCommand;
                 
-toCommand       : '.to''(' id=ID ')'                   #toWithId
-                | '.to''(' tuple=numberTuple ')'          #toWithNumberTuple
-                | '.to''(' toPoint=StartPointReference ')'  #toWithStartPointRef
-                | '.to''(' toPoint=EndPointReference ')'    #toWithEndPointRef
+toCommand       : '.''to''(' id=ID ')'                      #toWithId
+                | '.''to''(' tuple=numberTuple ')'          #toWithNumberTuple
+                | '.''to''(' toPoint=StartPointReference ')'  #toWithStartPointRef
+                | '.''to''(' toPoint=EndPointReference ')'    #toWithEndPointRef
                 ;
 
-fromCommand     :  '.from' '(' id=ID')'                             #fromWithId
-                |  '.from' '(' tuple=numberTuple ')'                #fromWithNumberTuple
-                |  '.from' '(' fromPoint=StartPointReference ')'    #fromWithStartPointRef
-                |  '.from' '(' fromPoint=EndPointReference ')'      #fromWithEndPointRef
+fromCommand     :  '.''from' '(' id=ID')'                             #fromWithId
+                |  '.''from' '(' tuple=numberTuple ')'                #fromWithNumberTuple
+                |  '.''from' '(' fromPoint=StartPointReference ')'    #fromWithStartPointRef
+                |  '.''from' '(' fromPoint=EndPointReference ')'      #fromWithEndPointRef
                 ;
 
 
@@ -165,10 +165,9 @@ iterationCommand: numberIterCmd=numberIteration
                 ;
 numberIteration : 'repeat''('iterator=mathExpression')' statements=body 'repeat.end'
                 ;
-untilIteration  : 'repeat''.''until''(' iterator=functionCall')' statements=body 'repeat.end'    #untilFuncCall
-                | 'repeat''.''until''(' iterator=boolExpression')' statements=body 'repeat.end'  #untilCondition
-                ; //Udvid til flere regler?
-
+untilIteration  : 'repeat''.''until''(' iterator=functionCall')' statements=body 'repeat.end'    #untilFuncCall //Function call er allerede indeholdt i boolExpression.
+                | 'repeat''.''until''(' iterator=boolExpression')' statements=body 'repeat.end'  #untilCondition  
+                ;
 
 //Functions: 
 functionDcl             : returnFunctionDCL 
@@ -181,7 +180,7 @@ typeWord                : PointDCLWord
                         | BoolDCLWord 
                         | NumberDCLWord
                         ;
-voidFunctionDCL         : 'function' 'void' id=ID '(' paramDcls=parameterDeclarations ')'  '{' statements=body '}';
+voidFunctionDCL         : 'function' type='void' id=ID '(' paramDcls=parameterDeclarations ')'  '{' statements=body '}'; //Måske skal den her slettes Hvad kan den bruges til som shapes ikke alerede kan
 
 parameterDeclarations   :  currentParamDcl=parameterDcl ',' paramDcls=parameterDeclarations #multiParamDcl
                         |  paramDcl=parameterDcl                                 #singleParamDcl
@@ -193,9 +192,10 @@ functionCall            : id=ID '(' params=passedParams ')'
                         ;
 
 
-passedParams: firstParameter=passedParam ',' params=passedParams #multiParameters
-            | parameter=passedParam                          #singleParameter
-            |                                                #noParameter
+
+passedParams: firstParameter=passedParam ',' params=passedParams #multiParameters  //Kig på side 257 og overvej en multi params production
+            | parameter=passedParam                              #singleParameter   //angiver at dette er den sidste parameter i en hvilkensomhelst funktion med parametre
+            |                                                    #noParameter   //samme som ovenfor men efter sidste parameter()
             ;
 
 passedParam : id = ID                                       #passedID

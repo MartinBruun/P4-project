@@ -46,12 +46,12 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitShapeDeclarations([NotNull] OGParser.ShapeDeclarationsContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>noShapesDefined</c>
+	/// Visit a parse tree produced by the <c>endOfShapesDefined</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitNoShapesDefined([NotNull] OGParser.NoShapesDefinedContext context);
+	Result VisitEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>functionDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
@@ -60,12 +60,12 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFunctionDeclarations([NotNull] OGParser.FunctionDeclarationsContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>noFunctionsDefined</c>
+	/// Visit a parse tree produced by the <c>endOfFunctionsDefined</c>
 	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitNoFunctionsDefined([NotNull] OGParser.NoFunctionsDefinedContext context);
+	Result VisitEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.machineVariables"/>.
 	/// </summary>
@@ -73,11 +73,11 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitMachineVariables([NotNull] OGParser.MachineVariablesContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.machine"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.machineSettings"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitMachine([NotNull] OGParser.MachineContext context);
+	Result VisitMachineSettings([NotNull] OGParser.MachineSettingsContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.draw"/>.
 	/// </summary>
@@ -92,12 +92,12 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitDrawCmds([NotNull] OGParser.DrawCmdsContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>drawCommandsEmpty</c>
+	/// Visit a parse tree produced by the <c>endOfDrawCommands</c>
 	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitDrawCommandsEmpty([NotNull] OGParser.DrawCommandsEmptyContext context);
+	Result VisitEndOfDrawCommands([NotNull] OGParser.EndOfDrawCommandsContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>drawCmd</c>
 	/// labeled alternative in <see cref="OGParser.drawCommand"/>.
