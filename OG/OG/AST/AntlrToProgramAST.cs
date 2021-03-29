@@ -7,6 +7,10 @@ namespace OG.gen
 {
     public class AntlrToProgramAST:OGBaseVisitor<ASTNode>, ISemanticErrorable
     {
+        public AntlrToProgramAST()
+        {
+            
+        }
         public AntlrToProgramAST(List<SemanticError> semanticErrors)
         {
             SemanticErrors = semanticErrors;
