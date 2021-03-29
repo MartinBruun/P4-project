@@ -13,7 +13,7 @@ functionDcls: functionDcl functionDcls   #functionDeclarations
        
 
 machineVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
-machine          : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
+machine          : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';' #machineSettings ;
 draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
 drawCommands: drawCommand drawCommands #drawCmds
@@ -109,19 +109,19 @@ factor          : lhs=atom pow='^' rhs=factor
                 |'(' mathExpr=mathExpression ')'
                 ;
 
-atom            : funcCall=functionCall
-                | value=Number 
-                | xyValue=CoordinateXYValue 
-                | id=ID
+atom            : funcCall=functionCall                         #atomfuncCall
+                | value=Number                                  #number
+                | xyValue=CoordinateXYValue                     #atomXYValue
+                | id=ID                                         #atomId
                 ;
                
 
-boolExpression  : id=ID                                                    #boolExprID
-                | value=BooleanValue                                          #boolExprTrueFalse
-                | funcCall=functionCall                                          #boolExprFuncCall
+boolExpression  : id=ID                                                 #boolExprID
+                | value=BooleanValue                                    #boolExprTrueFalse
+                | funcCall=functionCall                                 #boolExprFuncCall
                 | lhs=mathExpression BoolOperator rhs=mathExpression    #boolExprMathComp
                 | lhs=boolExpression LogicOperator rhs=boolExpression   #boolExprBoolComp
-                | '!'boolExpr=boolExpression                                     #boolExprNotPrefix   
+                | '!'boolExpr=boolExpression                            #boolExprNotPrefix   
                 ;
 
 

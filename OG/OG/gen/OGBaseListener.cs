@@ -118,17 +118,19 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitMachineVariables([NotNull] OGParser.MachineVariablesContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.machine"/>.
+	/// Enter a parse tree produced by the <c>machineSettings</c>
+	/// labeled alternative in <see cref="OGParser.machine"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterMachine([NotNull] OGParser.MachineContext context) { }
+	public virtual void EnterMachineSettings([NotNull] OGParser.MachineSettingsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.machine"/>.
+	/// Exit a parse tree produced by the <c>machineSettings</c>
+	/// labeled alternative in <see cref="OGParser.machine"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitMachine([NotNull] OGParser.MachineContext context) { }
+	public virtual void ExitMachineSettings([NotNull] OGParser.MachineSettingsContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.draw"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -644,17 +646,61 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFactor([NotNull] OGParser.FactorContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.atom"/>.
+	/// Enter a parse tree produced by the <c>atomfuncCall</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterAtom([NotNull] OGParser.AtomContext context) { }
+	public virtual void EnterAtomfuncCall([NotNull] OGParser.AtomfuncCallContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.atom"/>.
+	/// Exit a parse tree produced by the <c>atomfuncCall</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitAtom([NotNull] OGParser.AtomContext context) { }
+	public virtual void ExitAtomfuncCall([NotNull] OGParser.AtomfuncCallContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>number</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNumber([NotNull] OGParser.NumberContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>number</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNumber([NotNull] OGParser.NumberContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>atomXYValue</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAtomXYValue([NotNull] OGParser.AtomXYValueContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>atomXYValue</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAtomXYValue([NotNull] OGParser.AtomXYValueContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>atomId</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAtomId([NotNull] OGParser.AtomIdContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>atomId</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAtomId([NotNull] OGParser.AtomIdContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>boolExprID</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.

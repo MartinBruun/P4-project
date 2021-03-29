@@ -8,15 +8,19 @@ namespace OG
     {
         private static void Main(string[] args)
         {
-            /*
-            const string program = "hello world HELLO";
+            
+            const string program = @"Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    
+}";
             ICharStream charStream = new AntlrInputStream(program);
             ITokenSource lexer = new OGLexer(charStream);
             ITokenStream tokens = new CommonTokenStream(lexer);
             OGParser parser = new OGParser(tokens);
-            IParseTree tree = parser.r();
+            IParseTree tree = parser.program();
             Console.WriteLine(tree.ToStringTree());
-            */
+            
         }
     }
 }
