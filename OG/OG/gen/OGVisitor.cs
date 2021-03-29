@@ -95,11 +95,11 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitSizeProperty([NotNull] OGParser.SizePropertyContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.workAreaVariables"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.workAreaVars"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitWorkAreaVariables([NotNull] OGParser.WorkAreaVariablesContext context);
+	Result VisitWorkAreaVars([NotNull] OGParser.WorkAreaVarsContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>shapeDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.

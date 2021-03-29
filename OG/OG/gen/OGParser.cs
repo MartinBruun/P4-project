@@ -47,27 +47,26 @@ public partial class OGParser : Parser {
 		Then=49, CoordinateXYValue=50, ID=51;
 	public const int
 		RULE_program = 0, RULE_machineStns = 1, RULE_machineMods = 2, RULE_workAreaMod = 3, 
-		RULE_workAreaModPrpts = 4, RULE_sizePrpt = 5, RULE_workAreaVariables = 6, 
-		RULE_shapeDcls = 7, RULE_functionDcls = 8, RULE_draw = 9, RULE_drawCommands = 10, 
-		RULE_drawCommand = 11, RULE_shapeDcl = 12, RULE_body = 13, RULE_stmts = 14, 
-		RULE_stmt = 15, RULE_assignments = 16, RULE_declarations = 17, RULE_commands = 18, 
-		RULE_declaration = 19, RULE_booleanDeclaration = 20, RULE_numberDeclaration = 21, 
-		RULE_pointDeclaration = 22, RULE_pointReference = 23, RULE_numberTuple = 24, 
-		RULE_assignment = 25, RULE_propertyAssignment = 26, RULE_variableAssignment = 27, 
-		RULE_pointAssignment = 28, RULE_startPointAssignment = 29, RULE_endPointAssignment = 30, 
-		RULE_expression = 31, RULE_mathExpression = 32, RULE_term = 33, RULE_factor = 34, 
-		RULE_atom = 35, RULE_boolExpression = 36, RULE_command = 37, RULE_movementCommand = 38, 
-		RULE_lineCommand = 39, RULE_toCommands = 40, RULE_curveCommand = 41, RULE_toCommand = 42, 
-		RULE_fromCommand = 43, RULE_iterationCommand = 44, RULE_numberIteration = 45, 
-		RULE_untilIteration = 46, RULE_functionDcl = 47, RULE_returnFunctionDCL = 48, 
-		RULE_typeWord = 49, RULE_voidFunctionDCL = 50, RULE_parameterDeclarations = 51, 
-		RULE_parameterDcl = 52, RULE_functionCall = 53, RULE_passedParams = 54, 
-		RULE_passedParam = 55, RULE_returnStatement = 56;
+		RULE_workAreaModPrpts = 4, RULE_sizePrpt = 5, RULE_workAreaVars = 6, RULE_shapeDcls = 7, 
+		RULE_functionDcls = 8, RULE_draw = 9, RULE_drawCommands = 10, RULE_drawCommand = 11, 
+		RULE_shapeDcl = 12, RULE_body = 13, RULE_stmts = 14, RULE_stmt = 15, RULE_assignments = 16, 
+		RULE_declarations = 17, RULE_commands = 18, RULE_declaration = 19, RULE_booleanDeclaration = 20, 
+		RULE_numberDeclaration = 21, RULE_pointDeclaration = 22, RULE_pointReference = 23, 
+		RULE_numberTuple = 24, RULE_assignment = 25, RULE_propertyAssignment = 26, 
+		RULE_variableAssignment = 27, RULE_pointAssignment = 28, RULE_startPointAssignment = 29, 
+		RULE_endPointAssignment = 30, RULE_expression = 31, RULE_mathExpression = 32, 
+		RULE_term = 33, RULE_factor = 34, RULE_atom = 35, RULE_boolExpression = 36, 
+		RULE_command = 37, RULE_movementCommand = 38, RULE_lineCommand = 39, RULE_toCommands = 40, 
+		RULE_curveCommand = 41, RULE_toCommand = 42, RULE_fromCommand = 43, RULE_iterationCommand = 44, 
+		RULE_numberIteration = 45, RULE_untilIteration = 46, RULE_functionDcl = 47, 
+		RULE_returnFunctionDCL = 48, RULE_typeWord = 49, RULE_voidFunctionDCL = 50, 
+		RULE_parameterDeclarations = 51, RULE_parameterDcl = 52, RULE_functionCall = 53, 
+		RULE_passedParams = 54, RULE_passedParam = 55, RULE_returnStatement = 56;
 	public static readonly string[] ruleNames = {
 		"program", "machineStns", "machineMods", "workAreaMod", "workAreaModPrpts", 
-		"sizePrpt", "workAreaVariables", "shapeDcls", "functionDcls", "draw", 
-		"drawCommands", "drawCommand", "shapeDcl", "body", "stmts", "stmt", "assignments", 
-		"declarations", "commands", "declaration", "booleanDeclaration", "numberDeclaration", 
+		"sizePrpt", "workAreaVars", "shapeDcls", "functionDcls", "draw", "drawCommands", 
+		"drawCommand", "shapeDcl", "body", "stmts", "stmt", "assignments", "declarations", 
+		"commands", "declaration", "booleanDeclaration", "numberDeclaration", 
 		"pointDeclaration", "pointReference", "numberTuple", "assignment", "propertyAssignment", 
 		"variableAssignment", "pointAssignment", "startPointAssignment", "endPointAssignment", 
 		"expression", "mathExpression", "term", "factor", "atom", "boolExpression", 
@@ -236,11 +235,12 @@ public partial class OGParser : Parser {
 		}
 	}
 	public partial class MachineSettingsContext : MachineStnsContext {
+		public MachineModsContext machineModifications;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Machine() { return GetToken(OGParser.Machine, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Terminator() { return GetToken(OGParser.Terminator, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public MachineModsContext machineMods() {
 			return GetRuleContext<MachineModsContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Terminator() { return GetToken(OGParser.Terminator, 0); }
 		public MachineSettingsContext(MachineStnsContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
@@ -275,7 +275,7 @@ public partial class OGParser : Parser {
 				State = 119;
 				Match(Machine);
 				State = 120;
-				machineMods();
+				((MachineSettingsContext)_localctx).machineModifications = machineMods();
 				State = 121;
 				Match(Terminator);
 				}
@@ -333,6 +333,8 @@ public partial class OGParser : Parser {
 		}
 	}
 	public partial class MachineModifiersContext : MachineModsContext {
+		public WorkAreaModContext workAreaModifications;
+		public MachineModsContext machineModifications;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DOT() { return GetToken(OGParser.DOT, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public WorkAreaModContext workAreaMod() {
 			return GetRuleContext<WorkAreaModContext>(0);
@@ -374,9 +376,9 @@ public partial class OGParser : Parser {
 				State = 126;
 				Match(DOT);
 				State = 127;
-				workAreaMod();
+				((MachineModifiersContext)_localctx).workAreaModifications = workAreaMod();
 				State = 128;
-				machineMods();
+				((MachineModifiersContext)_localctx).machineModifications = machineMods();
 				}
 				break;
 			case Terminator:
@@ -413,6 +415,7 @@ public partial class OGParser : Parser {
 		}
 	}
 	public partial class WorkAreaModifierContext : WorkAreaModContext {
+		public WorkAreaModPrptsContext workAreaModificationProperties;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode WorkArea() { return GetToken(OGParser.WorkArea, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public WorkAreaModPrptsContext workAreaModPrpts() {
 			return GetRuleContext<WorkAreaModPrptsContext>(0);
@@ -447,7 +450,7 @@ public partial class OGParser : Parser {
 			State = 133;
 			Match(WorkArea);
 			State = 134;
-			workAreaModPrpts();
+			((WorkAreaModifierContext)_localctx).workAreaModificationProperties = workAreaModPrpts();
 			}
 		}
 		catch (RecognitionException re) {
@@ -474,6 +477,8 @@ public partial class OGParser : Parser {
 		}
 	}
 	public partial class WorkAreaModifierPropertiesContext : WorkAreaModPrptsContext {
+		public SizePrptContext sizeProperty;
+		public WorkAreaModPrptsContext workAreaModificationProperties;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DOT() { return GetToken(OGParser.DOT, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public SizePrptContext sizePrpt() {
 			return GetRuleContext<SizePrptContext>(0);
@@ -534,9 +539,9 @@ public partial class OGParser : Parser {
 				State = 136;
 				Match(DOT);
 				State = 137;
-				sizePrpt();
+				((WorkAreaModifierPropertiesContext)_localctx).sizeProperty = sizePrpt();
 				State = 138;
-				workAreaModPrpts();
+				((WorkAreaModifierPropertiesContext)_localctx).workAreaModificationProperties = workAreaModPrpts();
 				}
 				break;
 			case 2:
@@ -571,12 +576,13 @@ public partial class OGParser : Parser {
 		}
 	}
 	public partial class SizePropertyContext : SizePrptContext {
+		public WorkAreaVarsContext workAreaVariables;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Size() { return GetToken(OGParser.Size, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LParen() { return GetToken(OGParser.LParen, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public WorkAreaVariablesContext workAreaVariables() {
-			return GetRuleContext<WorkAreaVariablesContext>(0);
-		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RParen() { return GetToken(OGParser.RParen, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public WorkAreaVarsContext workAreaVars() {
+			return GetRuleContext<WorkAreaVarsContext>(0);
+		}
 		public SizePropertyContext(SizePrptContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
@@ -609,7 +615,7 @@ public partial class OGParser : Parser {
 			State = 144;
 			Match(LParen);
 			State = 145;
-			workAreaVariables();
+			((SizePropertyContext)_localctx).workAreaVariables = workAreaVars();
 			State = 146;
 			Match(RParen);
 			}
@@ -625,7 +631,7 @@ public partial class OGParser : Parser {
 		return _localctx;
 	}
 
-	public partial class WorkAreaVariablesContext : ParserRuleContext {
+	public partial class WorkAreaVarsContext : ParserRuleContext {
 		public MathExpressionContext xmin;
 		public MathExpressionContext xmax;
 		public MathExpressionContext ymin;
@@ -648,33 +654,33 @@ public partial class OGParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public MathExpressionContext mathExpression(int i) {
 			return GetRuleContext<MathExpressionContext>(i);
 		}
-		public WorkAreaVariablesContext(ParserRuleContext parent, int invokingState)
+		public WorkAreaVarsContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_workAreaVariables; } }
+		public override int RuleIndex { get { return RULE_workAreaVars; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterWorkAreaVariables(this);
+			if (typedListener != null) typedListener.EnterWorkAreaVars(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitWorkAreaVariables(this);
+			if (typedListener != null) typedListener.ExitWorkAreaVars(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitWorkAreaVariables(this);
+			if (typedVisitor != null) return typedVisitor.VisitWorkAreaVars(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public WorkAreaVariablesContext workAreaVariables() {
-		WorkAreaVariablesContext _localctx = new WorkAreaVariablesContext(Context, State);
-		EnterRule(_localctx, 12, RULE_workAreaVariables);
+	public WorkAreaVarsContext workAreaVars() {
+		WorkAreaVarsContext _localctx = new WorkAreaVarsContext(Context, State);
+		EnterRule(_localctx, 12, RULE_workAreaVars);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{

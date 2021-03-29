@@ -139,15 +139,15 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitSizeProperty([NotNull] OGParser.SizePropertyContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.workAreaVariables"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.workAreaVars"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterWorkAreaVariables([NotNull] OGParser.WorkAreaVariablesContext context);
+	void EnterWorkAreaVars([NotNull] OGParser.WorkAreaVarsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.workAreaVariables"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.workAreaVars"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitWorkAreaVariables([NotNull] OGParser.WorkAreaVariablesContext context);
+	void ExitWorkAreaVars([NotNull] OGParser.WorkAreaVarsContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>shapeDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.

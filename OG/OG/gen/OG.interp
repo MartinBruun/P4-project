@@ -113,7 +113,7 @@ machineMods
 workAreaMod
 workAreaModPrpts
 sizePrpt
-workAreaVariables
+workAreaVars
 shapeDcls
 functionDcls
 draw

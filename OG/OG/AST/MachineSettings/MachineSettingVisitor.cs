@@ -62,21 +62,17 @@ namespace OG.AST.MachineSettings
             return VisitChildren(context);
         }
 
-        public override Dictionary<string,MachineSettingNode> VisitSizeProperty([NotNull] OGParser.SizePropertyContext context)
+        public override Dictionary<string, MachineSettingNode> VisitSizeProperty(
+            [NotNull] OGParser.SizePropertyContext context)
         {
-            NumberNode<int> xMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables().xmin);
-            NumberNode<int> xMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables().xmax);
-            NumberNode<int> yMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables().ymin);
-            NumberNode<int> yMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables().ymax);
-            
-            SizePropertyNode sizeProperty = new SizePropertyNode(xMin,xMax,yMin,yMax);
+            NumberNode<int> xMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables.xmin);
+            NumberNode<int> xMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables.xmax);
+            NumberNode<int> yMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables.ymin);
+            NumberNode<int> yMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables.ymax);
+
+            SizePropertyNode sizeProperty = new SizePropertyNode(xMin, xMax, yMin, yMax);
             WorkAreaModificationNode workNode = (WorkAreaModificationNode) MachineSettings["WorkArea"];
             workNode.SizeProperty = sizeProperty;
-            return VisitChildren(context);
-        }
-
-        public override Dictionary<string,MachineSettingNode> VisitWorkAreaVariables([NotNull] OGParser.WorkAreaVariablesContext context)
-        {
             return VisitChildren(context);
         }
 
