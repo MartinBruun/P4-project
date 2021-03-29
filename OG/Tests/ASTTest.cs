@@ -22,7 +22,7 @@ namespace Tests
             var tokenStream = new CommonTokenStream(lexer);
             tokenStream.Fill();
             OGParser parser = new OGParser(tokenStream);
-            IParseTree tree = parser.machineStns(); // TODO!!!! Change to parser.program()!!!
+            IParseTree tree = parser.machineSettings(); // TODO!!!! Change to parser.program()!!!
             Dictionary<string, MachineSettingNode> machineSettingNodes = new MachineSettingVisitor().Visit(tree);
             return machineSettingNodes;
         }
