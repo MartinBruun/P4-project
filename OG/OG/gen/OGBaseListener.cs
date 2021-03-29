@@ -64,19 +64,19 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitShapeDeclarations([NotNull] OGParser.ShapeDeclarationsContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>noShapesDefined</c>
+	/// Enter a parse tree produced by the <c>endOfShapesDefined</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterNoShapesDefined([NotNull] OGParser.NoShapesDefinedContext context) { }
+	public virtual void EnterEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>noShapesDefined</c>
+	/// Exit a parse tree produced by the <c>endOfShapesDefined</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitNoShapesDefined([NotNull] OGParser.NoShapesDefinedContext context) { }
+	public virtual void ExitEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>functionDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
@@ -92,19 +92,19 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFunctionDeclarations([NotNull] OGParser.FunctionDeclarationsContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>noFunctionsDefined</c>
+	/// Enter a parse tree produced by the <c>endOfFunctionsDefined</c>
 	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterNoFunctionsDefined([NotNull] OGParser.NoFunctionsDefinedContext context) { }
+	public virtual void EnterEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>noFunctionsDefined</c>
+	/// Exit a parse tree produced by the <c>endOfFunctionsDefined</c>
 	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitNoFunctionsDefined([NotNull] OGParser.NoFunctionsDefinedContext context) { }
+	public virtual void ExitEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.machineVariables"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -118,17 +118,17 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitMachineVariables([NotNull] OGParser.MachineVariablesContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.machine"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.machineSettings"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterMachine([NotNull] OGParser.MachineContext context) { }
+	public virtual void EnterMachineSettings([NotNull] OGParser.MachineSettingsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.machine"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.machineSettings"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitMachine([NotNull] OGParser.MachineContext context) { }
+	public virtual void ExitMachineSettings([NotNull] OGParser.MachineSettingsContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.draw"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -156,19 +156,19 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitDrawCmds([NotNull] OGParser.DrawCmdsContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>drawCommandsEmpty</c>
+	/// Enter a parse tree produced by the <c>endOfDrawCommands</c>
 	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterDrawCommandsEmpty([NotNull] OGParser.DrawCommandsEmptyContext context) { }
+	public virtual void EnterEndOfDrawCommands([NotNull] OGParser.EndOfDrawCommandsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>drawCommandsEmpty</c>
+	/// Exit a parse tree produced by the <c>endOfDrawCommands</c>
 	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitDrawCommandsEmpty([NotNull] OGParser.DrawCommandsEmptyContext context) { }
+	public virtual void ExitEndOfDrawCommands([NotNull] OGParser.EndOfDrawCommandsContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>drawCmd</c>
 	/// labeled alternative in <see cref="OGParser.drawCommand"/>.
