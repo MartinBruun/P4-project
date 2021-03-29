@@ -1,7 +1,12 @@
 using System;
+using System.Collections.Generic;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+
 using OG.gen;
+
+using OG.AST;
+using OG.AST.MachineSettings;
 
 namespace OG
 {
@@ -12,7 +17,7 @@ namespace OG
 
             const string program = @"
 
-Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
 
 draw {
     a;
@@ -42,6 +47,11 @@ shape shapeB{}
                 {
                     Console.WriteLine("\n" + e.Msg + " in \nline:" + e.Line + "\ncolumn :" + e.Column);
                 }
+                
+            // Dictionary<string, MachineSettingNode> machineSettingNodes = new MachineSettingVisitor().Visit(tree);
+            //
+            // Console.WriteLine(machineSettingNodes["WorkArea"]);
+
         }
 
     }

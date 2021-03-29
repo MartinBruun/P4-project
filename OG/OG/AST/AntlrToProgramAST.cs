@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-
+using OG.AST.MachineSettings;
 namespace OG.gen
+
 {
     public class AntlrToProgramAST:OGBaseVisitor<string>, ISemanticErrorable
     {
@@ -9,10 +10,11 @@ namespace OG.gen
         public override string VisitProg(OGParser.ProgContext context)
         {
             OGProgram programAST = new OGProgram();
-            if (context.machineSettings != null)
+            if (context.settings != null)
             {
-                Console.WriteLine("machinesettings:  " + context.machineSettings.GetText());
-                // programAST.Machinesettings = new MachineSettingsVisitor().Visit(context.machineSettings);
+                Console.WriteLine("machinesettings:  " + context.settings.GetText());
+                programAST.Machinesettings = new MachineSettingVisitor().VisitMachineSettings(context.settings);
+                Console.WriteLine(programAST.Machinesettings["WorkArea"]);
             }
             else
             {
@@ -23,7 +25,7 @@ namespace OG.gen
             }
 
             if (context.drawFunction!= null)
-            {
+            { 
                 Console.WriteLine(context.drawFunction.GetText());
                 
             }

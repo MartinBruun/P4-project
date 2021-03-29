@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using Antlr4.Runtime.Atn;
+using OG.AST.MachineSettings;
 
 namespace OG.gen
 {
@@ -10,15 +11,15 @@ namespace OG.gen
         }
 
      internal class OGProgram
-    {
-        public List<MachineSetting> Machinesettings = new List<MachineSetting>();
+     { 
+         public Dictionary<string, MachineSettingNode> Machinesettings = new Dictionary<string, MachineSettingNode>();
         public List<ShapeNode> DrawElements = new List<ShapeNode>();
         public List<FunctionDeclarationNode> FunctionDcls = new List<FunctionDeclarationNode>();
         public List<ShapeDCLNode> ShapeDcls = new List<ShapeDCLNode>();
 
         public void Add(MachineSetting m)
         {
-            Machinesettings.Add(m);
+            // Machinesettings.Add(m);
         }
 
         public void Add(ShapeNode s)
