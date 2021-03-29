@@ -1,6 +1,8 @@
 using System;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using OG.AST;
+using OG.AST.MachineSettings;
 
 namespace OG
 {
@@ -8,15 +10,16 @@ namespace OG
     {
         private static void Main(string[] args)
         {
-            /*
-            const string program = "hello world HELLO";
+            const string program = "Machine.WorkArea.size(xmin=0,xmax=80,ymin=0,ymax=80);";
             ICharStream charStream = new AntlrInputStream(program);
             ITokenSource lexer = new OGLexer(charStream);
             ITokenStream tokens = new CommonTokenStream(lexer);
             OGParser parser = new OGParser(tokens);
-            IParseTree tree = parser.r();
-            Console.WriteLine(tree.ToStringTree());
-            */
+            IParseTree tree = parser.machineStns();
+            ASTNode machineSettingNodes = new MachineSettingVisitor().Visit(tree);
+            
+            Console.WriteLine(machineSettingNodes);
+
         }
     }
 }
