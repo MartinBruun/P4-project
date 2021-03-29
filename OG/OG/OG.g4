@@ -4,25 +4,25 @@ program: settings=machineStns drawFunction=draw functionsDeclarations=functionDc
        ;
 
 // Machine Settings
-machineStns  : 'Machine' machineMods ';' #machineSettings
-             |                           #noMachineSettings
+machineStns  : 'Machine' machineModifications=machineMods ';' #machineSettings
+             |                                                #noMachineSettings
              ;
 
-machineMods : '.' workAreaMod machineMods   #machineModifiers
-            |                               #endOfMachineModifiers
+machineMods : '.' workAreaModifications=workAreaMod machineModifications=machineMods   #machineModifiers
+            |                                                                          #endOfMachineModifiers
             ;
 
-workAreaMod : 'WorkArea' workAreaModPrpts #workAreaModifier
+workAreaMod : 'WorkArea' workAreaModificationProperties=workAreaModPrpts #workAreaModifier
             ;
                  
-workAreaModPrpts : '.' sizePrpt workAreaModPrpts #workAreaModifierProperties
-                 |                               #endOfWorkAreaModifierProperties
+workAreaModPrpts : '.' sizeProperty=sizePrpt workAreaModificationProperties=workAreaModPrpts #workAreaModifierProperties
+                 |                                                                           #endOfWorkAreaModifierProperties
                  ;
                            
-sizePrpt : 'size' '(' workAreaVariables ')' #sizeProperty
+sizePrpt : 'size' '(' workAreaVariables=workAreaVars ')' #sizeProperty
          ;
 
-workAreaVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
+workAreaVars : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
 
 // Shape Declarations and Function Declarations (Could maybe be moved down in their respective region?)
 shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclarations
