@@ -5,7 +5,7 @@ using OG.AST.MachineSettings;
 
 namespace OG.gen
 {
-    public class @string
+    public class ASTNode
     {
         
         }
@@ -36,10 +36,10 @@ namespace OG.gen
         }
     }
     
-        internal abstract class DeclarationNode: @string
+        internal abstract class DeclarationNode: ASTNode
         { 
-           public @string LHS;
-           public @string RHS;
+           public ASTNode LHS;
+           public ASTNode RHS;
         }
 
          class ShapeDCLNode : ShapeNode
@@ -69,8 +69,8 @@ namespace OG.gen
          
          abstract class AssignmentNode
          {
-             public @string LHS;
-             public @string RHS;
+             public ASTNode LHS;
+             public ASTNode RHS;
              
          }
 
@@ -119,7 +119,7 @@ namespace OG.gen
          
          abstract class ReferenceNode
          {
-             public @string get;
+             public ASTNode get;
          }
 
          class pointReferenceNode:ReferenceNode
@@ -379,7 +379,7 @@ namespace OG.gen
            
        }
        
-        class ID: @string
+        class ID: ASTNode
         {
             
         }

@@ -1,13 +1,22 @@
 using System;
 using System.Collections.Generic;
+using OG.AST;
 using OG.AST.MachineSettings;
 namespace OG.gen
 
 {
-    public class AntlrToProgramAST:OGBaseVisitor<string>, ISemanticErrorable
+    public class AntlrToProgramAST:OGBaseVisitor<ASTNode>, ISemanticErrorable
     {
+        public AntlrToProgramAST()
+        {
+            
+        }
+        public AntlrToProgramAST(List<SemanticError> semanticErrors)
+        {
+            SemanticErrors = semanticErrors;
+        }
         public List<SemanticError> SemanticErrors { get; set; } = new List<SemanticError>();
-        public override string VisitProg(OGParser.ProgContext context)
+        public override ASTNode VisitProg(OGParser.ProgContext context)
         {
             OGProgram programAST = new OGProgram();
             if (context.settings != null)
@@ -63,30 +72,12 @@ namespace OG.gen
             err.Msg = "This is a test of semantic errors in visit program";
             SemanticErrors.Add(err);
             
-            return VisitChildren(context) + "\n";
+            return VisitChildren(context) ;
 
-            return base.VisitProg(context);
+            return base.VisitProg(context);//lad os lige se hvilken return vi skal bruge
         }
 
-        public override string VisitShapeDeclarations(OGParser.ShapeDeclarationsContext context)
-        {
-            return base.VisitShapeDeclarations(context);
-        }
-
-        public override string VisitFunctionDeclarations(OGParser.FunctionDeclarationsContext context)
-        {
-            return base.VisitFunctionDeclarations(context);
-        }
-
-        public override string VisitMachineSettings(OGParser.MachineSettingsContext context)
-        {
-            return base.VisitMachineSettings(context);
-        }
-
-        public override string VisitDraw(OGParser.DrawContext context)
-        {
-            return base.VisitDraw(context);
-        }
+      
 
         
     }
