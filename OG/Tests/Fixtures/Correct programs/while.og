@@ -6,8 +6,15 @@ draw
    
 }
 function void triangle() {
+    point startPoint = (0,0);
     line.from(startPoint).to(x,y).to(x,y).to(startPoint);
 }
+
+function void triangle() {
+    point startPoint = (0,0);
+    line.from(startPoint).to(x,y).to(x,y).to(startPoint);
+}
+
 
 shape C {
 	number myXNumber = 5;
@@ -29,6 +36,7 @@ shape D {
     number numberOfTriangles = 0;
     number desiredAmountOfTriangles = 27;
     repeat.until (numberOfTriangles == desiredAmountOfTriangles)
+
         triangle.from(origin);
         
     repeat.end

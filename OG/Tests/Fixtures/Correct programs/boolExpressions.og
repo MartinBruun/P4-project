@@ -63,6 +63,7 @@ shape BoolComparissons
    bool falseORtrue = false || true;
    bool trueORFalse = true  || false;
 }
+
 shape MathComparison {
 	number a = 10;
 	number b = -10;

@@ -43,6 +43,98 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProg([NotNull] OGParser.ProgContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.machineSettings"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMachineSettings([NotNull] OGParser.MachineSettingsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.machineSettings"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMachineSettings([NotNull] OGParser.MachineSettingsContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>machineModifiers</c>
+	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMachineModifiers([NotNull] OGParser.MachineModifiersContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>machineModifiers</c>
+	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMachineModifiers([NotNull] OGParser.MachineModifiersContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>endOfMachineModifiers</c>
+	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterEndOfMachineModifiers([NotNull] OGParser.EndOfMachineModifiersContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>endOfMachineModifiers</c>
+	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitEndOfMachineModifiers([NotNull] OGParser.EndOfMachineModifiersContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>workAreaModifier</c>
+	/// labeled alternative in <see cref="OGParser.workAreaMod"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWorkAreaModifier([NotNull] OGParser.WorkAreaModifierContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>workAreaModifier</c>
+	/// labeled alternative in <see cref="OGParser.workAreaMod"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWorkAreaModifier([NotNull] OGParser.WorkAreaModifierContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>workAreaModifierProperties</c>
+	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWorkAreaModifierProperties([NotNull] OGParser.WorkAreaModifierPropertiesContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>workAreaModifierProperties</c>
+	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWorkAreaModifierProperties([NotNull] OGParser.WorkAreaModifierPropertiesContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>endOfWorkAreaModifierProperties</c>
+	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterEndOfWorkAreaModifierProperties([NotNull] OGParser.EndOfWorkAreaModifierPropertiesContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>endOfWorkAreaModifierProperties</c>
+	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitEndOfWorkAreaModifierProperties([NotNull] OGParser.EndOfWorkAreaModifierPropertiesContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>sizeProperty</c>
+	/// labeled alternative in <see cref="OGParser.sizePrpt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSizeProperty([NotNull] OGParser.SizePropertyContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>sizeProperty</c>
+	/// labeled alternative in <see cref="OGParser.sizePrpt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSizeProperty([NotNull] OGParser.SizePropertyContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.workAreaVars"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWorkAreaVars([NotNull] OGParser.WorkAreaVarsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.workAreaVars"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWorkAreaVars([NotNull] OGParser.WorkAreaVarsContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>shapeDeclarations</c>
 	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
 	/// </summary>
@@ -90,26 +182,6 @@ public interface IOGListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.machineVariables"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMachineVariables([NotNull] OGParser.MachineVariablesContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.machineVariables"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMachineVariables([NotNull] OGParser.MachineVariablesContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.machineSettings"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMachineSettings([NotNull] OGParser.MachineSettingsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.machineSettings"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMachineSettings([NotNull] OGParser.MachineSettingsContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.draw"/>.
 	/// </summary>
@@ -547,15 +619,53 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitFactor([NotNull] OGParser.FactorContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.atom"/>.
+	/// Enter a parse tree produced by the <c>atomfuncCall</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterAtom([NotNull] OGParser.AtomContext context);
+	void EnterAtomfuncCall([NotNull] OGParser.AtomfuncCallContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.atom"/>.
+	/// Exit a parse tree produced by the <c>atomfuncCall</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitAtom([NotNull] OGParser.AtomContext context);
+	void ExitAtomfuncCall([NotNull] OGParser.AtomfuncCallContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>number</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNumber([NotNull] OGParser.NumberContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>number</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNumber([NotNull] OGParser.NumberContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>atomXYValue</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAtomXYValue([NotNull] OGParser.AtomXYValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>atomXYValue</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAtomXYValue([NotNull] OGParser.AtomXYValueContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>atomId</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAtomId([NotNull] OGParser.AtomIdContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>atomId</c>
+	/// labeled alternative in <see cref="OGParser.atom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAtomId([NotNull] OGParser.AtomIdContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>boolExprID</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.

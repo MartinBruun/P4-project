@@ -1,8 +1,31 @@
 grammar OG;
 
-program: machineSett=machineSettings drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls #prog
+
+program: settings=machineSettings drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls #prog
        ;
-       
+
+// Machine Settings
+machineSettings  : 'Machine' machineModifications=machineMods ';' 
+             |                                                
+             ;
+
+machineMods : '.' workAreaModifications=workAreaMod machineModifications=machineMods   #machineModifiers
+            |                                                                          #endOfMachineModifiers
+            ;
+
+workAreaMod : 'WorkArea' workAreaModificationProperties=workAreaModPrpts #workAreaModifier
+            ;
+                 
+workAreaModPrpts : '.' sizeProperty=sizePrpt workAreaModificationProperties=workAreaModPrpts #workAreaModifierProperties
+                 |                                                                           #endOfWorkAreaModifierProperties
+                 ;
+                           
+sizePrpt : 'size' '(' workAreaVariables=workAreaVars ')' #sizeProperty
+         ;
+
+workAreaVars : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
+
+// Shape Declarations and Function Declarations (Could maybe be moved down in their respective region?)
 shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclarations
             |                                                      #endOfShapesDefined
             ;
@@ -10,15 +33,14 @@ shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclara
 functionDcls: functionDcl functionDcls   #functionDeclarations
             |                            #endOfFunctionsDefined
             ;
-       
 
-machineVariables : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
-machineSettings  : 'Machine' '.''WorkArea''.''size' '(' machineVariables ')'';';
+// Draw
 draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
 drawCommands: drawCommand drawCommands #drawCmds
             |                          #endOfDrawCommands
             ;
+            
 drawCommand     : id=ID';'                             #drawCmd
                 | id=ID fromCmd=fromCommand ';'        #drawFromCmd
                 ;
@@ -73,6 +95,7 @@ assignment          : variableAssignment
 propertyAssignment  : xyVal=CoordinateXYValue '=' value=mathExpression';'
                     ;
 
+
 variableAssignment  : id=ID'=' value=ID             ';' #idAssign
                     | id=ID'=' value=boolExpression ';' #boolAssign    
                     | id=ID'=' value=mathExpression ';' #numberAssign
@@ -109,10 +132,10 @@ factor          : lhs=atom pow='^' rhs=factor
                 |'(' mathExpr=mathExpression ')'
                 ;
 
-atom            : funcCall=functionCall
-                | value=Number 
-                | xyValue=CoordinateXYValue 
-                | id=ID
+atom            : funcCall=functionCall                         #atomfuncCall
+                | value=Number                                  #number
+                | xyValue=CoordinateXYValue                     #atomXYValue
+                | id=ID                                         #atomId
                 ;
                
 
@@ -121,7 +144,7 @@ boolExpression  : id=ID                                                 #boolExp
                 | funcCall=functionCall                                 #boolExprFuncCall
                 | lhs=mathExpression BoolOperator rhs=mathExpression    #boolExprMathComp
                 | lhs=boolExpression LogicOperator rhs=boolExpression   #boolExprBoolComp
-                | '!'boolExpr=boolExpression                                     #boolExprNotPrefix   
+                | '!'boolExpr=boolExpression                            #boolExprNotPrefix   
                 ;
 
 
@@ -137,6 +160,7 @@ movementCommand : lineCmd=lineCommand ';'
                 | curveCmd=curveCommand';'
                 ;
                 
+
 lineCommand     : type='line' fromCmd=fromCommand  toCmds=toCommands;
 
 toCommands: toCmd=toCommand chainedToCmds=toCommands          #chainedToCommand
@@ -144,6 +168,7 @@ toCommands: toCmd=toCommand chainedToCmds=toCommands          #chainedToCommand
           ;
 
    
+
 curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmd=toCommand;
                 
 toCommand       : '.''to''(' id=ID ')'                      #toWithId
@@ -165,6 +190,7 @@ iterationCommand: numberIterCmd=numberIteration
                 ;
 numberIteration : 'repeat''('iterator=mathExpression')' statements=body 'repeat.end'
                 ;
+
 untilIteration  : 'repeat''.''until''(' iterator=functionCall')' statements=body 'repeat.end'    #untilFuncCall //Function call er allerede indeholdt i boolExpression.
                 | 'repeat''.''until''(' iterator=boolExpression')' statements=body 'repeat.end'  #untilCondition  
                 ;
@@ -180,6 +206,7 @@ typeWord                : PointDCLWord
                         | BoolDCLWord 
                         | NumberDCLWord
                         ;
+
 voidFunctionDCL         : 'function' type='void' id=ID '(' paramDcls=parameterDeclarations ')'  '{' statements=body '}'; //Måske skal den her slettes Hvad kan den bruges til som shapes ikke alerede kan
 
 parameterDeclarations   :  currentParamDcl=parameterDcl ',' paramDcls=parameterDeclarations #multiParamDcl
@@ -190,6 +217,7 @@ parameterDcl: type=typeWord id=ID;
                   
 functionCall            : id=ID '(' params=passedParams ')' 
                         ;
+
 
 
 
