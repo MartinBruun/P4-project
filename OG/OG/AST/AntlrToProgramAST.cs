@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using OG.AST;
 using OG.AST.MachineSettings;
-namespace OG.gen
+namespace OG.AST
 
 {
-    public class AntlrToProgramAST:OGBaseVisitor<ASTNode>, ISemanticErrorable
+    internal class AntlrToProgramAST:OGBaseVisitor<OGProgramAST>, ISemanticErrorable
     {
         public AntlrToProgramAST()
         {
@@ -16,9 +16,9 @@ namespace OG.gen
             SemanticErrors = semanticErrors;
         }
         public List<SemanticError> SemanticErrors { get; set; } = new List<SemanticError>();
-        public override ASTNode VisitProg(OGParser.ProgContext context)
+        public override OGProgramAST VisitProg(OGParser.ProgContext context)
         {
-            OGProgram programAST = new OGProgram();
+            OGProgramAST programAST = new OGProgramAST();
             if (context.settings != null)
             {
                 Console.WriteLine("machinesettings:  " + context.settings.GetText());
@@ -72,8 +72,9 @@ namespace OG.gen
             err.Msg = "This is a test of semantic errors in visit program";
             SemanticErrors.Add(err);
             
-            return VisitChildren(context) ;
+            return programAST;
 
+            return VisitChildren(context); // Stod der før, men tænker da vi skal returnere vores ProgramAST?
             return base.VisitProg(context);//lad os lige se hvilken return vi skal bruge
         }
 

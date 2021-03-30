@@ -18,8 +18,4 @@
       <ProjectReference Include="..\OG\OG.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Fixtures\Full programs" />
-    </ItemGroup>
-
 </Project>

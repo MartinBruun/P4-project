@@ -1,4 +1,4 @@
-﻿namespace OG
+﻿namespace OG.Compiler
 {
     /// <summary>
     /// The base class which optimizers to the OG language inherits from.

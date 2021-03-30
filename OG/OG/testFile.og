@@ -1,0 +1,12 @@
+Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
+
+draw {
+    a;
+    b.from(1,1);
+}
+
+function void funA(){}
+function point funPOINT(){ point a = (2,2);return a;}
+
+shape shapeA{}
+shape shapeB{}

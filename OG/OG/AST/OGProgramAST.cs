@@ -3,38 +3,41 @@ using System.Xml.Serialization;
 using Antlr4.Runtime.Atn;
 using OG.AST.MachineSettings;
 
-namespace OG.gen
+namespace OG.AST
 {
-    public class ASTNode
-    {
-        
-        }
-
-     internal class OGProgram
+     internal class OGProgramAST
      { 
-         public Dictionary<string, MachineSettingNode> Machinesettings = new Dictionary<string, MachineSettingNode>();
-        public List<ShapeNode> DrawElements = new List<ShapeNode>();
-        public List<FunctionDeclarationNode> FunctionDcls = new List<FunctionDeclarationNode>();
-        public List<ShapeDCLNode> ShapeDcls = new List<ShapeDCLNode>();
+         public Dictionary<string, MachineSettingNode> Machinesettings { get; set; }
+         public List<ShapeNode> DrawElements { get; set; }
+         public List<FunctionDeclarationNode> FunctionDcls { get; set; }
+         public List<ShapeDCLNode> ShapeDcls { get; set; }
 
-        public void Add(MachineSetting m)
-        {
+         public OGProgramAST()
+         {
+             Machinesettings = new Dictionary<string, MachineSettingNode>();
+             DrawElements    = new List<ShapeNode>();
+             FunctionDcls    = new List<FunctionDeclarationNode>();
+             ShapeDcls       = new List<ShapeDCLNode>();
+         }
+
+         public void Add(MachineSetting m)
+         {
             // Machinesettings.Add(m);
-        }
+         }
 
-        public void Add(ShapeNode s)
-        {
+         public void Add(ShapeNode s)
+         {
             DrawElements.Add(s);
-        }
-        public void Add(FunctionDeclarationNode f)
-        {
+         }
+         public void Add(FunctionDeclarationNode f)
+         {
             FunctionDcls.Add(f);
-        }
-        public void Add(ShapeDCLNode s)
-        {
+         }
+         public void Add(ShapeDCLNode s)
+         {
             ShapeDcls.Add(s);
-        }
-    }
+         }
+     }
     
         internal abstract class DeclarationNode: ASTNode
         { 

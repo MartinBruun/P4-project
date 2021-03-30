@@ -35,7 +35,6 @@ namespace Tests
         [TestCase("while.og", "testing while loops")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
-
             CommonTokenStream tokenStream = CreateTokenStream(fileName, "Correct programs/");
 
             Assert.DoesNotThrow(() =>

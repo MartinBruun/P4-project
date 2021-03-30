@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OG.gen
+namespace OG.AST
 {
     public interface ISemanticErrorable
     {
