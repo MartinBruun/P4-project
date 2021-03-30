@@ -14,11 +14,7 @@ namespace Tests
         private OGParser CreateParser(string fileName, string dirName)
         {
             string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
-            ICharStream stream = new AntlrInputStream(code);
-            OGLexer lexer = new OGLexer(stream);
-            var tokenStream = new CommonTokenStream(lexer);
-            tokenStream.Fill();
-            OGParser parser = new OGParser(tokenStream);
+            OGParser parser = OG.Compiler.Parser.CreateParser(code);
             ErrorListenerHelper<IToken> listener = new ErrorListenerHelper<IToken>();
             parser.AddErrorListener(listener);
             return parser;

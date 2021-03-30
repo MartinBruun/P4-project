@@ -11,10 +11,11 @@ namespace OG.Compiler
     /// </summary>
     public class Parser
     {
-        public static IParseTree CreateParseTree(ITokenStream tokens)
+        public static OGParser CreateParser(string program)
         {
-            OGParser parser = new OGParser(tokens);
-            return parser.program();
+            ITokenSource lexer = Lexer.CreateLexer(program);
+            ITokenStream tokens = new CommonTokenStream(lexer);
+            return new OGParser(tokens);
         }
     }
 }

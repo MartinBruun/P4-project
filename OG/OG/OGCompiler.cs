@@ -17,9 +17,7 @@ namespace OG
             // Handle args arguments in finished implementation.
             
             string sourceFile        = File.ReadAllText("../../../testFile.og");
-            ITokenStream tokenStream = Lexer.CreateTokenStream(sourceFile);
-            IParseTree parseTree     = OG.Compiler.Parser.CreateParseTree(tokenStream); // Needs OG.Compiler because Parser is already a class in C#
-            OGProgramAST ast         = TypeChecker.CreateAST(parseTree);
+            OGProgramAST ast         = TypeChecker.CreateAST(sourceFile);
 
             Console.WriteLine("EXITED PROGRAM:\n\n");
             Console.WriteLine(ast.Machinesettings["WorkArea"]);

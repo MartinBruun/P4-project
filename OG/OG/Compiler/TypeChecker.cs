@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Antlr4.Runtime.Tree;
 using OG.AST;
 
@@ -10,11 +11,13 @@ namespace OG.Compiler
     /// </summary>
     public class TypeChecker
     {
-        internal static OGProgramAST CreateAST(IParseTree tree)
+        internal static OGProgramAST CreateAST(string program)
         {
+            OGParser parser = Parser.CreateParser(program);
+            IParseTree tree = parser.program();  // Consider adding reflection, so the rule isnt hardcoded to "program" but can be other rules.
             AntlrToProgramAST visitor = new AntlrToProgramAST();
             
-            OGProgramAST programAST = visitor.Visit(tree);
+            OGProgramAST ast = visitor.Visit(tree);
             if (visitor.SemanticErrors != null)
             {
                 Console.WriteLine("\nSEMANTIC ERRORS DETECTED");
@@ -23,7 +26,7 @@ namespace OG.Compiler
                     Console.WriteLine(error);
                 }
             }
-            return programAST;
+            return ast;
         }
     }
 }

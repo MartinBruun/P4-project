@@ -5,6 +5,7 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
 using OG;
+using Lexer = OG.Compiler.Lexer;
 
 namespace Tests
 
@@ -15,8 +16,7 @@ namespace Tests
         {
             string code = File.ReadAllText("../../../Fixtures/" +dirName + fileName);
 
-            ICharStream stream = new AntlrInputStream(code);
-            OGLexer lexer = new OGLexer(stream);
+            OGLexer lexer = (OGLexer) Lexer.CreateLexer(code);
             ErrorListenerHelper<int> listener = new ErrorListenerHelper<int>();
             lexer.AddErrorListener(listener);
             return new CommonTokenStream(lexer);

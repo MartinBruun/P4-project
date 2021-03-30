@@ -17,11 +17,7 @@ namespace Tests
         private Dictionary<string, MachineSettingNode> CreateMachineSettings(string fileName, string dirName)
         {
             string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
-            ICharStream stream = new AntlrInputStream(code);
-            OGLexer lexer = new OGLexer(stream);
-            var tokenStream = new CommonTokenStream(lexer);
-            tokenStream.Fill();
-            OGParser parser = new OGParser(tokenStream);
+            OGParser parser = OG.Compiler.Parser.CreateParser(code);
             IParseTree tree = parser.machineSettings(); // TODO!!!! Change to parser.program()!!!
             Dictionary<string, MachineSettingNode> machineSettingNodes = new MachineSettingVisitor().Visit(tree);
             return machineSettingNodes;

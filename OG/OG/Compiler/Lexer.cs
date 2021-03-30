@@ -12,11 +12,10 @@ namespace OG.Compiler
     /// </summary>
     public class Lexer
     {
-        public static ITokenStream CreateTokenStream(string program)
+        public static ITokenSource CreateLexer(string program)
         {
             ICharStream charStream = new AntlrInputStream(program);
-            ITokenSource lexer = new OGLexer(charStream);
-            return new CommonTokenStream(lexer);
+            return new OGLexer(charStream);
         }
     }
 }
