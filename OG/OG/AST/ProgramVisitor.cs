@@ -31,6 +31,7 @@ namespace OG.AST
             }
             else
             {
+                // Is technically a syntax error, and can therefore be omitted.
                 // Token idToken = context.ID().getToken();
                 SemanticError error = new SemanticError();
                 error.Msg = "No Machine settings defined";
@@ -54,7 +55,7 @@ namespace OG.AST
             if (context.functionsDeclarations!= null)
             {
                 Console.WriteLine(context.functionsDeclarations.GetText());
-                programAST.FunctionDcls = new FunctionVisitor().VisitFunctionDcls(context.functionsDeclarations);
+                programAST.FunctionDcls = new FunctionVisitor().VisitFunctionDcl(context.functionsDeclarations);
             }
             
             
@@ -65,17 +66,15 @@ namespace OG.AST
             }
 
 
-            
+
             foreach (ShapeNode shape in programAST.DrawElements) //Jeg ved ikke om dette er muligt jeg ønsker at sammenligne shape og shapeDCL udfra id
             {
-                /* Vi skal finde en god måde at gøre det her på. Udkommenteret fordi det pt. ikke virker.
-                if (programAST.ShapeDcls.Exists(sdcl => sdcl.id == shape.id ))
+                if (programAST.ShapeDcls.Exists(sdcl => sdcl.ID == shape.ID )) // Override Equals method of IDNode
                 {
                     SemanticError error = new SemanticError();
                     error.Msg = "shape:" + shape + " has not been declared";
                     SemanticErrors.Add(error);                
                 }
-                */
             }
             SemanticError err = new SemanticError();
             err.Msg = "This is a test of semantic errors in visit program";

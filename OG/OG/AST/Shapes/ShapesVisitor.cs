@@ -15,5 +15,11 @@ namespace OG.AST.Shapes
 
             return ShapeDeclarations;
         }
+
+        public override List<ShapeDeclarationNode> VisitEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context)
+        {
+            // Check that context is indeed empty, otherwise give semantic error.
+            return VisitChildren(context);
+        }
     }
 }
