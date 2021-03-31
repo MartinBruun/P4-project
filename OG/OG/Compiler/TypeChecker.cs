@@ -18,17 +18,17 @@ namespace OG.Compiler
         public IParseTree ParseTree { get; set; }
         public N AST { get; set; }
 
-        public TypeChecker(OGParser ogParser, string astTopNode="program")
+        public TypeChecker(OGParser ogParser, string astTopNode)
         {
             OGParser = ogParser;
             ProgramVisitor = new V();
-            if (astTopNode != "program") throw new NotImplementedException(); // The generics have been created, just need reflection
+            if (astTopNode != "program") throw new NotImplementedException("So far, it has been hardcoded to use parser.program(). Needs reflection for  a generic solution");
             ParseTree = OGParser.program(); // ADD reflection, so the rule isnt hardcoded to "program" but can be other rules. Needs careful handling.
             AST = CreateAST(astTopNode);
         }
         
         /// <summary>
-        /// Method which creates the AST for the given topNode, defaulting to "program" as seen in the constructor.
+        /// Method which creates the AST for the given topNode
         /// </summary>
         /// <param name="astTopNode">The CFG rule being chosen to generate an AST from</param>
         /// <returns></returns>
