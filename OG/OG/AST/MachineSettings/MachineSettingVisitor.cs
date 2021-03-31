@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using OG;
 using OG.AST;
@@ -72,13 +73,20 @@ namespace OG.AST.MachineSettings
         public override Dictionary<string, MachineSettingNode> VisitSizeProperty(
             [NotNull] OGParser.SizePropertyContext context)
         {
+            WorkAreaModificationNode workNode = (WorkAreaModificationNode) MachineSettings["WorkArea"];
+            if (workNode.SizeProperty != null)
+            {
+                IToken token = context.Start;
+                SemanticErrors.Add(new SemanticError(token.Line,token.Column,
+                    "WorkArea cant be designated size property more than ones.", context.GetText()));
+            }
+            
             NumberNode<int> xMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables.xmin);
             NumberNode<int> xMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables.xmax);
             NumberNode<int> yMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables.ymin);
             NumberNode<int> yMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables.ymax);
 
             SizePropertyNode sizeProperty = new SizePropertyNode(xMin, xMax, yMin, yMax);
-            WorkAreaModificationNode workNode = (WorkAreaModificationNode) MachineSettings["WorkArea"];
             workNode.SizeProperty = sizeProperty;
             return VisitChildren(context);
         }

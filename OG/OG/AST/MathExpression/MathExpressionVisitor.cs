@@ -38,9 +38,6 @@ namespace OG.AST.MathExpression
 
         public override NumberNode<int> VisitNumber([NotNull] OGParser.NumberContext context) // TODO: Skal gøres mere generisk så den accepterer float eller double.
         {
-            SemanticErrors.Add(new SemanticError(-1,-1,
-                "Test if semantic error gets caught 4 times in MathExpressionVisitor.VisitSingleTermExpr " +
-                "(one for each number in Machine WorkArea SizeProperty)"));
             int number = int.Parse(context.GetChild(0).GetText());
             return new NumberNode<int>(number);
         }

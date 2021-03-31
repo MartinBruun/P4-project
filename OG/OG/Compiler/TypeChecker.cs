@@ -35,14 +35,18 @@ namespace OG.Compiler
         private N CreateAST(string astTopNode)
         {
             N ast = Visitor.Visit(ParseTree);
-            if (Visitor.SemanticErrors != null)
+            
+            if (Visitor.SemanticErrors.Count != 0)
             {
                 Console.WriteLine("\nSEMANTIC ERRORS DETECTED");
-                foreach (SemanticError error in Visitor.SemanticErrors)
+                for (int i=0; i < Visitor.SemanticErrors.Count; i++)
                 {
-                    Console.WriteLine(error);
+                    Console.WriteLine($"{i+1}.\n{Visitor.SemanticErrors[i]}");
                 }
+                
+                Console.WriteLine("");
             }
+            
             return ast;
         }
     }
