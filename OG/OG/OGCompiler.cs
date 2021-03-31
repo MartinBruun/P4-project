@@ -5,8 +5,6 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using OG.AST;
 using OG.Compiler;
-using Lexer = OG.Compiler.Lexer;
-using Parser = Antlr4.Runtime.Parser;
 
 namespace OG
 {
@@ -14,13 +12,15 @@ namespace OG
     {
         private static void Main(string[] args)
         {
-            // Handle args arguments in finished implementation.
+            // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
-            string sourceFile        = File.ReadAllText("../../../testFile.og");
-            OGProgramAST ast         = TypeChecker.CreateAST(sourceFile);
-
+            string sourceFile       = File.ReadAllText("../../../testFile.og");
+            LexerContainer lexCon   = new LexerContainer(sourceFile);
+            ParserContainer parCon  = new ParserContainer(lexCon);
+            var typeChecker         = new TypeChecker<OGProgramAST,AntlrToProgramAST>(parCon);
+            
             Console.WriteLine("EXITED PROGRAM:\n\n");
-            Console.WriteLine(ast.Machinesettings["WorkArea"]);
+            Console.WriteLine(typeChecker.AST.MachineSettings["WorkArea"]);
             
             // AFFTER THIS we need:
             // Translator :  ast -> intermediate representation (IR)

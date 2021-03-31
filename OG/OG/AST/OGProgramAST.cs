@@ -5,16 +5,16 @@ using OG.AST.MachineSettings;
 
 namespace OG.AST
 {
-     internal class OGProgramAST
+    public class OGProgramAST
      { 
-         public Dictionary<string, MachineSettingNode> Machinesettings { get; set; }
+         public Dictionary<string, MachineSettingNode> MachineSettings { get; set; }
          public List<ShapeNode> DrawElements { get; set; }
          public List<FunctionDeclarationNode> FunctionDcls { get; set; }
          public List<ShapeDCLNode> ShapeDcls { get; set; }
 
          public OGProgramAST()
          {
-             Machinesettings = new Dictionary<string, MachineSettingNode>();
+             MachineSettings = new Dictionary<string, MachineSettingNode>();
              DrawElements    = new List<ShapeNode>();
              FunctionDcls    = new List<FunctionDeclarationNode>();
              ShapeDcls       = new List<ShapeDCLNode>();
@@ -39,29 +39,29 @@ namespace OG.AST
          }
      }
     
-        internal abstract class DeclarationNode: ASTNode
+    public abstract class DeclarationNode: ASTNode
         { 
            public ASTNode LHS;
            public ASTNode RHS;
         }
 
-         class ShapeDCLNode : ShapeNode
+    public class ShapeDCLNode : ShapeNode
          {
              public string id;
              public string body;
          }
 
-         class BoolianDCLNode: DeclarationNode
+    public class BoolianDCLNode: DeclarationNode
          {
              
          }
 
-         class NumberDCLNode: DeclarationNode
+    public class NumberDCLNode: DeclarationNode
          {
              
          }
          
-         class PointDCLNode: DeclarationNode
+    public class PointDCLNode: DeclarationNode
          {
              
          }
@@ -70,49 +70,49 @@ namespace OG.AST
          //__________________________________//ASSIGN
          
          
-         abstract class AssignmentNode
+         public abstract class AssignmentNode
          {
              public ASTNode LHS;
              public ASTNode RHS;
              
          }
 
-         class VariableAssignmentNode:AssignmentNode
+         public class VariableAssignmentNode:AssignmentNode
          {
              
          }
 
-         class ProppertyAssignmentNode:AssignmentNode
+         public class ProppertyAssignmentNode:AssignmentNode
          {
              
          }
 
-         class IdAssignmentNode:AssignmentNode
+         public class IdAssignmentNode:AssignmentNode
          {
              
          }
 
-         class BoolAssignmentNode:AssignmentNode
+         public class BoolAssignmentNode:AssignmentNode
          {
              
          }
 
-         class NumberAssignmentNode:AssignmentNode
+         public class NumberAssignmentNode:AssignmentNode
          {
              
          }
 
-         class PointAssignmentNode:AssignmentNode
+         public class PointAssignmentNode:AssignmentNode
          {
              
          }
 
-         class StartPointAssignmentNode:AssignmentNode
+         public class StartPointAssignmentNode:AssignmentNode
          {
              
          }
 
-         class EndPointAssignmentNode:AssignmentNode
+         public class EndPointAssignmentNode:AssignmentNode
          {
              
          }
@@ -120,31 +120,31 @@ namespace OG.AST
          //_____________________________________________//REFF
          
          
-         abstract class ReferenceNode
+         public abstract class ReferenceNode
          {
              public ASTNode get;
          }
 
-         class pointReferenceNode:ReferenceNode
+         public class pointReferenceNode:ReferenceNode
          {
              
          }
 
-         class StartPointReferenceNode:ReferenceNode
+         public class StartPointReferenceNode:ReferenceNode
          {
              
          }
 
-         class EndPointReferenceNode : ReferenceNode
+         public class EndPointReferenceNode : ReferenceNode
          {
              
          }
          
-         class CoordinateXYValueNode: ReferenceNode{
+         public class CoordinateXYValueNode: ReferenceNode{
          
          }
 
-         class ShapeNode : ReferenceNode
+         public class ShapeNode : ReferenceNode
          {
              public string id;
              
@@ -154,84 +154,84 @@ namespace OG.AST
 
          
          
-        abstract class ExpressionNode
+         public abstract class ExpressionNode
         {
             
         }
 
-        class MathExpressionNode : ExpressionNode
+         public class MathExpressionNode : ExpressionNode
         {
             
         }
 
-        class TermNode
+         public class TermNode
         {
             
         }
 
-        class FactorNode
+         public class FactorNode
         {
             
         }
 
-        class AtomNode
+         public class AtomNode
         {
             
         }
 
-        class BoolExpressionNode: ExpressionNode
+         public class BoolExpressionNode: ExpressionNode
         {
             
         }
 
-        class NumberTupleNode
+         public class NumberTupleNode
         {
             public int x;
             public int y;
             
         }
 
-        class IfNode : ExpressionNode
+         public class IfNode : ExpressionNode
         {
             
         }
 
-        class ThenNode: ExpressionNode
+         public class ThenNode: ExpressionNode
         {
         }
 
 //________________________________________________//COMMANDS
 
-        abstract class CommandNode
+    public abstract class CommandNode
         {
             
         }
 
-        class movementCommandNode : CommandNode
+    public class movementCommandNode : CommandNode
         {
             
         }
 
-        class LineCommandNode : CommandNode
+    public class LineCommandNode : CommandNode
         {
             
         }
 
-        class CurveCommandNode : CommandNode
+    public class CurveCommandNode : CommandNode
         {
             
         }
 
-        class FromCommandNode : CommandNode
+    public class FromCommandNode : CommandNode
         {
             
         }
-        class ToCommandNode : CommandNode
+    public class ToCommandNode : CommandNode
         {
             
         }
 
-        class DrawCommandNode : CommandNode
+    public class DrawCommandNode : CommandNode
         {
             
         }
@@ -240,17 +240,17 @@ namespace OG.AST
 
 
 
-    abstract class IterationCommandNode
+    public abstract class IterationCommandNode
     {
             
     }
 
-    class NumberedIterationNode : IterationCommandNode
+    public class NumberedIterationNode : IterationCommandNode
     {
         
     }
 
-    class UntilIterationNode : IterationCommandNode
+    public class UntilIterationNode : IterationCommandNode
     {
         
     }
@@ -258,52 +258,52 @@ namespace OG.AST
 
     //________________________________//FUNCTIONS
      
-        abstract class FunctionNode
+    public abstract class FunctionNode
         {
             
         }
 
-        class FunctionDeclarationNode : FunctionNode
+    public class FunctionDeclarationNode : FunctionNode
         {
             
         }
 
-        class ReturnFunctionDCLNode:FunctionNode
+    public class ReturnFunctionDCLNode:FunctionNode
         {
             
         }
 
-        class TypeWordNode
+    public class TypeWordNode
         {
             
         }
 
-        class voidFunctionDCLNode:FunctionNode
+    public class voidFunctionDCLNode:FunctionNode
         {
             
         }
 
-        class ParameterDeclarationsNode
+    public class ParameterDeclarationsNode
         {
             
         }
 
-        class ParametersNode
+    public class ParametersNode
         {
             
         }
 
-        class FunctionCallNode
+    public class FunctionCallNode
         {
             
         }
 
-        class ParameterListNode
+    public class ParameterListNode
         {
             
         }
 
-        class ReturnStatementNode
+    public class ReturnStatementNode
         {
             
         }
@@ -311,97 +311,97 @@ namespace OG.AST
 
        //__________________________//Simple
 
-       class NumberNode
+       public class NumberNode
        {
            
        }
 
-       class BoolianValueNode
+       public class BoolianValueNode
        {
            
        }
        
 
-       class COMMENTNode
+       public class COMMENTNode
        {
            
        }
 
-       class PlusNode
+       public class PlusNode
        {
            
        }
 
-       class MinusNode
+       public class MinusNode
        {
            
        }
 
-       class TimesNode
+       public class TimesNode
        {
            
        }
 
-       class DivideNode
+       public class DivideNode
        {
            
        }
 
-       class PowerNode
+       public class PowerNode
        {
            
        }
 
-       class AndNode
+       public class AndNode
        {
            
        }
 
-       class OrNode
+       public class OrNode
        {
            
        }
 
-       class NotNode
+       public class NotNode
        {
            
        }
 
-       class GreaterThanNode
+       public class GreaterThanNode
        {
            
        }
 
-       class LessThanNode
+       public class LessThanNode
        {
            
        }
 
-       class EqualNode
+       public class EqualNode
        {
            
        }
        
-        class ID: ASTNode
+       public class ID: ASTNode
         {
             
         }
         
-        class OpenScopeNode{
+        public class OpenScopeNode{
         
         }
         
-        class CloseScopeNode{
+        public class CloseScopeNode{
         
         }
 
-        class MachineSetting
+        public class MachineSetting
         {
             public WorkareaNode workarea;
             
         }
 
-        class WorkareaNode
+        public class WorkareaNode
         {
             public string Xmin;
             public string Xmax;
@@ -418,7 +418,7 @@ namespace OG.AST
             }
         }
 
-        class SizeNode
+        public class SizeNode
         {
             
         }

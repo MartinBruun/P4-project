@@ -10,12 +10,16 @@ namespace OG.Compiler
     /// The class responsible for converting a file into a CharStream, which is fed to the Parser.
     /// Is responsible for securing the source file is grammatically valid.
     /// </summary>
-    public class Lexer
+    public class LexerContainer
     {
-        public static ITokenSource CreateLexer(string program)
+        public ICharStream CharStream { get; set; }
+        public ITokenSource TokenSource { get; set; }
+        public OGLexer OGLexer { get; set; }
+        public LexerContainer(string program)
         {
-            ICharStream charStream = new AntlrInputStream(program);
-            return new OGLexer(charStream);
+            CharStream = new AntlrInputStream(program);
+            TokenSource = new OGLexer(CharStream);
+            OGLexer = new OGLexer(CharStream);
         }
     }
 }

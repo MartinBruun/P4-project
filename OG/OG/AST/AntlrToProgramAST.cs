@@ -5,7 +5,7 @@ using OG.AST.MachineSettings;
 namespace OG.AST
 
 {
-    internal class AntlrToProgramAST:OGBaseVisitor<OGProgramAST>, ISemanticErrorable
+    public class AntlrToProgramAST:OGBaseVisitor<OGProgramAST>, ISemanticErrorable
     {
         public AntlrToProgramAST()
         {
@@ -22,8 +22,8 @@ namespace OG.AST
             if (context.settings != null)
             {
                 Console.WriteLine("machinesettings:  " + context.settings.GetText());
-                programAST.Machinesettings = new MachineSettingVisitor().VisitMachineSettings(context.settings);
-                Console.WriteLine(programAST.Machinesettings["WorkArea"]);
+                programAST.MachineSettings = new MachineSettingVisitor().VisitMachineSettings(context.settings);
+                Console.WriteLine(programAST.MachineSettings["WorkArea"]);
             }
             else
             {

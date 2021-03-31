@@ -5,16 +5,25 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
 using OG;
+using OG.Compiler;
 
 namespace Tests
 
 {
     public class ParserTests
     {
+        /// <summary>
+        /// Creates the Parser used for all the tests in this file.
+        /// </summary>
+        /// <param name="fileName">The name of the fixture being used</param>
+        /// <param name="dirName">The name of the directory the fixture is in</param>
+        /// <returns></returns>
         private OGParser CreateParser(string fileName, string dirName)
         {
             string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
-            OGParser parser = OG.Compiler.Parser.CreateParser(code);
+            LexerContainer lexCon = new LexerContainer(code);
+            ParserContainer parCon = new ParserContainer(lexCon);
+            OGParser parser = parCon.OGParser;
             ErrorListenerHelper<IToken> listener = new ErrorListenerHelper<IToken>();
             parser.AddErrorListener(listener);
             return parser;
