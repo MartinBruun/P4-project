@@ -2,25 +2,29 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using Antlr4.Runtime.Atn;
 using OG.AST.MachineSettings;
+using OG.AST.Draw;
+using OG.AST.Functions;
+using OG.AST.Shapes;
 
 namespace OG.AST
 {
-    public class OGProgramAST
+    public class ProgramNode
      { 
          public Dictionary<string, MachineSettingNode> MachineSettings { get; set; }
          public List<ShapeNode> DrawElements { get; set; }
          public List<FunctionDeclarationNode> FunctionDcls { get; set; }
-         public List<ShapeDCLNode> ShapeDcls { get; set; }
+         public List<ShapeDeclarationNode> ShapeDcls { get; set; }
 
-         public OGProgramAST()
+         public ProgramNode()
          {
              MachineSettings = new Dictionary<string, MachineSettingNode>();
              DrawElements    = new List<ShapeNode>();
              FunctionDcls    = new List<FunctionDeclarationNode>();
-             ShapeDcls       = new List<ShapeDCLNode>();
+             ShapeDcls       = new List<ShapeDeclarationNode>();
          }
 
-         public void Add(MachineSetting m)
+         /*
+         public void Add(MachineSettings m)
          {
             // Machinesettings.Add(m);
          }
@@ -37,20 +41,15 @@ namespace OG.AST
          {
             ShapeDcls.Add(s);
          }
+         */
      }
-    
+    /*
     public abstract class DeclarationNode: ASTNode
         { 
            public ASTNode LHS;
            public ASTNode RHS;
         }
-
-    public class ShapeDCLNode : ShapeNode
-         {
-             public string id;
-             public string body;
-         }
-
+    
     public class BoolianDCLNode: DeclarationNode
          {
              
@@ -144,12 +143,6 @@ namespace OG.AST
          
          }
 
-         public class ShapeNode : ReferenceNode
-         {
-             public string id;
-             
-         }
-         
          //_____________________________________//
 
          
@@ -259,11 +252,6 @@ namespace OG.AST
     //________________________________//FUNCTIONS
      
     public abstract class FunctionNode
-        {
-            
-        }
-
-    public class FunctionDeclarationNode : FunctionNode
         {
             
         }
@@ -424,5 +412,5 @@ namespace OG.AST
         }
         
         
-        
+        */
     }

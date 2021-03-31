@@ -2,23 +2,27 @@ using System;
 using System.Collections.Generic;
 using OG.AST;
 using OG.AST.MachineSettings;
+using OG.AST.Draw;
+using OG.AST.Functions;
+using OG.AST.Shapes;
+
 namespace OG.AST
 
 {
-    public class AntlrToProgramAST:OGBaseVisitor<OGProgramAST>, ISemanticErrorable
+    public class ProgramVisitor:OGBaseVisitor<ProgramNode>, ISemanticErrorable
     {
-        public AntlrToProgramAST()
+        public ProgramVisitor()
         {
             
         }
-        public AntlrToProgramAST(List<SemanticError> semanticErrors)
+        public ProgramVisitor(List<SemanticError> semanticErrors)
         {
             SemanticErrors = semanticErrors;
         }
         public List<SemanticError> SemanticErrors { get; set; } = new List<SemanticError>();
-        public override OGProgramAST VisitProg(OGParser.ProgContext context)
+        public override ProgramNode VisitProg(OGParser.ProgContext context)
         {
-            OGProgramAST programAST = new OGProgramAST();
+            ProgramNode programAST = new ProgramNode();
             if (context.settings != null)
             {
                 Console.WriteLine("machinesettings:  " + context.settings.GetText());
@@ -36,10 +40,11 @@ namespace OG.AST
             if (context.drawFunction!= null)
             { 
                 Console.WriteLine(context.drawFunction.GetText());
-                
+                programAST.DrawElements = new DrawVisitor().VisitDraw(context.drawFunction);
             }
             else
             {
+                // Is technically a syntax error if this happens, so can be omitted (since the parser should have found it).
                 SemanticError error = new SemanticError();
                 error.Msg = "No Draw defined";
                 SemanticErrors.Add(error);
@@ -49,24 +54,28 @@ namespace OG.AST
             if (context.functionsDeclarations!= null)
             {
                 Console.WriteLine(context.functionsDeclarations.GetText());
+                programAST.FunctionDcls = new FunctionVisitor().VisitFunctionDcls(context.functionsDeclarations);
             }
             
             
             if (context.shapeDeclarations!= null)
             {
                 Console.WriteLine(context.shapeDeclarations.GetText());
+                programAST.ShapeDcls = new ShapesVisitor().VisitShapeDeclarations(context.shapeDeclarations);
             }
 
 
             
-            foreach (ShapeDCLNode shape in programAST.DrawElements) //Jeg ved ikke om dette er muligt jeg ønsker at sammenligne shape og shapeDCL udfra id
+            foreach (ShapeNode shape in programAST.DrawElements) //Jeg ved ikke om dette er muligt jeg ønsker at sammenligne shape og shapeDCL udfra id
             {
+                /* Vi skal finde en god måde at gøre det her på. Udkommenteret fordi det pt. ikke virker.
                 if (programAST.ShapeDcls.Exists(sdcl => sdcl.id == shape.id ))
                 {
                     SemanticError error = new SemanticError();
                     error.Msg = "shape:" + shape + " has not been declared";
                     SemanticErrors.Add(error);                
                 }
+                */
             }
             SemanticError err = new SemanticError();
             err.Msg = "This is a test of semantic errors in visit program";
