@@ -5,9 +5,25 @@ using OG.AST.Terminals;
 
 namespace OG.AST.Functions
 {
-    public class FunctionVisitor : OGBaseVisitor<List<FunctionDeclarationNode>>
+    public class FunctionDeclarationsVisitor : OGBaseVisitor<List<FunctionDeclarationNode>>, ISemanticErrorable
     {
+        /// <summary>
+        /// The primary output of FunctionDeclarationVisitor
+        /// </summary>
         public List<FunctionDeclarationNode> FunctionDeclarations { get; set; }
+        /// <summary>
+        /// The secondary output of FunctionDeclarationVisitor
+        /// </summary>
+        public  List<SemanticError> SemanticErrors { get; set; }
+
+        public FunctionDeclarationsVisitor()
+        {
+            SemanticErrors = new List<SemanticError>();
+        }
+        public FunctionDeclarationsVisitor(List<SemanticError> semanticErrors)
+        {
+            SemanticErrors = semanticErrors;
+        }
 
         public override List<FunctionDeclarationNode> VisitFunctionDcls([NotNull] OGParser.FunctionDclsContext context)
         {

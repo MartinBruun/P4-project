@@ -11,29 +11,47 @@ namespace OG.AST
 {
     public class ProgramVisitor:OGBaseVisitor<ProgramNode>, ISemanticErrorable
     {
+        public ProgramNode Program { get; set; }
+        public List<SemanticError> SemanticErrors { get; set; }
+        public MachineSettingsVisitor MachineSettingVisitor { get; set; }
+        public DrawVisitor DrawVisitor { get; set; }
+        public FunctionDeclarationsVisitor FunctionDeclarationsVisitor { get; set; }
+        public ShapeDeclarationsVisitor ShapeDeclarationsVisitor { get; set; }
         public ProgramVisitor()
         {
-            
+            SemanticErrors = new List<SemanticError>();
+            MachineSettingVisitor = new MachineSettingsVisitor(SemanticErrors);
+            DrawVisitor = new DrawVisitor(SemanticErrors);
+            FunctionDeclarationsVisitor = new FunctionDeclarationsVisitor(SemanticErrors);
+            ShapeDeclarationsVisitor = new ShapeDeclarationsVisitor(SemanticErrors);
         }
         public ProgramVisitor(List<SemanticError> semanticErrors)
         {
             SemanticErrors = semanticErrors;
+            MachineSettingVisitor = new MachineSettingsVisitor(SemanticErrors);
+            DrawVisitor = new DrawVisitor(SemanticErrors);
+            FunctionDeclarationsVisitor = new FunctionDeclarationsVisitor(SemanticErrors);
+            ShapeDeclarationsVisitor = new ShapeDeclarationsVisitor(SemanticErrors);
         }
-        public List<SemanticError> SemanticErrors { get; set; } = new List<SemanticError>();
+        
         public override ProgramNode VisitProg(OGParser.ProgContext context)
         {
-            ProgramNode programAST = new ProgramNode();
+            Program = new ProgramNode();
             if (context.settings != null)
             {
-                Console.WriteLine("machinesettings:  " + context.settings.GetText());
-                programAST.MachineSettings = new MachineSettingVisitor().VisitMachineSettings(context.settings);
-                Console.WriteLine(programAST.MachineSettings["WorkArea"]);
+                Console.WriteLine("machinesettings context in ProgramVisitor.VisitProg:  " + context.settings.GetText());
+                Program.MachineSettings = MachineSettingVisitor.VisitMachineSettings(context.settings);
+                Console.WriteLine("\n\nWE ARE HERE\n\n");
+                foreach (SemanticError error in this.SemanticErrors)
+                {
+                    Console.WriteLine("Error:" + error);
+                }
             }
             else
             {
                 // Is technically a syntax error, and can therefore be omitted.
                 // Token idToken = context.ID().getToken();
-                SemanticError error = new SemanticError();
+                SemanticError error = new SemanticError(-8,-8,"No Machine settings defined");
                 error.Msg = "No Machine settings defined";
                 SemanticErrors.Add(error);
             }
@@ -41,12 +59,12 @@ namespace OG.AST
             if (context.drawFunction!= null)
             { 
                 Console.WriteLine(context.drawFunction.GetText());
-                programAST.DrawElements = new DrawVisitor().VisitDraw(context.drawFunction);
+                Program.DrawElements = DrawVisitor.VisitDraw(context.drawFunction);
             }
             else
             {
                 // Is technically a syntax error if this happens, so can be omitted (since the parser should have found it).
-                SemanticError error = new SemanticError();
+                SemanticError error = new SemanticError(-6,-6,"No Draw defined");
                 error.Msg = "No Draw defined";
                 SemanticErrors.Add(error);
             }
@@ -55,39 +73,29 @@ namespace OG.AST
             if (context.functionsDeclarations!= null)
             {
                 Console.WriteLine(context.functionsDeclarations.GetText());
-                programAST.FunctionDcls = new FunctionVisitor().VisitFunctionDcls(context.functionsDeclarations);
+                Program.FunctionDcls = FunctionDeclarationsVisitor.VisitFunctionDcls(context.functionsDeclarations);
             }
             
             
             if (context.shapeDeclarations!= null)
             {
                 Console.WriteLine(context.shapeDeclarations.GetText());
-                programAST.ShapeDcls = new ShapesVisitor().VisitShapeDcls(context.shapeDeclarations);
+                Program.ShapeDcls = ShapeDeclarationsVisitor.VisitShapeDcls(context.shapeDeclarations);
             }
 
-
-
-            foreach (ShapeNode shape in programAST.DrawElements) //Jeg ved ikke om dette er muligt jeg ønsker at sammenligne shape og shapeDCL udfra id
+            foreach (ShapeNode shape in Program.DrawElements) //Jeg ved ikke om dette er muligt jeg ønsker at sammenligne shape og shapeDCL udfra id
             {
-                if (programAST.ShapeDcls.Exists(sdcl => sdcl.ID == shape.ID )) // Override Equals method of IDNode
+                if (Program.ShapeDcls.Exists(sdcl => sdcl.ID == shape.ID )) // Override Equals method of IDNode
                 {
-                    SemanticError error = new SemanticError();
-                    error.Msg = "shape:" + shape + " has not been declared";
-                    SemanticErrors.Add(error);                
+                    SemanticErrors.Add(new SemanticError(3,3,$"shape: ({shape}) has not been declared"));                
                 }
             }
-            SemanticError err = new SemanticError();
-            err.Msg = "This is a test of semantic errors in visit program";
-            SemanticErrors.Add(err);
+            SemanticErrors.Add(new SemanticError(-12,-32,"This is a test of semantic errors in visit program"));
             
-            return programAST;
+            return Program;
 
             return VisitChildren(context); // Stod der før, men tænker da vi skal returnere vores ProgramAST?
             return base.VisitProg(context);//lad os lige se hvilken return vi skal bruge
         }
-
-      
-
-        
     }
 }

@@ -14,14 +14,14 @@ namespace OG.Compiler
     public class TypeChecker<N, V> where V : OGBaseVisitor<N>,ISemanticErrorable, new()
     {
         public OGParser OGParser { get; set; }
-        internal V ProgramVisitor { get; set; }
+        internal V Visitor { get; set; }
         public IParseTree ParseTree { get; set; }
         public N AST { get; set; }
 
         public TypeChecker(OGParser ogParser, string astTopNode)
         {
             OGParser = ogParser;
-            ProgramVisitor = new V();
+            Visitor = new V();
             if (astTopNode != "program") throw new NotImplementedException("So far, it has been hardcoded to use parser.program(). Needs reflection for  a generic solution");
             ParseTree = OGParser.program(); // ADD reflection, so the rule isnt hardcoded to "program" but can be other rules. Needs careful handling.
             AST = CreateAST(astTopNode);
@@ -34,11 +34,11 @@ namespace OG.Compiler
         /// <returns></returns>
         private N CreateAST(string astTopNode)
         {
-            N ast = ProgramVisitor.Visit(ParseTree);
-            if (ProgramVisitor.SemanticErrors != null)
+            N ast = Visitor.Visit(ParseTree);
+            if (Visitor.SemanticErrors != null)
             {
                 Console.WriteLine("\nSEMANTIC ERRORS DETECTED");
-                foreach (SemanticError error in ProgramVisitor.SemanticErrors)
+                foreach (SemanticError error in Visitor.SemanticErrors)
                 {
                     Console.WriteLine(error);
                 }

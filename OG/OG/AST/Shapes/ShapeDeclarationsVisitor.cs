@@ -4,9 +4,19 @@ using OG.AST.Terminals;
 
 namespace OG.AST.Shapes
 {
-    public class ShapesVisitor : OGBaseVisitor<List<ShapeDeclarationNode>>
+    public class ShapeDeclarationsVisitor : OGBaseVisitor<List<ShapeDeclarationNode>>, ISemanticErrorable
     {
+        public  List<SemanticError> SemanticErrors { get; set; }
         public List<ShapeDeclarationNode> ShapeDeclarations { get; set; }
+        public ShapeDeclarationsVisitor()
+        {
+            SemanticErrors = new List<SemanticError>();
+        }
+        public ShapeDeclarationsVisitor(List<SemanticError> semanticErrors)
+        {
+            SemanticErrors = semanticErrors;
+            ShapeDeclarations = new List<ShapeDeclarationNode>();
+        }
 
         public override List<ShapeDeclarationNode> VisitShapeDcls(OGParser.ShapeDclsContext context)
         {

@@ -9,14 +9,21 @@ using OG.AST.Terminals;
 
 namespace OG.AST.MachineSettings
 {
-    public class MachineSettingVisitor : OGBaseVisitor<Dictionary<string,MachineSettingNode>>
+    public class MachineSettingsVisitor : OGBaseVisitor<Dictionary<string,MachineSettingNode>>, ISemanticErrorable
     {
+        public  List<SemanticError> SemanticErrors { get; set; }
         private Dictionary<string,MachineSettingNode> MachineSettings { get; set; }
         private MathExpressionVisitor MathExpressionVisitor { get; }
         
-        public MachineSettingVisitor()
+        public MachineSettingsVisitor()
         {
-            MathExpressionVisitor = new MathExpressionVisitor();
+            SemanticErrors = new List<SemanticError>();
+            MathExpressionVisitor = new MathExpressionVisitor(SemanticErrors);
+        }
+        public MachineSettingsVisitor(List<SemanticError> semanticErrors)
+        {
+            SemanticErrors = semanticErrors;
+            MathExpressionVisitor = new MathExpressionVisitor(semanticErrors);
         }
         
         public override Dictionary<string,MachineSettingNode> VisitMachineSettings([NotNull] OGParser.MachineSettingsContext context)

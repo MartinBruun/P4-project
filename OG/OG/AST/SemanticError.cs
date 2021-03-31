@@ -6,9 +6,11 @@ namespace OG.AST
         public int Column { get; set; }
         public string Msg { get; set; }
 
-        public SemanticError()
+        public SemanticError(int line, int column, string msg)
         {
-            
+            Line = line;
+            Column = column;
+            Msg = msg;
         }
 
         public override string ToString()

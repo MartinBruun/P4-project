@@ -7,8 +7,25 @@ using OG.AST.Terminals;
 
 namespace OG.AST.MathExpression
 {
-    public class MathExpressionVisitor : OGBaseVisitor<NumberNode<int>>
+    public class MathExpressionVisitor : OGBaseVisitor<NumberNode<int>>, ISemanticErrorable
     {
+        /// <summary>
+        /// The primary output of MathExpressionVisitor
+        /// </summary>
+        public NumberNode<int> NumberNode { get; set; }
+        /// <summary>
+        /// The secondary output of MathExpressionVisitor
+        /// </summary>
+        public  List<SemanticError> SemanticErrors { get; set; }
+
+        public MathExpressionVisitor()
+        {
+            SemanticErrors = new List<SemanticError>();
+        }
+        public MathExpressionVisitor(List<SemanticError> semanticErrors)
+        {
+            SemanticErrors = semanticErrors;
+        }
         public override NumberNode<int> VisitSingleTermExpr([NotNull] OGParser.SingleTermExprContext context)
         {
             return VisitChildren(context);
@@ -21,6 +38,9 @@ namespace OG.AST.MathExpression
 
         public override NumberNode<int> VisitNumber([NotNull] OGParser.NumberContext context) // TODO: Skal gøres mere generisk så den accepterer float eller double.
         {
+            SemanticErrors.Add(new SemanticError(-1,-1,
+                "Test if semantic error gets caught 4 times in MathExpressionVisitor.VisitSingleTermExpr " +
+                "(one for each number in Machine WorkArea SizeProperty)"));
             int number = int.Parse(context.GetChild(0).GetText());
             return new NumberNode<int>(number);
         }
