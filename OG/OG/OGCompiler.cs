@@ -14,19 +14,20 @@ namespace OG
         {
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
-            string sourceFile       = File.ReadAllText("../../../testFile.og");
-            LexerContainer lexCon   = new LexerContainer(sourceFile);
-            ParserContainer parCon  = new ParserContainer(lexCon);
-            var typeChecker         = new TypeChecker<OGProgramAST,AntlrToProgramAST>(parCon);
+            string sourceFile      = File.ReadAllText("../../../testFile.og");
+            LexerContainer lexCon  = new LexerContainer(sourceFile);
+            ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
+            var typeChecker        = new TypeChecker<OGProgramAST,AntlrToProgramAST>(parCon.OGParser);
+            var translator         = new Translator<OGProgramAST>(typeChecker.AST);
+            // var peepOptimizer   = new PeepOptimizer<OGProgramAST>(translator.IR);
+            // ...                 = ...
+            // var lastOptimizer   = new LastOptimizer<OGProgramAST>(peepOptimizer.IR);
+            // var codeGenerator   = new CodeGenerator<OGProgramAST>(lastOptimizer.IR);
+            // File.Write("code.gcode", codeGenerator.Code);
             
             Console.WriteLine("EXITED PROGRAM:\n\n");
             Console.WriteLine(typeChecker.AST.MachineSettings["WorkArea"]);
-            
-            // AFFTER THIS we need:
-            // Translator :  ast -> intermediate representation (IR)
-            // 0-many Optimizers optimising the IR inheriting from BaseOptimizer
-            // Code Generator : IR -> G-code
-            // All classes are to be found in OG.Compiler
+            Console.WriteLine("\n\nTRANSLATOR IS STILL WORK IN PROGRESS!");
         }
     }
 }

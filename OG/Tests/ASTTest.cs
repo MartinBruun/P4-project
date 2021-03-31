@@ -20,8 +20,8 @@ namespace Tests
         {
             string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
             LexerContainer lexCon = new LexerContainer(code);
-            ParserContainer parCon = new ParserContainer(lexCon);
-            TypeChecker<Node,Visitor> typeChecker = new TypeChecker<Node,Visitor>(parCon, ruleBeingTested);
+            ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
+            TypeChecker<Node,Visitor> typeChecker = new TypeChecker<Node,Visitor>(parCon.OGParser, ruleBeingTested);
             return typeChecker.AST;
         }
         

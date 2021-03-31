@@ -6,20 +6,22 @@ using OG.AST;
 namespace OG.Compiler
 {
     /// <summary>
-    /// Creates a ParseTree from the OGParser and converts it into a decorated AST.
+    /// Creates a ParseTree from the OGParser and converts it into a decorated AST (N).
     /// Is responsible for the semantic analysis of the source file.
     /// </summary>
-    public class TypeChecker<Node, Visitor> where Visitor : OGBaseVisitor<Node>,ISemanticErrorable, new()
+    /// <typeparam name="N">Generic "Node" type, which the TypeChecker creates</typeparam>
+    /// <typeparam name="V">Generic "Visitor" type, showing what visitor is needed to traverse the Node</typeparam>
+    public class TypeChecker<N, V> where V : OGBaseVisitor<N>,ISemanticErrorable, new()
     {
         public OGParser OGParser { get; set; }
-        internal Visitor ProgramVisitor { get; set; }
+        internal V ProgramVisitor { get; set; }
         public IParseTree ParseTree { get; set; }
-        public Node AST { get; set; }
+        public N AST { get; set; }
 
-        public TypeChecker(ParserContainer parser, string astTopNode="program")
+        public TypeChecker(OGParser ogParser, string astTopNode="program")
         {
-            OGParser = parser.OGParser;
-            ProgramVisitor = new Visitor();
+            OGParser = ogParser;
+            ProgramVisitor = new V();
             if (astTopNode != "program") throw new NotImplementedException(); // The generics have been created, just need reflection
             ParseTree = OGParser.program(); // ADD reflection, so the rule isnt hardcoded to "program" but can be other rules. Needs careful handling.
             AST = CreateAST(astTopNode);
@@ -30,9 +32,9 @@ namespace OG.Compiler
         /// </summary>
         /// <param name="astTopNode">The CFG rule being chosen to generate an AST from</param>
         /// <returns></returns>
-        private Node CreateAST(string astTopNode)
+        private N CreateAST(string astTopNode)
         {
-            Node ast = ProgramVisitor.Visit(ParseTree);
+            N ast = ProgramVisitor.Visit(ParseTree);
             if (ProgramVisitor.SemanticErrors != null)
             {
                 Console.WriteLine("\nSEMANTIC ERRORS DETECTED");

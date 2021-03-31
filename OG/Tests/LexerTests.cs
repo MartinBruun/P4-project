@@ -22,7 +22,7 @@ namespace Tests
         {
             string code = File.ReadAllText("../../../Fixtures/" +dirName + fileName);
             LexerContainer lexCon = new LexerContainer(code);
-            OGLexer lexer = lexCon.OGLexer;
+            OGLexer lexer = (OGLexer) lexCon.TokenSource;
             ErrorListenerHelper<int> listener = new ErrorListenerHelper<int>();
             lexer.AddErrorListener(listener);
             return new CommonTokenStream(lexer);
