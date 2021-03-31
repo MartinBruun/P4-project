@@ -19,10 +19,10 @@ namespace OG
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
             var typeChecker        = new TypeChecker<OGProgramAST,AntlrToProgramAST>(parCon.OGParser, "program");
             var translator         = new Translator<OGProgramAST>(typeChecker.AST);
-            // var peepOptimizer   = new PeepOptimizer<OGProgramAST>(translator.IR);
+            // var peepOptimizer   = new PeepOptimizer(translator.IR);
             // ...                 = ...
-            // var lastOptimizer   = new LastOptimizer<OGProgramAST>(peepOptimizer.IR);
-            // var codeGenerator   = new CodeGenerator<OGProgramAST>(lastOptimizer.IR);
+            // var lastOptimizer   = new LastOptimizer(peepOptimizer.IR);
+            // var codeGenerator   = new CodeGenerator(lastOptimizer.IR);
             // File.Write("code.gcode", codeGenerator.Code);
             
             Console.WriteLine("EXITED PROGRAM:\n\n");
