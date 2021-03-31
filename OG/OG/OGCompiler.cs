@@ -23,7 +23,7 @@ namespace OG
             // ...                 = ...
             // var lastOptimizer   = new LastOptimizer(peepOptimizer.IR);
             // var codeGenerator   = new CodeGenerator(lastOptimizer.IR);
-            // File.Write("code.gcode", codeGenerator.Code);
+            // File.Write("testFile.gcode", codeGenerator.Code);
             
             Console.WriteLine("EXITED PROGRAM:\n\n");
             Console.WriteLine(typeChecker.AST.MachineSettings["WorkArea"]);
