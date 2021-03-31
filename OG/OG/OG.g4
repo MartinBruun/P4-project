@@ -26,19 +26,19 @@ sizePrpt : 'size' '(' workAreaVariables=workAreaVars ')' #sizeProperty
 workAreaVars : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
 
 // Shape Declarations and Function Declarations (Could maybe be moved down in their respective region?)
-shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls #shapeDeclarations
-            |                                                      #endOfShapesDefined
+shapeDcls   : currentShapeDcl=shapeDcl shapeDeclarations=shapeDcls
+            |
             ;
             
-functionDcls: functionDcl functionDcls   #functionDeclarations
-            |                            #endOfFunctionsDefined
+functionDcls: functionDcl functionDcls
+            |
             ;
 
 // Draw
 draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
-drawCommands: drawCommand drawCommands #drawCmds
-            |                          #endOfDrawCommands
+drawCommands: drawCommand drawCommands
+            |
             ;
             
 drawCommand     : id=ID';'                             #drawCmd

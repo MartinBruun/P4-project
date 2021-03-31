@@ -25,8 +25,11 @@ namespace OG
             // var codeGenerator   = new CodeGenerator(lastOptimizer.IR);
             // File.Write("testFile.gcode", codeGenerator.Code);
             
-            Console.WriteLine("EXITED PROGRAM:\n\n");
+            Console.WriteLine("EXITED PROGRAM:");
             Console.WriteLine(typeChecker.AST.MachineSettings["WorkArea"]);
+            Console.WriteLine(typeChecker.AST.DrawElements[0]);
+            Console.WriteLine(typeChecker.AST.FunctionDcls[0]);
+            Console.WriteLine(typeChecker.AST.ShapeDcls[0]);
             Console.WriteLine("\n\nTRANSLATOR IS STILL WORK IN PROGRESS!");
         }
     }

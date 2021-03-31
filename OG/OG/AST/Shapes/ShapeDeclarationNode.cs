@@ -10,5 +10,9 @@ namespace OG.AST.Shapes
         {
             ID = id;
         }
+        public override string ToString()
+        {
+            return "ShapeDeclarationNode with ID: " + ID.ToString();
+        }
     }
 }

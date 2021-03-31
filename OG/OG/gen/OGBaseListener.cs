@@ -158,61 +158,29 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitWorkAreaVars([NotNull] OGParser.WorkAreaVarsContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>shapeDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.shapeDcls"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterShapeDeclarations([NotNull] OGParser.ShapeDeclarationsContext context) { }
+	public virtual void EnterShapeDcls([NotNull] OGParser.ShapeDclsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>shapeDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.shapeDcls"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitShapeDeclarations([NotNull] OGParser.ShapeDeclarationsContext context) { }
+	public virtual void ExitShapeDcls([NotNull] OGParser.ShapeDclsContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>endOfShapesDefined</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.functionDcls"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context) { }
+	public virtual void EnterFunctionDcls([NotNull] OGParser.FunctionDclsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>endOfShapesDefined</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.functionDcls"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>functionDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterFunctionDeclarations([NotNull] OGParser.FunctionDeclarationsContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>functionDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitFunctionDeclarations([NotNull] OGParser.FunctionDeclarationsContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>endOfFunctionsDefined</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>endOfFunctionsDefined</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context) { }
+	public virtual void ExitFunctionDcls([NotNull] OGParser.FunctionDclsContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.draw"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -226,33 +194,17 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitDraw([NotNull] OGParser.DrawContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>drawCmds</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.drawCommands"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterDrawCmds([NotNull] OGParser.DrawCmdsContext context) { }
+	public virtual void EnterDrawCommands([NotNull] OGParser.DrawCommandsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>drawCmds</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.drawCommands"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitDrawCmds([NotNull] OGParser.DrawCmdsContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>endOfDrawCommands</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterEndOfDrawCommands([NotNull] OGParser.EndOfDrawCommandsContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>endOfDrawCommands</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitEndOfDrawCommands([NotNull] OGParser.EndOfDrawCommandsContext context) { }
+	public virtual void ExitDrawCommands([NotNull] OGParser.DrawCommandsContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>drawCmd</c>
 	/// labeled alternative in <see cref="OGParser.drawCommand"/>.

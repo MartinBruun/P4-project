@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Antlr4.Runtime.Misc;
+using OG.AST.Shapes;
+using OG.AST.Terminals;
 
 namespace OG.AST.Functions
 {
@@ -7,9 +9,12 @@ namespace OG.AST.Functions
     {
         public List<FunctionDeclarationNode> FunctionDeclarations { get; set; }
 
-        public override List<FunctionDeclarationNode> VisitFunctionDcl([NotNull] OGParser.FunctionDclContext context)
+        public override List<FunctionDeclarationNode> VisitFunctionDcls([NotNull] OGParser.FunctionDclsContext context)
         {
             FunctionDeclarations = new List<FunctionDeclarationNode>();
+            
+            IDNode id = new IDNode("ID For Function Declaration");
+            FunctionDeclarations.Add(new FunctionDeclarationNode(id));
             
             VisitChildren(context);
 

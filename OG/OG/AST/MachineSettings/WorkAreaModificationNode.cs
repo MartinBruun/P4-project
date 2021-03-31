@@ -21,7 +21,7 @@
 
         public override string ToString()
         {
-            return "  WorkAreaModifier with Properties:\n" + SizeProperty.ToString();
+            return "WorkAreaModifier with Properties:\n  " + SizeProperty.ToString();
         }
     }
 }

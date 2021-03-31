@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Antlr4.Runtime.Misc;
+using OG.AST.Terminals;
 
 namespace OG.AST.Shapes
 {
@@ -7,19 +8,16 @@ namespace OG.AST.Shapes
     {
         public List<ShapeDeclarationNode> ShapeDeclarations { get; set; }
 
-        public override List<ShapeDeclarationNode> VisitShapeDeclarations(OGParser.ShapeDeclarationsContext context)
+        public override List<ShapeDeclarationNode> VisitShapeDcls(OGParser.ShapeDclsContext context)
         {
             ShapeDeclarations = new List<ShapeDeclarationNode>();
+
+            IDNode id = new IDNode("ID For Shape Declaration");
+            ShapeDeclarations.Add(new ShapeDeclarationNode(id));
             
             VisitChildren(context);
 
             return ShapeDeclarations;
-        }
-
-        public override List<ShapeDeclarationNode> VisitEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context)
-        {
-            // Check that context is indeed empty, otherwise give semantic error.
-            return VisitChildren(context);
         }
     }
 }

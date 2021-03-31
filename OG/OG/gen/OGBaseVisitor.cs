@@ -132,8 +132,7 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// <return>The visitor result.</return>
 	public virtual Result VisitWorkAreaVars([NotNull] OGParser.WorkAreaVarsContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>shapeDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.shapeDcls"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -141,10 +140,9 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitShapeDeclarations([NotNull] OGParser.ShapeDeclarationsContext context) { return VisitChildren(context); }
+	public virtual Result VisitShapeDcls([NotNull] OGParser.ShapeDclsContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>endOfShapesDefined</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.functionDcls"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -152,29 +150,7 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by the <c>functionDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitFunctionDeclarations([NotNull] OGParser.FunctionDeclarationsContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by the <c>endOfFunctionsDefined</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context) { return VisitChildren(context); }
+	public virtual Result VisitFunctionDcls([NotNull] OGParser.FunctionDclsContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.draw"/>.
 	/// <para>
@@ -186,8 +162,7 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// <return>The visitor result.</return>
 	public virtual Result VisitDraw([NotNull] OGParser.DrawContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>drawCmds</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.drawCommands"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -195,18 +170,7 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitDrawCmds([NotNull] OGParser.DrawCmdsContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by the <c>endOfDrawCommands</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitEndOfDrawCommands([NotNull] OGParser.EndOfDrawCommandsContext context) { return VisitChildren(context); }
+	public virtual Result VisitDrawCommands([NotNull] OGParser.DrawCommandsContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>drawCmd</c>
 	/// labeled alternative in <see cref="OGParser.drawCommand"/>.

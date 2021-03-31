@@ -55,14 +55,14 @@ namespace OG.AST
             if (context.functionsDeclarations!= null)
             {
                 Console.WriteLine(context.functionsDeclarations.GetText());
-                programAST.FunctionDcls = new FunctionVisitor().VisitFunctionDcl(context.functionsDeclarations);
+                programAST.FunctionDcls = new FunctionVisitor().VisitFunctionDcls(context.functionsDeclarations);
             }
             
             
             if (context.shapeDeclarations!= null)
             {
                 Console.WriteLine(context.shapeDeclarations.GetText());
-                programAST.ShapeDcls = new ShapesVisitor().VisitShapeDeclarations(context.shapeDeclarations);
+                programAST.ShapeDcls = new ShapesVisitor().VisitShapeDcls(context.shapeDeclarations);
             }
 
 

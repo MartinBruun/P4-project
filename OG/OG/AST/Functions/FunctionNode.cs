@@ -10,5 +10,9 @@ namespace OG.AST.Functions
         {
             ID = id;
         }
+        public override string ToString()
+        {
+            return "FunctionNode with ID: " + ID.ToString();
+        }
     }
 }
