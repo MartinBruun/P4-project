@@ -91,6 +91,5 @@ namespace OG.AST.MachineSettings
             workNode.SizeProperty = sizeProperty;
             return VisitChildren(context);
         }
-
     }   
 }
