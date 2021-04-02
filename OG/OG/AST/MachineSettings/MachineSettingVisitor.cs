@@ -12,6 +12,7 @@ namespace OG.AST.MachineSettings
 {
     public class MachineSettingsVisitor : OGBaseVisitor<Dictionary<string,MachineSettingNode>>, ISemanticErrorable
     {
+        public string TopNode { get; set; } = "machineSettings";
         public  List<SemanticError> SemanticErrors { get; set; }
         private Dictionary<string,MachineSettingNode> MachineSettings { get; set; }
         private MathExpressionVisitor MathExpressionVisitor { get; }

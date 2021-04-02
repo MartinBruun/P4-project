@@ -18,13 +18,13 @@ namespace OG.Compiler
         public IParseTree ParseTree { get; set; }
         public N AST { get; set; }
 
-        public TypeChecker(OGParser ogParser, string astTopNode)
+        public TypeChecker(OGParser ogParser)
         {
             OGParser = ogParser;
             Visitor = new V();
-            if (astTopNode != "program") throw new NotImplementedException("So far, it has been hardcoded to use parser.program(). Needs reflection for  a generic solution");
+            // OGParser.REFLECTION(Visitor.TopNode); Should give "program" if ProgramVisitor or "machineSettings" if MachineVisitor.
             ParseTree = OGParser.program(); // ADD reflection, so the rule isnt hardcoded to "program" but can be other rules. Needs careful handling.
-            AST = CreateAST(astTopNode);
+            AST = CreateAST();
         }
         
         /// <summary>
@@ -32,7 +32,7 @@ namespace OG.Compiler
         /// </summary>
         /// <param name="astTopNode">The CFG rule being chosen to generate an AST from</param>
         /// <returns></returns>
-        private N CreateAST(string astTopNode)
+        private N CreateAST()
         {
             N ast = Visitor.Visit(ParseTree);
             

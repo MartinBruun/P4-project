@@ -6,6 +6,7 @@ namespace OG.AST.Draw
 {
     public class DrawVisitor : OGBaseVisitor<List<ShapeNode>>, ISemanticErrorable
     {
+        public string TopNode { get; set; } = "draw";
         /// <summary>
         /// The primary output of DrawVisitor.
         /// </summary>

@@ -11,6 +11,7 @@ namespace OG.AST
 {
     public class ProgramVisitor:OGBaseVisitor<ProgramNode>, ISemanticErrorable
     {
+        public string TopNode { get; set; } = "program";
         public ProgramNode Program { get; set; }
         public List<SemanticError> SemanticErrors { get; set; }
         public MachineSettingsVisitor MachineSettingVisitor { get; set; }

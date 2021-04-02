@@ -7,6 +7,7 @@ namespace OG.AST.Functions
 {
     public class FunctionDeclarationsVisitor : OGBaseVisitor<List<FunctionDeclarationNode>>, ISemanticErrorable
     {
+        public string TopNode { get; set; } = "functionDcls";
         /// <summary>
         /// The primary output of FunctionDeclarationVisitor
         /// </summary>

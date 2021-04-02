@@ -9,6 +9,7 @@ namespace OG.AST.MathExpression
 {
     public class MathExpressionVisitor : OGBaseVisitor<NumberNode<int>>, ISemanticErrorable
     {
+        public string TopNode { get; set; } = "mathExpression";
         /// <summary>
         /// The primary output of MathExpressionVisitor
         /// </summary>
