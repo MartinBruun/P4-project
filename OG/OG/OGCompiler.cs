@@ -18,7 +18,7 @@ namespace OG
             LexerContainer lexCon  = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
             var typeChecker        = new TypeChecker<ProgramNode,ProgramVisitor>(parCon.OGParser);
-            var translator         = new Translator<ProgramNode>(typeChecker.AST);
+            Translator translator  = new Translator(typeChecker.AST);
             // var peepOptimizer   = new PeepOptimizer(translator.IR);
             // ...                 = ...
             // var lastOptimizer   = new LastOptimizer(peepOptimizer.IR);

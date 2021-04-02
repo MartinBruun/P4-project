@@ -45,8 +45,8 @@ namespace OG.Compiler
             catch(NullReferenceException nullError)
             {
                 throw new NullReferenceException(
-                    "TypeChecker.CreateTopNodeParseTree tries to access method which does not exist.\n" +
-                    $"Check if the TopNode in the Visitor {Visitor.GetType()} is spelled correctly, and accesses the correct method.");
+                    $"TypeChecker.CreateTopNodeParseTree tries to access method ({Visitor.TopNode}) which does not exist.\n" +
+                    $"Check if the TopNode in the Visitor {Visitor.GetType()} is spelled correctly as in the OG.g4 file.");
             }
         }
         
