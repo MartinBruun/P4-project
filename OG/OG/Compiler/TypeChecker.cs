@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using OG.AST;
 
@@ -22,9 +24,30 @@ namespace OG.Compiler
         {
             OGParser = ogParser;
             Visitor = new V();
+            ParseTree = CreateTopNodeParseTree();
             // OGParser.REFLECTION(Visitor.TopNode); Should give "program" if ProgramVisitor or "machineSettings" if MachineVisitor.
-            ParseTree = OGParser.program(); // ADD reflection, so the rule isnt hardcoded to "program" but can be other rules. Needs careful handling.
             AST = CreateAST();
+        }
+
+        /// <summary>
+        /// Method which creates a ParseTree depending on the chosen Visitor for the TypeChecker.
+        /// </summary>
+        /// <returns>A ParseTree depending on the visitor (ie. "ProgramVisitor" should call "OGParser.program()")</returns>
+        /// <exception cref="NullReferenceException">Exception thrown, if the Visitor.TopNode is set to a wrong method name</exception>
+        private IParseTree CreateTopNodeParseTree()
+        {
+            try
+            {
+                IParseTree parseTree =
+                    (IParseTree) OGParser.GetType().GetMethod(Visitor.TopNode).Invoke(OGParser, null);
+                return parseTree;
+            }
+            catch(NullReferenceException nullError)
+            {
+                throw new NullReferenceException(
+                    "TypeChecker.CreateTopNodeParseTree tries to access method which does not exist.\n" +
+                    $"Check if the TopNode in the Visitor {Visitor.GetType()} is spelled correctly, and accesses the correct method.");
+            }
         }
         
         /// <summary>

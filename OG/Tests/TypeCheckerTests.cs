@@ -13,7 +13,7 @@ using OG.Compiler;
 
 namespace Tests
 {
-    public class ASTTests
+    public class TypeCheckerTests
     {
         private Node CreateAST<Node, Visitor>(string fileName, string dirName) 
             where Visitor : OGBaseVisitor<Node>, ISemanticErrorable, new()
