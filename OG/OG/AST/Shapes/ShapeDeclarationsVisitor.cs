@@ -7,8 +7,9 @@ namespace OG.AST.Shapes
     public class ShapeDeclarationsVisitor : OGBaseVisitor<List<ShapeDeclarationNode>>, ISemanticErrorable
     {
         public string TopNode { get; set; } = "shapeDcls";
-        public  List<SemanticError> SemanticErrors { get; set; }
         public List<ShapeDeclarationNode> ShapeDeclarations { get; set; }
+        public  List<SemanticError> SemanticErrors { get; set; }
+        
         public ShapeDeclarationsVisitor()
         {
             SemanticErrors = new List<SemanticError>();
