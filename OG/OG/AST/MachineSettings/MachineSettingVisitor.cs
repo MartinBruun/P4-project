@@ -55,7 +55,7 @@ namespace OG.AST.MachineSettings
         public override Dictionary<string,MachineSettingNode> VisitWorkAreaModifier([NotNull] OGParser.WorkAreaModifierContext context)
         {
             // if MachineSettings.Contain(WorkAreaNode) -> Semantic Error!
-            MachineSettings["WorkArea"] = new WorkAreaModificationNode();
+            MachineSettings["WorkArea"] = new WorkAreaSettingNode();
             return VisitChildren(context);
         }
 
@@ -74,12 +74,12 @@ namespace OG.AST.MachineSettings
         public override Dictionary<string, MachineSettingNode> VisitSizeProperty(
             [NotNull] OGParser.SizePropertyContext context)
         {
-            WorkAreaModificationNode workNode = (WorkAreaModificationNode) MachineSettings["WorkArea"];
+            WorkAreaSettingNode workNode = (WorkAreaSettingNode) MachineSettings["WorkArea"];
             if (workNode.SizeProperty != null)
             {
                 IToken token = context.Start;
                 SemanticErrors.Add(new SemanticError(token.Line,token.Column,
-                    "WorkArea cant be designated size property more than ones.", context.GetText()));
+                    "WorkArea cant be designated size property more than once.", context.GetText()));
             }
             
             NumberNode<int> xMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables.xmin);

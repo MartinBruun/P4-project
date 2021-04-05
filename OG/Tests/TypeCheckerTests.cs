@@ -28,8 +28,8 @@ namespace Tests
         [TestCase("base.og", "Testing the minimal meaningful product")]
         public void Test_Fixtures_ShouldGiveCorrectAST(string fileName, string description)
         {
-            ProgramNode program = CreateAST<ProgramNode, ProgramVisitor>(fileName, "Correct programs/");
-            WorkAreaModificationNode node = (WorkAreaModificationNode) program.MachineSettings["WorkArea"];
+            ProgramNode program = CreateAST<ProgramNode, ASTBuilder>(fileName, "Correct programs/");
+            WorkAreaSettingNode node = (WorkAreaSettingNode) program.MachineSettings["WorkArea"];
 
             Assert.AreEqual(0, node.SizeProperty.XMin.Value);
             Assert.AreEqual(100, node.SizeProperty.XMax.Value);

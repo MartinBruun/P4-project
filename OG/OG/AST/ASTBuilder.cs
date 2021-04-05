@@ -9,7 +9,7 @@ using OG.AST.Shapes;
 namespace OG.AST
 
 {
-    public class ProgramVisitor:OGBaseVisitor<ProgramNode>, ISemanticErrorable
+    public class ASTBuilder:OGBaseVisitor<ProgramNode>, ISemanticErrorable
     {
         public string TopNode { get; set; } = "program";
         public ProgramNode Program { get; set; }
@@ -18,7 +18,7 @@ namespace OG.AST
         public DrawVisitor DrawVisitor { get; set; }
         public FunctionDeclarationsVisitor FunctionDeclarationsVisitor { get; set; }
         public ShapeDeclarationsVisitor ShapeDeclarationsVisitor { get; set; }
-        public ProgramVisitor()
+        public ASTBuilder()
         {
             SemanticErrors = new List<SemanticError>();
             MachineSettingVisitor = new MachineSettingsVisitor(SemanticErrors);
@@ -26,7 +26,7 @@ namespace OG.AST
             FunctionDeclarationsVisitor = new FunctionDeclarationsVisitor(SemanticErrors);
             ShapeDeclarationsVisitor = new ShapeDeclarationsVisitor(SemanticErrors);
         }
-        public ProgramVisitor(List<SemanticError> semanticErrors)
+        public ASTBuilder(List<SemanticError> semanticErrors)
         {
             SemanticErrors = semanticErrors;
             MachineSettingVisitor = new MachineSettingsVisitor(SemanticErrors);
@@ -56,13 +56,18 @@ namespace OG.AST
             if (context.shapeDeclarations!= null)
             {
                 Program.ShapeDcls = ShapeDeclarationsVisitor.VisitShapeDcls(context.shapeDeclarations);
-                CheckAllShapesDeclared();
             }
+            
+            CheckAllUsedShapes();
+            CheckAllShapesDeclared();
+            CheckShapesNotInfinitelyRecursive();
 
             return Program;
+        }
 
-            return VisitChildren(context); // Stod der før, men tænker da vi skal returnere vores ProgramAST?
-            return base.VisitProg(context);//lad os lige se hvilken return vi skal bruge
+        private void CheckAllUsedShapes()
+        {
+            
         }
 
         private void CheckAllShapesDeclared()
@@ -74,6 +79,11 @@ namespace OG.AST
                     SemanticErrors.Add(new SemanticError(3,3,$"shape: ({shape}) has not been declared"));                
                 }
             }
+        }
+
+        private void CheckShapesNotInfinitelyRecursive()
+        {
+            
         }
     }
 }

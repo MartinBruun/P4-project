@@ -25,7 +25,6 @@ namespace OG.Compiler
             OGParser = ogParser;
             Visitor = new V();
             ParseTree = CreateTopNodeParseTree();
-            // OGParser.REFLECTION(Visitor.TopNode); Should give "program" if ProgramVisitor or "machineSettings" if MachineVisitor.
             AST = CreateAST();
         }
 

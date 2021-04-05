@@ -17,7 +17,7 @@ namespace OG
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
-            var typeChecker        = new TypeChecker<ProgramNode,ProgramVisitor>(parCon.OGParser);
+            var typeChecker        = new TypeChecker<ProgramNode,ASTBuilder>(parCon.OGParser);
             Translator translator  = new Translator(typeChecker.AST);
             // var peepOptimizer   = new PeepOptimizer(translator.IR);
             // ...                 = ...
