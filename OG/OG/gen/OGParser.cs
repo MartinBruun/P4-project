@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/saxjax/developer/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -699,37 +699,6 @@ public partial class OGParser : Parser {
 	}
 
 	public partial class ShapeDclsContext : ParserRuleContext {
-		public ShapeDclsContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_shapeDcls; } }
-	 
-		public ShapeDclsContext() { }
-		public virtual void CopyFrom(ShapeDclsContext context) {
-			base.CopyFrom(context);
-		}
-	}
-	public partial class EndOfShapesDefinedContext : ShapeDclsContext {
-		public EndOfShapesDefinedContext(ShapeDclsContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterEndOfShapesDefined(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitEndOfShapesDefined(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitEndOfShapesDefined(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class ShapeDeclarationsContext : ShapeDclsContext {
 		public ShapeDclContext currentShapeDcl;
 		public ShapeDclsContext shapeDeclarations;
 		[System.Diagnostics.DebuggerNonUserCode] public ShapeDclContext shapeDcl() {
@@ -738,21 +707,25 @@ public partial class OGParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ShapeDclsContext shapeDcls() {
 			return GetRuleContext<ShapeDclsContext>(0);
 		}
-		public ShapeDeclarationsContext(ShapeDclsContext context) { CopyFrom(context); }
+		public ShapeDclsContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_shapeDcls; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterShapeDeclarations(this);
+			if (typedListener != null) typedListener.EnterShapeDcls(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitShapeDeclarations(this);
+			if (typedListener != null) typedListener.ExitShapeDcls(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitShapeDeclarations(this);
+			if (typedVisitor != null) return typedVisitor.VisitShapeDcls(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -766,17 +739,15 @@ public partial class OGParser : Parser {
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case ShapeDCLWord:
-				_localctx = new ShapeDeclarationsContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 164;
-				((ShapeDeclarationsContext)_localctx).currentShapeDcl = shapeDcl();
+				_localctx.currentShapeDcl = shapeDcl();
 				State = 165;
-				((ShapeDeclarationsContext)_localctx).shapeDeclarations = shapeDcls();
+				_localctx.shapeDeclarations = shapeDcls();
 				}
 				break;
 			case Eof:
-				_localctx = new EndOfShapesDefinedContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
 				}
@@ -797,58 +768,31 @@ public partial class OGParser : Parser {
 	}
 
 	public partial class FunctionDclsContext : ParserRuleContext {
-		public FunctionDclsContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_functionDcls; } }
-	 
-		public FunctionDclsContext() { }
-		public virtual void CopyFrom(FunctionDclsContext context) {
-			base.CopyFrom(context);
-		}
-	}
-	public partial class EndOfFunctionsDefinedContext : FunctionDclsContext {
-		public EndOfFunctionsDefinedContext(FunctionDclsContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterEndOfFunctionsDefined(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitEndOfFunctionsDefined(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitEndOfFunctionsDefined(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class FunctionDeclarationsContext : FunctionDclsContext {
 		[System.Diagnostics.DebuggerNonUserCode] public FunctionDclContext functionDcl() {
 			return GetRuleContext<FunctionDclContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public FunctionDclsContext functionDcls() {
 			return GetRuleContext<FunctionDclsContext>(0);
 		}
-		public FunctionDeclarationsContext(FunctionDclsContext context) { CopyFrom(context); }
+		public FunctionDclsContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_functionDcls; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterFunctionDeclarations(this);
+			if (typedListener != null) typedListener.EnterFunctionDcls(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitFunctionDeclarations(this);
+			if (typedListener != null) typedListener.ExitFunctionDcls(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitFunctionDeclarations(this);
+			if (typedVisitor != null) return typedVisitor.VisitFunctionDcls(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -862,7 +806,6 @@ public partial class OGParser : Parser {
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case FunctionStartWord:
-				_localctx = new FunctionDeclarationsContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 170;
@@ -873,7 +816,6 @@ public partial class OGParser : Parser {
 				break;
 			case Eof:
 			case ShapeDCLWord:
-				_localctx = new EndOfFunctionsDefinedContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
 				}
@@ -953,58 +895,31 @@ public partial class OGParser : Parser {
 	}
 
 	public partial class DrawCommandsContext : ParserRuleContext {
-		public DrawCommandsContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_drawCommands; } }
-	 
-		public DrawCommandsContext() { }
-		public virtual void CopyFrom(DrawCommandsContext context) {
-			base.CopyFrom(context);
-		}
-	}
-	public partial class DrawCmdsContext : DrawCommandsContext {
 		[System.Diagnostics.DebuggerNonUserCode] public DrawCommandContext drawCommand() {
 			return GetRuleContext<DrawCommandContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public DrawCommandsContext drawCommands() {
 			return GetRuleContext<DrawCommandsContext>(0);
 		}
-		public DrawCmdsContext(DrawCommandsContext context) { CopyFrom(context); }
+		public DrawCommandsContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_drawCommands; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterDrawCmds(this);
+			if (typedListener != null) typedListener.EnterDrawCommands(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitDrawCmds(this);
+			if (typedListener != null) typedListener.ExitDrawCommands(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitDrawCmds(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class EndOfDrawCommandsContext : DrawCommandsContext {
-		public EndOfDrawCommandsContext(DrawCommandsContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterEndOfDrawCommands(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitEndOfDrawCommands(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitEndOfDrawCommands(this);
+			if (typedVisitor != null) return typedVisitor.VisitDrawCommands(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -1018,7 +933,6 @@ public partial class OGParser : Parser {
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case ID:
-				_localctx = new DrawCmdsContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 181;
@@ -1028,7 +942,6 @@ public partial class OGParser : Parser {
 				}
 				break;
 			case CloseScope:
-				_localctx = new EndOfDrawCommandsContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
 				}

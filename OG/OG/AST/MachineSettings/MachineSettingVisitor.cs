@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using OG;
 using OG.AST;
@@ -9,14 +10,22 @@ using OG.AST.Terminals;
 
 namespace OG.AST.MachineSettings
 {
-    public class MachineSettingVisitor : OGBaseVisitor<Dictionary<string,MachineSettingNode>>
+    public class MachineSettingsVisitor : OGBaseVisitor<Dictionary<string,MachineSettingNode>>, ISemanticErrorable
     {
-        private Dictionary<string,MachineSettingNode> MachineSettings { get; set; }
+        public string TopNode { get; set; } = "machineSettings";
+        public Dictionary<string,MachineSettingNode> MachineSettings { get; set; }
+        public  List<SemanticError> SemanticErrors { get; set; }
         private MathExpressionVisitor MathExpressionVisitor { get; }
         
-        public MachineSettingVisitor()
+        public MachineSettingsVisitor()
         {
-            MathExpressionVisitor = new MathExpressionVisitor();
+            SemanticErrors = new List<SemanticError>();
+            MathExpressionVisitor = new MathExpressionVisitor(SemanticErrors);
+        }
+        public MachineSettingsVisitor(List<SemanticError> semanticErrors)
+        {
+            SemanticErrors = semanticErrors;
+            MathExpressionVisitor = new MathExpressionVisitor(semanticErrors);
         }
         
         public override Dictionary<string,MachineSettingNode> VisitMachineSettings([NotNull] OGParser.MachineSettingsContext context)
@@ -46,7 +55,7 @@ namespace OG.AST.MachineSettings
         public override Dictionary<string,MachineSettingNode> VisitWorkAreaModifier([NotNull] OGParser.WorkAreaModifierContext context)
         {
             // if MachineSettings.Contain(WorkAreaNode) -> Semantic Error!
-            MachineSettings["WorkArea"] = new WorkAreaModificationNode();
+            MachineSettings["WorkArea"] = new WorkAreaSettingNode();
             return VisitChildren(context);
         }
 
@@ -65,16 +74,22 @@ namespace OG.AST.MachineSettings
         public override Dictionary<string, MachineSettingNode> VisitSizeProperty(
             [NotNull] OGParser.SizePropertyContext context)
         {
+            WorkAreaSettingNode workNode = (WorkAreaSettingNode) MachineSettings["WorkArea"];
+            if (workNode.SizeProperty != null)
+            {
+                IToken token = context.Start;
+                SemanticErrors.Add(new SemanticError(token.Line,token.Column,
+                    "WorkArea cant be designated size property more than once.", context.GetText()));
+            }
+            
             NumberNode<int> xMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables.xmin);
             NumberNode<int> xMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables.xmax);
             NumberNode<int> yMin = MathExpressionVisitor.VisitChildren(context.workAreaVariables.ymin);
             NumberNode<int> yMax = MathExpressionVisitor.VisitChildren(context.workAreaVariables.ymax);
 
             SizePropertyNode sizeProperty = new SizePropertyNode(xMin, xMax, yMin, yMax);
-            WorkAreaModificationNode workNode = (WorkAreaModificationNode) MachineSettings["WorkArea"];
             workNode.SizeProperty = sizeProperty;
             return VisitChildren(context);
         }
-
     }   
 }

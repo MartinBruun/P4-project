@@ -7,8 +7,20 @@ using OG.AST.Terminals;
 
 namespace OG.AST.MathExpression
 {
-    public class MathExpressionVisitor : OGBaseVisitor<NumberNode<int>>
+    public class MathExpressionVisitor : OGBaseVisitor<NumberNode<int>>, ISemanticErrorable
     {
+        public string TopNode { get; set; } = "mathExpression";
+        public NumberNode<int> NumberNode { get; set; }
+        public  List<SemanticError> SemanticErrors { get; set; }
+
+        public MathExpressionVisitor()
+        {
+            SemanticErrors = new List<SemanticError>();
+        }
+        public MathExpressionVisitor(List<SemanticError> semanticErrors)
+        {
+            SemanticErrors = semanticErrors;
+        }
         public override NumberNode<int> VisitSingleTermExpr([NotNull] OGParser.SingleTermExprContext context)
         {
             return VisitChildren(context);

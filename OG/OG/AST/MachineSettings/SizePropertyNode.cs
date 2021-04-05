@@ -45,7 +45,7 @@ namespace OG.AST.MachineSettings
 
         public override string ToString()
         {
-            return $"    SizeProperty with XMin={XMin}, XMax={XMax},YMin={YMin},YMax={YMax},ZMin={ZMin},ZMax={ZMax}\n";
+            return $"SizeProperty with XMin={XMin}, XMax={XMax},YMin={YMin},YMax={YMax},ZMin={ZMin},ZMax={ZMax}";
         }
     }
 }

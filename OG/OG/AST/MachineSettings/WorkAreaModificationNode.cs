@@ -1,27 +1,22 @@
 ﻿namespace OG.AST.MachineSettings
 {
-    public class WorkAreaModificationNode : MachineSettingNode
+    public class WorkAreaSettingNode : MachineSettingNode
     {
         public SizePropertyNode SizeProperty { get; set; }
-
-        public void Initialize(SizePropertyNode sizeProperty)
+        
+        public WorkAreaSettingNode()
+        {
+            
+        }
+        
+        public WorkAreaSettingNode(SizePropertyNode sizeProperty)
         {
             SizeProperty = sizeProperty;
-        }
-        
-        public WorkAreaModificationNode()
-        {
-            Initialize(new SizePropertyNode());
-        }
-        
-        public WorkAreaModificationNode(SizePropertyNode sizeProperty)
-        {
-            Initialize(sizeProperty);
         }
 
         public override string ToString()
         {
-            return "  WorkAreaModifier with Properties:\n" + SizeProperty.ToString();
+            return "WorkAreaModifier with Properties:\n  " + SizeProperty.ToString();
         }
     }
 }

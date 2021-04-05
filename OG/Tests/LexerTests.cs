@@ -5,18 +5,24 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
 using OG;
+using OG.Compiler;
 
 namespace Tests
 
 {
     public class LexerTests
     {
+        /// <summary>
+        /// Creates a TokenStream which, when called with the method .fill(), checks for grammatical errors.
+        /// </summary>
+        /// <param name="fileName">The name of the fixture being used</param>
+        /// <param name="dirName">The name of the directory the fixture is in</param>
+        /// <returns></returns>
         private CommonTokenStream CreateTokenStream(string fileName, string dirName)
         {
             string code = File.ReadAllText("../../../Fixtures/" +dirName + fileName);
-
-            ICharStream stream = new AntlrInputStream(code);
-            OGLexer lexer = new OGLexer(stream);
+            LexerContainer lexCon = new LexerContainer(code);
+            OGLexer lexer = (OGLexer) lexCon.TokenSource;
             ErrorListenerHelper<int> listener = new ErrorListenerHelper<int>();
             lexer.AddErrorListener(listener);
             return new CommonTokenStream(lexer);
@@ -35,7 +41,6 @@ namespace Tests
         [TestCase("while.og", "testing while loops")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
-
             CommonTokenStream tokenStream = CreateTokenStream(fileName, "Correct programs/");
 
             Assert.DoesNotThrow(() =>

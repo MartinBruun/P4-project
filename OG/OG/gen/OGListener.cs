@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/saxjax/developer/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -135,53 +135,25 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitWorkAreaVars([NotNull] OGParser.WorkAreaVarsContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>shapeDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.shapeDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterShapeDeclarations([NotNull] OGParser.ShapeDeclarationsContext context);
+	void EnterShapeDcls([NotNull] OGParser.ShapeDclsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>shapeDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.shapeDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitShapeDeclarations([NotNull] OGParser.ShapeDeclarationsContext context);
+	void ExitShapeDcls([NotNull] OGParser.ShapeDclsContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>endOfShapesDefined</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.functionDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context);
+	void EnterFunctionDcls([NotNull] OGParser.FunctionDclsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>endOfShapesDefined</c>
-	/// labeled alternative in <see cref="OGParser.shapeDcls"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.functionDcls"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitEndOfShapesDefined([NotNull] OGParser.EndOfShapesDefinedContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>functionDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFunctionDeclarations([NotNull] OGParser.FunctionDeclarationsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>functionDeclarations</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFunctionDeclarations([NotNull] OGParser.FunctionDeclarationsContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>endOfFunctionsDefined</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>endOfFunctionsDefined</c>
-	/// labeled alternative in <see cref="OGParser.functionDcls"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitEndOfFunctionsDefined([NotNull] OGParser.EndOfFunctionsDefinedContext context);
+	void ExitFunctionDcls([NotNull] OGParser.FunctionDclsContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.draw"/>.
 	/// </summary>
@@ -193,29 +165,15 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitDraw([NotNull] OGParser.DrawContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>drawCmds</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.drawCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterDrawCmds([NotNull] OGParser.DrawCmdsContext context);
+	void EnterDrawCommands([NotNull] OGParser.DrawCommandsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>drawCmds</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.drawCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitDrawCmds([NotNull] OGParser.DrawCmdsContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>endOfDrawCommands</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterEndOfDrawCommands([NotNull] OGParser.EndOfDrawCommandsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>endOfDrawCommands</c>
-	/// labeled alternative in <see cref="OGParser.drawCommands"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitEndOfDrawCommands([NotNull] OGParser.EndOfDrawCommandsContext context);
+	void ExitDrawCommands([NotNull] OGParser.DrawCommandsContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>drawCmd</c>
 	/// labeled alternative in <see cref="OGParser.drawCommand"/>.
