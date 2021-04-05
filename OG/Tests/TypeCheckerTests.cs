@@ -45,7 +45,7 @@ namespace Tests
             TestContext.Out.WriteLine("TestStarting");
             Dictionary<string,MachineSettingNode> machineSettings = CreateAST<Dictionary<string,MachineSettingNode>, MachineSettingsVisitor>(fileName, "Correct programs/");
             TestContext.Out.WriteLine(machineSettings);
-            WorkAreaModificationNode node = (WorkAreaModificationNode) machineSettings["WorkArea"];
+            WorkAreaSettingNode node = (WorkAreaSettingNode) machineSettings["WorkArea"];
 
             Assert.AreEqual(0, node.SizeProperty.XMin.Value);
             Assert.AreEqual(100, node.SizeProperty.XMax.Value);
