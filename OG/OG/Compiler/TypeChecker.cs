@@ -11,19 +11,19 @@ namespace OG.Compiler
     /// Creates a ParseTree from the OGParser and converts it into a decorated AST (N).
     /// Is responsible for the semantic analysis of the source file.
     /// </summary>
-    /// <typeparam name="N">Generic "Node" type, which the TypeChecker creates</typeparam>
-    /// <typeparam name="V">Generic "Visitor" type, showing what visitor is needed to traverse the Node</typeparam>
-    public class TypeChecker<N, V> where V : OGBaseVisitor<N>,ISemanticErrorable, new()
+    /// <typeparam name="TNode">Generic "Node" type, which the TypeChecker creates</typeparam>
+    /// <typeparam name="TVisitor">Generic "Visitor" type, showing what visitor is needed to traverse the Node</typeparam>
+    public class TypeChecker<TNode, TVisitor> where TVisitor : OGBaseVisitor<TNode>,ISemanticErrorable, new()
     {
         public OGParser OGParser { get; set; }
-        internal V Visitor { get; set; }
+        internal TVisitor Visitor { get; set; }
         public IParseTree ParseTree { get; set; }
-        public N AST { get; set; }
+        public TNode AST { get; set; }
 
         public TypeChecker(OGParser ogParser)
         {
             OGParser = ogParser;
-            Visitor = new V();
+            Visitor = new TVisitor();
             ParseTree = CreateTopNodeParseTree();
             AST = CreateAST();
         }
@@ -54,9 +54,9 @@ namespace OG.Compiler
         /// </summary>
         /// <param name="astTopNode">The CFG rule being chosen to generate an AST from</param>
         /// <returns></returns>
-        private N CreateAST()
+        private TNode CreateAST()
         {
-            N ast = Visitor.Visit(ParseTree);
+            TNode ast = Visitor.Visit(ParseTree);
             
             if (Visitor.SemanticErrors.Count != 0)
             {

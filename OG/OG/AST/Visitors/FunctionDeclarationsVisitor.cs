@@ -25,6 +25,7 @@ namespace OG.AST.Functions
             FunctionDeclarations = new List<FunctionDeclarationNode>();
             
             IDNode id = new IDNode("ID For Function Declaration");
+
             FunctionDeclarations.Add(new FunctionDeclarationNode(id));
 
             VisitChildren(context);

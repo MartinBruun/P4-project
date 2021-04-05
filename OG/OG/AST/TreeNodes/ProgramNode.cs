@@ -8,7 +8,7 @@ using OG.AST.Shapes;
 
 namespace OG.AST
 {
-    public class ProgramNode
+    public class ProgramNode : ASTNode
      { 
          public Dictionary<string, MachineSettingNode> MachineSettings { get; set; }
          public List<ShapeNode> DrawElements { get; set; }

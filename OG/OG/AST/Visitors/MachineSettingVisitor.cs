@@ -10,7 +10,7 @@ using OG.AST.Terminals;
 
 namespace OG.AST.MachineSettings
 {
-    public class MachineSettingsVisitor : OGBaseVisitor<Dictionary<string,MachineSettingNode>>, ISemanticErrorable
+    public class MachineSettingsVisitor : OGBaseVisitor<Dictionary<string,MachineSettingNode>>, ISemanticErrorable, IUnnecessarySettingsErrorable
     {
         public string TopNode { get; set; } = "machineSettings";
         public Dictionary<string,MachineSettingNode> MachineSettings { get; set; }

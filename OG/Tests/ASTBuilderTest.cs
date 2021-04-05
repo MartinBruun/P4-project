@@ -13,22 +13,24 @@ using OG.Compiler;
 
 namespace Tests
 {
-    public class TypeCheckerTests
+    public class AstBuilderTests
     {
-        private Node CreateAST<Node, Visitor>(string fileName, string dirName) 
-            where Visitor : OGBaseVisitor<Node>, ISemanticErrorable, new()
+        private TNode CreateAST<TNode, TVisitor>(string fileName, string dirName) 
+            where TVisitor : OGBaseVisitor<TNode>, ISemanticErrorable, IUnnecessarySettingsErrorable, new()
         {
             string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
             LexerContainer lexCon = new LexerContainer(code);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
-            TypeChecker<Node,Visitor> typeChecker = new TypeChecker<Node,Visitor>(parCon.OGParser);
-            return typeChecker.AST;
+
+            ASTBuilder<TVisitor, TNode> astBuilder = new ASTBuilder<TVisitor, TNode>(parCon.OGParser);
+            
+            return astBuilder.AST;
         }
         
         [TestCase("base.og", "Testing the minimal meaningful product")]
         public void Test_Fixtures_ShouldGiveCorrectAST(string fileName, string description)
         {
-            ProgramNode program = CreateAST<ProgramNode, ASTBuilder>(fileName, "Correct programs/");
+            ProgramNode program = CreateAST<ProgramNode, AstBuilderVisitor>(fileName, "Correct programs/");
             WorkAreaSettingNode node = (WorkAreaSettingNode) program.MachineSettings["WorkArea"];
 
             Assert.AreEqual(0, node.SizeProperty.XMin.Value);

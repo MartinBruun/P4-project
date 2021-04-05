@@ -2,9 +2,11 @@
 
 namespace OG.AST.Functions
 {
-    public class FunctionDeclarationNode
+    public class FunctionDeclarationNode : ASTNode
     {
         public IDNode ID { get; set; }
+
+        public string turnType { get; set; }
 
         public FunctionDeclarationNode(IDNode id)
         {

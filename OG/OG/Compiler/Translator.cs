@@ -9,12 +9,12 @@ namespace OG.Compiler
     /// </summary>
     public class Translator
     {
-        public ProgramNode Node { get; set; }
+        public ProgramNode AST { get; set; }
         
         // public IntermediateRepresentation IR {get; set;}
         public Translator(ProgramNode astNode)
         {
-            Node = astNode;
+            AST = astNode;
             // IR = DoSomethingWith(Node);
         }
     }

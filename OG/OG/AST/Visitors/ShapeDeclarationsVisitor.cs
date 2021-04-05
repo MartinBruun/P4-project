@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using OG.AST.Terminals;
+using OG.AST.Visitors;
 
 namespace OG.AST.Shapes
 {
@@ -8,8 +11,10 @@ namespace OG.AST.Shapes
     {
         public string TopNode { get; set; } = "shapeDcls";
         public List<ShapeDeclarationNode> ShapeDeclarations { get; set; }
-        public  List<SemanticError> SemanticErrors { get; set; }
+        public List<SemanticError> SemanticErrors { get; set; }
         
+        private ShapeDeclarationVisitor _shapeDeclerationsVisitor = new ShapeDeclarationVisitor();
+
         public ShapeDeclarationsVisitor()
         {
             SemanticErrors = new List<SemanticError>();
@@ -22,12 +27,17 @@ namespace OG.AST.Shapes
 
         public override List<ShapeDeclarationNode> VisitShapeDcls(OGParser.ShapeDclsContext context)
         {
-            ShapeDeclarations = new List<ShapeDeclarationNode>();
+            OGParser.ShapeDclContext current = context.shapeDcl();
 
-            IDNode id = new IDNode("ID For Shape Declaration");
-            ShapeDeclarations.Add(new ShapeDeclarationNode(id));
+            _shapeDeclerationsVisitor.Visit(current);
+            SemanticErrors.AddRange(_shapeDeclerationsVisitor.SemanticErrors);
             
-            VisitChildren(context);
+            //Create a list of shape declarations that can be visited later. 
+            ShapeDeclarations.Add(new ShapeDeclarationNode(new IDNode(current.GetText())));
+
+            //Recursively visit the next declarations
+            if (context.shapeDeclarations != null)
+                VisitShapeDcls(context.shapeDeclarations);
 
             return ShapeDeclarations;
         }

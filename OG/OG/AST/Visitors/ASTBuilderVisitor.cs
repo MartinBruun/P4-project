@@ -7,32 +7,32 @@ using OG.AST.Functions;
 using OG.AST.Shapes;
 
 namespace OG.AST
-
 {
-    public class ASTBuilder:OGBaseVisitor<ProgramNode>, ISemanticErrorable
+    public class AstBuilderVisitor :OGBaseVisitor<ProgramNode>, IGlobalNameCollissionErrorable, IUnnecessarySettingsErrorable
     {
         public string TopNode { get; set; } = "program";
-        public ProgramNode Program { get; set; }
-        public List<SemanticError> SemanticErrors { get; set; }
-        public MachineSettingsVisitor MachineSettingVisitor { get; set; }
-        public DrawVisitor DrawVisitor { get; set; }
-        public FunctionDeclarationsVisitor FunctionDeclarationsVisitor { get; set; }
-        public ShapeDeclarationsVisitor ShapeDeclarationsVisitor { get; set; }
-        public ASTBuilder()
+        private ProgramNode Program { get; set; }
+        public List<SemanticError> SemanticErrors { get; set; } = new List<SemanticError>();
+        private MachineSettingsVisitor MachineSettingVisitor { get; set; }
+        private DrawVisitor DrawVisitor { get; set; }
+        private FunctionDeclarationsVisitor FunctionDeclarationsVisitor { get; set; }
+        private ShapeDeclarationsVisitor ShapeDeclarationsVisitor { get; set; }
+
+        
+        public AstBuilderVisitor()
         {
-            SemanticErrors = new List<SemanticError>();
-            MachineSettingVisitor = new MachineSettingsVisitor(SemanticErrors);
-            DrawVisitor = new DrawVisitor(SemanticErrors);
+            MachineSettingVisitor       = new MachineSettingsVisitor(SemanticErrors);
+            DrawVisitor                 = new DrawVisitor(SemanticErrors);
             FunctionDeclarationsVisitor = new FunctionDeclarationsVisitor(SemanticErrors);
-            ShapeDeclarationsVisitor = new ShapeDeclarationsVisitor(SemanticErrors);
+            ShapeDeclarationsVisitor    = new ShapeDeclarationsVisitor(SemanticErrors);
         }
-        public ASTBuilder(List<SemanticError> semanticErrors)
+        public AstBuilderVisitor(List<SemanticError> astBuilderSemanticErrors)
         {
-            SemanticErrors = semanticErrors;
-            MachineSettingVisitor = new MachineSettingsVisitor(SemanticErrors);
-            DrawVisitor = new DrawVisitor(SemanticErrors);
+            SemanticErrors    = astBuilderSemanticErrors;
+            MachineSettingVisitor       = new MachineSettingsVisitor(SemanticErrors);
+            DrawVisitor                 = new DrawVisitor(SemanticErrors);
             FunctionDeclarationsVisitor = new FunctionDeclarationsVisitor(SemanticErrors);
-            ShapeDeclarationsVisitor = new ShapeDeclarationsVisitor(SemanticErrors);
+            ShapeDeclarationsVisitor    = new ShapeDeclarationsVisitor(SemanticErrors);
         }
         
         public override ProgramNode VisitProg(OGParser.ProgContext context)
@@ -43,7 +43,7 @@ namespace OG.AST
                 Program.MachineSettings = MachineSettingVisitor.VisitMachineSettings(context.settings);
             }
 
-            if (context.drawFunction!= null)
+            if (context.drawFunction != null)
             {
                 Program.DrawElements = DrawVisitor.VisitDraw(context.drawFunction);
             }
@@ -58,13 +58,15 @@ namespace OG.AST
                 Program.ShapeDcls = ShapeDeclarationsVisitor.VisitShapeDcls(context.shapeDeclarations);
             }
             
+            /*
             CheckAllUsedShapes();
             CheckAllShapesDeclared();
             CheckShapesNotInfinitelyRecursive();
-
+            */
             return Program;
         }
 
+        /*
         private void CheckAllUsedShapes()
         {
             
@@ -85,5 +87,9 @@ namespace OG.AST
         {
             
         }
+        */
+
+
+        public GlobalTableHandler handler { get; set; }
     }
 }
