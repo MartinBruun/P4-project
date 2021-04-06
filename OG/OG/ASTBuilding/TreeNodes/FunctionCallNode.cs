@@ -1,6 +1,6 @@
-﻿using OG.AST.TreeNodes;
+﻿using OG.ASTBuilding.TreeNodes;
 
-namespace OG.AST.Terminals
+namespace OG.ASTBuilding.Terminals
 {
     public class FunctionCallNode : ExpressionNode
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using OG.AST;
-using OG.AST.Terminals;
+using OG.ASTBuilding;
+using OG.ASTBuilding.Terminals;
 
-namespace OG.AST.MachineSettings
+namespace OG.ASTBuilding.MachineSettings
 {
     public class SizePropertyNode : ModificationPropertyNode
     {

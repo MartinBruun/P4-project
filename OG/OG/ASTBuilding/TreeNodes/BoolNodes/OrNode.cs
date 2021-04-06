@@ -1,4 +1,4 @@
-﻿namespace OG.AST.TreeNodes.BoolNodes
+﻿namespace OG.ASTBuilding.TreeNodes.BoolNodes
 {
     public class OrNode : InfixBoolNode
     {

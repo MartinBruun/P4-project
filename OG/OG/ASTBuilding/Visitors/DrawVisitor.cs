@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Antlr4.Runtime.Misc;
-using OG.AST.Shapes;
-using OG.AST.Terminals;
+using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
 
-namespace OG.AST.Draw
+namespace OG.ASTBuilding.Draw
 {
     public class DrawVisitor : OGBaseVisitor<List<DrawNode>>, ISemanticErrorable
     {

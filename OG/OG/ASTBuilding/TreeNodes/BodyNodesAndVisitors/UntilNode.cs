@@ -1,6 +1,6 @@
-﻿using OG.AST.TreeNodes.BoolNodes;
+﻿using OG.ASTBuilding.TreeNodes.BoolNodes;
 
-namespace OG.AST.TreeNodes.BodyNodes.CommandNodes
+namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
     public class UntilNode : IterationNode
     {

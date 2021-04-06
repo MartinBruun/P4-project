@@ -1,7 +1,7 @@
-﻿using OG.AST.Shapes;
-using OG.AST.Terminals;
+﻿using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
 
-namespace OG.AST.Functions
+namespace OG.ASTBuilding.Functions
 {
     public class FunctionNode : ASTNode
     {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using OG.AST.Shapes;
-using OG.AST.Terminals;
+using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
 
-namespace OG.AST.TreeNodes.DeclarationNodes
+namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
 {
     public class NumberDeclarationNode : DeclarationNode
     {
-        public NumberDeclarationNode(MathNode assignedValue)
+        public NumberDeclarationNode(IDNode id, MathNode assignedValue) : base(id, assignedValue)
         {
             Type = "NumberDeclaration";
             Value = assignedValue;

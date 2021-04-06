@@ -1,8 +1,13 @@
-﻿using OG.AST.Shapes;
+﻿using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
 
-namespace OG.AST.TreeNodes.DeclarationNodes
+namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
 {
     public class PointDeclarationNode : DeclarationNode
     {
+        public PointDeclarationNode(IDNode id, PointReferenceNode pointRef):base(id, pointRef)
+        {
+            
+        }
     }
 }

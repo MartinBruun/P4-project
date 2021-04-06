@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using OG.AST;
+using OG.ASTBuilding;
 
-namespace OG.AST.MachineSettings
+namespace OG.ASTBuilding.MachineSettings
 {
     public abstract class MachineSettingNode :ASTNode
     {

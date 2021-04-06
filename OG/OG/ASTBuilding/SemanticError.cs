@@ -1,4 +1,4 @@
-namespace OG.AST
+namespace OG.ASTBuilding
 {
     public class SemanticError
     {

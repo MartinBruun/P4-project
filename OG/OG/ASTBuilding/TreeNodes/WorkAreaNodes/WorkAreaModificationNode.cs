@@ -1,4 +1,4 @@
-﻿namespace OG.AST.MachineSettings
+﻿namespace OG.ASTBuilding.MachineSettings
 {
     public class WorkAreaSettingNode : MachineSettingNode
     {

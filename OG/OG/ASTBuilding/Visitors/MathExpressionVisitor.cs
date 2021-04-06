@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Antlr4.Runtime.Misc;
 using OG;
-using OG.AST;
-using OG.AST.Terminals;
+using OG.ASTBuilding;
+using OG.ASTBuilding.Terminals;
 
-namespace OG.AST.MathExpression
+namespace OG.ASTBuilding.MathExpression
 {
     public class MathExpressionVisitor : OGBaseVisitor<NumberNode>, ISemanticErrorable
     {

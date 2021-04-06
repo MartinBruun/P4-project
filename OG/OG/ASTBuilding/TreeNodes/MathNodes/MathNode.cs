@@ -1,8 +1,17 @@
-﻿using OG.AST.TreeNodes;
+﻿using OG.ASTBuilding.TreeNodes;
 
-namespace OG.AST.Terminals
+namespace OG.ASTBuilding.Terminals
 {
     public class MathNode : ExpressionNode
     {
+        public MathNode(string value):base(value)
+        {
+            
+        }
+
+        public MathNode()
+        {
+            
+        }
     }
 }

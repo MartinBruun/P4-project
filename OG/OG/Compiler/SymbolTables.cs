@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using OG.AST;
-using OG.AST.Terminals;
+using OG.ASTBuilding;
+using OG.ASTBuilding.Terminals;
 
 namespace OG.Compiler
 {

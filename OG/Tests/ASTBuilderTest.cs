@@ -6,9 +6,9 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
 using OG;
-using OG.AST;
-using OG.AST.MachineSettings;
-using OG.AST.Terminals;
+using OG.ASTBuilding;
+using OG.ASTBuilding.MachineSettings;
+using OG.ASTBuilding.Terminals;
 using OG.Compiler;
 
 namespace Tests

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using OG;
-using OG.AST;
-using OG.AST.MathExpression;
-using OG.AST.Terminals;
+using OG.ASTBuilding;
+using OG.ASTBuilding.MathExpression;
+using OG.ASTBuilding.Terminals;
 
 
-namespace OG.AST.MachineSettings
+namespace OG.ASTBuilding.MachineSettings
 {
     public class MachineSettingsVisitor : OGBaseVisitor<Dictionary<string,MachineSettingNode>>, ISemanticErrorable, IUnnecessarySettingsErrorable
     {

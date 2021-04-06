@@ -1,22 +1,15 @@
-﻿using OG.AST.Shapes;
-using OG.AST.Terminals;
-using OG.AST.TreeNodes.BoolNodes;
+﻿using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.BoolNodes;
 
-namespace OG.AST.TreeNodes.DeclarationNodes
+namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
 {
     public class BoolDeclarationNode : DeclarationNode
     {
-
-
-        public BoolDeclarationNode(IDNode id, BoolNode assignmentValue)
+        public BoolDeclarationNode(IDNode id, BoolNode assignmentValue):base(id, assignmentValue)
         {
             Id = id;
             Value = assignmentValue;
         }
-
     }
-    
-
-
-
 }

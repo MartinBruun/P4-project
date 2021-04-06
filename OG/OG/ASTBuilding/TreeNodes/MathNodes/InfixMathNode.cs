@@ -1,4 +1,4 @@
-﻿namespace OG.AST.Terminals
+﻿namespace OG.ASTBuilding.Terminals
 {
     public abstract class InfixMathNode : MathNode
     {

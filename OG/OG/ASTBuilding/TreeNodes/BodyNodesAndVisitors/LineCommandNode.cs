@@ -1,4 +1,4 @@
-﻿namespace OG.AST.TreeNodes.BodyNodes.CommandNodes
+﻿namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
     public class LineCommandNode : MovementCommand
     {

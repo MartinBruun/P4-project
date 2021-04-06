@@ -1,6 +1,6 @@
-﻿using OG.AST.Shapes;
+﻿using OG.ASTBuilding.Shapes;
 
-namespace OG.AST.TreeNodes.BodyNodes.CommandNodes
+namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
     public abstract class MovementCommand : CommandNode
     {

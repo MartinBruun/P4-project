@@ -1,6 +1,6 @@
-﻿using OG.AST.Terminals;
+﻿using OG.ASTBuilding.Terminals;
 
-namespace OG.AST.TreeNodes.BodyNodes.CommandNodes
+namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
     public class NumberIterationNode : IterationNode
     {

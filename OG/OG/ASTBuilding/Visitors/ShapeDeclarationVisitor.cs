@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Antlr4.Runtime;
-using OG.AST.Shapes;
-using OG.AST.Terminals;
+using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
 
-namespace OG.AST.Visitors
+namespace OG.ASTBuilding.Visitors
 {
     /// <summary>
     /// Visits a single shape declaration and builds a FunctionNode from it by building a BodyNode, IdNode, and setting return type of the node. Global symbol table for functions is checked for duplicate values.
@@ -21,7 +21,7 @@ namespace OG.AST.Visitors
         public override ShapeNode VisitShapeDcl(OGParser.ShapeDclContext context)
         {
             string shapeId = context.id.Text;
-            BodyNode body = new BodyNode(context.bdy);
+            BodyNode body = new BodyNode(context.bdy, SemanticErrors);
             IDNode idNode = new IDNode(shapeId);
             try
             {

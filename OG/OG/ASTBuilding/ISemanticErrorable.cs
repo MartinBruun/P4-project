@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OG.AST
+namespace OG.ASTBuilding
 {
     public interface ISemanticErrorable : IErrorable, ITopNodeable
     {

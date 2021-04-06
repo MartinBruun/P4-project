@@ -1,6 +1,6 @@
-﻿using OG.AST;
+﻿using OG.ASTBuilding;
 
-namespace OG.AST.Terminals
+namespace OG.ASTBuilding.Terminals
 {
     public class NumberNode: MathNode
     {

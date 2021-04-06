@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using Antlr4.Runtime;
-using OG.AST;
-using OG.AST.Functions;
-using OG.AST.Shapes;
-using OG.AST.Terminals;
+using OG.ASTBuilding;
+using OG.ASTBuilding.Functions;
+using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
 using OG.Compiler;
 
 namespace OG

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -207,32 +207,32 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// Visit a parse tree produced by <see cref="OGParser.body"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
+	/// on <paramref name="body"/>.
 	/// </para>
 	/// </summary>
-	/// <param name="context">The parse tree.</param>
+	/// <param name="body">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitBody([NotNull] OGParser.BodyContext context) { return VisitChildren(context); }
+	public virtual Result VisitBody([NotNull] OGParser.BodyContext body) { return VisitChildren(body); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.stmts"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
+	/// on <paramref name="statements"/>.
 	/// </para>
 	/// </summary>
-	/// <param name="context">The parse tree.</param>
+	/// <param name="statements">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitStmts([NotNull] OGParser.StmtsContext context) { return VisitChildren(context); }
+	public virtual Result VisitStmts([NotNull] OGParser.StmtsContext statements) { return VisitChildren(statements); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.stmt"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
+	/// on <paramref name="currentStatement"/>.
 	/// </para>
 	/// </summary>
-	/// <param name="context">The parse tree.</param>
+	/// <param name="currentStatement">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitStmt([NotNull] OGParser.StmtContext context) { return VisitChildren(context); }
+	public virtual Result VisitStmt([NotNull] OGParser.StmtContext currentStatement) { return VisitChildren(currentStatement); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>assgnments</c>
 	/// labeled alternative in <see cref="OGParser.assignments"/>.

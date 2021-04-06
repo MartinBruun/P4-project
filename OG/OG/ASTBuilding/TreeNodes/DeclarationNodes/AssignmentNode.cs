@@ -1,12 +1,16 @@
 ﻿using System.Linq.Expressions;
-using OG.AST.Terminals;
-using OG.AST.TreeNodes.BodyNodes;
+using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.BodyNodes;
 
-namespace OG.AST.Shapes
+namespace OG.ASTBuilding.Shapes
 {
-    public abstract class AssignmentNode : StatementNode
+    public class AssignmentNode : StatementNode
     {
         public IDNode Id { get; set; }
-        public Expression AssignmentValue { get; set; }
+        public AssignmentNode(IDNode id, ExpressionNode value)
+        {
+            
+        }
     }
 }

@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using OG.AST;
-using OG.AST.MachineSettings;
-using OG.AST.Draw;
-using OG.AST.Functions;
-using OG.AST.Shapes;
+using OG.ASTBuilding;
+using OG.ASTBuilding.Draw;
+using OG.ASTBuilding.Functions;
+using OG.ASTBuilding.MachineSettings;
+using OG.ASTBuilding.Shapes;
 
-namespace OG.AST
+namespace OG.ASTBuilding
 {
-    public class AstBuilderVisitor :OGBaseVisitor<ProgramNode>, IGlobalNameCollissionErrorable, IUnnecessarySettingsErrorable
+    public class AstBuilderVisitor : OGBaseVisitor<ProgramNode>, IUnnecessarySettingsErrorable, ISemanticErrorable
     {
         public string TopNode { get; set; } = "program";
         private ProgramNode Program { get; set; }
@@ -45,7 +45,8 @@ namespace OG.AST
 
             if (context.drawFunction != null)
             {
-                //Program.DrawElements = DrawVisitor.VisitDraw(context.drawFunction);
+
+                Program.DrawElements = DrawVisitor.VisitDraw(context.drawFunction);
             }
 
             if (context.functionsDeclarations!= null)
@@ -86,7 +87,5 @@ namespace OG.AST
         }
         */
 
-
-        public GlobalTableHandler handler { get; set; }
     }
 }

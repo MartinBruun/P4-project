@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
-using OG.AST.Terminals;
-using OG.AST.Visitors;
+using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.Visitors;
 
-namespace OG.AST.Shapes
+namespace OG.ASTBuilding.Shapes
 {
     public class ShapeDeclarationsVisitor : OGBaseVisitor<List<ShapeNode>>, ISemanticErrorable
     {

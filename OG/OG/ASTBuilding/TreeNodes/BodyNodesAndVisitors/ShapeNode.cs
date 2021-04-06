@@ -1,6 +1,6 @@
-﻿using OG.AST.Terminals;
+﻿using OG.ASTBuilding.Terminals;
 
-namespace OG.AST.Shapes
+namespace OG.ASTBuilding.Shapes
 {
     public class ShapeNode : ASTNode
     {
