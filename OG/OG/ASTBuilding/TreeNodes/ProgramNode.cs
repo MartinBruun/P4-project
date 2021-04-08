@@ -8,19 +8,28 @@ using OG.ASTBuilding.Shapes;
 
 namespace OG.ASTBuilding
 {
-    public class ProgramNode : ASTNode
+    public class ProgramNode : AstStartNode 
      { 
          public Dictionary<string, MachineSettingNode> MachineSettings { get; set; }
-         public List<DrawNode> DrawElements { get; set; }
+         public DrawNode drawNode;
          public List<FunctionNode> FunctionDcls { get; set; }
          public List<ShapeNode> ShapeDcls { get; set; }
 
-         public ProgramNode()
+         public ProgramNode(DrawNode draw, List<FunctionNode> functions, List<ShapeNode> shapes)
          {
              MachineSettings = new Dictionary<string, MachineSettingNode>();
-             DrawElements    = new List<DrawNode>();
-             FunctionDcls    = new List<FunctionNode>();
-             ShapeDcls       = new List<ShapeNode>();
+             drawNode = draw;
+             FunctionDcls    = functions;
+             ShapeDcls = shapes;
+         }
+
+         public ProgramNode()
+         {
+             
          }
      }
+
+    public abstract class AstStartNode : AstNode
+    {
+    }
 }

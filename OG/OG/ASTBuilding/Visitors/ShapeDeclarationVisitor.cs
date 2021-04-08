@@ -21,7 +21,7 @@ namespace OG.ASTBuilding.Visitors
         public override ShapeNode VisitShapeDcl(OGParser.ShapeDclContext context)
         {
             string shapeId = context.id.Text;
-            BodyNode body = new BodyNode(context.bdy, SemanticErrors);
+            BodyNode body = null;
             IDNode idNode = new IDNode(shapeId);
             try
             {

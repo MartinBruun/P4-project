@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Draw;
@@ -8,30 +8,32 @@ using OG.ASTBuilding.Shapes;
 
 namespace OG.ASTBuilding
 {
-    public class AstBuilderVisitor : OGBaseVisitor<ProgramNode>, IUnnecessarySettingsErrorable, ISemanticErrorable
+    
+        public class AstBuilderVisitor : OGBaseVisitor<ProgramNode>, IUnnecessarySettingsErrorable, ISemanticErrorable
     {
         public string TopNode { get; set; } = "program";
         private ProgramNode Program { get; set; }
         public List<SemanticError> SemanticErrors { get; set; } = new List<SemanticError>();
         private MachineSettingsVisitor MachineSettingVisitor { get; set; }
-        private DrawVisitor DrawVisitor { get; set; }
-        private FunctionDeclarationsVisitor FunctionDeclarationsVisitor { get; set; }
+        private DrawNodeListBuilder DrawNodeListBuilder { get; set; }
+        //private FunctionNodeBuilder FunctionNodeBuilder { get; set; }
         private ShapeDeclarationsVisitor ShapeDeclarationsVisitor { get; set; }
 
         
         public AstBuilderVisitor()
         {
             MachineSettingVisitor       = new MachineSettingsVisitor(SemanticErrors);
-            DrawVisitor                 = new DrawVisitor(SemanticErrors);
-            FunctionDeclarationsVisitor = new FunctionDeclarationsVisitor(SemanticErrors);
+            //DrawVisitor                 = new DrawVisitor(SemanticErrors);
+            //FunctionNodeBuilder         = new FunctionNodeBuilder();
+            
             ShapeDeclarationsVisitor    = new ShapeDeclarationsVisitor(SemanticErrors);
         }
         public AstBuilderVisitor(List<SemanticError> astBuilderSemanticErrors)
         {
             SemanticErrors              = astBuilderSemanticErrors;
             MachineSettingVisitor       = new MachineSettingsVisitor(SemanticErrors);
-            DrawVisitor                 = new DrawVisitor(SemanticErrors);
-            FunctionDeclarationsVisitor = new FunctionDeclarationsVisitor(SemanticErrors);
+            //DrawVisitor                 = new DrawVisitor(SemanticErrors);
+            //FunctionNodeBuilder = new FunctionNodeBuilder(SemanticErrors);
             ShapeDeclarationsVisitor    = new ShapeDeclarationsVisitor(SemanticErrors);
         }
         
@@ -46,12 +48,12 @@ namespace OG.ASTBuilding
             if (context.drawFunction != null)
             {
 
-                Program.DrawElements = DrawVisitor.VisitDraw(context.drawFunction);
+                //Program.DrawElements = DrawVisitor.VisitDraw(context.drawFunction);
             }
 
             if (context.functionsDeclarations!= null)
             {
-                Program.FunctionDcls = FunctionDeclarationsVisitor.VisitFunctionDcls(context.functionsDeclarations);
+                //Program.FunctionDcls = FunctionNodeBuilder.VisitFunctionDcls(context.functionsDeclarations);
             }
             
             if (context.shapeDeclarations!= null)

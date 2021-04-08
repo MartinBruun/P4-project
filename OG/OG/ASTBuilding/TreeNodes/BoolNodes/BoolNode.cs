@@ -2,6 +2,9 @@
 {
     public class BoolNode : ExpressionNode
     {
-        
+        public BoolNode(string value):base(value)
+        {
+            
+        }
     }
 }

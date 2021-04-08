@@ -37,11 +37,12 @@ functionDcls: functionDcl functionDcls
 // Draw
 draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
-drawCommands: drawCommand drawCommands
+drawCommands: drawCommand drawCommands                
             |
             ;
             
 drawCommand     : id=ID';'                             #drawCmd
+                | id=ID fromCmd=fromCommand ';'        #drawFromCmd
                 | id=ID fromCmd=fromCommand ';'        #drawFromCmd
                 ;
 //Shapes:
@@ -88,7 +89,7 @@ pointReference      :  '(' tuple=numberTuple ')'
                     ;
 numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
 
-//Basic declarations and assignments:
+
 assignment          : variableAssignment 
                     | propertyAssignment
                     ;
@@ -140,7 +141,7 @@ atom            : funcCall=functionCall                         #atomfuncCall
                
 
 boolExpression  : id=ID                                                 #boolExprID
-                | value=BooleanValue                                    #boolExprTrueFalse
+                | value=BooleanValue                                    p#boolExprTrueFalse
                 | funcCall=functionCall                                 #boolExprFuncCall
                 | lhs=mathExpression BoolOperator rhs=mathExpression    #boolExprMathComp
                 | lhs=boolExpression LogicOperator rhs=boolExpression   #boolExprBoolComp

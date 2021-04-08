@@ -4,7 +4,7 @@
     {
         public BoolNode BoolExpression;
 
-        public NegationNode(BoolNode expr)
+        public NegationNode(BoolNode expr, string value):base(value)
         {
             BoolExpression = expr;
         }

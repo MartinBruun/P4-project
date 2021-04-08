@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Antlr4.Runtime;
 using OG.ASTBuilding;
@@ -21,15 +20,28 @@ namespace OG
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
-            
-            ASTBuilder<AstBuilderVisitor, ProgramNode> astBuilder =
-                new ASTBuilder<AstBuilderVisitor, ProgramNode>(parCon.OGParser);
 
-            ProgramNode ast = astBuilder.AST;
+            AstBuilder builder = new AstBuilder();
+
+            
+            AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
+                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser);
+            
+            
+            
+            //ASTContainer<AstBuilderVisitor, ProgramNode> ast = new ASTContainer<AstBuilderVisitor, ProgramNode>(parCon.Parser);
+            
+
+            /*
+             
+            ASTContainer<AstBuilder, ProgramNode> astContainer =
+                new ASTContainer<AstBuilder, ProgramNode>(parCon.OGParser);
+
+            ProgramNode ast = astContainer.AST;
 
             SemanticAnalyserContainer semanticAnalyserContainer = new SemanticAnalyserContainer(ast);
             
-            
+            */
             //De resterende items bør udelukkende være dependant på opdaterede AST'er.
             /*
             TypeChecker<ProgramNode, ASTBuilderVisitor> typeChecker        = new TypeChecker<ProgramNode,ASTBuilderVisitor>(parCon.OGParser);
@@ -47,6 +59,7 @@ namespace OG
             Console.WriteLine(typeChecker.AST.ShapeDcls[0]);
             Console.WriteLine("\n\nTRANSLATOR IS STILL WORK IN PROGRESS!");
             */
+
         }
     }
 }

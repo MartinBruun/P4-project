@@ -8,7 +8,7 @@ namespace OG.ASTBuilding.Shapes
     public class AssignmentNode : StatementNode
     {
         public IDNode Id { get; set; }
-        public AssignmentNode(IDNode id, ExpressionNode value)
+        public AssignmentNode(IDNode id)
         {
             
         }

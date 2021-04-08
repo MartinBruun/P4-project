@@ -139,15 +139,15 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.body"/>.
 	/// </summary>
-	/// <param name="body">The parse tree.</param>
+	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBody([NotNull] OGParser.BodyContext body);
+	Result VisitBody([NotNull] OGParser.BodyContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.stmts"/>.
 	/// </summary>
-	/// <param name="statements">The parse tree.</param>
+	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStmts([NotNull] OGParser.StmtsContext statements);
+	Result VisitStmts([NotNull] OGParser.StmtsContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.stmt"/>.
 	/// </summary>

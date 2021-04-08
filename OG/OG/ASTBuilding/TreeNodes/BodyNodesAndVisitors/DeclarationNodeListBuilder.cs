@@ -6,40 +6,33 @@ using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
 
 namespace OG.ASTBuilding.Shapes
 {
-    public class DeclarationsExtractor : ErrorInheritorVisitor<List<DeclarationNode>>
+    public class DeclarationNodeListBuilder : OGBaseVisitor<List<DeclarationNode>>
     {
         private List<SemanticError> ErrorList { get; set; }
         private List<DeclarationNode> Declarations = new List<DeclarationNode>();
-        private DeclarationExtractor _extractor;
-        public DeclarationsExtractor(List<SemanticError> errs) : base(errs)
-        {
-        }
+        private DeclarationNodeExtractor _nodeExtractor;
 
-        public List<DeclarationNode> ExtractDeclarations(OGParser.BodyContext context)
-        {
-            VisitBody(context);
-            return Declarations;
-        }
+        
 
-        public override List<DeclarationNode> VisitBody(OGParser.BodyContext body)
+        public override List<DeclarationNode> VisitBody(OGParser.BodyContext context)
         {
-            OGParser.StmtsContext statements = body.statements;
+            OGParser.StmtsContext statements = context.statements;
             if (statements != null && !statements.IsEmpty)
                 return VisitStmts(statements);
             else 
-                return base.VisitBody(body);
+                return base.VisitBody(context);
             
         }
 
-        public override List<DeclarationNode> VisitStmts(OGParser.StmtsContext statements)
+        public override List<DeclarationNode> VisitStmts(OGParser.StmtsContext context)
         {
-            OGParser.StmtContext currentStatement = statements.currentStatement;
+            OGParser.StmtContext currentStatement = context.currentStatement;
             //If the current statement is not null or empty, visit it
             if (currentStatement != null && !currentStatement.IsEmpty)
                 VisitStmt(currentStatement);
             
             
-            OGParser.StmtsContext nextStatements = statements.statements;
+            OGParser.StmtsContext nextStatements = context.statements;
             //If there are more statements available, visit them recursively.
             if (nextStatements != null && !nextStatements.IsEmpty)
             {
@@ -47,7 +40,7 @@ namespace OG.ASTBuilding.Shapes
             }
             
             //Results are added to list property, not returned
-            return base.VisitStmts(statements);
+            return base.VisitStmts(context);
         }
 
         public override List<DeclarationNode> VisitStmt(OGParser.StmtContext currentStatement)

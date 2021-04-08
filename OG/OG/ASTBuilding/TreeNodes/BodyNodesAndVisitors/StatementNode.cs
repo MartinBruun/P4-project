@@ -1,6 +1,6 @@
 ﻿namespace OG.ASTBuilding.TreeNodes.BodyNodes
 {
-    public abstract class StatementNode : ASTNode
+    public abstract class StatementNode : AstNode
     {
         
     }

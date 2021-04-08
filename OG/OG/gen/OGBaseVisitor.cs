@@ -207,22 +207,22 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// Visit a parse tree produced by <see cref="OGParser.body"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="body"/>.
+	/// on <paramref name="context"/>.
 	/// </para>
 	/// </summary>
-	/// <param name="body">The parse tree.</param>
+	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitBody([NotNull] OGParser.BodyContext body) { return VisitChildren(body); }
+	public virtual Result VisitBody([NotNull] OGParser.BodyContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.stmts"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="statements"/>.
+	/// on <paramref name="context"/>.
 	/// </para>
 	/// </summary>
-	/// <param name="statements">The parse tree.</param>
+	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitStmts([NotNull] OGParser.StmtsContext statements) { return VisitChildren(statements); }
+	public virtual Result VisitStmts([NotNull] OGParser.StmtsContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.stmt"/>.
 	/// <para>

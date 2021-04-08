@@ -8,9 +8,10 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
     /// </summary>
     public class PointReferenceNode : ExpressionNode
     {
-        public PointReferenceNode()
+
+        public PointReferenceNode(string value) : base(value)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

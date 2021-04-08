@@ -3,7 +3,7 @@ using OG.ASTBuilding.Terminals;
 
 namespace OG.ASTBuilding.Functions
 {
-    public class FunctionNode : ASTNode
+    public class FunctionNode : AstNode
     {
         public IDNode Id { get; set; }
 

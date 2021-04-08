@@ -22,9 +22,9 @@ namespace Tests
             LexerContainer lexCon = new LexerContainer(code);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
 
-            ASTBuilder<TVisitor, TNode> astBuilder = new ASTBuilder<TVisitor, TNode>(parCon.OGParser);
+            SemanticsContainer<TVisitor, TNode> semanticsContainer = new SemanticsContainer<TVisitor, TNode>(parCon.Parser);
             
-            return astBuilder.AST;
+            return semanticsContainer.AST;
         }
         
         [TestCase("base.og", "Testing the minimal meaningful product")]

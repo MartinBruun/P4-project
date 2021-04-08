@@ -4,7 +4,7 @@ using OG.ASTBuilding;
 
 namespace OG
 {
-    public class ASTBuilder<TVisitor, TNode> 
+    public class SemanticsContainer<TVisitor, TNode>
         where TVisitor : OGBaseVisitor<TNode>, ISemanticErrorable, IUnnecessarySettingsErrorable, new()
     {
         /// <summary>
@@ -24,7 +24,7 @@ namespace OG
 
         public TNode AST { get; private set; }
 
-        public ASTBuilder(OGParser parser)
+        public SemanticsContainer(OGParser parser)
         {
             OGParser = parser;
             ParseTreeVisitor = new TVisitor();

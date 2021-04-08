@@ -2,7 +2,7 @@
 
 namespace OG.ASTBuilding.Shapes
 {
-    public class ShapeNode : ASTNode
+    public class ShapeNode : AstNode
     {
         public IDNode ID { get; set; }
         public BodyNode body;
