@@ -21,10 +21,9 @@ namespace OG.AST.Functions
 
             if (currentStatement != null && !currentStatement.IsEmpty)
             {
-                
                 _assignmentNodes = _assignmentNodeListBuilder.VisitBody(context);
-                _declarationNodes = _declarationNodeListBuilder.VisitBody(context);
-                throw new NotImplementedException("Declaration nodes and command nodes not yet able to be extracted");
+                
+                //_declarationNodes = _declarationNodeListBuilder.VisitBody(context);
             }
 
             //Try and extract assignments, declarations and commands from the current statement.

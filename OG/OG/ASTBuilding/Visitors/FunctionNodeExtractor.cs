@@ -25,7 +25,6 @@ namespace OG.AST.Functions
                 returnType = voidFunction.type.Text;
                 IDNode id = new IDNode(functionName);
                 Console.WriteLine("\t{1} function named {0} detected! Creating node...", functionName, returnType);
-                throw new NotImplementedException("Cannot create body nodes yet. Working on bool assignments.");
                 return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(voidFunction.body()));
             } 
             if (returnFunction != null && !returnFunction.IsEmpty)

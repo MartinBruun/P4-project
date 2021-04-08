@@ -7,7 +7,8 @@ draw {
 }
 
 function bool bools(){
-      a = 2+2 < 3;
+
+    test6 = b > p.y && a - b > 3 || b-a == -20;
    }
 
 function point funPOINT(){
@@ -19,7 +20,7 @@ function point funPOINT(){
       a = 2+2+4+5<3 && true;
       point a = (2,2);
       return a;
-   }
+}
 
  
 function void funA(){}

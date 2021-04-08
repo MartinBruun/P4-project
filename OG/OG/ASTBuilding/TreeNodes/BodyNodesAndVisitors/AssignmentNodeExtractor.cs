@@ -59,7 +59,7 @@ namespace OG.ASTBuilding.Shapes
 
             return null;
         }
-        private AssignmentNode ExtractAssignmentNode(OGParser.VariableAssignmentContext context)
+        public AssignmentNode ExtractAssignmentNode(OGParser.VariableAssignmentContext context)
         {
             AssignmentNode result = null;
             try
@@ -134,7 +134,7 @@ namespace OG.ASTBuilding.Shapes
         /// <param name="propAssign"></param>
         /// <returns></returns>
         /// <exception cref="AstNodeCreationException"></exception>
-        private AssignmentNode ExtractAssignmentNode(OGParser.PropertyAssignmentContext propAssign)
+        public AssignmentNode ExtractAssignmentNode(OGParser.PropertyAssignmentContext propAssign)
         {
             if (propAssign == null || propAssign.IsEmpty)
             {
@@ -159,7 +159,7 @@ namespace OG.ASTBuilding.Shapes
             throw new AstNodeCreationException("Invalid propertyAssignment");
 
         }
-        private IdAssignNode ExtractAssignmentNode(OGParser.IdAssignContext context)
+        public IdAssignNode ExtractAssignmentNode(OGParser.IdAssignContext context)
         {
             string id = context.id.Text;
             string value = context.value.Text;
@@ -167,19 +167,16 @@ namespace OG.ASTBuilding.Shapes
             
             return new IdAssignNode(new IDNode(id),new IDNode(value));
         }
-        private BoolAssignmentNode ExtractAssignmentNode(OGParser.BoolAssignContext context)
+        public BoolAssignmentNode ExtractAssignmentNode(OGParser.BoolAssignContext context)
         {
             string id = context.id.Text;
             string value = context.value.GetText();
             OGParser.BoolExpressionContext boolExprContext = context.value;
-            _boolNodeExtractor.ExtractBoolNode(boolExprContext);
-            Console.Write("\t\tCreating BoolAssignmentNode from expression {0} = {1}.", id, value);
+            return new BoolAssignmentNode(new IDNode(id), _boolNodeExtractor.ExtractBoolNode(boolExprContext));
 
-            throw new NotImplementedException("Cannot create bool nodes entirely correct yet");
-            return new BoolAssignmentNode(new IDNode(id), new BoolNode(value, BoolNode.BoolType.AndNode));
         }
         
-        private MathAssignmentNode ExtractAssignmentNode(OGParser.NumberAssignContext context)
+        public MathAssignmentNode ExtractAssignmentNode(OGParser.NumberAssignContext context)
         {
             string id = context.id.Text;
             string value = context.value.GetText();
@@ -190,12 +187,12 @@ namespace OG.ASTBuilding.Shapes
 
         }
         
-        private PointAssignmentNode ExtractAssignmentNode(OGParser.PointAssignContext context)
+        public PointAssignmentNode ExtractAssignmentNode(OGParser.PointAssignContext context)
         {
             return ExtractAssignmentNode(context.pointAssignment());
         }
 
-        private PointAssignmentNode ExtractAssignmentNode(OGParser.PointAssignmentContext context)
+        public PointAssignmentNode ExtractAssignmentNode(OGParser.PointAssignmentContext context)
         {
             string id = context.id.Text;
             string value = context.value.GetText();

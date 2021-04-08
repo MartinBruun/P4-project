@@ -15,7 +15,7 @@ namespace OG.ASTBuilding.Shapes
         /// <returns>List of AssignmentNodes or null</returns>
         public override List<AssignmentNode> VisitBody(OGParser.BodyContext context)
         {
-            Console.WriteLine("\tCreating assignment nodes...");
+            
             if (context.statements != null && !context.statements.IsEmpty)
             {
                 return VisitStmts(context.statements);

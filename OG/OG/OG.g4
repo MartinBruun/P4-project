@@ -146,7 +146,8 @@ boolExpression  : id=ID                                                 #boolExp
                 | funcCall=functionCall                                 #boolExprFuncCall
                 | lhs=mathExpression BoolOperator rhs=mathExpression    #boolExprMathComp
                 | lhs=boolExpression LogicOperator rhs=boolExpression   #boolExprBoolComp
-                | '!'boolExpr=boolExpression                            #boolExprNotPrefix   
+                | '!'boolExpr=boolExpression                            #boolExprNotPrefix
+                | '('boolExpression')'                                  #parenthesisBoolExpr
                 ;
 
 

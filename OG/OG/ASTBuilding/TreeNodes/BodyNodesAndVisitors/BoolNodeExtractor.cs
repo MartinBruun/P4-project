@@ -12,8 +12,18 @@ namespace OG.ASTBuilding.Shapes
         private MathNodeExtractor _mathExtractor = new MathNodeExtractor();
         public BoolNode ExtractBoolNode(OGParser.BoolExpressionContext context)
         {
+            Console.WriteLine("\tCreating bool node from expression {0}", context.GetText());
             try
             {
+                //First split on "&& and ||"
+                try
+                {
+                    OGParser.BoolExprMathCompContext mathCmprContext = (OGParser.BoolExprMathCompContext) context;
+                    return VisitBoolExprMathComp(mathCmprContext);
+                }
+                catch (InvalidCastException e)
+                { }
+                
                 try
                 {
                     OGParser.BoolExprIDContext idBoolContext = (OGParser.BoolExprIDContext) context;
@@ -54,13 +64,7 @@ namespace OG.ASTBuilding.Shapes
                 catch (InvalidCastException e)
                 { }
 
-                try
-                {
-                    OGParser.BoolExprMathCompContext mathCmprContext = (OGParser.BoolExprMathCompContext) context;
-                    return VisitBoolExprMathComp(mathCmprContext);
-                }
-                catch (InvalidCastException e)
-                { }
+               
 
                 try
                 {
@@ -71,7 +75,7 @@ namespace OG.ASTBuilding.Shapes
                 { }
                 
                 OGParser.BoolExprNotPrefixContext notExprContext = (OGParser.BoolExprNotPrefixContext) context;
-                VisitBoolExprNotPrefix(notExprContext);
+                return VisitBoolExprNotPrefix(notExprContext);
             }
             catch (InvalidCastException e)
             {
