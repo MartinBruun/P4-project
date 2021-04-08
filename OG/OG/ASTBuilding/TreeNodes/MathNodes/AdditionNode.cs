@@ -5,10 +5,6 @@
         public AdditionNode(MathNode rhs, MathNode lhs) : base(rhs, lhs)
         {
         }
-
-        public AdditionNode()
-        {
-            
-        }
+        
     }
 }

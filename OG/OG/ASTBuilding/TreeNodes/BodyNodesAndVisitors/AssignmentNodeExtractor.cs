@@ -181,45 +181,83 @@ namespace OG.ASTBuilding.Shapes
         }
     }
 
-    public class MathNodeExtractor : OGBaseVisitor<ExpressionNode>
+    public class MathNodeExtractor : OGBaseVisitor<MathNode>
     {
-        public override ExpressionNode VisitInfixAdditionExpr(OGParser.InfixAdditionExprContext context)
+        public override MathNode VisitSingleTermExpr(OGParser.SingleTermExprContext context)
         {
-            InfixMathNode node = null;
+            OGParser.TermContext termContext = context.child;
+            return null;
+        }
 
+        public override MathNode VisitInfixAdditionExpr(OGParser.InfixAdditionExprContext context)
+        {
+
+            InfixMathNode node = null;
+            OGParser.TermContext term = context.lhs;
+            OGParser.MathExpressionContext rhsMath = context.rhs;
+            OGParser.InfixMultExprContext multiplicationExpr = null;
+            OGParser.SingleTermChildContext singleTermExpr = null;
+            try
+            {
+               multiplicationExpr = (OGParser.InfixMultExprContext) term;
+               VisitInfixMultExpr(multiplicationExpr);
+            }
+            catch (InvalidCastException e)
+            {
+                singleTermExpr = (OGParser.SingleTermChildContext) term;
+                VisitSingleTermChild(singleTermExpr);
+            }
+            catch (SystemException e)
+            {
+                throw new AstNodeCreationException("Term context is cannot be converted to InfixMultExprContext" +
+                                                   " or SingleTermChildContext. " + e.Message);
+            }
+
+            
             switch (context.op.Type)
             {
                 case OGLexer.Plus_Minus:
                     if (context.op.Text == "+")
                     {
-                        node = new AdditionNode();
+                       //node = new AdditionNode();
                     }
                     else if (context.op.Text == "-")
                     {
-                        node = new SubtractionNode();
+                        //node = new SubtractionNode();
                     }
                     
-                    break;
-
-                case OGLexer.Mul_Div:
-                    if (context.op.Text == "*")
-                    {
-                        node = new MultiplicationNode();
-                    }
-                    else if(context.op.Text == "/")
-                    {
-                        
-                    }
                     break;
                 default:
                     throw new NotSupportedException();
             }
-
-            //node.LHS = Visit(context.lhs);
-            //node.RHS= Visit(context.rhs);
-
             return node;
         }
+
+
+
+        public override MathNode VisitSingleTermChild(OGParser.SingleTermChildContext context)
+        {
+
+            OGParser.FactorContext factorContext = context.factor();
+            OGParser.AtomContext lhsAtom = factorContext.lhs;
+            OGParser.FactorContext rhsTerm = factorContext.rhs;
+            OGParser.AtomContext singleChild = factorContext.child;
+            var parenthesis
+
+
+            throw new NotImplementedException("Creating MathNodes from SingleTermChildContext not implemented.");
+            return null;
+
+        }
+
+        public override MathNode VisitInfixMultExpr(OGParser.InfixMultExprContext context)
+        {
+            throw new NotImplementedException("Creating MathNodes from InfixMultExprContext not implemented.");
+
+            return base.VisitInfixMultExpr(context);
+        }
+
+
     }
 
     public class PointAssignmentNode : AssignmentNode

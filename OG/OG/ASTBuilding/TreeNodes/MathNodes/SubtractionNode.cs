@@ -6,10 +6,5 @@
         {
             
         }
-
-        public SubtractionNode()
-        {
-            
-        }
     }
 }

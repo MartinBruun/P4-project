@@ -6,9 +6,5 @@
         {
         }
 
-        public MultiplicationNode()
-        {
-            
-        }
     }
 }
