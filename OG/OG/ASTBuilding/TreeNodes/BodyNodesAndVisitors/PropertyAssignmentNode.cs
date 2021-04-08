@@ -6,7 +6,7 @@ namespace OG.ASTBuilding.Shapes
     {
         public MathNode assignedValue { get; set; }
 
-        public PropertyAssignmentNode(IDNode id, MathNode value) : base(id)
+        public PropertyAssignmentNode(IDNode id, MathNode value) : base(id, AssignmentType.PropertyAssignmentNode)
         {
             assignedValue = value;
         }

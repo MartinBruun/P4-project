@@ -4,9 +4,9 @@
     {
         public BoolNode BoolExpression;
 
-        public NegationNode(BoolNode expr, string value):base(value)
+        public NegationNode(BoolNode boolExpr, string value):base(value, BoolType.NegationNode)
         {
-            BoolExpression = expr;
+            BoolExpression = boolExpr;
         }
     }
 }

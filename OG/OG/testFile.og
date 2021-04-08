@@ -6,7 +6,22 @@ draw {
     b.from(1,1);
 }
 
-function point funPOINT(){ a = 2+2+4+5<3 && true; b=c;a = 2+2;point a = (2,2);return a;}
+function bool bools(){
+      a = 2+2 < 3;
+   }
+
+function point funPOINT(){
+      a.x = 2+2;
+      b=c+a;
+      a = fun();
+      y = (3*3) * 5 *3 + 16;
+      a = 2+2;
+      a = 2+2+4+5<3 && true;
+      point a = (2,2);
+      return a;
+   }
+
+ 
 function void funA(){}
 
 shape shapeA{}

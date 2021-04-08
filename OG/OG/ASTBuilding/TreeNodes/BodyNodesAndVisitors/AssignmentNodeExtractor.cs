@@ -13,8 +13,9 @@ namespace OG.ASTBuilding.Shapes
 {
     public class AssignmentNodeExtractor : OGBaseVisitor<AssignmentNode>
     {
-
-        public MathNodeExtractor _MathExtractor = new MathNodeExtractor();
+        private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
+        private readonly BoolNodeExtractor _boolNodeExtractor = new BoolNodeExtractor();
+        
 
         /// <summary>
         /// Visits an assignment context and creates an AssignmentNode from it.
@@ -28,17 +29,15 @@ namespace OG.ASTBuilding.Shapes
             OGParser.PropertyAssignmentContext propertyAssignment = context.propertyAssignment();
             
             
-            
             //If it is a property assignment, create assignmentNode. If it is property assignment create AssignmentNode.
             if (variableAssignment != null && !variableAssignment.IsEmpty)
             {
-                Console.WriteLine("");
-                ResultNode = CreateAssignmentNode(variableAssignment);
+                ResultNode = ExtractAssignmentNode(variableAssignment);
             }
             //
             else if (propertyAssignment != null && !propertyAssignment.IsEmpty)
             {
-                ResultNode = CreateAssignmentNode(propertyAssignment);
+                ResultNode = ExtractAssignmentNode(propertyAssignment);
             }
 
             return ResultNode ?? null;
@@ -60,57 +59,74 @@ namespace OG.ASTBuilding.Shapes
 
             return null;
         }
-
-
-       
-        private AssignmentNode CreateAssignmentNode(OGParser.VariableAssignmentContext context)
+        private AssignmentNode ExtractAssignmentNode(OGParser.VariableAssignmentContext context)
         {
             AssignmentNode result = null;
             try
             {
-                OGParser.IdAssignContext idAssignContext = (OGParser.IdAssignContext) context;
-                return CreateAssignmentNode(idAssignContext);
-            }
-            catch (InvalidCastException idCastException)
-            {
+                try
+                {
+                    OGParser.FunctionCallAssignContext funcCallAssignContext =
+                        (OGParser.FunctionCallAssignContext) context;
+                    throw new NotImplementedException("Cannot create function call assignments yet.");
+
+
+                }
+                catch (InvalidCastException e)
+                {
+ 
+                }
+                
+                try
+                {
+                    OGParser.IdAssignContext idAssignContext = (OGParser.IdAssignContext) context;
+                    return ExtractAssignmentNode(idAssignContext);
+                }
+                catch (InvalidCastException idCastException)
+                {
+                }
+
                 try
                 {
                     OGParser.BoolAssignContext boolAssignContext = (OGParser.BoolAssignContext) context;
-                    return CreateAssignmentNode(boolAssignContext);
-                    throw;
+                    return ExtractAssignmentNode(boolAssignContext);
                 }
                 catch (InvalidCastException numberCastException)
                 {
-                    try
-                    {
-                        OGParser.NumberAssignContext numberAssignContext = (OGParser.NumberAssignContext) context;
-                        return CreateAssignmentNode(numberAssignContext);
-                    }
-                    catch (InvalidCastException numberAssignException)
-                    {
-                        try
-                        {
-                            OGParser.PointAssignContext pointAssignContext = (OGParser.PointAssignContext) context;
-                            return CreateAssignmentNode(pointAssignContext);
-                        }
-                        catch (Exception pointAssignException)
-                        {
-                            throw new AstNodeCreationException("Could not cast to any variable assignment context." +
-                                                               pointAssignException.Message);
-                        }
-                        
-                    }
                 }
+
+                try
+                {
+                    OGParser.NumberAssignContext numberAssignContext = (OGParser.NumberAssignContext) context;
+                    return ExtractAssignmentNode(numberAssignContext);
+                }
+                catch (InvalidCastException numberAssignException)
+                {
+                }
+
+                OGParser.PointAssignContext pointAssignContext = (OGParser.PointAssignContext) context;
+                return ExtractAssignmentNode(pointAssignContext);
             }
+            catch (InvalidCastException e)
+            {
+                throw new AstNodeCreationException("Could not convert VariableAssignmentContext into " +
+                                                   "IdAssignContext,boolAssignContext, NumberAssignContext, or PointAssignContext ");
+            }
+            catch (AstNodeCreationException e)
+            {
+                throw new AstNodeCreationException(e.Message);
 
-            throw new Exception("Something went terribly " +
-                                "wrong trying to create Assignment Nodes. This created the exception: "
-                                + context.GetText() + ".");
-
+            }
+            catch (NotImplementedException e)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Something went entirely wrong trying to build MathNode from AtomContext" + e.Message);
+            }
         }
-
-
-
+        
         /// <summary>
         /// Creates an AssignmentNode from a property assignment statement.
         /// </summary>
@@ -118,7 +134,7 @@ namespace OG.ASTBuilding.Shapes
         /// <param name="propAssign"></param>
         /// <returns></returns>
         /// <exception cref="AstNodeCreationException"></exception>
-        private AssignmentNode CreateAssignmentNode(OGParser.PropertyAssignmentContext propAssign)
+        private AssignmentNode ExtractAssignmentNode(OGParser.PropertyAssignmentContext propAssign)
         {
             if (propAssign == null || propAssign.IsEmpty)
             {
@@ -128,10 +144,13 @@ namespace OG.ASTBuilding.Shapes
             //If the math expression exists, create a simple math node containing its expression as string.
             if (propAssign.value != null && !propAssign.IsEmpty)
             {
-                OGParser.MathExpressionContext mathExpression = propAssign.value;
-                string value = mathExpression.GetText();
-                Console.Write("Creating expression node from with text value {0} only",value);
-                throw new NotImplementedException("Cannot create specificMathNodes yet.");
+                OGParser.MathExpressionContext mathExprContext = propAssign.value;
+                MathNode mathNode = _mathNodeExtractor.ExtractMathNode(mathExprContext);
+                
+                
+                return new PropertyAssignmentNode(new IDNode(propAssign.xyVal.Text), 
+                    mathNode);
+                
                 return null;
                 //return new PropertyAssignmentNode(new IDNode(propAssign.xyVal.Text),new MathNode(value));
             }
@@ -140,7 +159,7 @@ namespace OG.ASTBuilding.Shapes
             throw new AstNodeCreationException("Invalid propertyAssignment");
 
         }
-        private IdAssignNode CreateAssignmentNode(OGParser.IdAssignContext context)
+        private IdAssignNode ExtractAssignmentNode(OGParser.IdAssignContext context)
         {
             string id = context.id.Text;
             string value = context.value.Text;
@@ -148,125 +167,41 @@ namespace OG.ASTBuilding.Shapes
             
             return new IdAssignNode(new IDNode(id),new IDNode(value));
         }
-        private BoolAssignmentNode CreateAssignmentNode(OGParser.BoolAssignContext context)
+        private BoolAssignmentNode ExtractAssignmentNode(OGParser.BoolAssignContext context)
         {
             string id = context.id.Text;
             string value = context.value.GetText();
+            OGParser.BoolExpressionContext boolExprContext = context.value;
+            _boolNodeExtractor.ExtractBoolNode(boolExprContext);
             Console.Write("\t\tCreating BoolAssignmentNode from expression {0} = {1}.", id, value);
 
-            return new BoolAssignmentNode(new IDNode(id), new BoolNode(value));
+            throw new NotImplementedException("Cannot create bool nodes entirely correct yet");
+            return new BoolAssignmentNode(new IDNode(id), new BoolNode(value, BoolNode.BoolType.AndNode));
         }
-        private MathAssignmentNode CreateAssignmentNode(OGParser.NumberAssignContext context)
+        
+        private MathAssignmentNode ExtractAssignmentNode(OGParser.NumberAssignContext context)
         {
             string id = context.id.Text;
             string value = context.value.GetText();
             Console.Write("\t\tCreating NumberAssignmentNode from expression {0} = {1}.", id, value);
-            throw new NotImplementedException("Cannot create specificMathNodes yet.");
 
-            //return new MathAssignmentNode(new IDNode(id), new MathNode(value));
+            MathNode mathNode = _mathNodeExtractor.ExtractMathNode(context.value);
+            return new MathAssignmentNode(new IDNode(id), mathNode);
+
         }
         
-        private PointAssignmentNode CreateAssignmentNode(OGParser.PointAssignContext context)
+        private PointAssignmentNode ExtractAssignmentNode(OGParser.PointAssignContext context)
         {
-            return CreateAssignmentNode(context.pointAssignment());
+            return ExtractAssignmentNode(context.pointAssignment());
         }
 
-        private PointAssignmentNode CreateAssignmentNode(OGParser.PointAssignmentContext context)
+        private PointAssignmentNode ExtractAssignmentNode(OGParser.PointAssignmentContext context)
         {
             string id = context.id.Text;
             string value = context.value.GetText();
             Console.Write("\t\tCreating PointAssignmentNode from expression {0} = {1}.", id, value);
 
             return new PointAssignmentNode(new IDNode(id), new PointReferenceNode(value));
-        }
-    }
-
-    public class MathNodeExtractor : OGBaseVisitor<MathNode>
-    {
-        public override MathNode VisitSingleTermExpr(OGParser.SingleTermExprContext context)
-        {
-            OGParser.TermContext termContext = context.child;
-            return null;
-        }
-
-        public override MathNode VisitInfixAdditionExpr(OGParser.InfixAdditionExprContext context)
-        {
-
-            InfixMathNode node = null;
-            OGParser.TermContext term = context.lhs;
-            OGParser.MathExpressionContext rhsMath = context.rhs;
-            OGParser.InfixMultExprContext multiplicationExpr = null;
-            OGParser.SingleTermChildContext singleTermExpr = null;
-            try
-            {
-               multiplicationExpr = (OGParser.InfixMultExprContext) term;
-               VisitInfixMultExpr(multiplicationExpr);
-            }
-            catch (InvalidCastException e)
-            {
-                singleTermExpr = (OGParser.SingleTermChildContext) term;
-                VisitSingleTermChild(singleTermExpr);
-            }
-            catch (SystemException e)
-            {
-                throw new AstNodeCreationException("Term context is cannot be converted to InfixMultExprContext" +
-                                                   " or SingleTermChildContext. " + e.Message);
-            }
-
-            
-            switch (context.op.Type)
-            {
-                case OGLexer.Plus_Minus:
-                    if (context.op.Text == "+")
-                    {
-                       //node = new AdditionNode();
-                    }
-                    else if (context.op.Text == "-")
-                    {
-                        //node = new SubtractionNode();
-                    }
-                    
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
-            return node;
-        }
-
-
-
-        public override MathNode VisitSingleTermChild(OGParser.SingleTermChildContext context)
-        {
-
-            OGParser.FactorContext factorContext = context.factor();
-            OGParser.AtomContext lhsAtom = factorContext.lhs;
-            OGParser.FactorContext rhsTerm = factorContext.rhs;
-            OGParser.AtomContext singleChild = factorContext.child;
-            var parenthesis
-
-
-            throw new NotImplementedException("Creating MathNodes from SingleTermChildContext not implemented.");
-            return null;
-
-        }
-
-        public override MathNode VisitInfixMultExpr(OGParser.InfixMultExprContext context)
-        {
-            throw new NotImplementedException("Creating MathNodes from InfixMultExprContext not implemented.");
-
-            return base.VisitInfixMultExpr(context);
-        }
-
-
-    }
-
-    public class PointAssignmentNode : AssignmentNode
-    { 
-        public PointReferenceNode AssignedValue { get; set; }
-
-        public PointAssignmentNode(IDNode id, PointReferenceNode point) : base(id)
-        {
-            AssignedValue = point;
         }
     }
 }

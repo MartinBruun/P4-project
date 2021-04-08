@@ -5,14 +5,8 @@ namespace OG.ASTBuilding.Shapes
 {
     public class AssignmentNodeListBuild : OGBaseVisitor<List<AssignmentNode>>
     {
-        public List<SemanticError> SemanticErrors { get; set; }
         private readonly List<AssignmentNode> _assignments = new List<AssignmentNode>();
-        private readonly AssignmentNodeExtractor _nodeExtractor = new AssignmentNodeExtractor();
-
-        public AssignmentNodeListBuild()
-        {
-            _nodeExtractor = new AssignmentNodeExtractor();
-        }
+        private readonly AssignmentNodeExtractor _assignmentNodeExtractor = new AssignmentNodeExtractor();
 
         /// <summary>
         /// Visits a body context and extracts all valid assignments from it. Returns null if body contains no statements.
@@ -28,7 +22,7 @@ namespace OG.ASTBuilding.Shapes
             }
 
             //If there are no assignments in the body return null.
-            return null;
+            return new List<AssignmentNode>();
         }
         
         /// <summary>
@@ -43,7 +37,7 @@ namespace OG.ASTBuilding.Shapes
             //If the current statement is not null or empty, visit it
             if (currentStatement != null && !currentStatement.IsEmpty)
             {
-                AssignmentNode a = _nodeExtractor.VisitStmt(currentStatement);
+                AssignmentNode a = _assignmentNodeExtractor.VisitStmt(currentStatement);
 
                 if (a != null)
                 {
@@ -73,11 +67,10 @@ namespace OG.ASTBuilding.Shapes
             //If the current statement is an assignment, extract it and add to Assignments.
             if (currentAssignment != null && !currentAssignment.IsEmpty)
             {
-                _assignments.Add(_nodeExtractor.VisitAssignment(currentAssignment));
+                _assignments.Add(_assignmentNodeExtractor.VisitAssignment(currentAssignment));
                 return _assignments;
             }
-
-            //If 
+            
             return null;
         }
     }

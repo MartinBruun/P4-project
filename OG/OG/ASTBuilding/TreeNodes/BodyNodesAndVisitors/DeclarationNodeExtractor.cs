@@ -6,9 +6,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 {
     public class DeclarationNodeExtractor : OGBaseVisitor<DeclarationNode>
     {
-        public DeclarationNodeExtractor()
-        {
-        }
+        public readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
+    
         
+        
+
+        public DeclarationNode ExtractDeclarationNode(OGParser.DeclarationContext currentDeclaration)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

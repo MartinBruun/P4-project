@@ -151,9 +151,9 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.stmt"/>.
 	/// </summary>
-	/// <param name="currentStatement">The parse tree.</param>
+	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStmt([NotNull] OGParser.StmtContext currentStatement);
+	Result VisitStmt([NotNull] OGParser.StmtContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>assgnments</c>
 	/// labeled alternative in <see cref="OGParser.assignments"/>.
@@ -296,6 +296,13 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitPointAssign([NotNull] OGParser.PointAssignContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -348,11 +355,26 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitSingleTermChild([NotNull] OGParser.SingleTermChildContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.factor"/>.
+	/// Visit a parse tree produced by the <c>powerExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFactor([NotNull] OGParser.FactorContext context);
+	Result VisitPowerExpr([NotNull] OGParser.PowerExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>singleAtom</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSingleAtom([NotNull] OGParser.SingleAtomContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>parenthesisMathExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParenthesisMathExpr([NotNull] OGParser.ParenthesisMathExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>atomfuncCall</c>
 	/// labeled alternative in <see cref="OGParser.atom"/>.

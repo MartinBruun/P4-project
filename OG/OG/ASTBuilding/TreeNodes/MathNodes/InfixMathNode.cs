@@ -5,16 +5,11 @@
         public MathNode RHS { get; set; } = null;
         public MathNode LHS { get; set; } = null;
 
-        public InfixMathNode(MathNode rhs, MathNode lhs)
+        public InfixMathNode(MathNode rhs, MathNode lhs, MathType MathType):base(rhs.ToString(),MathType.GenericInfixNode)
         {
             LHS = lhs;
             RHS = rhs;
-
         }
 
-        public InfixMathNode()
-        {
-            
-        }
     }
 }

@@ -227,12 +227,12 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// Visit a parse tree produced by <see cref="OGParser.stmt"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="currentStatement"/>.
+	/// on <paramref name="context"/>.
 	/// </para>
 	/// </summary>
-	/// <param name="currentStatement">The parse tree.</param>
+	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitStmt([NotNull] OGParser.StmtContext currentStatement) { return VisitChildren(currentStatement); }
+	public virtual Result VisitStmt([NotNull] OGParser.StmtContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>assgnments</c>
 	/// labeled alternative in <see cref="OGParser.assignments"/>.
@@ -459,6 +459,17 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// <return>The visitor result.</return>
 	public virtual Result VisitPointAssign([NotNull] OGParser.PointAssignContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -543,7 +554,8 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// <return>The visitor result.</return>
 	public virtual Result VisitSingleTermChild([NotNull] OGParser.SingleTermChildContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.factor"/>.
+	/// Visit a parse tree produced by the <c>powerExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -551,7 +563,29 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitFactor([NotNull] OGParser.FactorContext context) { return VisitChildren(context); }
+	public virtual Result VisitPowerExpr([NotNull] OGParser.PowerExprContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>singleAtom</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitSingleAtom([NotNull] OGParser.SingleAtomContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>parenthesisMathExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitParenthesisMathExpr([NotNull] OGParser.ParenthesisMathExprContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>atomfuncCall</c>
 	/// labeled alternative in <see cref="OGParser.atom"/>.

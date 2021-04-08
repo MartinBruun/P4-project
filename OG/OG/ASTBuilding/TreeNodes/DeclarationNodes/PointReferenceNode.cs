@@ -9,7 +9,7 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
     public class PointReferenceNode : ExpressionNode
     {
 
-        public PointReferenceNode(string value) : base(value)
+        public PointReferenceNode(string value) : base(value, ExpressionType.PointReference)
         {
             
         }

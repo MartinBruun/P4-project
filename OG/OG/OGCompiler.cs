@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Antlr4.Runtime;
 using OG.ASTBuilding;
@@ -23,11 +24,9 @@ namespace OG
 
             AstBuilder builder = new AstBuilder();
 
-            
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser);
-            
-            
+
             
             //ASTContainer<AstBuilderVisitor, ProgramNode> ast = new ASTContainer<AstBuilderVisitor, ProgramNode>(parCon.Parser);
             

@@ -4,11 +4,11 @@ namespace OG.ASTBuilding.Terminals
 {
     public class NumberNode: MathNode
     {
-        public float Value { get; set; }
+        public double NumberValue { get; set; }
 
-        public NumberNode(float value)
+        public NumberNode(double value):base(value.ToString(),MathType.NumberNode)
         {
-            Value = value;
+            NumberValue = value;
         }
 
         public override string ToString()

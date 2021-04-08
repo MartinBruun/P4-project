@@ -16,46 +16,26 @@ namespace OG.AST.Functions
             OGParser.VoidFunctionDCLContext voidFunction  = context.voidFunctionDCL();
             OGParser.ReturnFunctionDCLContext returnFunction = context.returnFunctionDCL();
             //If it is a void function, create a function node from its body and text.
+            string functionName;
+            string returnType;
+            
             if (voidFunction != null && !voidFunction.IsEmpty)
             {
-                string functionName = voidFunction.id.Text;
-   
-                Console.WriteLine("\tvoid function named {0} detected! Creating node...", functionName);
-
-                IDNode idNode = new IDNode(functionName);
-                throw new NotImplementedException("Cannot create bodynodes yet. Working on it.");
-                BodyNode body = null;
-                try
-                {
-                    return new FunctionNode(idNode, "void", body);
-                    OGCompiler.GlobalFunctionDeclarations.Add(idNode, resultNode);
-                }
-                catch (ArgumentException e)
-                {
-                    throw new AstNodeCreationException(e.Message);
-                }
-            }
-            
+                functionName = voidFunction.id.Text;
+                returnType = voidFunction.type.Text;
+                IDNode id = new IDNode(functionName);
+                Console.WriteLine("\t{1} function named {0} detected! Creating node...", functionName, returnType);
+                throw new NotImplementedException("Cannot create body nodes yet. Working on bool assignments.");
+                return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(voidFunction.body()));
+            } 
             if (returnFunction != null && !returnFunction.IsEmpty)
             {
-                try
-                {
-                    OGParser.ReturnFunctionDCLContext function  = context.returnFunctionDCL();
-                    string functionName = function.funcName.Text;
-                    string returnType   = function.type.GetText();
-                    Console.WriteLine("\t{1} function named {0} detected! Creating node...", functionName, returnType);
-                    
-                    BodyNode body = _bodyNodeExtractor.VisitBody(function.body());
-                    IDNode idNode = new IDNode(functionName);
-                    return new FunctionNode(idNode, returnType, body);
+                functionName = returnFunction.funcName.Text;
+                returnType = returnFunction.type.GetText();
+                IDNode id = new IDNode(functionName);
+                Console.WriteLine("\t{1} function named {0} detected! Creating node...", functionName, returnType);
+                return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(returnFunction.body()));
 
-                }
-                catch (ArgumentException e)
-                {
-                    IToken token = context.Start;
-
-                    throw new AstNodeCreationException(e.Message);
-                }
             }
             else
             {

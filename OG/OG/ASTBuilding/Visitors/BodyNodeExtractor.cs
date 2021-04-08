@@ -6,9 +6,9 @@ namespace OG.AST.Functions
 {
     public class BodyNodeExtractor : OGBaseVisitor<BodyNode>
     {
-        public List<DeclarationNode> DeclarationNodes = new List<DeclarationNode>();
-        public List<AssignmentNode> AssignmentNodes = new List<AssignmentNode>();
-        public List<CommandNode> CommandNodes = new List<CommandNode>();
+        private List<DeclarationNode> _declarationNodes = new List<DeclarationNode>();
+        private List<AssignmentNode> _assignmentNodes = new List<AssignmentNode>();
+        private List<CommandNode> _commandNodes = new List<CommandNode>();
 
         private readonly AssignmentNodeListBuild _assignmentNodeListBuilder = new AssignmentNodeListBuild();
         private readonly DeclarationNodeListBuilder _declarationNodeListBuilder = new DeclarationNodeListBuilder();
@@ -22,9 +22,9 @@ namespace OG.AST.Functions
             if (currentStatement != null && !currentStatement.IsEmpty)
             {
                 
-                AssignmentNodes = _assignmentNodeListBuilder.VisitBody(context);
-                throw new NotImplementedException("Declaration nodes and command nodes not yeet able to be extracted");
-                DeclarationNodes = _declarationNodeListBuilder.VisitBody(context);
+                _assignmentNodes = _assignmentNodeListBuilder.VisitBody(context);
+                _declarationNodes = _declarationNodeListBuilder.VisitBody(context);
+                throw new NotImplementedException("Declaration nodes and command nodes not yet able to be extracted");
             }
 
             //Try and extract assignments, declarations and commands from the current statement.

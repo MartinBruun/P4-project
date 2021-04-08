@@ -4,26 +4,33 @@ namespace OG.ASTBuilding.Terminals
 {
     public class MathNode : ExpressionNode
     {
-        public enum MathNodeType
+        public enum MathType
         {
             GenericMathNode = 0,
+            GenericInfixNode,
             AdditionNode,
             SubtractionNode,
             DivisionNode,
             MultiplicationNode,
-            PowerNode
+            PowerNode,
+            NumberNode,
+            FunctionCallNode,
+            CoordinateXyValueNode,
+            IdValueNode
         }
 
-        public MathNodeType Type { get; set; } = MathNodeType.GenericMathNode;
+        public MathType MathNodeType { get; set; }
 
-        public MathNode(string value, MathNodeType typeOfNode):base(value)
+        public MathNode(string value, MathType mathNodeTypeOf):base(value, ExpressionType.MathExpression)
         {
-            Type = typeOfNode;
+            MathNodeType = mathNodeTypeOf;
+        }
+        
+        public override string ToString()
+        {
+            return "Type: " + MathNodeType.ToString() + "\t Value: " + Value;
         }
 
-        public MathNode()
-        {
-            
-        }
+  
     }
 }
