@@ -6,13 +6,13 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
 {
     public class FunctionCallAssignNode : AssignmentNode, IFunctionCallNode
     {
-        public FunctionCallAssignNode(IDNode id, List<ParameterNode> parameters) : base(id, AssignmentType.FunctionCallAssignment)
+        public FunctionCallAssignNode(IdNode id, List<ParameterNode> parameters) : base(id, AssignmentType.FunctionCallAssignment)
         {
             FunctionName = id;
             Parameters = parameters;
         }
 
-        public IDNode FunctionName { get; set; }
+        public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
     }
 }

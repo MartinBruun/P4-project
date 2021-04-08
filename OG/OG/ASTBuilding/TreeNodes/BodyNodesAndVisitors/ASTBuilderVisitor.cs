@@ -60,9 +60,6 @@ namespace OG.ASTBuilding
             {
                 Program.ShapeDcls = ShapeDeclarationsVisitor.VisitShapeDcls(context.shapeDeclarations);
             }
-            
-            
-            
             return Program;
         }
 

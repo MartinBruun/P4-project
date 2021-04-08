@@ -5,12 +5,12 @@ namespace OG.ASTBuilding.Functions
 {
     public class FunctionNode : AstNode
     {
-        public IDNode Id { get; set; }
+        public IdNode Id { get; set; }
 
         public string ReturnType { get; set; }
         public BodyNode Body;
 
-        public FunctionNode(IDNode id, string returnType, BodyNode body)
+        public FunctionNode(IdNode id, string returnType, BodyNode body)
         {
             Id = id;
             ReturnType = returnType;

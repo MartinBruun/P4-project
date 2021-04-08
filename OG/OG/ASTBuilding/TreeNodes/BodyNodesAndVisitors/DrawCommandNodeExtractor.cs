@@ -17,7 +17,7 @@ namespace OG.ASTBuilding.Draw
             }
 
             Console.WriteLine("\tCreating drawCommand node for fromCommand...");
-            IDNode id = new IDNode(context.id.Text);
+            IdNode id = new IdNode(context.id.Text);
             PointReferenceNode pointRef = CreatePointRefNode(context.fromCmd);
             FromCommandNode from = new FromCommandNode(pointRef);
             
@@ -26,10 +26,14 @@ namespace OG.ASTBuilding.Draw
 
         private PointReferenceNode CreatePointRefNode(OGParser.FromCommandContext fromCmdContext)
         {
+            throw new NotImplementedException("DrawCommands with points not implemented");
+            return null;
+            /*
             string valueString = string.Concat(fromCmdContext.GetText()
                 .Replace(";","").Replace(".from","")
                 .Where(c => !char.IsWhiteSpace(c)));
             return new PointReferenceNode(valueString);
+            */
         }
 
     }

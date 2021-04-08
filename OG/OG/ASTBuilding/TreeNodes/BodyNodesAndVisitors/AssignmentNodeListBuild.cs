@@ -9,24 +9,24 @@ namespace OG.ASTBuilding.Shapes
         private readonly AssignmentNodeExtractor _assignmentNodeExtractor = new AssignmentNodeExtractor();
 
         /// <summary>
-        /// Visits a body context and extracts all valid assignments from it. Returns null if body contains no statements.
+        /// Visits a body context and extracts all assignments from it. Returns empty list if body contains no statements.
         /// </summary>
         /// <param name="context"></param>
         /// <returns>List of AssignmentNodes or null</returns>
         public override List<AssignmentNode> VisitBody(OGParser.BodyContext context)
         {
-            
+
             if (context.statements != null && !context.statements.IsEmpty)
             {
                 return VisitStmts(context.statements);
             }
-
-            //If there are no assignments in the body return null.
+            
             return new List<AssignmentNode>();
+            
         }
         
         /// <summary>
-        /// Recursively visits Stmts and extracts AssignmentNodes them using a AssignmentExtractorVisitor.
+        /// Recursively visits Stmts and extracts AssignmentNodes them using a AssignmentNodeExtractor.
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -37,11 +37,11 @@ namespace OG.ASTBuilding.Shapes
             //If the current statement is not null or empty, visit it
             if (currentStatement != null && !currentStatement.IsEmpty)
             {
-                AssignmentNode a = _assignmentNodeExtractor.VisitStmt(currentStatement);
+                AssignmentNode assignmentNode = _assignmentNodeExtractor.VisitStmt(currentStatement);
 
-                if (a != null)
+                if (assignmentNode != null)
                 {
-                    _assignments.Add(a);
+                    _assignments.Add(assignmentNode);
                 }
             }
             
@@ -53,7 +53,7 @@ namespace OG.ASTBuilding.Shapes
                 VisitStmts(nextStatements);
             }
             
-            //Results are added to list property, not returned
+
             return _assignments;
         }
         /// <summary>

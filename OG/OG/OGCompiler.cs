@@ -12,8 +12,8 @@ namespace OG
 {
     public class OGCompiler
     {
-        public static Dictionary<IDNode, FunctionNode> GlobalFunctionDeclarations = new Dictionary<IDNode, FunctionNode>();
-        public static Dictionary<IDNode, ShapeNode>    GlobalShapeDeclarations    = new Dictionary<IDNode, ShapeNode>();
+        public static Dictionary<IdNode, FunctionNode> GlobalFunctionDeclarations = new Dictionary<IdNode, FunctionNode>();
+        public static Dictionary<IdNode, ShapeNode>    GlobalShapeDeclarations    = new Dictionary<IdNode, ShapeNode>();
         private static void Main(string[] args)
         {
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
@@ -23,7 +23,14 @@ namespace OG
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
 
             AstBuilder builder = new AstBuilder();
+            try
+            {
 
+            }
+            catch (NotImplementedException e)
+            {
+                Console.WriteLine(e);
+            }
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser);
 

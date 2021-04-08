@@ -26,9 +26,6 @@ namespace OG.ASTBuilding.TreeNodes
             Value = expr;
         }
 
-        public ExpressionNode()
-        {
-            
-        }
+
     }
 }

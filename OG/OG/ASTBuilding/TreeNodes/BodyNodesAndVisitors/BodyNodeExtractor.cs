@@ -22,7 +22,7 @@ namespace OG.AST.Functions
             if (currentStatement != null && !currentStatement.IsEmpty)
             {
                 _assignmentNodes = _assignmentNodeListBuilder.VisitBody(context);
-                
+                _declarationNodes = _declarationNodeListBuilder.VisitBody(context);
                 //_declarationNodes = _declarationNodeListBuilder.VisitBody(context);
             }
 

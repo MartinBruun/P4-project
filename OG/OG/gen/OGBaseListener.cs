@@ -808,6 +808,20 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitBoolExprBoolComp([NotNull] OGParser.BoolExprBoolCompContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>boolExprMathComp</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
 	/// <para>The default implementation does nothing.</para>

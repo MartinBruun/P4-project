@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using Antlr4.Runtime.Tree;
 using OG.ASTBuilding.Draw;
@@ -11,7 +10,7 @@ namespace OG.ASTBuilding.Shapes
     public class MathNodeExtractor : OGBaseVisitor<MathNode>
     {
 
-        //private FunctionCallNodeExtractor _functionCallNodeExtractor = new FunctionCallNodeExtractor();
+        private MathFunctionCallNodeExtractor _functionCallNodeExtractor = null;
         
         public override MathNode VisitSingleTermExpr(OGParser.SingleTermExprContext context)
         {
@@ -89,14 +88,7 @@ namespace OG.ASTBuilding.Shapes
             {
                 throw new AstNodeCreationException(e.Message);
             }
-            catch (NotImplementedException e)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Something went entirely wrong trying to build MathNode from AdditionContext\n. " + e.Message);
-            }
+           
         }
 
         public MathNode ExtractMathNode(OGParser.TermContext lhsMath)
@@ -117,22 +109,11 @@ namespace OG.ASTBuilding.Shapes
             }
             catch (InvalidCastException e)
             {
-                
                 throw new AstNodeCreationException("Something went wrong when converting TermContext to InfixMultExprContext" +
                                                    " and SingleTermChildContext. " + e.Message);
             }
-            catch (AstNodeCreationException e)
-            {
-                throw new AstNodeCreationException(e.Message);
-            }
-            catch (NotImplementedException e)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Something went entirely wrong trying to build MathNode from AdditionContext" + e.Message);
-            }
+           
+            
         }
 
         public MathNode ExtractMathNode(OGParser.FactorContext factorContext)
@@ -177,19 +158,8 @@ namespace OG.ASTBuilding.Shapes
                 throw new AstNodeCreationException("Term context is cannot be converted to PowerExprContext" +
                                                    ", or ParenthesisMathContext. " + e.Message);
             }
-            catch (AstNodeCreationException e)
-            {
-                throw new AstNodeCreationException(e.Message);
-            }
-            catch (NotImplementedException e)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Something went entirely wrong trying to build MathNode from AdditionContext.\n" + e.Message);
-            }
-
+            
+           
             //Should not happen.
             return null;
         }
@@ -237,20 +207,7 @@ namespace OG.ASTBuilding.Shapes
                 throw new AstNodeCreationException("Could not convert AtomContext into " +
                                                    "AtomfuncCallContext, AtomXYValueContext, AtomIdContext, or NumberContext ");
             }
-            catch (AstNodeCreationException e)
-            {
-                throw new AstNodeCreationException(e.Message);
-
-            }
-            catch (NotImplementedException e)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Something went entirely wrong trying to build MathNode from AtomContext" + e.Message);
-            }
-
+           
         }
 
         public override MathNode VisitAtomId(OGParser.AtomIdContext context)
@@ -260,7 +217,7 @@ namespace OG.ASTBuilding.Shapes
 
         public override MathNode VisitNumber(OGParser.NumberContext context)
         {
-            return new NumberNode(double.Parse(context.value.Text, NumberStyles.AllowDecimalPoint));
+            return new NumberNode(double.Parse(context.value.Text, CultureInfo.InvariantCulture));
         }
 
         public override MathNode VisitAtomXYValue(OGParser.AtomXYValueContext context)
@@ -318,29 +275,17 @@ namespace OG.ASTBuilding.Shapes
                 throw new AstNodeCreationException("Term context is cannot be converted to PowerExprContext" +
                                                    ", or ParenthesisMathContext. " + e.Message);
             }
-            catch (AstNodeCreationException e)
-            {
-                throw new AstNodeCreationException( e.Message);
-            }
-            catch (NotImplementedException e)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Something went entirely wrong trying to build MathNode from AdditionContext" + e.Message);
-            }
-            
-
+           
             return null;
 
         }
 
         public override MathNode VisitPowerExpr(OGParser.PowerExprContext context)
         {
-            throw new NotImplementedException(
-                "Conversion of powerContexts context into mathNode not yet implemented.");
-            return base.VisitPowerExpr(context);
+            MathNode lhs = ExtractMathNode(context.lhs);
+            MathNode rhs = ExtractMathNode(context.rhs);
+            return new PowerNode(rhs, lhs);
+           
         }
 
         public override MathNode VisitParenthesisMathExpr(OGParser.ParenthesisMathExprContext context)
@@ -387,189 +332,12 @@ namespace OG.ASTBuilding.Shapes
         /// <exception cref="AstNodeCreationException"></exception>
         public override MathNode VisitAtomfuncCall(OGParser.AtomfuncCallContext context)
         {
-            /*
+            
             OGParser.FunctionCallContext funcCallContext = context.funcCall;
-            MathNode p = _functionCallNodeExtractor.VisitFunctionCall(funcCallContext);
-            IDNode id = new IDNode(funcCallContext.id.Text);
+            _functionCallNodeExtractor = new MathFunctionCallNodeExtractor();
             
-            //List<ParameterNode> parameters = _parameterListBuilder.VisitFunctionCall(funcCallContext);
+            return _functionCallNodeExtractor.VisitFunctionCall(funcCallContext);
             
-            */
-            throw new NotImplementedException("Creation of MathNodes from AtomfuncCallContext not implemented");
-
-            return base.VisitAtomfuncCall(context);
         }
     }
-
-    /*
-    public class FunctionCallNodeExtractor : OGBaseVisitor<MathFunctionCallNode>
-    {
-        private ParameterNodeListBuilder _parameterListBuilder = new ParameterNodeListBuilder();
-
-        /// <summary>
-        /// Tries to create MAthNode from AtomContext.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        /// <exception cref="AstNodeCreationException"></exception>
-        public override MathFunctionCallNode VisitFunctionCall(OGParser.FunctionCallContext context)
-        {
-
-            IDNode id = new IDNode(context.id.Text);
-            List<ParameterNode> parameters = _parameterListBuilder.VisitFunctionCall(context);
-            
-            
-            throw new NotImplementedException("Creation of MathNodes from AtomfuncCallContext not implemented");
-
-
-            return base.VisitFunctionCall(context);
-        }
-
-
-    }
-
-    public class ParameterNodeListBuilder : OGBaseVisitor<List<ParameterNode>>
-    {
-        private List<ParameterNode> Parameters { get; set; } = new List<ParameterNode>();
-        private ParameterNodeExtractor _paramExtractor = new ParameterNodeExtractor();
-
-        public override List<ParameterNode> VisitFunctionCall(OGParser.FunctionCallContext context)
-        {
-            OGParser.PassedParamsContext parametersContext = context.@params;
-            return ExtractParameterNodes(parametersContext);
-        }
-
-        public List<ParameterNode> ExtractParameterNodes(OGParser.PassedParamsContext parameters)
-        {
-            try
-            {
-                try
-                {
-                    OGParser.SingleParameterContext singleParam = (OGParser.SingleParameterContext) parameters;
-                    Parameters.Add(_paramExtractor.VisitSingleParameter(singleParam));
-                }
-                catch (InvalidCastException)
-                { }
-
-                try
-                {
-                    OGParser.MultiParametersContext multipleParams = (OGParser.MultiParametersContext) parameters;
-                    throw new NotImplementedException(
-                        "Cannot create parameter nodes from multiple parameters as of yet");
-                }
-                catch (InvalidCastException e)
-                {
-                    
-                }
-
-                OGParser.NoParameterContext noParams = (OGParser.NoParameterContext) parameters;
-                return Parameters;
-            }
-            catch (InvalidCastException)
-            {
-                throw new AstNodeCreationException(
-                    "failed to typecast PassedParamsContext into OGParser.SingleParameterContext, " +
-                    "OGParser.MultiParametersContext and OGParser.MultiParametersContext");
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Something went entirely wrong trying to build MathNode from AdditionContext" +
-                                    e.Message);
-            }
-        }
-
-
-    }
-
-    public class ParameterNodeExtractor : OGBaseVisitor<ParameterNode>
-    {
-        private FunctionCallNodeExtractor _funcCallExtractor;
-        public override ParameterNode VisitSingleParameter(OGParser.SingleParameterContext context)
-        {
-            OGParser.PassedParamContext parameterContext = context.parameter;
-            return ExtractParameterNode(context.parameter);
-        }
-
-        public ParameterNodeExtractor()
-        {
-            _funcCallExtractor = new FunctionCallNodeExtractor();   
-        }
-
-        public ParameterNode ExtractParameterNode(OGParser.PassedParamContext context)
-        {
-            try
-            {
-                try
-                {
-                    OGParser.PassedIDContext idValue = (OGParser.PassedIDContext) context;
-                    return VisitPassedID(idValue);
-                }
-                catch (InvalidCastException e)
-                {
-
-                }
-
-                try
-                {
-                    OGParser.PassedFunctionCallContext funcCallContext = (OGParser.PassedFunctionCallContext) context;
-                    MathFunctionCallNode p = _funcCallExtractor.VisitPassedFunctionCall(funcCallContext);
-                    OGParser.FunctionCallContext s = funcCallContext.funcCall;
-                    _funcCallExtractor.VisitFunctionCall(s);
-
-                    return null;
-                    throw new NotImplementedException("PassedPAramContext --> ParameterNode");
-                }
-                catch (InvalidCastException e)
-                {
-
-                }
-
-                try
-                {
-                    OGParser.PassedDirectValueContext expressionValue = (OGParser.PassedDirectValueContext) context;
-                    throw new NotImplementedException("PassedDirectValueContext --> ParameterNode");
-                }
-                catch (InvalidCastException e)
-                {
-
-                }
-
-                try
-                {
-                    OGParser.PassedEndPointReferenceContext endPointContext =
-                        (OGParser.PassedEndPointReferenceContext) context;
-                    throw new NotImplementedException("PassedEndPointReferenceContext --> ParameterNode");
-                }
-                catch (InvalidCastException e)
-                {
-
-                }
-
-                OGParser.PassedStartPointReferenceContext startPointContext =
-                    (OGParser.PassedStartPointReferenceContext) context;
-                throw new NotImplementedException("PassedStartPointReferenceContext --> ParameterNode");
-
-            }
-            catch (InvalidCastException)
-            {
-                throw new AstNodeCreationException(
-                    "failed to typecast PassedParamsContext into OGParser.SingleParameterContext, " +
-                    "OGParser.MultiParametersContext and OGParser.MultiParametersContext");
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Something went entirely wrong trying to build MathNode from AdditionContext" +
-                                    e.Message);
-            }
-
-            return null;
-        }
-
-        public override ParameterNode VisitPassedID(OGParser.PassedIDContext context)
-        {
-            return new ParameterNode(new IDNode(context.id.Text), ParameterNode.ParameterType.Id);
-        }
-    }
-    */
-    
 }

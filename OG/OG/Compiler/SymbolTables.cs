@@ -6,6 +6,6 @@ namespace OG.Compiler
 {
     public class SymbolTables
     {
-        private static Dictionary<IDNode, AstNode> GlobalTable { get; set; }
+        private static Dictionary<IdNode, AstNode> GlobalTable { get; set; }
     }
 }

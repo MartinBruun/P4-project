@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Formats.Asn1;
+using System.Linq;
 using System.Linq.Expressions;
 using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 using OG.ASTBuilding.Draw;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -15,6 +18,7 @@ namespace OG.ASTBuilding.Shapes
     {
         private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
         private readonly BoolNodeExtractor _boolNodeExtractor = new BoolNodeExtractor();
+        private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor = new PointReferenceNodeExtractor();
         
 
         /// <summary>
@@ -61,7 +65,6 @@ namespace OG.ASTBuilding.Shapes
         }
         public AssignmentNode ExtractAssignmentNode(OGParser.VariableAssignmentContext context)
         {
-            AssignmentNode result = null;
             try
             {
                 try
@@ -112,25 +115,13 @@ namespace OG.ASTBuilding.Shapes
                 throw new AstNodeCreationException("Could not convert VariableAssignmentContext into " +
                                                    "IdAssignContext,boolAssignContext, NumberAssignContext, or PointAssignContext ");
             }
-            catch (AstNodeCreationException e)
-            {
-                throw new AstNodeCreationException(e.Message);
 
-            }
-            catch (NotImplementedException e)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Something went entirely wrong trying to build MathNode from AtomContext" + e.Message);
-            }
+
         }
         
         /// <summary>
         /// Creates an AssignmentNode from a property assignment statement.
         /// </summary>
-        /// TODO Create MathNodeExtractor
         /// <param name="propAssign"></param>
         /// <returns></returns>
         /// <exception cref="AstNodeCreationException"></exception>
@@ -148,11 +139,8 @@ namespace OG.ASTBuilding.Shapes
                 MathNode mathNode = _mathNodeExtractor.ExtractMathNode(mathExprContext);
                 
                 
-                return new PropertyAssignmentNode(new IDNode(propAssign.xyVal.Text), 
+                return new PropertyAssignmentNode(new IdNode(propAssign.xyVal.Text), 
                     mathNode);
-                
-                return null;
-                //return new PropertyAssignmentNode(new IDNode(propAssign.xyVal.Text),new MathNode(value));
             }
 
 
@@ -165,14 +153,14 @@ namespace OG.ASTBuilding.Shapes
             string value = context.value.Text;
             Console.Write("\t\tCreating IDAssignmentNode from expression {0} = {1}.", id, value);
             
-            return new IdAssignNode(new IDNode(id),new IDNode(value));
+            return new IdAssignNode(new IdNode(id),new IdNode(value));
         }
         public BoolAssignmentNode ExtractAssignmentNode(OGParser.BoolAssignContext context)
         {
             string id = context.id.Text;
             string value = context.value.GetText();
             OGParser.BoolExpressionContext boolExprContext = context.value;
-            return new BoolAssignmentNode(new IDNode(id), _boolNodeExtractor.ExtractBoolNode(boolExprContext));
+            return new BoolAssignmentNode(new IdNode(id), _boolNodeExtractor.ExtractBoolNode(boolExprContext));
 
         }
         
@@ -183,7 +171,7 @@ namespace OG.ASTBuilding.Shapes
             Console.Write("\t\tCreating NumberAssignmentNode from expression {0} = {1}.", id, value);
 
             MathNode mathNode = _mathNodeExtractor.ExtractMathNode(context.value);
-            return new MathAssignmentNode(new IDNode(id), mathNode);
+            return new MathAssignmentNode(new IdNode(id), mathNode);
 
         }
         
@@ -194,11 +182,79 @@ namespace OG.ASTBuilding.Shapes
 
         public PointAssignmentNode ExtractAssignmentNode(OGParser.PointAssignmentContext context)
         {
-            string id = context.id.Text;
-            string value = context.value.GetText();
-            Console.Write("\t\tCreating PointAssignmentNode from expression {0} = {1}.", id, value);
+            OGParser.PointReferenceContext pointReferenceContext = context.value;
+            OGParser.EndPointAssignmentContext endPointAssignmentContext = context.endPointAssignment();
+            OGParser.StartPointAssignmentContext startPointAssignment = context.startPointAssignment();
 
-            return new PointAssignmentNode(new IDNode(id), new PointReferenceNode(value));
+            if (pointReferenceContext != null && !pointReferenceContext.IsEmpty)
+            {
+                PointReferenceNode pointRefNode =  _pointReferenceNodeExtractor.VisitPointReference(pointReferenceContext);
+                IdNode id = new IdNode(context.id.Text);
+                return new PointAssignmentNode(id, pointRefNode);
+            } else  if (endPointAssignmentContext != null && !endPointAssignmentContext.IsEmpty)
+            {
+                throw new NotImplementedException();
+            } else if (startPointAssignment != null && !endPointAssignmentContext.IsEmpty)
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                throw new AstNodeCreationException("PointAssignmentContext contained neither " +
+                                                   "PointReferenceContext, EndpointAssignmentContext or" +
+                                                   " StartPointAssigmentContext");
+                ;
+            }
+
+            return null;
+        }
+
+        
+
+        
+    }
+
+    public class PointReferenceNodeExtractor : OGBaseVisitor<PointReferenceNode>
+    {
+        private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
+        public override PointReferenceNode VisitPointReference(OGParser.PointReferenceContext context)
+        {
+            
+            OGParser.NumberTupleContext tupleContext = context.tuple;
+            ITerminalNode startPointRefContext = context.StartPointReference();
+            ITerminalNode endPointRefContext = context.StartPointReference();
+
+            string[] endPointText = endPointRefContext.GetText().Split(".");
+            string[] startPointText = startPointRefContext.GetText().Split(".");
+
+            if (endPointText.Length == 2 && endPointText.Contains("endPoint") &&
+                !string.IsNullOrWhiteSpace(endPointText[0]))
+            {
+                ShapePointRefNode shapePointRef = new ShapePointRefNode(new IdNode(endPointText[0]),
+                    ShapePointRefNode.PointTypes.Endpoint);
+                return new PointReferenceNode(endPointRefContext.GetText(), shapePointRef);
+                
+            } else if (startPointText.Length == 2 && startPointText.Contains("startPoint") &&
+                       !string.IsNullOrWhiteSpace(endPointText[0]))
+            {
+
+                ShapePointRefNode shapePointRef = new ShapePointRefNode(new IdNode(startPointText[0]),
+                    ShapePointRefNode.PointTypes.StartPoint);
+                return new PointReferenceNode(startPointRefContext.GetText(), shapePointRef);
+                //Valid StartPoint! Create and return node
+            } else if (tupleContext != null && !tupleContext.IsEmpty)
+            {
+                MathNode lhs = _mathNodeExtractor.ExtractMathNode(tupleContext.lhs);
+                MathNode rhs = _mathNodeExtractor.ExtractMathNode(tupleContext.rhs);
+                return new PointReferenceNode(tupleContext.GetText(), rhs, lhs);
+            }
+            else
+            {
+                throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
+            }
+       
+   
+            return null;
         }
     }
 }

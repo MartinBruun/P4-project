@@ -22,7 +22,7 @@ namespace OG.ASTBuilding.Visitors
         {
             string shapeId = context.id.Text;
             BodyNode body = null;
-            IDNode idNode = new IDNode(shapeId);
+            IdNode idNode = new IdNode(shapeId);
             try
             {
                 OGCompiler.GlobalShapeDeclarations.Add(idNode, new ShapeNode(idNode, body));

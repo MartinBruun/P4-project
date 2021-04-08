@@ -653,6 +653,17 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// <return>The visitor result.</return>
 	public virtual Result VisitBoolExprBoolComp([NotNull] OGParser.BoolExprBoolCompContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by the <c>boolExprMathComp</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
 	/// <para>

@@ -4,16 +4,16 @@ namespace OG.ASTBuilding.Draw
 {
     public class DrawCommandNode : AstNode
     {
-        public IDNode id;
+        public IdNode id;
         public FromCommandNode from;
 
-        public DrawCommandNode(IDNode id, FromCommandNode from)
+        public DrawCommandNode(IdNode id, FromCommandNode from)
         {
             this.id = id;
             this.from = from;
         }
 
-        public DrawCommandNode(IDNode id)
+        public DrawCommandNode(IdNode id)
         {
             this.id = id;
             from = null;

@@ -687,6 +687,18 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitBoolExprBoolComp([NotNull] OGParser.BoolExprBoolCompContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>boolExprMathComp</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
 	/// </summary>

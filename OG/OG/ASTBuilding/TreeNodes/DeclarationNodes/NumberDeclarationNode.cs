@@ -7,10 +7,10 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
 {
     public class NumberDeclarationNode : DeclarationNode
     {
-        public NumberDeclarationNode(IDNode id, MathNode assignedValue) : base(id, assignedValue)
+        public NumberDeclarationNode(IdNode id, MathNode assignedAssignedValue) : base(id, assignedAssignedValue, DeclarationType.NumberDeclarationNode)
         {
-            Type = "NumberDeclaration";
-            Value = assignedValue;
+
+            AssignedValue = assignedAssignedValue;
         }
     }
     

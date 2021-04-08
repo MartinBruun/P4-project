@@ -418,6 +418,13 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitBoolExprBoolComp([NotNull] OGParser.BoolExprBoolCompContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>boolExprMathComp</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
 	/// </summary>

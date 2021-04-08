@@ -11,11 +11,9 @@ namespace OG.ASTBuilding.Shapes
     { 
         public PointReferenceNode AssignedValue { get; set; }
 
-        public PointAssignmentNode(IDNode id, PointReferenceNode point) : base(id, AssignmentType.VariableAssignmentNode)
+        public PointAssignmentNode(IdNode id, PointReferenceNode point) : base(id, AssignmentType.VariableAssignmentNode)
         {
             AssignedValue = point;
-            throw new NotImplementedException(
-                "Point references not entirely implemented yet. Dependent on MathNodeExtractor");
         }
     }
 }

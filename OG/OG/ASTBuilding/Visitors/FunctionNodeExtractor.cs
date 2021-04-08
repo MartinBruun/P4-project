@@ -23,7 +23,7 @@ namespace OG.AST.Functions
             {
                 functionName = voidFunction.id.Text;
                 returnType = voidFunction.type.Text;
-                IDNode id = new IDNode(functionName);
+                IdNode id = new IdNode(functionName);
                 Console.WriteLine("\t{1} function named {0} detected! Creating node...", functionName, returnType);
                 return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(voidFunction.body()));
             } 
@@ -31,7 +31,7 @@ namespace OG.AST.Functions
             {
                 functionName = returnFunction.funcName.Text;
                 returnType = returnFunction.type.GetText();
-                IDNode id = new IDNode(functionName);
+                IdNode id = new IdNode(functionName);
                 Console.WriteLine("\t{1} function named {0} detected! Creating node...", functionName, returnType);
                 return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(returnFunction.body()));
 

@@ -7,7 +7,7 @@ namespace OG.ASTBuilding.Shapes
     {
         public BoolNode AssignedValue { get; set; }
 
-        public BoolAssignmentNode(IDNode id, BoolNode value) : base(id, AssignmentType.VariableAssignmentNode)
+        public BoolAssignmentNode(IdNode id, BoolNode value) : base(id, AssignmentType.VariableAssignmentNode)
         {
             AssignedValue = value;
         }

@@ -13,10 +13,14 @@ namespace OG.ASTBuilding.Shapes
         private DeclarationNodeExtractor _declarationNodeExtractor = new DeclarationNodeExtractor();
 
         
-
+        /// <summary>
+        /// Visits a body context and extracts all declarations from it. Returns empty list if body contains no statements.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>List of AssignmentNodes or null</returns>
         public override List<DeclarationNode> VisitBody(OGParser.BodyContext context)
         {
-            Console.WriteLine("\tCreating assignment nodes...");
+            Console.WriteLine("\tCreating declarationNodesnodes...");
             if (context.statements != null && !context.statements.IsEmpty)
             {
                 return VisitStmts(context.statements);
@@ -27,17 +31,22 @@ namespace OG.ASTBuilding.Shapes
             
         }
 
+        /// <summary>
+        /// Recursively visits Stmts and extracts DeclarationNodes them using a DeclarationNodeExtractor.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override List<DeclarationNode> VisitStmts(OGParser.StmtsContext context)
         {
             OGParser.StmtContext currentStatement = context.currentStatement;
             //If the current statement is not null or empty, visit it
             if (currentStatement != null && !currentStatement.IsEmpty)
             {
-                DeclarationNode a = _declarationNodeExtractor.VisitStmt(currentStatement);
+                DeclarationNode declarationNode = _declarationNodeExtractor.VisitStmt(currentStatement);
 
-                if (a != null)
+                if (declarationNode != null)
                 {
-                    _declarations.Add(a);
+                    _declarations.Add(declarationNode);
                 }
             }
             
@@ -49,7 +58,7 @@ namespace OG.ASTBuilding.Shapes
                 VisitStmts(nextStatements);
             }
             
-            //Results are added to list property, not returned
+            
             return _declarations;
         }
 

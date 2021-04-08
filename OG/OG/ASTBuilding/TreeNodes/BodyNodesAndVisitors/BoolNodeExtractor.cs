@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using OG.ASTBuilding.Draw;
@@ -9,7 +11,12 @@ namespace OG.ASTBuilding.Shapes
 {
     public class BoolNodeExtractor : OGBaseVisitor<BoolNode>
     {
-        private MathNodeExtractor _mathExtractor = new MathNodeExtractor();
+        private readonly MathNodeExtractor _mathExtractor = new MathNodeExtractor();
+        /// <summary>
+        /// Must not be created on construction!
+        /// Danger of infinite recursion as it contains function call management itself!
+        /// </summary>
+        private BoolFunctionCallNodeExtractor _boolFunctionNodeExtractor = null;
         public BoolNode ExtractBoolNode(OGParser.BoolExpressionContext context)
         {
             Console.WriteLine("\tCreating bool node from expression {0}", context.GetText());
@@ -18,19 +25,26 @@ namespace OG.ASTBuilding.Shapes
                 //First split on "&& and ||"
                 try
                 {
+                    OGParser.BoolExprBoolCompContext boolCmprContext = (OGParser.BoolExprBoolCompContext) context;
+                    return VisitBoolExprBoolComp(boolCmprContext);
+                }
+                catch (InvalidCastException e)
+                { }
+
+                try
+                {
+                    OGParser.ParenthesisBoolExprContext parenthContext = (OGParser.ParenthesisBoolExprContext) context;
+                    return VisitBoolExprBoolComp(parenthContext);
+                }
+                catch (InvalidCastException)
+                { }
+                try
+                {
                     OGParser.BoolExprMathCompContext mathCmprContext = (OGParser.BoolExprMathCompContext) context;
                     return VisitBoolExprMathComp(mathCmprContext);
                 }
                 catch (InvalidCastException e)
                 { }
-                
-                try
-                {
-                    OGParser.BoolExprIDContext idBoolContext = (OGParser.BoolExprIDContext) context;
-                }
-                catch (InvalidCastException e)
-                { }
-
                 try
                 {
                     OGParser.BoolExprTrueFalseContext tOrFContext = (OGParser.BoolExprTrueFalseContext) context;
@@ -47,35 +61,39 @@ namespace OG.ASTBuilding.Shapes
                         }
                             break;
                         default:
+                            
                             throw new AstNodeCreationException("TrueFalse context does not contain literals true or false " + 
                                                                context.GetText());
                     }
                 }
                 catch (InvalidCastException e)
                 { }
-                
+
                 try
                 {
-                    OGParser.BoolExprFuncCallContext boolFuncCallContext = (OGParser.BoolExprFuncCallContext) context;
-                    IDNode id = new IDNode(boolFuncCallContext.funcCall.id.Text);
-                    OGParser.PassedParamsContext p = boolFuncCallContext.funcCall.@params;
-                    throw new NotImplementedException("BoolExprFuncCallContex --> BoolFunctionNode");
+                    OGParser.BoolExprNotPrefixContext notExprContext = (OGParser.BoolExprNotPrefixContext) context;
+                    return VisitBoolExprNotPrefix(notExprContext);
                 }
                 catch (InvalidCastException e)
-                { }
-
-               
+                {
+                }
+                
+                
 
                 try
                 {
-                    OGParser.BoolExprBoolCompContext boolCmprContext = (OGParser.BoolExprBoolCompContext) context;
-                    VisitBoolExprBoolComp(boolCmprContext);
+                    OGParser.BoolExprIDContext idBoolContext = (OGParser.BoolExprIDContext) context;
                 }
                 catch (InvalidCastException e)
                 { }
                 
-                OGParser.BoolExprNotPrefixContext notExprContext = (OGParser.BoolExprNotPrefixContext) context;
-                return VisitBoolExprNotPrefix(notExprContext);
+                OGParser.BoolExprFuncCallContext boolFuncCallContext = (OGParser.BoolExprFuncCallContext) context;
+                return VisitBoolExprFuncCall(boolFuncCallContext);
+
+                
+                
+                throw new NotImplementedException("BoolExprFuncCallContex --> BoolFunctionNode");
+                
             }
             catch (InvalidCastException e)
             {
@@ -85,25 +103,16 @@ namespace OG.ASTBuilding.Shapes
                                                    "BoolExprMathCompContext, " +
                                                    "BoolExprTrueFalseContext, " +
                                                    "BoolExprIDContext, " +
-                                                   "and BoolExprFuncCallContext.\n " + e.Message);
+                                                   "and BoolExprFuncCallContext.\n " + e.Message + " \n It happened while working with " + context.GetText() + ".\n");
             }
-            catch (AstNodeCreationException e)
-            {
-                throw;
-            }
-            catch (NotImplementedException e)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Something went entirely wrong trying to build MathNode from AdditionContext\n. " + e.Message);
-            }
-
-            return null;
+            
         }
-  
-        
+
+        private BoolNode VisitBoolExprBoolComp(OGParser.ParenthesisBoolExprContext boolExprcontext)
+        {
+            return ExtractBoolNode(boolExprcontext.boolExpression());
+        }
+
 
         public override BoolNode VisitBoolExprMathComp(OGParser.BoolExprMathCompContext context)
         {
@@ -156,5 +165,29 @@ namespace OG.ASTBuilding.Shapes
 
             }
         }
+
+        public override BoolNode VisitBoolExprFuncCall(OGParser.BoolExprFuncCallContext context)
+        {
+            OGParser.FunctionCallContext funcCall = context.funcCall;
+            _boolFunctionNodeExtractor = new BoolFunctionCallNodeExtractor();
+            return _boolFunctionNodeExtractor.VisitFunctionCall(funcCall);
+        }
+    }
+
+    public class BoolFunctionCallNodeExtractor : OGBaseVisitor<BoolFunctionCallNode>
+    {
+        /// <summary>
+        /// Must not be created on initialisation. Danger of infinite recursion.
+        /// </summary>
+        private ParameterNodeListBuilder _parameterListBuilder = null;
+
+        public override BoolFunctionCallNode VisitFunctionCall(OGParser.FunctionCallContext context)
+        {
+            _parameterListBuilder = new ParameterNodeListBuilder();
+            IdNode id = new IdNode(context.id.Text);
+            List<ParameterNode> parameters = _parameterListBuilder.VisitFunctionCall(context);
+            return new BoolFunctionCallNode(context.GetText(), id, parameters);
+        }
+        
     }
 }

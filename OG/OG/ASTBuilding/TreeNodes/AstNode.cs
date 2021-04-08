@@ -7,10 +7,6 @@ namespace OG.ASTBuilding
     /// </summary>
     public abstract class AstNode
     {
-        public string Type { get; set; }
-        public AstNode GetNextNode()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

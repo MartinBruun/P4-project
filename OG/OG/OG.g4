@@ -117,9 +117,9 @@ endPointAssignment  : id=EndPointReference '=' value=pointReference
 
 //Generel expressions:
 expression      : id=ID 
+                | functionCall
                 | mathExpression 
                 | boolExpression 
-                | functionCall
                 ;    
                      //term   ((Plus_Minus) term)*
 mathExpression  : lhs=term op=Plus_Minus rhs=mathExpression        #infixAdditionExpr //operand står i midten

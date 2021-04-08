@@ -5,9 +5,9 @@ namespace OG.ASTBuilding.Shapes
 {
     public class IdAssignNode : AssignmentNode
     {
-        public IDNode AssignedValue { get; set; }
+        public IdNode AssignedValue { get; set; }
 
-        public IdAssignNode(IDNode id, IDNode value) : base(id, AssignmentType.IdAssignment)
+        public IdAssignNode(IdNode id, IdNode value) : base(id, AssignmentType.IdAssignment)
         {
             AssignedValue = value;
         }

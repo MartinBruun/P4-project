@@ -5,7 +5,7 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
 {
     public class PointDeclarationNode : DeclarationNode
     {
-        public PointDeclarationNode(IDNode id, PointReferenceNode pointRef):base(id, pointRef)
+        public PointDeclarationNode(IdNode id, PointReferenceNode pointRef):base(id, pointRef, DeclarationType.PointDeclarationNode)
         {
             
         }

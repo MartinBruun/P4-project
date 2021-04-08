@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNodes;
@@ -7,13 +8,21 @@ namespace OG.ASTBuilding.Shapes
 {
     public class DeclarationNode : StatementNode
     {
-        public IDNode Id { get; set; }
-        public ExpressionNode Value { get; set; }
-
-        public DeclarationNode(IDNode id, ExpressionNode startValue)
+        public enum DeclarationType
         {
+          NumberDeclarationNode = 0,
+          BoolDeclarationNode,
+          PointDeclarationNode
+        }
+        public IdNode Id { get; set; }
+        public ExpressionNode AssignedValue { get; set; }
+        public DeclarationType DeclaredType { get; set; }
+
+        public DeclarationNode(IdNode id, ExpressionNode startAssignedValue, DeclarationType type)
+        {
+            DeclaredType = type;
             Id = id;
-            Value = startValue;
+            AssignedValue = startAssignedValue;
         }
     }
 }

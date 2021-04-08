@@ -1,10 +1,10 @@
 ﻿namespace OG.ASTBuilding.Terminals
 {
-    public class IDNode : AstNode
+    public class IdNode : AstNode
     {
         public string Value { get; set; }
 
-        public IDNode(string value)
+        public IdNode(string value)
         {
             Value = value;
         }

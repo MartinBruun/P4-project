@@ -4,10 +4,10 @@ namespace OG.ASTBuilding.Shapes
 {
     public class ShapeNode : AstNode
     {
-        public IDNode ID { get; set; }
+        public IdNode ID { get; set; }
         public BodyNode body;
 
-        public ShapeNode(IDNode id, BodyNode bodynode)
+        public ShapeNode(IdNode id, BodyNode bodynode)
         {
             ID = id;
             body = bodynode;

@@ -17,8 +17,8 @@ namespace OG.ASTBuilding.Shapes
         }
 
         public AssignmentType AssignType { get; set; }
-        public IDNode Id { get; set; }
-        public AssignmentNode(IDNode id, AssignmentType assignmentType)
+        public IdNode Id { get; set; }
+        public AssignmentNode(IdNode id, AssignmentType assignmentType)
         {
             this.AssignType = assignmentType;
         }
