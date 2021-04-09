@@ -27,22 +27,7 @@ namespace OG.ASTBuilding.Shapes
             //Else throw
             if (!string.IsNullOrWhiteSpace(pointText) && (pointText.Contains(".endPoint") || pointText.Contains(".startPoint")))
             {
-                string[] startEndPointText = pointText.Split(".");
-                if (
-                    !string.IsNullOrWhiteSpace(startEndPointText[0]) &&
-                    !string.IsNullOrWhiteSpace(startEndPointText[1]) &&
-                    startEndPointText.Length == 2 && startEndPointText.Contains("endPoint"))
-                {
-                    //Result
-                    return new ShapeEndPointNode(context.GetText(), new IdNode(startEndPointText[0]));
-                    
-                } else if (!string.IsNullOrWhiteSpace(startEndPointText[0]) &&
-                           !string.IsNullOrWhiteSpace(startEndPointText[1]) &&
-                           startEndPointText.Length == 2 && startEndPointText.Contains("startPoint"))
-                {
-                    //Result
-                    return new ShapeStartPointNode(context.GetText(), new IdNode(startEndPointText[0]));
-                }
+                CheckForStartEndPointText(pointText, context.GetText());
             }
             else if (context.ID() != null && !string.IsNullOrEmpty(context.ID().GetText()))
             {
@@ -63,7 +48,30 @@ namespace OG.ASTBuilding.Shapes
 
             throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
         }
-        
+
+        private PointReferenceNode CheckForStartEndPointText(string pointText, string fullContextText)
+        {
+            string[] startEndPointText = pointText.Split(".");
+            if (
+                !string.IsNullOrWhiteSpace(startEndPointText[0]) &&
+                !string.IsNullOrWhiteSpace(startEndPointText[1]) &&
+                startEndPointText.Length == 2 && startEndPointText.Contains("endPoint"))
+            {
+                //Result
+                return new ShapeEndPointNode(fullContextText, new IdNode(startEndPointText[0]));
+
+            }
+            else if
+                (!string.IsNullOrWhiteSpace(startEndPointText[0]) &&
+                 !string.IsNullOrWhiteSpace(startEndPointText[1]) &&
+                 startEndPointText.Length == 2 && startEndPointText.Contains("startPoint"))
+            {
+                //Result
+                return new ShapeStartPointNode(fullContextText, new IdNode(startEndPointText[0]));
+            }
+            throw new AstNodeCreationException("Could not create PointReferenceNode from" + fullContextText);
+        }
+
         public override PointReferenceNode VisitPointDclIdAssign(OGParser.PointDclIdAssignContext context)
         {
             return new PointReferenceIdNode(context.GetText(), new IdNode(context.id.Text));
@@ -81,8 +89,8 @@ namespace OG.ASTBuilding.Shapes
             {
                 try
                 {
-                    OGParser.FromWithIdContext fromID = (OGParser.FromWithIdContext) context;
-                    return new PointReferenceIdNode(context.GetText(), new IdNode(fromID.id.Text));
+                    OGParser.FromWithIdContext fromId = (OGParser.FromWithIdContext) context;
+                    return new PointReferenceIdNode(context.GetText(), new IdNode(fromId.id.Text));
                 }
                 catch (InvalidCastException)
                 {}
@@ -101,19 +109,20 @@ namespace OG.ASTBuilding.Shapes
                 {
                     OGParser.FromWithStartPointRefContext fromStartPoint =
                         (OGParser.FromWithStartPointRefContext) context;
-                    
+                    return CheckForStartEndPointText(fromStartPoint?.fromPoint?.Text, fromStartPoint?.GetText());
+
                 }
                 catch (InvalidCastException e)
                 { }
 
                 OGParser.FromWithEndPointRefContext fromEndPoint = (OGParser.FromWithEndPointRefContext) context;
+                
+                return CheckForStartEndPointText(fromEndPoint?.fromPoint?.Text, fromEndPoint?.GetText());
             }
             catch (InvalidCastException e)
             {
-                throw;
+                throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
             }
-
-            return null;
         }
     }
 }
