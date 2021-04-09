@@ -4,13 +4,13 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
 {
     public class TuplePointNode : PointReferenceNode
     {
-        public MathNode LHS { get; set; }
-        public MathNode RHS { get; set; }
+        public MathNode XValue { get; set; }
+        public MathNode YValue { get; set; }
 
-        public TuplePointNode(string pointText, MathNode lhs, MathNode rhs) : base(pointText, PointReferenceNodeType.NumberTupleNode)
+        public TuplePointNode(string pointText, MathNode xValue, MathNode yValue) : base(pointText, PointReferenceNodeType.NumberTupleNode)
         {
-            RHS = rhs;
-            LHS = lhs;
+            YValue = yValue;
+            XValue = xValue;
         }
     }
 }
