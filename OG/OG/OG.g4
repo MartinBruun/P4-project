@@ -37,11 +37,12 @@ functionDcls: functionDcl functionDcls
 // Draw
 draw             : 'draw' '{' shapesToDraw=drawCommands '}';
 
-drawCommands: drawCommand drawCommands
+drawCommands: drawCommand drawCommands                
             |
             ;
             
 drawCommand     : id=ID';'                             #drawCmd
+                | id=ID fromCmd=fromCommand ';'        #drawFromCmd
                 | id=ID fromCmd=fromCommand ';'        #drawFromCmd
                 ;
 //Shapes:
@@ -88,7 +89,7 @@ pointReference      :  '(' tuple=numberTuple ')'
                     ;
 numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
 
-//Basic declarations and assignments:
+
 assignment          : variableAssignment 
                     | propertyAssignment
                     ;
@@ -100,6 +101,7 @@ variableAssignment  : id=ID'=' value=ID             ';' #idAssign
                     | id=ID'=' value=boolExpression ';' #boolAssign    
                     | id=ID'=' value=mathExpression ';' #numberAssign
                     | pointAssignment               ';' #pointAssign
+                    | id=ID '=' functionCall        ';' #functionCallAssign
                     ; 
 
 pointAssignment     :  endPointAssignment
@@ -115,9 +117,9 @@ endPointAssignment  : id=EndPointReference '=' value=pointReference
 
 //Generel expressions:
 expression      : id=ID 
+                | functionCall
                 | mathExpression 
                 | boolExpression 
-                | functionCall
                 ;    
                      //term   ((Plus_Minus) term)*
 mathExpression  : lhs=term op=Plus_Minus rhs=mathExpression        #infixAdditionExpr //operand står i midten
@@ -127,9 +129,9 @@ mathExpression  : lhs=term op=Plus_Minus rhs=mathExpression        #infixAdditio
 term            : lhs=factor op=Mul_Div rhs=term                   #infixMultExpr              
                 | child=factor                                     #singleTermChild //Child er et vidtdækkende begreb
                 ;      
-factor          : lhs=atom pow='^' rhs=factor                      
-                | child=atom                                          
-                |'(' mathExpr=mathExpression ')'
+factor          : lhs=atom pow='^' rhs=factor                      #powerExpr
+                | child=atom                                       #singleAtom   
+                |'(' mathExpr=mathExpression ')'                   #parenthesisMathExpr
                 ;
 
 atom            : funcCall=functionCall                         #atomfuncCall
@@ -144,7 +146,8 @@ boolExpression  : id=ID                                                 #boolExp
                 | funcCall=functionCall                                 #boolExprFuncCall
                 | lhs=mathExpression BoolOperator rhs=mathExpression    #boolExprMathComp
                 | lhs=boolExpression LogicOperator rhs=boolExpression   #boolExprBoolComp
-                | '!'boolExpr=boolExpression                            #boolExprNotPrefix   
+                | '!'boolExpr=boolExpression                            #boolExprNotPrefix
+                | '('boolExpression')'                                  #parenthesisBoolExpr
                 ;
 
 
@@ -173,7 +176,7 @@ curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')
                 
 toCommand       : '.''to''(' id=ID ')'                      #toWithId
                 | '.''to''(' tuple=numberTuple ')'          #toWithNumberTuple
-                | '.''to''(' toPoint=StartPointReference ')'  #toWithStartPointRef
+                | '.''to''(' oPoint=StartPointReference ')'  #toWithStartPointRef
                 | '.''to''(' toPoint=EndPointReference ')'    #toWithEndPointRef
                 ;
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -296,6 +296,13 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitPointAssign([NotNull] OGParser.PointAssignContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -348,11 +355,26 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitSingleTermChild([NotNull] OGParser.SingleTermChildContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="OGParser.factor"/>.
+	/// Visit a parse tree produced by the <c>powerExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFactor([NotNull] OGParser.FactorContext context);
+	Result VisitPowerExpr([NotNull] OGParser.PowerExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>singleAtom</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSingleAtom([NotNull] OGParser.SingleAtomContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>parenthesisMathExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParenthesisMathExpr([NotNull] OGParser.ParenthesisMathExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>atomfuncCall</c>
 	/// labeled alternative in <see cref="OGParser.atom"/>.
@@ -395,6 +417,13 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitBoolExprBoolComp([NotNull] OGParser.BoolExprBoolCompContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>boolExprMathComp</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.

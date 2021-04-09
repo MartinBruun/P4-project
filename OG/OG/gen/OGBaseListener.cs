@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -564,6 +564,20 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPointAssign([NotNull] OGParser.PointAssignContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -668,17 +682,47 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitSingleTermChild([NotNull] OGParser.SingleTermChildContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.factor"/>.
+	/// Enter a parse tree produced by the <c>powerExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterFactor([NotNull] OGParser.FactorContext context) { }
+	public virtual void EnterPowerExpr([NotNull] OGParser.PowerExprContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.factor"/>.
+	/// Exit a parse tree produced by the <c>powerExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitFactor([NotNull] OGParser.FactorContext context) { }
+	public virtual void ExitPowerExpr([NotNull] OGParser.PowerExprContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>singleAtom</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSingleAtom([NotNull] OGParser.SingleAtomContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>singleAtom</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSingleAtom([NotNull] OGParser.SingleAtomContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>parenthesisMathExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterParenthesisMathExpr([NotNull] OGParser.ParenthesisMathExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>parenthesisMathExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitParenthesisMathExpr([NotNull] OGParser.ParenthesisMathExprContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>atomfuncCall</c>
 	/// labeled alternative in <see cref="OGParser.atom"/>.
@@ -763,6 +807,20 @@ public partial class OGBaseListener : IOGListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitBoolExprBoolComp([NotNull] OGParser.BoolExprBoolCompContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>boolExprMathComp</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.

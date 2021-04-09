@@ -62,6 +62,7 @@ shape BoolComparissons
    bool falseANDfalse = false && false;
    bool falseORtrue = false || true;
    bool trueORFalse = true  || false;
+   
 }
 
 shape MathComparison {

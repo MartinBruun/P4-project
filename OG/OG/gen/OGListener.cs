@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -479,6 +479,18 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitPointAssign([NotNull] OGParser.PointAssignContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -567,15 +579,41 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitSingleTermChild([NotNull] OGParser.SingleTermChildContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="OGParser.factor"/>.
+	/// Enter a parse tree produced by the <c>powerExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterFactor([NotNull] OGParser.FactorContext context);
+	void EnterPowerExpr([NotNull] OGParser.PowerExprContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="OGParser.factor"/>.
+	/// Exit a parse tree produced by the <c>powerExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitFactor([NotNull] OGParser.FactorContext context);
+	void ExitPowerExpr([NotNull] OGParser.PowerExprContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>singleAtom</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSingleAtom([NotNull] OGParser.SingleAtomContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>singleAtom</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSingleAtom([NotNull] OGParser.SingleAtomContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>parenthesisMathExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParenthesisMathExpr([NotNull] OGParser.ParenthesisMathExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>parenthesisMathExpr</c>
+	/// labeled alternative in <see cref="OGParser.factor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParenthesisMathExpr([NotNull] OGParser.ParenthesisMathExprContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>atomfuncCall</c>
 	/// labeled alternative in <see cref="OGParser.atom"/>.
@@ -648,6 +686,18 @@ public interface IOGListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBoolExprBoolComp([NotNull] OGParser.BoolExprBoolCompContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>parenthesisBoolExpr</c>
+	/// labeled alternative in <see cref="OGParser.boolExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParenthesisBoolExpr([NotNull] OGParser.ParenthesisBoolExprContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>boolExprMathComp</c>
 	/// labeled alternative in <see cref="OGParser.boolExpression"/>.

@@ -23,7 +23,7 @@ namespace Tests
             string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
             LexerContainer lexCon = new LexerContainer(code);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
-            OGParser parser = parCon.OGParser;
+            OGParser parser = parCon.Parser;
             ErrorListenerHelper<IToken> listener = new ErrorListenerHelper<IToken>();
             parser.AddErrorListener(listener);
             return parser;

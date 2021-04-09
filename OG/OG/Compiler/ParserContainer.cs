@@ -13,12 +13,12 @@ namespace OG.Compiler
     {
         public ITokenSource TokenSource { get; set; }
         public ITokenStream TokenStream { get; set; }
-        public OGParser OGParser { get; set; }
+        public OGParser Parser { get; set; }
         public ParserContainer(ITokenSource tokenSource)
         {
             TokenSource = tokenSource;
             TokenStream = new CommonTokenStream(TokenSource);
-            OGParser = new OGParser(TokenStream);
+            Parser = new OGParser(TokenStream);
         }
     }
 }
