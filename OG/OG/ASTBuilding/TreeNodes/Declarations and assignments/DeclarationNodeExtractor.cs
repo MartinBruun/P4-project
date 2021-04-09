@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 using OG.ASTBuilding.Draw;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
@@ -13,6 +15,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
     {
         private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
         private readonly BoolNodeExtractor _boolNodeExtractor = new BoolNodeExtractor();
+        private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor = new PointReferenceNodeExtractor();
     
         
         public DeclarationNode ExtractDeclarationNode(OGParser.DeclarationContext context)
@@ -30,9 +33,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 
                 try
                 {
-                    OGParser.PointDclContext pointDeclaration =
+                    OGParser.PointDclContext pointDeclarationContext =
                         (OGParser.PointDclContext) context;
-                    throw new NotImplementedException("PointDeclerations not supported yet");
+                    
+                    return VisitPointDcl(pointDeclarationContext);
                 }
                 catch (InvalidCastException e)
                 { }
@@ -52,6 +56,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 
         public override DeclarationNode VisitNumberDcl(OGParser.NumberDclContext context)
         {
+            Console.WriteLine("\t\t Trying to create DeclarationNode from " + context.GetText());
             IdNode id = new IdNode(context.numberDcl.id.Text);
             MathNode number = _mathNodeExtractor.ExtractMathNode(context.numberDcl.mathExpression());
             return new NumberDeclarationNode(id, number);
@@ -59,10 +64,44 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 
         public override DeclarationNode VisitBoolDcl(OGParser.BoolDclContext context)
         {
+            Console.WriteLine("\t\t Trying to create DeclarationNode from " + context.GetText());
             OGParser.BoolExpressionContext boolContext = context.boolDcl.value;
             BoolNode assignedExpression = _boolNodeExtractor.ExtractBoolNode(boolContext);
             IdNode variableId = new IdNode(context.boolDcl.id.Text);
             return new BoolDeclarationNode(variableId, assignedExpression);
+        }
+
+        public override DeclarationNode VisitPointDcl(OGParser.PointDclContext context)
+        {
+            Console.WriteLine("\t\t Trying to create DeclarationNode from " + context.GetText());
+            try
+            {
+
+      
+                try
+                {
+                    OGParser.PointDclIdAssignContext pointIdAssign  = (OGParser.PointDclIdAssignContext) context.pointDcl;
+                    PointReferenceNode pointReferenceIdNode =  _pointReferenceNodeExtractor.VisitPointDclIdAssign(pointIdAssign);
+
+                    return new PointDeclarationNode(new IdNode(pointIdAssign.id.Text), pointReferenceIdNode);
+
+                }
+                catch (InvalidCastException e)
+                {}
+                
+                OGParser.PointDclPointRefAssignContext pointReferenceAssignContext  = (OGParser.PointDclPointRefAssignContext) context.pointDcl;
+                PointReferenceNode pointReferenceNode = _pointReferenceNodeExtractor.VisitPointDclPointRefAssign( pointReferenceAssignContext);
+
+                return new PointDeclarationNode(new IdNode(pointReferenceAssignContext.id.Text), pointReferenceNode);
+            }
+            catch (InvalidCastException e)
+            {
+                throw new AstNodeCreationException("PointDclcontext  could not be typecast" +
+                                                   " to PointDclIdAssignContext or" +
+                                                   " PointDclPointRefAssignContext.");
+            }
+            
+            
         }
     }
 }
