@@ -3,7 +3,7 @@ using OG.ASTBuilding.TreeNodes;
 
 namespace OG.ASTBuilding.Terminals
 {
-    public class MathFunctionCallNode : MathNode, IFunctionCallNode
+    public class MathFunctionCallNode : TerminalMathNode, IFunctionCallNode
     {
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }

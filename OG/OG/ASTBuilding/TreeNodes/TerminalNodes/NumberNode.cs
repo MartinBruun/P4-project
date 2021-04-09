@@ -2,7 +2,7 @@
 
 namespace OG.ASTBuilding.Terminals
 {
-    public class NumberNode: MathNode
+    public class NumberNode: TerminalMathNode
     {
         public double NumberValue { get; set; }
 

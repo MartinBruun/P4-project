@@ -204,7 +204,7 @@ namespace OG.ASTBuilding.Shapes
                 ;
             }
 
-            return null;
+
         }
 
         
