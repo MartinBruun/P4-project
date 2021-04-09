@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from /Users/rasmushenriksen/Desktop/P4/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -1166,4 +1166,14 @@ public interface IOGListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.coordinateXYValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCoordinateXYValue([NotNull] OGParser.CoordinateXYValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.coordinateXYValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCoordinateXYValue([NotNull] OGParser.CoordinateXYValueContext context);
 }
