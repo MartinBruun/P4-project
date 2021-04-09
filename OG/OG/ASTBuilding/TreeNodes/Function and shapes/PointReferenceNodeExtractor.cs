@@ -27,19 +27,22 @@ namespace OG.ASTBuilding.Shapes
             //Else throw
             if (!string.IsNullOrWhiteSpace(pointText) && (pointText.Contains(".endPoint") || pointText.Contains(".startPoint")))
             {
-                CheckForStartEndPointText(pointText, context.GetText());
+                return CheckForStartEndPointText(pointText, context.GetText());
             }
-            else if (context.ID() != null && !string.IsNullOrEmpty(context.ID().GetText()))
+            
+            if (context.ID() != null && !string.IsNullOrEmpty(context.ID().GetText()))
             {
                 return new PointReferenceIdNode(context.GetText(), new IdNode(context.ID().GetText()));
             }
-            else if (tupleContext != null && !tupleContext.IsEmpty)
+            
+            if (tupleContext != null && !tupleContext.IsEmpty)
             {
                 MathNode lhs = _mathNodeExtractor.ExtractMathNode(tupleContext.lhs);
                 MathNode rhs = _mathNodeExtractor.ExtractMathNode(tupleContext.rhs);
                 return new TuplePointNode(context.GetText(), lhs, rhs);
             }
-            else if (pointFunctionCallContext != null && !pointFunctionCallContext.IsEmpty)
+            
+            if (pointFunctionCallContext != null && !pointFunctionCallContext.IsEmpty)
             {
                 List<ParameterNode> parameters = _parameterNodeListBuilder.VisitFunctionCall(pointFunctionCallContext);
                 IdNode id = new IdNode(pointFunctionCallContext.id.Text);
@@ -90,7 +93,8 @@ namespace OG.ASTBuilding.Shapes
                 try
                 {
                     OGParser.FromWithIdContext fromId = (OGParser.FromWithIdContext) context;
-                    return new PointReferenceIdNode(context.GetText(), new IdNode(fromId.id.Text));
+                    return VisitFromWithId(fromId);
+                    
                 }
                 catch (InvalidCastException)
                 {}
@@ -98,9 +102,8 @@ namespace OG.ASTBuilding.Shapes
                 try
                 {
                     OGParser.FromWithNumberTupleContext fromTuple = (OGParser.FromWithNumberTupleContext) context;
-                    MathNode lhs = _mathNodeExtractor.ExtractMathNode(fromTuple.tuple.lhs);
-                    MathNode rhs = _mathNodeExtractor.ExtractMathNode(fromTuple.tuple.rhs);
-                    return new TuplePointNode(fromTuple.GetText(), lhs, rhs);
+                    return  VisitFromWithNumberTuple(fromTuple);
+                   
                 }
                 catch (InvalidCastException e)
                 {}
@@ -123,6 +126,18 @@ namespace OG.ASTBuilding.Shapes
             {
                 throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
             }
+        }
+
+        public override PointReferenceNode VisitFromWithId(OGParser.FromWithIdContext context)
+        {
+            return new PointReferenceIdNode(context.GetText(), new IdNode(context.id.Text));
+        }
+
+        public override PointReferenceNode VisitFromWithNumberTuple(OGParser.FromWithNumberTupleContext context)
+        {
+            MathNode lhs = _mathNodeExtractor.ExtractMathNode(context.tuple.lhs);
+            MathNode rhs = _mathNodeExtractor.ExtractMathNode(context.tuple.rhs);
+            return new TuplePointNode(context.GetText(), lhs, rhs);
         }
     }
 }
