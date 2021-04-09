@@ -33,14 +33,20 @@ namespace OG.ASTBuilding.Shapes
                     !string.IsNullOrWhiteSpace(startEndPointText[1]) &&
                     startEndPointText.Length == 2 && startEndPointText.Contains("endPoint"))
                 {
+                    //Result
                     return new ShapeEndPointNode(context.GetText(), new IdNode(startEndPointText[0]));
+                    
                 } else if (!string.IsNullOrWhiteSpace(startEndPointText[0]) &&
                            !string.IsNullOrWhiteSpace(startEndPointText[1]) &&
                            startEndPointText.Length == 2 && startEndPointText.Contains("startPoint"))
                 {
-                                        return new ShapeStartPointNode(context.GetText(), new IdNode(startEndPointText[0]));
-
+                    //Result
+                    return new ShapeStartPointNode(context.GetText(), new IdNode(startEndPointText[0]));
                 }
+            }
+            else if (context.ID() != null && !string.IsNullOrEmpty(context.ID().GetText()))
+            {
+                return new PointReferenceIdNode(context.GetText(), new IdNode(context.ID().GetText()));
             }
             else if (tupleContext != null && !tupleContext.IsEmpty)
             {
@@ -54,7 +60,7 @@ namespace OG.ASTBuilding.Shapes
                 IdNode id = new IdNode(pointFunctionCallContext.id.Text);
                 return new PointFunctionCallNode(context.GetText(), id, parameters);
             }
-            
+
             throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
         }
         
@@ -67,6 +73,47 @@ namespace OG.ASTBuilding.Shapes
         public override PointReferenceNode VisitPointDclPointRefAssign(OGParser.PointDclPointRefAssignContext context)
         {
             return VisitPointReference(context.value);
+        }
+
+        public PointReferenceNode ExtractPointReferenceNode(OGParser.FromCommandContext context)
+        {
+            try
+            {
+                try
+                {
+                    OGParser.FromWithIdContext fromID = (OGParser.FromWithIdContext) context;
+                    return new PointReferenceIdNode(context.GetText(), new IdNode(fromID.id.Text));
+                }
+                catch (InvalidCastException)
+                {}
+
+                try
+                {
+                    OGParser.FromWithNumberTupleContext fromTuple = (OGParser.FromWithNumberTupleContext) context;
+                    MathNode lhs = _mathNodeExtractor.ExtractMathNode(fromTuple.tuple.lhs);
+                    MathNode rhs = _mathNodeExtractor.ExtractMathNode(fromTuple.tuple.rhs);
+                    return new TuplePointNode(fromTuple.GetText(), lhs, rhs);
+                }
+                catch (InvalidCastException e)
+                {}
+
+                try
+                {
+                    OGParser.FromWithStartPointRefContext fromStartPoint =
+                        (OGParser.FromWithStartPointRefContext) context;
+                    
+                }
+                catch (InvalidCastException e)
+                { }
+
+                OGParser.FromWithEndPointRefContext fromEndPoint = (OGParser.FromWithEndPointRefContext) context;
+            }
+            catch (InvalidCastException e)
+            {
+                throw;
+            }
+
+            return null;
         }
     }
 }

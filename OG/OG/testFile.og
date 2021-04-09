@@ -16,7 +16,7 @@ function point funPOINT(){
       return a;
 }
 function bool bools(){
-
+point a = a;
 number a = 10;
 number b = -10;
 point p = (a,b);

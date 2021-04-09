@@ -32,7 +32,7 @@ namespace OG.ASTBuilding.Draw
             if (currentCommand != null && !currentCommand.IsEmpty)
             {
                 Console.WriteLine("\nDraw command found. Detecting drawCommand type... ");
-                DrawCommandNodes.Add(CreateDrawCommandNode(currentCommand));
+                DrawCommandNodes.Add(ExtractDrawCommandNode(currentCommand));
             }
             
             //If there are more commands visit them recursively.
@@ -45,7 +45,7 @@ namespace OG.ASTBuilding.Draw
             return DrawCommandNodes;
         }
         
-        private DrawCommandNode CreateDrawCommandNode(OGParser.DrawCommandContext context)
+        private DrawCommandNode ExtractDrawCommandNode(OGParser.DrawCommandContext context)
         {
             try
             {
