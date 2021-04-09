@@ -1,6 +1,6 @@
 ﻿namespace OG.ASTBuilding.TreeNodes.BoolNodes
 {
-    public class BoolNode : ExpressionNode
+    public class BoolNode : ValueNode
     {
         public enum BoolType
         {

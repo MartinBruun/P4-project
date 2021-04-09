@@ -224,37 +224,31 @@ namespace OG.ASTBuilding.Shapes
             ITerminalNode startPointRefContext = context.StartPointReference();
             ITerminalNode endPointRefContext = context.StartPointReference();
 
+            //First element must be id, second must be endPoint or startPoint
             string[] endPointText = endPointRefContext.GetText().Split(".");
             string[] startPointText = startPointRefContext.GetText().Split(".");
 
             if (endPointText.Length == 2 && endPointText.Contains("endPoint") &&
                 !string.IsNullOrWhiteSpace(endPointText[0]))
             {
-                ShapePointRefNode shapePointRef = new ShapePointRefNode(new IdNode(endPointText[0]),
-                    ShapePointRefNode.PointTypes.Endpoint);
-                return new PointReferenceNode(endPointRefContext.GetText(), shapePointRef);
-                
+                return new ShapeEndPointNode(context.GetText(), new IdNode(startPointText[0]));
             } else if (startPointText.Length == 2 && startPointText.Contains("startPoint") &&
                        !string.IsNullOrWhiteSpace(endPointText[0]))
             {
 
-                ShapePointRefNode shapePointRef = new ShapePointRefNode(new IdNode(startPointText[0]),
-                    ShapePointRefNode.PointTypes.StartPoint);
-                return new PointReferenceNode(startPointRefContext.GetText(), shapePointRef);
+                return new ShapeStartPointNode(context.GetText(), new IdNode(endPointText[0]));
                 //Valid StartPoint! Create and return node
             } else if (tupleContext != null && !tupleContext.IsEmpty)
             {
                 MathNode lhs = _mathNodeExtractor.ExtractMathNode(tupleContext.lhs);
                 MathNode rhs = _mathNodeExtractor.ExtractMathNode(tupleContext.rhs);
-                return new PointReferenceNode(tupleContext.GetText(), rhs, lhs);
+                return new TuplePointNode(context.GetText(), lhs, rhs);
             }
             else
             {
                 throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
             }
-       
-   
-            return null;
+
         }
     }
 }

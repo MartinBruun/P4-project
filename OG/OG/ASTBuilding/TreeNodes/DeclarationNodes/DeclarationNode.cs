@@ -15,10 +15,10 @@ namespace OG.ASTBuilding.Shapes
           PointDeclarationNode
         }
         public IdNode Id { get; set; }
-        public ExpressionNode AssignedValue { get; set; }
+        public ValueNode AssignedValue { get; set; }
         public DeclarationType DeclaredType { get; set; }
 
-        public DeclarationNode(IdNode id, ExpressionNode startAssignedValue, DeclarationType type)
+        public DeclarationNode(IdNode id, ValueNode startAssignedValue, DeclarationType type)
         {
             DeclaredType = type;
             Id = id;

@@ -5,7 +5,7 @@ namespace OG.ASTBuilding.TreeNodes
     /// <summary>
     /// Used if we ever want a node that can hold both math or bool. 
     /// </summary>
-    public class ExpressionNode : AstNode
+    public class ValueNode : AstNode
     {
         public enum ExpressionType
         {
@@ -20,10 +20,10 @@ namespace OG.ASTBuilding.TreeNodes
         public ExpressionType ExprType;
         public string Value;
 
-        public ExpressionNode(string expr, ExpressionType exprType )
+        public ValueNode(string exprText, ExpressionType exprType )
         {
             this.ExprType = exprType;
-            Value = expr;
+            Value = exprText;
         }
 
 

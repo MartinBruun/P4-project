@@ -25,17 +25,17 @@ namespace OG.ASTBuilding.Terminals
         /// <summary>
         /// Expression is set to null ParameterType is Id.
         /// </summary>
-        public ExpressionNode Expression { get; set; } = null;
+        public ValueNode Value { get; set; } = null;
 
         /// <summary>
         /// If we have an expression, it can by definition not be an Id reference.
         /// </summary>
         /// <param name="e"></param>
         /// <param name="t"></param>
-        public ParameterNode(ExpressionNode e, ParameterType t)
+        public ParameterNode(ValueNode e, ParameterType t)
         {
             ParameterId = null;
-            Expression = e;
+            Value = e;
             ParamType = t;
         }
         
@@ -45,7 +45,7 @@ namespace OG.ASTBuilding.Terminals
         /// <param name="id"></param>
         public ParameterNode(IdNode id)
         {
-            Expression = null;
+            Value = null;
             ParamType = ParameterType.Id;
             ParameterId = id;
         }
@@ -57,9 +57,9 @@ namespace OG.ASTBuilding.Terminals
             if (ParameterId != null)
             {
                 return ParameterId.ToString() + "Type of parameter: " + ParamType.ToString();
-            } else if (Expression != null)
+            } else if (Value != null)
             {
-                return Expression.ToString() + "Type of expression: " + ParamType.ToString();
+                return Value.ToString() + "Type of expression: " + ParamType.ToString();
             }
 
             return "Parameter does not contain id: " + ParamType.ToString();
