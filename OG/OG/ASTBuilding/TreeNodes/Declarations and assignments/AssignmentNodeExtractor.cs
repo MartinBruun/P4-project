@@ -195,7 +195,7 @@ namespace OG.ASTBuilding.Shapes
                 return new PointAssignmentNode(id, pointRefNode);
             } else  if (endPointAssignmentContext != null && !endPointAssignmentContext.IsEmpty)
             {
-                return VisitEndPointAssignment(endPointAssignmentContext);
+                throw new NotImplementedException();
             } else if (startPointAssignment != null && !endPointAssignmentContext.IsEmpty)
             {
                 throw new NotImplementedException();
