@@ -914,33 +914,17 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLineCommand([NotNull] OGParser.LineCommandContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>chainedToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.toCommands"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterChainedToCommand([NotNull] OGParser.ChainedToCommandContext context) { }
+	public virtual void EnterToCommands([NotNull] OGParser.ToCommandsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>chainedToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.toCommands"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitChainedToCommand([NotNull] OGParser.ChainedToCommandContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>singleToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSingleToCommand([NotNull] OGParser.SingleToCommandContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>singleToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSingleToCommand([NotNull] OGParser.SingleToCommandContext context) { }
+	public virtual void ExitToCommands([NotNull] OGParser.ToCommandsContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.curveCommand"/>.
 	/// <para>The default implementation does nothing.</para>

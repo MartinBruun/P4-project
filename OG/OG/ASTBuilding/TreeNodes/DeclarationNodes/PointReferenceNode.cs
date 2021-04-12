@@ -2,6 +2,7 @@
 using System.Globalization;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
 
 namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
 {
@@ -19,11 +20,22 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
         public ShapePointRefNode StartEndPoint = null;
 
         public IdNode AssignedValue = null;
+        public FunctionCallNode FunctionCallId = null;
+        public PointReferenceType PointRefType { get; set; }
 
+        public enum PointReferenceType
+        {
+            NumberTuple = 0,
+            StartPoint,
+            EndPoint,
+            IdPoint,
+            FunctionCall
+        }
 
         public PointReferenceNode(string value, MathNode rhs, MathNode lhs)
             :base(value, ExpressionType.PointReference)
         {
+            PointRefType = PointReferenceType.NumberTuple;
             LHS = lhs;
             RHS = rhs;
             AssignedValue = null;
@@ -31,6 +43,7 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
         public PointReferenceNode(string value, IdNode id)
             :base(value, ExpressionType.PointReference)
         {
+            PointRefType = PointReferenceType.IdPoint;
             AssignedValue = id;
             LHS = null;
             RHS = null;
@@ -39,7 +52,21 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
         public PointReferenceNode(string value, ShapePointRefNode spRef)
             :base(value, ExpressionType.PointReference)
         {
+            if (StartEndPoint.PointType == ShapePointRefNode.PointTypes.StartPoint)
+            {
+                PointRefType = PointReferenceType.StartPoint;
+            }
+            else
+            {
+                PointRefType = PointReferenceType.EndPoint;
+            }
             StartEndPoint = spRef;
+        }
+        public PointReferenceNode(string value, FunctionCallNode funcCall)
+            :base(value, ExpressionType.PointReference)
+        {
+            PointRefType = PointReferenceType.FunctionCall;
+            FunctionCallId = funcCall;
         }
     }
 }

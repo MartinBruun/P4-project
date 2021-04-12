@@ -777,29 +777,15 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLineCommand([NotNull] OGParser.LineCommandContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>chainedToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.toCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterChainedToCommand([NotNull] OGParser.ChainedToCommandContext context);
+	void EnterToCommands([NotNull] OGParser.ToCommandsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>chainedToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.toCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitChainedToCommand([NotNull] OGParser.ChainedToCommandContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>singleToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSingleToCommand([NotNull] OGParser.SingleToCommandContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>singleToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSingleToCommand([NotNull] OGParser.SingleToCommandContext context);
+	void ExitToCommands([NotNull] OGParser.ToCommandsContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.curveCommand"/>.
 	/// </summary>

@@ -471,19 +471,11 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLineCommand([NotNull] OGParser.LineCommandContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>chainedToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.toCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitChainedToCommand([NotNull] OGParser.ChainedToCommandContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>singleToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitSingleToCommand([NotNull] OGParser.SingleToCommandContext context);
+	Result VisitToCommands([NotNull] OGParser.ToCommandsContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.curveCommand"/>.
 	/// </summary>

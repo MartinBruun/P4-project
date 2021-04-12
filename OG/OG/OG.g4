@@ -43,7 +43,6 @@ drawCommands: drawCommand drawCommands
             
 drawCommand     : id=ID';'                             #drawCmd
                 | id=ID fromCmd=fromCommand ';'        #drawFromCmd
-                | id=ID fromCmd=fromCommand ';'        #drawFromCmd
                 ;
 //Shapes:
 shapeDcl            : 'shape' id=ID '{' bdy=body '}'
@@ -87,8 +86,8 @@ pointReference      :  '(' tuple=numberTuple ')'
                     | idPoint=ID
                     | funcCall=functionCall
                     ;
+                    
 numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
-
 
 assignment          : variableAssignment 
                     | propertyAssignment
@@ -166,8 +165,8 @@ movementCommand : lineCmd=lineCommand ';'
 
 lineCommand     : type='line' fromCmd=fromCommand  toCmds=toCommands;
 
-toCommands: toCmd=toCommand chainedToCmds=toCommands          #chainedToCommand
-          | toCmd=toCommand                                   #singleToCommand
+toCommands: toCmd=toCommand chainedToCmds=toCommands         
+          | toCmd=toCommand                                
           ;
 
    
@@ -176,7 +175,7 @@ curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')
                 
 toCommand       : '.''to''(' id=ID ')'                      #toWithId
                 | '.''to''(' tuple=numberTuple ')'          #toWithNumberTuple
-                | '.''to''(' oPoint=startPointReference ')'  #toWithStartPointRef
+                | '.''to''(' toPoint=startPointReference ')'  #toWithStartPointRef
                 | '.''to''(' toPoint=endPointReference ')'    #toWithEndPointRef
                 ;
 
