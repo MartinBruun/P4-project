@@ -1,4 +1,6 @@
-﻿using OG.ASTBuilding.TreeNodes;
+﻿using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.BoolNodes;
 
 namespace OG.ASTBuilding.Terminals
 {
@@ -65,4 +67,6 @@ namespace OG.ASTBuilding.Terminals
             return "Parameter does not contain id: " + ParamType.ToString();
         }
     }
+
+    
 }
