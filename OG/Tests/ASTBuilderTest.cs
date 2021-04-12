@@ -56,5 +56,17 @@ namespace Tests
             Assert.AreEqual(0, node.SizeProperty.ZMin.Value);
             Assert.AreEqual(100, node.SizeProperty.ZMax.Value);
         }
+<<<<<<< Updated upstream
+=======
+        
+        [TestCase("IteratorCommands.og", "Testing that it is possible convert AntlrAST to UntilNodes")]
+        public void Test_IterationCommands_ShouldGiveCorrectAST(string fileName, string description)
+        {
+            TestContext.Out.WriteLine("TestStarting");
+            IterationNode nodes = CreateAST<IterationNode, AntlrToIterationCommand>(fileName, "PartialPrograms/");
+            TestContext.Out.WriteLine(nodes);
+           
+        }
+>>>>>>> Stashed changes
     }
 }
