@@ -31,6 +31,10 @@ namespace OG
             {
                 Console.WriteLine(e);
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser);
 
