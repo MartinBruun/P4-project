@@ -6,10 +6,10 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
 {
     public class BoolDeclarationNode : DeclarationNode
     {
-        public BoolDeclarationNode(IdNode id, BoolNode assignmentAssignedValue):base(id, assignmentAssignedValue, DeclarationType.BoolDeclarationNode)
+        public BoolDeclarationNode(IdNode id, BoolNode assignmentAssignedExpression):base(id, assignmentAssignedExpression, DeclarationType.BoolDeclarationNode)
         {
             Id = id;
-            AssignedValue = assignmentAssignedValue;
+            AssignedExpression = assignmentAssignedExpression;
         }
     }
 }

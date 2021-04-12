@@ -2,7 +2,7 @@
 
 namespace OG.ASTBuilding.Terminals
 {
-    public class MathNode : ValueNode
+    public class MathNode : ExpressionNode
     {
         public enum MathType
         {

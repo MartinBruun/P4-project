@@ -3,7 +3,7 @@ using OG.ASTBuilding.Terminals;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 {
-    public class FunctionCallNode : ValueNode, IFunctionCallNode
+    public class FunctionCallNode : ExpressionNode, IFunctionCallNode
     {
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }

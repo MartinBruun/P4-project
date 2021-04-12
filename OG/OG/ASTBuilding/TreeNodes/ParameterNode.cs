@@ -1,5 +1,5 @@
 
-﻿using OG.ASTBuilding.Shapes;
+ using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BoolNodes;
 
@@ -29,17 +29,17 @@ namespace OG.ASTBuilding.Terminals
         /// <summary>
         /// Expression is set to null ParameterType is Id.
         /// </summary>
-        public ValueNode Value { get; set; } = null;
+        public ExpressionNode Expression { get; set; } = null;
 
         /// <summary>
         /// If we have an expression, it can by definition not be an Id reference.
         /// </summary>
         /// <param name="e"></param>
         /// <param name="t"></param>
-        public ParameterNode(ValueNode e, ParameterType t)
+        public ParameterNode(ExpressionNode e, ParameterType t)
         {
             ParameterId = null;
-            Value = e;
+            Expression = e;
             ParamType = t;
         }
         
@@ -50,7 +50,7 @@ namespace OG.ASTBuilding.Terminals
         public ParameterNode(IdNode id)
         {
 
-            Value = null;
+            Expression = null;
             ParamType = ParameterType.Id;
             ParameterId = id;
         }
@@ -62,9 +62,9 @@ namespace OG.ASTBuilding.Terminals
             if (ParameterId != null)
             {
                 return ParameterId.ToString() + "Type of parameter: " + ParamType.ToString();
-            } else if (Value != null)
+            } else if (Expression != null)
             {
-                return Value.ToString() + "Type of expression: " + ParamType.ToString();
+                return Expression.ToString() + "Type of expression: " + ParamType.ToString();
             }
 
             return "Parameter does not contain id: " + ParamType.ToString();
