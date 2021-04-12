@@ -8,7 +8,7 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
     /// <summary>
     /// This one is iffy. Need to find a way to represent all point references. This gonna be hard.
     /// </summary>
-    public class PointReferenceNode : ValueNode
+    public abstract class PointReferenceNode : ValueNode
     {
         /// <summary>
         /// If both LHS and RHS is null, it must be startpointreference, endpointreference, or ID.

@@ -21,23 +21,9 @@ namespace OG.ASTBuilding.Draw
             Console.WriteLine("\tCreating drawCommand node for fromCommand...");
             IdNode id = new IdNode(context.id.Text);
             PointReferenceNode pointRef = _pointReferenceNodeExtractor.ExtractPointReferenceNode(context.fromCmd);
-            FromCommandNode fromNode = new FromCommandNode(pointRef);
             
-            return new DrawCommandNode(id, fromNode);
+            return new DrawCommandNode(id, pointRef);
         }
-
-        private PointReferenceNode CreatePointRefNode(OGParser.FromCommandContext fromCmdContext)
-        {
-
-            return null;
-            /*
-            string valueString = string.Concat(fromCmdContext.GetText()
-                .Replace(";","").Replace(".from","")
-                .Where(c => !char.IsWhiteSpace(c)));
-            return new PointReferenceNode(valueString);
-            */
-        }
-
     }
 
    

@@ -1,13 +1,14 @@
 ﻿using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.DeclarationNodes;
 
 namespace OG.ASTBuilding.Draw
 {
     public class DrawCommandNode : AstNode
     {
         public IdNode id;
-        public FromCommandNode from;
+        public PointReferenceNode from;
 
-        public DrawCommandNode(IdNode id, FromCommandNode from)
+        public DrawCommandNode(IdNode id, PointReferenceNode from)
         {
             this.id = id;
             this.from = from;
