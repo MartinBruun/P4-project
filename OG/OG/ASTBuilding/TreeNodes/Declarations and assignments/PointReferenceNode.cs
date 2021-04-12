@@ -24,12 +24,12 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
             NumberTupleNode
         }
 
-        private PointReferenceNodeType PointReferenceType { get; set; }
+        public PointReferenceNodeType PointReferenceType { get; set; }
 
         public PointReferenceNode(string pointText, PointReferenceNodeType pointRefNodeType)
             :base(pointText, ExpressionType.PointReference)
         {
-
+            PointReferenceType = pointRefNodeType;
         }
 
 

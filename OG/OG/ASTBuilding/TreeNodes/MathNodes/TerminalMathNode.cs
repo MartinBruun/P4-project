@@ -2,10 +2,8 @@
 {
     public abstract class TerminalMathNode : MathNode
     {
-        protected TerminalMathNode(string value, MathType mathNodeTypeOf) : base(value, mathNodeTypeOf)
+        public TerminalMathNode(string value, MathType mathNodeTypeOf) : base(value, mathNodeTypeOf)
         {
         }
-        
-        
     }
 }
