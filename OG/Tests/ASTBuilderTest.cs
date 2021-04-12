@@ -18,7 +18,6 @@ namespace Tests
 {
     public class AstBuilderTests
     {
-        /*
         private TNode CreateAST<TNode, TVisitor>(string fileName, string dirName) 
             where TVisitor : OGBaseVisitor<TNode>, ISemanticErrorable, IUnnecessarySettingsErrorable, new()
         {
@@ -76,6 +75,5 @@ namespace Tests
             // Assert.AreEqual(0, node.SizeProperty.ZMin.Value);
             // Assert.AreEqual(100, node.SizeProperty.ZMax.Value);
         }
-        */
     }
 }
