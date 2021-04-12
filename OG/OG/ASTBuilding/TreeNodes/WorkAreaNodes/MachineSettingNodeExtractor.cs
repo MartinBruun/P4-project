@@ -165,7 +165,7 @@ namespace OG.ASTBuilding.MachineSettings
             MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
             MathNode xMin = _mathNodeExtractor.ExtractMathNode(context.workAreaVariables.xmin);
             MathNode xMax = _mathNodeExtractor.ExtractMathNode(context.workAreaVariables.xmax);
-            MathNode yMin = _mathNodeExtractor.ExtractMathNode(context.workAreaVariables.ymax);
+            MathNode yMin = _mathNodeExtractor.ExtractMathNode(context.workAreaVariables.ymin);
             MathNode yMax = _mathNodeExtractor.ExtractMathNode(context.workAreaVariables.ymax);
             SizePropertyNode sizePropNode  = new SizePropertyNode(xMin, xMax, yMin, yMax);
 
