@@ -5,19 +5,19 @@ using OG.ASTBuilding.Terminals;
 
 namespace OG.ASTBuilding.MachineSettings
 {
-    public class SizePropertyNode : ModificationPropertyNode
+    public class SizePropertyNode : WorkAreaSettingNode
     {
-        public NumberNode XMin { get; set; }
-        public NumberNode XMax { get; set; }
-        public NumberNode YMin { get; set; }
-        public NumberNode YMax { get; set; }
-        public NumberNode ZMin { get; set; }
-        public NumberNode ZMax { get; set; }
+        public MathNode XMin { get; set; }
+        public MathNode XMax { get; set; }
+        public MathNode YMin { get; set; }
+        public MathNode YMax { get; set; }
+        public MathNode ZMin { get; set; }
+        public MathNode ZMax { get; set; }
 
         private void Initialize(
-            NumberNode xmin, NumberNode xmax, 
-            NumberNode ymin, NumberNode ymax, 
-            NumberNode zmin, NumberNode zmax)
+            MathNode xmin, MathNode xmax, 
+            MathNode ymin, MathNode ymax, 
+            MathNode zmin, MathNode zmax)
         {
             XMin = xmin;
             XMax = xmax;
@@ -27,18 +27,9 @@ namespace OG.ASTBuilding.MachineSettings
             ZMax = zmax;
         }
         
-        public SizePropertyNode()
-        {
-            Initialize(
-                new NumberNode(0), new NumberNode(100), 
-                new NumberNode(0), new NumberNode(100), 
-                new NumberNode(0), new NumberNode(100)
-                );
-        }
-
         public SizePropertyNode(
-            NumberNode xmin, NumberNode xmax, 
-            NumberNode ymin, NumberNode ymax)
+            MathNode xmin, MathNode xmax, 
+            MathNode ymin, MathNode ymax)
         {
             Initialize(xmin, xmax, ymin, ymax, new NumberNode(0), new NumberNode(100));
         }

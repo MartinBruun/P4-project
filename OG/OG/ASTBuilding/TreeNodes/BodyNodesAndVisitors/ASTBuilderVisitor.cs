@@ -13,6 +13,7 @@ namespace OG.ASTBuilding
     {
         public string TopNode { get; set; } = "program";
         private ProgramNode Program { get; set; }
+
         public List<SemanticError> SemanticErrors { get; set; } = new List<SemanticError>();
         private MachineSettingsVisitor MachineSettingVisitor { get; set; }
         private DrawNodeListBuilder DrawNodeListBuilder { get; set; }
@@ -42,7 +43,7 @@ namespace OG.ASTBuilding
             Program = new ProgramNode();
             if (context.settings != null)
             {
-                Program.MachineSettings = MachineSettingVisitor.VisitMachineSettings(context.settings);
+                //Program.MachineSettings = MachineSettingVisitor.VisitMachineSettings(context.settings);
             }
 
             if (context.drawFunction != null)
