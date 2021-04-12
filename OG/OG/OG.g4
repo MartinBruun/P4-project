@@ -93,7 +93,7 @@ numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
 assignment          : variableAssignment 
                     | propertyAssignment
                     ;
-propertyAssignment  : xyVal=CoordinateXYValue '=' value=mathExpression';'
+propertyAssignment  : xyVal=coordinateXYValue '=' value=mathExpression';'
                     ;
 
 
@@ -136,7 +136,7 @@ factor          : lhs=atom pow='^' rhs=factor                      #powerExpr
 
 atom            : funcCall=functionCall                         #atomfuncCall
                 | value=Number                                  #number
-                | xyValue=CoordinateXYValue                     #atomXYValue
+                | xyValue=coordinateXYValue                     #atomXYValue
                 | id=ID                                         #atomId
                 ;
                
@@ -324,7 +324,7 @@ EndPointReference   : ID'.''endPoint';
 If  : 'if';
 Then: 'then';
 
-CoordinateXYValue: (ID'.x') | (ID'.y') | (StartPointReference|EndPointReference) ('.x'|'.y') ;
+coordinateXYValue: (id=ID xy='.x') | (id=ID xy='.y') | (id=StartPointReference|id=EndPointReference) (xy='.x'|xy='.y') ;
 ID: [a-zA-Z]+[0-9a-zA-Z]*; //ID skal være nederst for ikke at overwrite alle de andre keywords.
 
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from /Users/rasmushenriksen/Desktop/P4/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -1371,6 +1371,18 @@ public partial class OGBaseListener : IOGListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.coordinateXYValue"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCoordinateXYValue([NotNull] OGParser.CoordinateXYValueContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.coordinateXYValue"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCoordinateXYValue([NotNull] OGParser.CoordinateXYValueContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>
