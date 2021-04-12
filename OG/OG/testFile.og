@@ -1,4 +1,4 @@
-Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222).size(xmin=5,xmax=10,ymin=-10,ymax=3).size(xmin=5,xmax=10,ymin=-10,ymax=3);
+Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
 
 draw {
     a;
@@ -7,21 +7,38 @@ draw {
 }
 
 function point funPOINT(){
-      point a = (2,MYFunction(true, 2*2));
-      point y = ((3.8*3) * 5 *3 + 16, a.endPoint.x);
-      
-      
-      
+      a = (2,2);
+      a.x = 2+2;
+      b=c+a;
+      y = (3.8*3) * 5 *3 + 16;
+      a = 2+2;
+      a = 2+2+4+5<3 && true;
       return a;
-
 }
 function bool bools(){
-point a = a;
-point p = (a,b);
-point d = a.endPoint;
-point b = a.startPoint;
-point p = myFunc(a.endPoint);
 
+number a = 10;
+number b = -10;
+point p = (a,b);
+t = true;
+f = false;
+
+test1 = a < b;
+test2 = a > b;
+
+test3 = a + b == 0;
+test4 = a - b == 20;
+test5 = a < p.y;
+test6 = b > p.y && a - b > 3 || b-a == -20;
+
+test7 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
+test8 = 7^2^6^7^4^2 / 123 == 49;
+test9 = 7^2 > 49;
+test01 = 7^2 < 48;
+
+
+test02 = a < b && a + b > 9;
+test03 = a > b  || a + b < 10^2;
 
 return true;
 }

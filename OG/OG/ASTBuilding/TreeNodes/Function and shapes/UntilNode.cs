@@ -1,4 +1,5 @@
-﻿using OG.ASTBuilding.TreeNodes.BoolNodes;
+﻿using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.TreeNodes.BoolNodes;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
@@ -6,7 +7,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
     {
         public BoolNode predicate;
 
-        public UntilNode(BoolNode condition)
+        public UntilNode(BoolNode condition, BodyNode body):base(body)
         {
             predicate = condition;
         }

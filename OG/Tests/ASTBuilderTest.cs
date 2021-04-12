@@ -9,6 +9,9 @@ using OG;
 using OG.ASTBuilding;
 using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes;
+using OG.ASTBuilding.Visitors;
 using OG.Compiler;
 
 namespace Tests
@@ -56,8 +59,6 @@ namespace Tests
             Assert.AreEqual(0, node.SizeProperty.ZMin.Value);
             Assert.AreEqual(100, node.SizeProperty.ZMax.Value);
         }
-<<<<<<< Updated upstream
-=======
         
         [TestCase("IteratorCommands.og", "Testing that it is possible convert AntlrAST to UntilNodes")]
         public void Test_IterationCommands_ShouldGiveCorrectAST(string fileName, string description)
@@ -65,8 +66,14 @@ namespace Tests
             TestContext.Out.WriteLine("TestStarting");
             IterationNode nodes = CreateAST<IterationNode, AntlrToIterationCommand>(fileName, "PartialPrograms/");
             TestContext.Out.WriteLine(nodes);
-           
+            // WorkAreaSettingNode node = (WorkAreaSettingNode) machineSettings["WorkArea"];
+            //
+            // Assert.AreEqual(0, node.SizeProperty.XMin.Value);
+            // Assert.AreEqual(100, node.SizeProperty.XMax.Value);
+            // Assert.AreEqual(0, node.SizeProperty.YMin.Value);
+            // Assert.AreEqual(100, node.SizeProperty.YMax.Value);
+            // Assert.AreEqual(0, node.SizeProperty.ZMin.Value);
+            // Assert.AreEqual(100, node.SizeProperty.ZMax.Value);
         }
->>>>>>> Stashed changes
     }
 }
