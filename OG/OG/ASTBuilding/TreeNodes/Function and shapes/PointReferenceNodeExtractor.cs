@@ -12,7 +12,7 @@ namespace OG.ASTBuilding.Shapes
     public class PointReferenceNodeExtractor : OGBaseVisitor<PointReferenceNode>
     {
         private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
-        private ParameterNodeListBuilder _parameterNodeListBuilder;
+        private ParameterNodeListBuilder _parameterNodeListBuilder = new ParameterNodeListBuilder();
         public override PointReferenceNode VisitPointReference(OGParser.PointReferenceContext context)
         {
             
@@ -44,6 +44,7 @@ namespace OG.ASTBuilding.Shapes
             
             if (pointFunctionCallContext != null && !pointFunctionCallContext.IsEmpty)
             {
+                
                 List<ParameterNode> parameters = _parameterNodeListBuilder.VisitFunctionCall(pointFunctionCallContext);
                 IdNode id = new IdNode(pointFunctionCallContext.id.Text);
                 return new PointFunctionCallNode(context.GetText(), id, parameters);
