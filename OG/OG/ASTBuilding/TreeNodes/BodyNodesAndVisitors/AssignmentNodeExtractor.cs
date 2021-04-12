@@ -139,7 +139,7 @@ namespace OG.ASTBuilding.Shapes
                 MathNode mathNode = _mathNodeExtractor.ExtractMathNode(mathExprContext);
                 
                 
-                return new PropertyAssignmentNode(new IdNode(propAssign.xyVal.Text), 
+                return new PropertyAssignmentNode(new IdNode(propAssign.xyVal.GetText()), 
                     mathNode);
             }
 
@@ -219,20 +219,17 @@ namespace OG.ASTBuilding.Shapes
         private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
         public override PointReferenceNode VisitPointReference(OGParser.PointReferenceContext context)
         {
-            
             OGParser.NumberTupleContext tupleContext = context.tuple;
-            ITerminalNode startPointRefContext = context.StartPointReference();
-            ITerminalNode endPointRefContext = context.StartPointReference();
 
-            string[] endPointText = endPointRefContext.GetText().Split(".");
-            string[] startPointText = startPointRefContext.GetText().Split(".");
+            string[] endPointText = context.endPoint.GetText().Split(".");
+            string[] startPointText = context.startPoint.GetText().Split(".");
 
             if (endPointText.Length == 2 && endPointText.Contains("endPoint") &&
                 !string.IsNullOrWhiteSpace(endPointText[0]))
             {
                 ShapePointRefNode shapePointRef = new ShapePointRefNode(new IdNode(endPointText[0]),
                     ShapePointRefNode.PointTypes.Endpoint);
-                return new PointReferenceNode(endPointRefContext.GetText(), shapePointRef);
+                return new PointReferenceNode(context.endPoint.GetText(), shapePointRef);
                 
             } else if (startPointText.Length == 2 && startPointText.Contains("startPoint") &&
                        !string.IsNullOrWhiteSpace(endPointText[0]))
@@ -240,7 +237,7 @@ namespace OG.ASTBuilding.Shapes
 
                 ShapePointRefNode shapePointRef = new ShapePointRefNode(new IdNode(startPointText[0]),
                     ShapePointRefNode.PointTypes.StartPoint);
-                return new PointReferenceNode(startPointRefContext.GetText(), shapePointRef);
+                return new PointReferenceNode(context.startPoint.GetText(), shapePointRef);
                 //Valid StartPoint! Create and return node
             } else if (tupleContext != null && !tupleContext.IsEmpty)
             {

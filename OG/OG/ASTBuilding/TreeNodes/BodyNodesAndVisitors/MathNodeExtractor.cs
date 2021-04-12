@@ -222,7 +222,7 @@ namespace OG.ASTBuilding.Shapes
 
         public override MathNode VisitAtomXYValue(OGParser.AtomXYValueContext context)
         {
-            return new CoordinateXYValueNode(context.xyValue.Text, MathNode.MathType.CoordinateXyValueNode);
+            return new CoordinateXYValueNode(context.xyValue.GetText(), MathNode.MathType.CoordinateXyValueNode);
         }
 
         /// <summary>

@@ -82,9 +82,9 @@ pointDeclaration    : 'point'  id=ID '='  value=pointReference    #pointDclPoint
                     ;
 
 pointReference      :  '(' tuple=numberTuple ')' 
-                    | point=StartPointReference
-                    | point=EndPointReference 
-                    | point=ID
+                    | startPoint=startPointReference
+                    | endPoint=endPointReference 
+                    | idPoint=ID
                     | funcCall=functionCall
                     ;
 numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
@@ -93,7 +93,7 @@ numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
 assignment          : variableAssignment 
                     | propertyAssignment
                     ;
-propertyAssignment  : xyVal=CoordinateXYValue '=' value=mathExpression';'
+propertyAssignment  : xyVal=coordinateXYValue '=' value=mathExpression';'
                     ;
 
 
@@ -109,9 +109,9 @@ pointAssignment     :  endPointAssignment
                     |  id=ID '=' value=pointReference
                     ;
 
-startPointAssignment: id=StartPointReference '=' value=pointReference
+startPointAssignment: id=startPointReference '=' value=pointReference
                     ;
-endPointAssignment  : id=EndPointReference '=' value=pointReference
+endPointAssignment  : id=endPointReference '=' value=pointReference
                     ;
 
 
@@ -136,7 +136,7 @@ factor          : lhs=atom pow='^' rhs=factor                      #powerExpr
 
 atom            : funcCall=functionCall                         #atomfuncCall
                 | value=Number                                  #number
-                | xyValue=CoordinateXYValue                     #atomXYValue
+                | xyValue=coordinateXYValue                     #atomXYValue
                 | id=ID                                         #atomId
                 ;
                
@@ -172,18 +172,18 @@ toCommands: toCmd=toCommand chainedToCmds=toCommands          #chainedToCommand
 
    
 
-curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmd=toCommand;
+curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmds=toCommands;
                 
 toCommand       : '.''to''(' id=ID ')'                      #toWithId
                 | '.''to''(' tuple=numberTuple ')'          #toWithNumberTuple
-                | '.''to''(' oPoint=StartPointReference ')'  #toWithStartPointRef
-                | '.''to''(' toPoint=EndPointReference ')'    #toWithEndPointRef
+                | '.''to''(' oPoint=startPointReference ')'  #toWithStartPointRef
+                | '.''to''(' toPoint=endPointReference ')'    #toWithEndPointRef
                 ;
 
 fromCommand     :  '.''from' '(' id=ID')'                             #fromWithId
                 |  '.''from' '(' tuple=numberTuple ')'                #fromWithNumberTuple
-                |  '.''from' '(' fromPoint=StartPointReference ')'    #fromWithStartPointRef
-                |  '.''from' '(' fromPoint=EndPointReference ')'      #fromWithEndPointRef
+                |  '.''from' '(' fromPoint=startPointReference ')'    #fromWithStartPointRef
+                |  '.''from' '(' fromPoint=endPointReference ')'      #fromWithEndPointRef
                 ;
 
 
@@ -232,8 +232,8 @@ passedParams: firstParameter=passedParam ',' params=passedParams #multiParameter
 passedParam : id = ID                                       #passedID
             | funcCall = functionCall                       #passedFunctionCall
             | expr = expression                             #passedDirectValue
-            | endpointRef =  EndPointReference              #passedEndPointReference
-            | startpointRef = StartPointReference           #passedStartPointReference
+            | endpointRef =  endPointReference              #passedEndPointReference
+            | startpointRef = startPointReference           #passedStartPointReference
             ;
 
 
@@ -319,12 +319,12 @@ Machine : 'Machine';
 WorkArea: 'WorkArea';
 Size    : 'size';
 
-StartPointReference : ID'.''startPoint';
-EndPointReference   : ID'.''endPoint';
+startPointReference : id=ID'.''startPoint';
+endPointReference   : id=ID'.''endPoint';
 If  : 'if';
 Then: 'then';
 
-CoordinateXYValue: (ID'.x') | (ID'.y') | (StartPointReference|EndPointReference) ('.x'|'.y') ;
+coordinateXYValue: (ID'.x') | (ID'.y') | (startPointReference|endPointReference) ('.x'|'.y') ;
 ID: [a-zA-Z]+[0-9a-zA-Z]*; //ID skal være nederst for ikke at overwrite alle de andre keywords.
 
 

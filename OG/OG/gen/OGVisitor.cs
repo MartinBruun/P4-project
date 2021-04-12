@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -699,4 +699,22 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="OGParser.startPointReference"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStartPointReference([NotNull] OGParser.StartPointReferenceContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="OGParser.endPointReference"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitEndPointReference([NotNull] OGParser.EndPointReferenceContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="OGParser.coordinateXYValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCoordinateXYValue([NotNull] OGParser.CoordinateXYValueContext context);
 }
