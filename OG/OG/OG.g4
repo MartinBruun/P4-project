@@ -324,7 +324,7 @@ endPointReference   : id=ID'.''endPoint';
 If  : 'if';
 Then: 'then';
 
-coordinateXYValue: (ID'.x') | (ID'.y') | (startPointReference|endPointReference) ('.x'|'.y') ;
+coordinateXYValue: (id=ID xy='.x') | (id=ID xy='.y') | (startPoint=startPointReference|endPoint=endPointReference) (xy='.x'|xy='.y') ;
 ID: [a-zA-Z]+[0-9a-zA-Z]*; //ID skal være nederst for ikke at overwrite alle de andre keywords.
 
 

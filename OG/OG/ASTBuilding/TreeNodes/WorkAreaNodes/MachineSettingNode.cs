@@ -3,7 +3,7 @@ using OG.ASTBuilding;
 
 namespace OG.ASTBuilding.MachineSettings
 {
-    public abstract class MachineSettingNode :AstNode
+    public abstract class MachineSettingNode : AstNode
     {
         
     }

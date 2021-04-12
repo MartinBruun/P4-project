@@ -11,6 +11,7 @@ using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BoolNodes;
 using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using CoordinateXYValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXYValueNode;
 
 namespace OG.ASTBuilding.Shapes
 {
@@ -137,10 +138,9 @@ namespace OG.ASTBuilding.Shapes
             {
                 OGParser.MathExpressionContext mathExprContext = propAssign.value;
                 MathNode mathNode = _mathNodeExtractor.ExtractMathNode(mathExprContext);
-                
-                
-                return new PropertyAssignmentNode(new IdNode(propAssign.xyVal.GetText()), 
-                    mathNode);
+                CoordinateXYValueNode xyValue =
+                    new CoordinateXYValueNode(new IdNode(propAssign.xyVal.id.Text), propAssign.xyVal.xy.Text);
+                return new PropertyAssignmentNode(xyValue, mathNode);
             }
 
 
