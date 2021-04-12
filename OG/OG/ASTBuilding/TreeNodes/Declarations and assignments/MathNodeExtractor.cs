@@ -28,7 +28,6 @@ namespace OG.ASTBuilding.Shapes
         public override MathNode VisitInfixAdditionExpr(OGParser.InfixAdditionExprContext context)
         {
 
-            
             OGParser.MathExpressionContext rhsMath = context.rhs;
             MathNode lhsNode = ExtractMathNode(context.lhs);
             MathNode rhsNode = ExtractMathNode(context.rhs);
@@ -54,28 +53,26 @@ namespace OG.ASTBuilding.Shapes
             return null;
         }
 
-        /// <summary>
-        /// TODO MathExpressioncontext --> MathNode
-        /// </summary>
+   
         /// <param name="context"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public MathNode ExtractMathNode(OGParser.MathExpressionContext context)
         {
+
             try
             {
                 try
                 {
-                    OGParser.InfixAdditionExprContext additionContext = (OGParser.InfixAdditionExprContext) context;
-                    return VisitInfixAdditionExpr(additionContext);
+                    OGParser.SingleTermExprContext singleTermContext = (OGParser.SingleTermExprContext) context;
+                    return VisitSingleTermExpr(singleTermContext);
                 }
                 catch (InvalidCastException e)
                 {
-
                 }
 
-                OGParser.SingleTermExprContext singleTermContext = (OGParser.SingleTermExprContext) context;
-                return VisitSingleTermExpr(singleTermContext);
+                OGParser.InfixAdditionExprContext additionContext = (OGParser.InfixAdditionExprContext) context;
+                return VisitInfixAdditionExpr(additionContext);
+              
 
             }
             catch (InvalidCastException e)
@@ -86,23 +83,24 @@ namespace OG.ASTBuilding.Shapes
             }
             catch (AstNodeCreationException e)
             {
+
                 throw new AstNodeCreationException(e.Message);
             }
            
         }
 
-        public MathNode ExtractMathNode(OGParser.TermContext lhsMath)
+        public MathNode ExtractMathNode(OGParser.TermContext context)
         {
             try
             {
                 try
                 {
-                    OGParser.InfixMultExprContext multiplicationExpr = (OGParser.InfixMultExprContext) lhsMath;
+                    OGParser.InfixMultExprContext multiplicationExpr = (OGParser.InfixMultExprContext) context;
                     return VisitInfixMultExpr(multiplicationExpr);
                 }
                 catch (InvalidCastException e)
                 {
-                    OGParser.SingleTermChildContext singleTermExpr = (OGParser.SingleTermChildContext) lhsMath;
+                    OGParser.SingleTermChildContext singleTermExpr = (OGParser.SingleTermChildContext) context;
                     return VisitSingleTermChild(singleTermExpr);
                 }
 
@@ -124,7 +122,6 @@ namespace OG.ASTBuilding.Shapes
                 try
                 {
                     OGParser.SingleAtomContext singleAtomContext = (OGParser.SingleAtomContext) factorContext;
-                    //HEREE
                     return VisitSingleAtom(singleAtomContext);
                 }
                 catch (InvalidCastException e)
@@ -191,7 +188,6 @@ namespace OG.ASTBuilding.Shapes
                 {
                     OGParser.AtomIdContext idContext = (OGParser.AtomIdContext) context;
                     return VisitAtomId(idContext);
-                    throw new NotImplementedException("Creation of MathNodes from AtomIDContext not implemented");
                 }
                 catch (InvalidCastException e)
                 {
@@ -335,9 +331,8 @@ namespace OG.ASTBuilding.Shapes
             
             OGParser.FunctionCallContext funcCallContext = context.funcCall;
             _functionCallNodeExtractor = new MathFunctionCallNodeExtractor();
-            
-            return _functionCallNodeExtractor.VisitFunctionCall(funcCallContext);
-            
+           return  _functionCallNodeExtractor.VisitFunctionCall(funcCallContext);
+
         }
     }
 }

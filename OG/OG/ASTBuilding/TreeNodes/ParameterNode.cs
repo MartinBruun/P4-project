@@ -1,4 +1,5 @@
-﻿using OG.ASTBuilding.TreeNodes;
+﻿using System;
+using OG.ASTBuilding.TreeNodes;
 
 namespace OG.ASTBuilding.Terminals
 {
@@ -45,6 +46,7 @@ namespace OG.ASTBuilding.Terminals
         /// <param name="id"></param>
         public ParameterNode(IdNode id)
         {
+
             Value = null;
             ParamType = ParameterType.Id;
             ParameterId = id;

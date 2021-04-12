@@ -19,12 +19,15 @@ namespace OG.ASTBuilding.Shapes
 
         public List<ParameterNode> BuildParameterNodeList(OGParser.PassedParamsContext parameters)
         {
+            
             try
             {
                 try
                 {
                     OGParser.SingleParameterContext singleParam = (OGParser.SingleParameterContext) parameters;
+                    
                     Parameters.Add(_paramExtractor.VisitSingleParameter(singleParam));
+                    return Parameters;
                 }
                 catch (InvalidCastException)
                 { }
@@ -54,15 +57,18 @@ namespace OG.ASTBuilding.Shapes
 
         public override List<ParameterNode> VisitMultiParameters(OGParser.MultiParametersContext context)
         {
-            
+
             OGParser.PassedParamContext current = context.firstParameter;
             if (current != null && !current.IsEmpty)
             {
+               
                Parameters.Add(_paramExtractor.ExtractParameterNode(current));
+               return Parameters;
             }
 
             if (context.@params != null && !context.@params.IsEmpty)
-            {
+            {                
+
                 return BuildParameterNodeList(context.@params);
             }
             

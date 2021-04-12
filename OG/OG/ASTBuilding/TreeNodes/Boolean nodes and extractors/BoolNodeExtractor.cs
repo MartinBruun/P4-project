@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection.Metadata;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
@@ -90,10 +89,6 @@ namespace OG.ASTBuilding.Shapes
                 OGParser.BoolExprFuncCallContext boolFuncCallContext = (OGParser.BoolExprFuncCallContext) context;
                 return VisitBoolExprFuncCall(boolFuncCallContext);
 
-                
-                
-                throw new NotImplementedException("BoolExprFuncCallContex --> BoolFunctionNode");
-                
             }
             catch (InvalidCastException e)
             {
@@ -172,22 +167,5 @@ namespace OG.ASTBuilding.Shapes
             _boolFunctionNodeExtractor = new BoolFunctionCallNodeExtractor();
             return _boolFunctionNodeExtractor.VisitFunctionCall(funcCall);
         }
-    }
-
-    public class BoolFunctionCallNodeExtractor : OGBaseVisitor<BoolFunctionCallNode>
-    {
-        /// <summary>
-        /// Must not be created on initialisation. Danger of infinite recursion.
-        /// </summary>
-        private ParameterNodeListBuilder _parameterListBuilder = null;
-
-        public override BoolFunctionCallNode VisitFunctionCall(OGParser.FunctionCallContext context)
-        {
-            _parameterListBuilder = new ParameterNodeListBuilder();
-            IdNode id = new IdNode(context.id.Text);
-            List<ParameterNode> parameters = _parameterListBuilder.VisitFunctionCall(context);
-            return new BoolFunctionCallNode(context.GetText(), id, parameters);
-        }
-        
     }
 }

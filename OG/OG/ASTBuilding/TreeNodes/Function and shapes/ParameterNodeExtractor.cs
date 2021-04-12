@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using OG.AST.Functions;
-using OG.ASTBuilding.Draw;
 using OG.ASTBuilding.Functions;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
 using OG.ASTBuilding.TreeNodes.BoolNodes;
+using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using OG.ASTBuilding.TreeNodes.Declarations_and_assignments;
 
 namespace OG.ASTBuilding.Shapes
 {
@@ -18,25 +18,32 @@ namespace OG.ASTBuilding.Shapes
  
         public override ParameterNode VisitSingleParameter(OGParser.SingleParameterContext context)
         {
+            
             OGParser.PassedParamContext parameterContext = context.parameter;
-            return ExtractParameterNode(context.parameter);
+            ParameterNode result =  ExtractParameterNode(context.parameter);
+            return result;
+
         }
 
         public ParameterNode ExtractParameterNode(OGParser.PassedDirectValueContext context)
         {
-
+            
             OGParser.ExpressionContext exprContext = context.expr;
+            
+            
             OGParser.BoolExpressionContext boolExpressionContext = context.expr.boolExpression();
             OGParser.MathExpressionContext mathExpressionContext = context.expr.mathExpression();
             OGParser.FunctionCallContext functionExpressionContext = context.expr.functionCall();
             
             
-            
             if (
-                (exprContext != null && !exprContext.IsEmpty) &&
-                (exprContext.id.Text != null || exprContext.id.Text != string.Empty)
+                (exprContext != null && !exprContext.IsEmpty 
+                                     && exprContext.id != null 
+                                     && string.IsNullOrEmpty(exprContext.id.Text))
             )
             {
+
+
                 return new ParameterNode(new IdNode(exprContext.id.Text));
             } 
             if (boolExpressionContext != null && !boolExpressionContext.IsEmpty)
@@ -49,6 +56,7 @@ namespace OG.ASTBuilding.Shapes
 
             if (mathExpressionContext != null && !mathExpressionContext.IsEmpty)
             {
+
                 _mathNodeExtractor = new MathNodeExtractor();
                 MathNode mathRes = _mathNodeExtractor.ExtractMathNode(mathExpressionContext);
                 return new ParameterNode(mathRes, ParameterNode.ParameterType.MathExpressionNode);
@@ -62,7 +70,7 @@ namespace OG.ASTBuilding.Shapes
                 return new FunctionCallParameterNode(functionCallNode);
 
             }
-            
+
             return null;
         }
 
@@ -71,6 +79,7 @@ namespace OG.ASTBuilding.Shapes
             
             try
             {
+                
                 OGParser.PassedIDContext idValue = (OGParser.PassedIDContext) context;
                 return VisitPassedID(idValue);
             }
@@ -79,6 +88,7 @@ namespace OG.ASTBuilding.Shapes
             try
             {
                 OGParser.PassedDirectValueContext expressionValue = (OGParser.PassedDirectValueContext) context;
+               
                 return ExtractParameterNode(expressionValue);
             }
             catch (InvalidCastException e)
@@ -88,8 +98,8 @@ namespace OG.ASTBuilding.Shapes
             {
                 OGParser.PassedEndPointReferenceContext endPointContext =
                     (OGParser.PassedEndPointReferenceContext) context;
-                
-                throw new NotImplementedException("PassedEndPointReferenceContext --> ParameterNode");
+
+                return VisitPassedEndPointReference(endPointContext);
             }
             catch (InvalidCastException e)
             { }
@@ -98,11 +108,10 @@ namespace OG.ASTBuilding.Shapes
             {
                 OGParser.PassedStartPointReferenceContext startPointContext =
                     (OGParser.PassedStartPointReferenceContext) context;
-                throw new NotImplementedException("PassedStartPointReferenceContext --> ParameterNode");
+                return VisitPassedStartPointReference(startPointContext);
             }
             catch (InvalidCastException e)
             {
-
             }
             
             //Her opstår mutual rekursion. Vi skal lave function call nodes for at lave function call nodes-
@@ -123,26 +132,11 @@ namespace OG.ASTBuilding.Shapes
             FunctionCallNode funcCallNode = _functionCallNodeExtractor.VisitFunctionCall(functionCallContext);
             return new FunctionCallParameterNode(funcCallNode);
         }
-    }
 
-    public class FunctionCallExtractor : OGBaseVisitor<FunctionCallNode>
-    {
-        private ParameterNodeListBuilder _parameterNodeListBuilder = null;
-        
-        public override FunctionCallNode VisitFunctionCall(OGParser.FunctionCallContext context)
+        public override ParameterNode VisitEndPointAssignment(OGParser.EndPointAssignmentContext context)
         {
-            List<ParameterNode> parameterNodes = new List<ParameterNode>();
-            if (context.id.Text != String.Empty)
-            {
-                IdNode id = new IdNode(context.id.Text);
-                parameterNodes = _parameterNodeListBuilder.VisitFunctionCall(context);
-
-                return new FunctionCallNode(id, parameterNodes, context.GetText());
-            }
-
-            throw new AstNodeCreationException(
-                "Something went wrong creating node from FunctionCallContext. " +
-                "Function call Id empty or null.");
+            IdNode id = new IdNode(context.id.Text);
+            return new ParameterNode(id);
         }
     }
 }

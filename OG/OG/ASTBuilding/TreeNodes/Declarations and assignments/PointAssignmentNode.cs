@@ -14,6 +14,12 @@ namespace OG.ASTBuilding.Shapes
         public PointAssignmentNode(IdNode id, PointReferenceNode point) : base(id, AssignmentType.VariableAssignmentNode)
         {
             AssignedValue = point;
+            Console.WriteLine("Created point assign: " + id.ToString() + point.ToString());
+        }
+
+        public override string ToString()
+        {
+            return AssignedValue.ToString() + Id.ToString();
         }
     }
 }

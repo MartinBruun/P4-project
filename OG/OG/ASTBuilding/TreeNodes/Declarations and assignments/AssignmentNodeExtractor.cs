@@ -41,6 +41,7 @@ namespace OG.ASTBuilding.Shapes
             else if (propertyAssignment != null && !propertyAssignment.IsEmpty)
             {
                 ResultNode = ExtractAssignmentNode(propertyAssignment);
+                Console.WriteLine(ResultNode);
             }
 
             return ResultNode ?? null;
@@ -194,7 +195,7 @@ namespace OG.ASTBuilding.Shapes
                 return new PointAssignmentNode(id, pointRefNode);
             } else  if (endPointAssignmentContext != null && !endPointAssignmentContext.IsEmpty)
             {
-                throw new NotImplementedException();
+                return VisitEndPointAssignment(endPointAssignmentContext);
             } else if (startPointAssignment != null && !endPointAssignmentContext.IsEmpty)
             {
                 throw new NotImplementedException();
@@ -206,12 +207,6 @@ namespace OG.ASTBuilding.Shapes
                                                    " StartPointAssigmentContext");
                 ;
             }
-
-
         }
-
-        
-
-        
     }
 }

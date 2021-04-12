@@ -7,10 +7,8 @@ draw {
 }
 
 function point funPOINT(){
-      a = (2,2);
-      a.x = 2+2;
-      b=c+a;
-      y = (3.8*3) * 5 *3 + 16;
+      point a = (2,MYFunction(true, 2*2));
+      point y = ((3.8*3) * 5 *3 + 16, a.endPoint.x);
       a = 2+2;
       a = 2+2+4+5<3 && true;
       return a;
@@ -39,6 +37,7 @@ test01 = 7^2 < 48;
 
 test02 = a < b && a + b > 9;
 test03 = a > b  || a + b < 10^2;
+return true;
 }
 
 
