@@ -33,9 +33,6 @@ namespace OG.AST.Functions
                 return commandNode;
             }
 
-            ///TODO Do the same for commandNodeExtractor (som også skal laves)
-
-
             throw new AstNodeCreationException("stmt was neither declaration, command or assignment");
         }
     }

@@ -17,10 +17,11 @@ namespace OG.ASTBuilding.Shapes
         /// <exception cref="AstNodeCreationException"></exception>
         public override MathFunctionCallNode VisitFunctionCall(OGParser.FunctionCallContext context)
         {
+            List<ParameterNode> parameterNodes = new List<ParameterNode>();
             _parameterListBuilder = new ParameterNodeListBuilder();
             IdNode id = new IdNode(context.id.Text);
-            List<ParameterNode> parameters = _parameterListBuilder.VisitFunctionCall(context);
-            return new MathFunctionCallNode(context.GetText(), id, parameters);
+           parameterNodes = _parameterListBuilder.VisitFunctionCall(context);
+            return new MathFunctionCallNode(context.GetText(), id, parameterNodes);
 
         }
     }

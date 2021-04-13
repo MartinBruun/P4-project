@@ -6,9 +6,9 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 {
     public class UntilFunctionCallNode : IterationNode
     {
-        public FunctionCallNode Predicate;
+        public IFunctionCall Predicate;
 
-        public UntilFunctionCallNode(FunctionCallNode predicate, BodyNode body) : base(body)
+        public UntilFunctionCallNode(IFunctionCall predicate, BodyNode body) : base(body)
         {
             Predicate = predicate;
         }

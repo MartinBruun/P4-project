@@ -14,6 +14,7 @@ namespace OG.ASTBuilding.Shapes
         
         public override MathNode VisitSingleTermExpr(OGParser.SingleTermExprContext context)
         {
+            
             OGParser.TermContext termContext = context.child;
             return ExtractMathNode(termContext);
 
@@ -72,8 +73,6 @@ namespace OG.ASTBuilding.Shapes
 
                 OGParser.InfixAdditionExprContext additionContext = (OGParser.InfixAdditionExprContext) context;
                 return VisitInfixAdditionExpr(additionContext);
-              
-
             }
             catch (InvalidCastException e)
             {
@@ -81,12 +80,7 @@ namespace OG.ASTBuilding.Shapes
                                                    " to InfixAdditionContext" +
                                                    " and SingleTermExprContext.\n " + e.Message);
             }
-            catch (AstNodeCreationException e)
-            {
 
-                throw new AstNodeCreationException(e.Message);
-            }
-           
         }
 
         public MathNode ExtractMathNode(OGParser.TermContext context)
@@ -163,6 +157,7 @@ namespace OG.ASTBuilding.Shapes
 
         public MathNode ExtractMathNode(OGParser.AtomContext context)
         {
+
             try
             {
                 try

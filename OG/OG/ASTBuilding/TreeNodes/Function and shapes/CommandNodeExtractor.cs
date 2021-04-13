@@ -18,7 +18,6 @@ namespace OG.AST.Functions
 
             if (drawCommandContext != null && !drawCommandContext.IsEmpty)
             {
-                
                 return new DrawCommandNodeExtractor().VisitStmt(context);
             }
 

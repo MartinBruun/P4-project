@@ -5,40 +5,59 @@ using OG.ASTBuilding.Draw;
 using OG.ASTBuilding.Functions;
 using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.Function_and_shapes;
 
 namespace OG.ASTBuilding
 {
     public class AstBuilder : OGBaseVisitor<ProgramNode>, ITopNodeable
     {
-        private DrawNodeListBuilder _drawNodeListBuilder = new DrawNodeListBuilder();
-        private FunctionNodeListBuilder _functionNodeListBuilder = new FunctionNodeListBuilder();
-        private MachineSettingNodeExtractor _settingsNodeExtractor = new MachineSettingNodeExtractor();
+        private readonly DrawNodeListBuilder _drawNodeListBuilder = new DrawNodeListBuilder();
+        private readonly FunctionNodeListBuilder _functionNodeListBuilder = new FunctionNodeListBuilder();
+        private readonly MachineSettingNodeExtractor _settingsNodeExtractor = new MachineSettingNodeExtractor();
+        private readonly ShapeNodeListBuilderExtractor _shapeNodeListBuilderExtractor = new ShapeNodeListBuilderExtractor();
+        public string TopNode { get; set; } = "program";
         public AstBuilder()
         {
            
         }
         public override ProgramNode VisitProg(OGParser.ProgContext context)
         {
-            Console.WriteLine("Visiting settings...");
-            MachineSettingNode machineSettingNode = _settingsNodeExtractor.VisitProg(context);
-            Console.WriteLine(machineSettingNode);
+            MachineSettingNode machineSettingNode = null;
+            List<DrawCommandNode> drawCommands = null;
+            List<FunctionNode> functionNodes = null;
+            List<ShapeNode> shapeNodes = null;
+            
+            
+            
+            if (context.settings != null)
+            {
+                Console.WriteLine("Visiting machine settings...");
+                machineSettingNode = _settingsNodeExtractor.VisitProg(context);
+                Console.WriteLine(machineSettingNode);
+            }
 
-            Console.WriteLine("Visiting draw function...");
-            List<DrawCommandNode> drawCommands = _drawNodeListBuilder.VisitDraw(context.drawFunction);
-            Console.WriteLine("\nVisiting functions...");
-            List<FunctionNode> functionNodes = _functionNodeListBuilder.VisitFunctionDcls(context.functionsDeclarations);
-            //throw new NotImplementedException("Cannot create shape nodes yet");
-            //List<ShapeNode> shapeNodes = new List<ShapeNode>();
+            
+            if (context.drawFunction != null)
+            {
+                Console.WriteLine("Visiting draw function...");
+                drawCommands = _drawNodeListBuilder.VisitDraw(context.drawFunction);
+            }
+            if (context.functionsDeclarations != null)
+            {
+                Console.WriteLine("\nVisiting functions...");
+                functionNodes = _functionNodeListBuilder.VisitFunctionDcls(context.functionsDeclarations);
+            }
 
+            if (context.shapeDeclarations != null)
+            {
+                Console.WriteLine("Visiting shapes...");
+                shapeNodes = _shapeNodeListBuilderExtractor.VisitShapeDcls(context.shapeDeclarations);
+            }
 
-            DrawNode draw = new DrawNode(drawCommands);
-            return null;
+            return new ProgramNode(new DrawNode(drawCommands), functionNodes, shapeNodes, machineSettingNode);
+
         }
 
-
-        public string TopNode { get; set; } = "program";
     }
-
-   
-    
 }

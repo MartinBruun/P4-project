@@ -17,21 +17,22 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
                 OGParser.FromWithIdContext idContext = (OGParser.FromWithIdContext) context;
                 return VisitFromWithId(idContext);
             }
-            catch(InvalidCastException e){}
+            catch(InvalidCastException){}
             
             try
             {
+              
                 OGParser.FromWithNumberTupleContext tupleContext = (OGParser.FromWithNumberTupleContext) context;
                 return VisitFromWithNumberTuple(tupleContext);
             }
-            catch(InvalidCastException e){}
+            catch(InvalidCastException){}
             
             try
             {
                 OGParser.FromWithStartPointRefContext startPointContext = (OGParser.FromWithStartPointRefContext) context;
                 return VisitFromWithStartPointRef(startPointContext);
             }
-            catch(InvalidCastException e){}
+            catch(InvalidCastException){}
 
             try
             {
