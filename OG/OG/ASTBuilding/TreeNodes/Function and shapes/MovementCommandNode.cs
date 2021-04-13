@@ -8,5 +8,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
     {
         public PointReferenceNode From { get; set; }
         public List<PointReferenceNode> To { get; set; }
+
+        public MovementCommandNode(PointReferenceNode from, List<PointReferenceNode> toNodes)
+        {
+            From = from;
+            To = toNodes;
+        }
     }
 }

@@ -5,10 +5,8 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
     public class LineCommandNode : MovementCommandNode
     {
-        public LineCommandNode(PointReferenceNode fromPosition, List<PointReferenceNode> toPosition)
+        public LineCommandNode(PointReferenceNode fromPosition, List<PointReferenceNode> toPosition): base(fromPosition, toPosition)
         {
-            From = fromPosition;
-            To = toPosition;
         }
     }
 }

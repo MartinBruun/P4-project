@@ -9,10 +9,9 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
         public MathNode Angle;
 
         public CurveCommandNode(PointReferenceNode fromPosition, List<PointReferenceNode> toPosition, MathNode angleExpression)
+            :base(fromPosition, toPosition)
         {
             Angle = angleExpression;
-            From = fromPosition;
-            To = toPosition;
         }
     }
 }
