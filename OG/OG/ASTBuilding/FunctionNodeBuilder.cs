@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using OG.ASTBuilding;
 using OG.ASTBuilding.Functions;
 
 namespace OG.AST.Functions
@@ -11,8 +10,8 @@ namespace OG.AST.Functions
     public class FunctionNodeListBuilder : OGBaseVisitor<List<FunctionNode>>
     {
    
-        private FunctionNodeExtractor _functionNodeExtractor = new FunctionNodeExtractor();
-        private List<FunctionNode>    _functionNodes = new List<FunctionNode>();
+        private readonly FunctionNodeExtractor _functionNodeExtractor = new FunctionNodeExtractor();
+        private readonly List<FunctionNode>    _functionNodes = new List<FunctionNode>();
 
         public override List<FunctionNode> VisitFunctionDcls(OGParser.FunctionDclsContext context)
         {

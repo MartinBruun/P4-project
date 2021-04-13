@@ -14,7 +14,7 @@ namespace OG.ASTBuilding.Functions
         {
             Id = id;
             ReturnType = returnType;
-            this.Body = body;
+            Body = body;
         }
         public override string ToString()
         {

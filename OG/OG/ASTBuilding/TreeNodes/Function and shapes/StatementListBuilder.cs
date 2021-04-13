@@ -5,8 +5,8 @@ namespace OG.AST.Functions
 {
     public class StatementListBuilder : OGBaseVisitor<List<StatementNode>>
     {
-        private StatementNodeExtractor _statementNodeExtractor = new StatementNodeExtractor();
-        private List<StatementNode> _statements = new List<StatementNode>();
+        private readonly StatementNodeExtractor _statementNodeExtractor = new StatementNodeExtractor();
+        private readonly List<StatementNode> _statements = new List<StatementNode>();
 
         public override List<StatementNode> VisitBody(OGParser.BodyContext context)
         {

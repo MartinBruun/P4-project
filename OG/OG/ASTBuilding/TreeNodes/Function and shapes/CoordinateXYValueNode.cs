@@ -2,21 +2,21 @@ using OG.ASTBuilding.Terminals;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 {
-    public class CoordinateXYValueNode : AstNode
+    public class CoordinateXyValueNode : AstNode
     {
-        public IdNode id { get; set; }
-        public string property { get; set; }
+        public IdNode Id { get; set; }
+        public string Property { get; set; }
 
-        public enum xyProperty
+        public enum XyProperty
         {
-            xProperty = 0,
-            yProperty,
+            XProperty = 0,
+            YProperty,
         }
 
-        public CoordinateXYValueNode(IdNode ID, string xyProperty)
+        public CoordinateXyValueNode(IdNode id, string xyProperty)
         {
-            this.id = ID;
-            this.property = xyProperty;
+            Id = id;
+            Property = xyProperty;
 
         }
     }

@@ -4,17 +4,17 @@ namespace OG.ASTBuilding.Shapes
 {
     public class ShapeNode : AstNode
     {
-        public IdNode ID { get; set; }
-        public BodyNode body;
+        public IdNode Id { get; set; }
+        public BodyNode Body;
 
-        public ShapeNode(IdNode id, BodyNode bodynode)
+        public ShapeNode(IdNode id, BodyNode bodyNode)
         {
-            ID = id;
-            body = bodynode;
+            Id = id;
+            Body = bodyNode;
         }
         public override string ToString()
         {
-            return "ShapeDeclarationNode with ID: " + ID.ToString();
+            return "ShapeDeclarationNode with ID: " + Id;
         }
     }
 }

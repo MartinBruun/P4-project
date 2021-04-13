@@ -5,7 +5,6 @@ using OG.ASTBuilding.Draw;
 using OG.ASTBuilding.Functions;
 using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes.Function_and_shapes;
 
 namespace OG.ASTBuilding

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿
 using OG.ASTBuilding.Draw;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.TreeNodes.BodyNodes;
@@ -10,9 +9,9 @@ namespace OG.AST.Functions
     public class StatementNodeExtractor : OGBaseVisitor<StatementNode>
     {
         
-        private DeclarationNodeExtractor _declarationNodeExtractor = new DeclarationNodeExtractor();
-        private AssignmentNodeExtractor _assignmentNodeExtractor = new AssignmentNodeExtractor();
-        private CommandNodeExtractor _commandNodeExtractor = new CommandNodeExtractor();
+        private readonly DeclarationNodeExtractor _declarationNodeExtractor = new DeclarationNodeExtractor();
+        private readonly AssignmentNodeExtractor _assignmentNodeExtractor = new AssignmentNodeExtractor();
+        private readonly CommandNodeExtractor _commandNodeExtractor = new CommandNodeExtractor();
         public override StatementNode VisitStmt(OGParser.StmtContext context)
         {
             AssignmentNode assignmentNode = _assignmentNodeExtractor.VisitStmt(context);

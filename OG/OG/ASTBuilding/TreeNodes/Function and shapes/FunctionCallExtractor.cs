@@ -6,20 +6,20 @@ using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
 
 namespace OG.ASTBuilding.Shapes
 {
-    public class FunctionCallExtractor : OGBaseVisitor<IFunctionCall>
+    public class FunctionCallExtractor : OGBaseVisitor<FunctionCall>
     {
         private ParameterNodeListBuilder _parameterNodeListBuilder = new ParameterNodeListBuilder();
         
-        public override IFunctionCall VisitFunctionCall(OGParser.FunctionCallContext context)
+        public override FunctionCall VisitFunctionCall(OGParser.FunctionCallContext context)
         {
             
             List<ParameterNode> parameterNodes = new List<ParameterNode>();
-            if (context.id.Text != String.Empty)
+            if (context.id.Text != string.Empty)
             {
                 IdNode id = new IdNode(context.id.Text);
                 parameterNodes = _parameterNodeListBuilder.VisitFunctionCall(context);
 
-                return new IFunctionCall(id, parameterNodes, context.GetText());
+                return new FunctionCall(id, parameterNodes, context.GetText());
             }
 
             throw new AstNodeCreationException(

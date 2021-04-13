@@ -1,15 +1,12 @@
 ﻿using System;
-using Antlr4.Runtime;
-using OG.ASTBuilding.Draw;
 using OG.ASTBuilding.Functions;
-using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
 
 namespace OG.AST.Functions
 {
     public class FunctionNodeExtractor : OGBaseVisitor<FunctionNode>
     {
-        private BodyNodeExtractor _bodyNodeExtractor = new BodyNodeExtractor();
+        private readonly BodyNodeExtractor _bodyNodeExtractor = new BodyNodeExtractor();
         public override FunctionNode VisitFunctionDcl(OGParser.FunctionDclContext context)
         {
             FunctionNode resultNode = null;
@@ -36,11 +33,9 @@ namespace OG.AST.Functions
                 return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(returnFunction.body()));
 
             }
-            else
-            {
-                throw new FormatException("Function was neither return or void function.");
-            }
-            return resultNode;
+
+            throw new FormatException("Function was neither return or void function.");
+            
         }
     }
 }

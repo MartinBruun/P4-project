@@ -15,28 +15,28 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
                 OGParser.ToWithIdContext idContext = (OGParser.ToWithIdContext) context;
                 return VisitToWithId(idContext);
             }
-            catch(InvalidCastException e){}
+            catch(InvalidCastException ){}
             
             try
             {
                 OGParser.ToWithNumberTupleContext tupleContext = (OGParser.ToWithNumberTupleContext) context;
                 return VisitToWithNumberTuple(tupleContext);
             }
-            catch(InvalidCastException e){}
+            catch(InvalidCastException ){}
             
             try
             {
                 OGParser.ToWithStartPointRefContext startPointContext = (OGParser.ToWithStartPointRefContext) context;
                 return VisitToWithStartPointRef(startPointContext);
             }
-            catch(InvalidCastException e){}
+            catch(InvalidCastException ){}
 
             try
             {
                 OGParser.ToWithEndPointRefContext endPointContext = (OGParser.ToWithEndPointRefContext) context;
                 return VisitToWithEndPointRef(endPointContext);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             {
                 throw new AstNodeCreationException($"Node {context.GetText()} couldn't be created at FromCommandNodeExtractor.");
             }

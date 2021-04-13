@@ -1,14 +1,14 @@
 ﻿using OG.ASTBuilding.Terminals;
-using CoordinateXYValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXYValueNode;
+using CoordinateXyValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXyValueNode;
 
 namespace OG.ASTBuilding.Shapes
 {
     public class PropertyAssignmentNode : AssignmentNode
     {
         public MathNode assignedValue { get; set; }
-        public CoordinateXYValueNode coordinateValueNode { get; set; }
+        public CoordinateXyValueNode coordinateValueNode { get; set; }
 
-        public PropertyAssignmentNode(CoordinateXYValueNode xyValue, MathNode value) : base(xyValue.id, AssignmentType.PropertyAssignmentNode)
+        public PropertyAssignmentNode(CoordinateXyValueNode xyValue, MathNode value) : base(xyValue.Id, AssignmentType.PropertyAssignmentNode)
         {
             assignedValue =  value;
             this.coordinateValueNode = xyValue;

@@ -13,7 +13,7 @@ namespace OG
     public class OGCompiler
     {
         public static Dictionary<IdNode, FunctionNode> GlobalFunctionDeclarations = new Dictionary<IdNode, FunctionNode>();
-        public static Dictionary<IdNode, ShapeNode>    GlobalShapeDeclarations    = new Dictionary<IdNode, ShapeNode>();
+        public static readonly Dictionary<IdNode, ShapeNode>    GlobalShapeDeclarations    = new Dictionary<IdNode, ShapeNode>();
         private static void Main(string[] args)
         {
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
@@ -21,20 +21,7 @@ namespace OG
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
-
-            AstBuilder builder = new AstBuilder();
-            try
-            {
-
-            }
-            catch (NotImplementedException e)
-            {
-                Console.WriteLine(e);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser);
 

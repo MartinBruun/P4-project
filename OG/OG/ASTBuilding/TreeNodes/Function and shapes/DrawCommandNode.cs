@@ -7,19 +7,19 @@ namespace OG.ASTBuilding.Draw
 {
     public class DrawCommandNode : CommandNode
     {
-        public IdNode id;
-        public PointReferenceNode from;
+        public IdNode Id;
+        public PointReferenceNode From;
 
         public DrawCommandNode(IdNode id, PointReferenceNode from)
         {
-            this.id = id;
-            this.from = from;
+            Id = id;
+            From = from;
         }
 
         public DrawCommandNode(IdNode id)
         {
-            this.id = id;
-            from = null;
+            Id = id;
+            From = null;
         }
     }
 }

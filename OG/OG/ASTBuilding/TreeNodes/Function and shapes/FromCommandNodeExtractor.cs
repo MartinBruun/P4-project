@@ -39,7 +39,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
                 OGParser.FromWithEndPointRefContext endPointContext = (OGParser.FromWithEndPointRefContext) context;
                 return VisitFromWithEndPointRef(endPointContext);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException)
             {
                 throw new AstNodeCreationException($"Node {context.GetText()} couldn't be created at FromCommandNodeExtractor.");
             }
@@ -61,7 +61,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
         public override PointReferenceNode VisitFromWithStartPointRef(OGParser.FromWithStartPointRefContext context)
         {
             IdNode shapeId = new IdNode(context.fromPoint.id.Text);
-            ShapePointRefNode startPoint = new ShapePointRefNode(shapeId, ShapePointRefNode.PointTypes.StartPoint);
             return new ShapeStartPointNode(context.GetText(), shapeId);
         }
 

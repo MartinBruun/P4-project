@@ -132,8 +132,8 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
             {
                 OGParser.MathExpressionContext mathExprContext = propAssign.value;
                 MathNode mathNode = _mathNodeExtractor.ExtractMathNode(mathExprContext);
-                CoordinateXYValueNode xyValue =
-                    new CoordinateXYValueNode(new IdNode(propAssign.xyVal.id.Text), propAssign.xyVal.xy.Text);
+                CoordinateXyValueNode xyValue =
+                    new CoordinateXyValueNode(new IdNode(propAssign.xyVal.id.Text), propAssign.xyVal.xy.Text);
                 return new PropertyAssignmentNode(xyValue, mathNode);
             }
 

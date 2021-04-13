@@ -6,9 +6,9 @@ namespace OG.ASTBuilding.Terminals
 {
     public class FunctionCallParameterNode : ParameterNode, IFunctionCallNode
     {
-        public readonly IFunctionCall functionCall;
+        public readonly FunctionCall functionCall;
         
-        public FunctionCallParameterNode(IFunctionCall funcCall):base(funcCall.FunctionName)
+        public FunctionCallParameterNode(FunctionCall funcCall):base(funcCall.FunctionName)
         {
             ParamType = ParameterType.FunctionCall;
             FunctionName = funcCall.FunctionName;

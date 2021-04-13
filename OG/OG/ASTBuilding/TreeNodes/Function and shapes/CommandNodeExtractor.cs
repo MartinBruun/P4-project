@@ -31,7 +31,8 @@ namespace OG.AST.Functions
             {
                 return new AntlrToIterationCommand().VisitNumberIteration(iterationContext.numberIterCmd);
             }
-            else if (iterationContext.untilIterCmd != null && !iterationContext.untilIterCmd.IsEmpty)
+
+            if (iterationContext.untilIterCmd != null && !iterationContext.untilIterCmd.IsEmpty)
             {
                 return new AntlrToIterationCommand().ExtractIterationNode(iterationContext.untilIterCmd);
             }

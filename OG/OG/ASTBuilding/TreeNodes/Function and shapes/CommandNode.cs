@@ -2,7 +2,7 @@
 
 namespace OG.ASTBuilding.Shapes
 {
-    public class CommandNode : StatementNode
+    public abstract class CommandNode : StatementNode
     {
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes.DeclarationNodes;
@@ -8,7 +7,7 @@ namespace OG.ASTBuilding.Draw
 {
     public class DrawCommandNodeExtractor : OGBaseVisitor<DrawCommandNode>
     {
-        private PointReferenceNodeExtractor _pointReferenceNodeExtractor = new PointReferenceNodeExtractor();
+        private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor = new PointReferenceNodeExtractor();
 
         public override DrawCommandNode VisitDrawFromCmd(OGParser.DrawFromCmdContext context)
         {
@@ -40,7 +39,7 @@ namespace OG.ASTBuilding.Draw
                 OGParser.DrawCmdContext drawCmdContext = (OGParser.DrawCmdContext) context;
                 return VisitDrawCmd(drawCmdContext);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException)
             {}
             
             OGParser.DrawFromCmdContext drawFromContext = (OGParser.DrawFromCmdContext) context;

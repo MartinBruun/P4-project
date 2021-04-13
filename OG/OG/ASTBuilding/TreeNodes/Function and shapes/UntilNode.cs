@@ -5,11 +5,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
     public class UntilNode : IterationNode
     {
-        public BoolNode predicate;
+        public BoolNode Predicate;
 
         public UntilNode(BoolNode condition, BodyNode body):base(body)
         {
-            predicate = condition;
+            Predicate = condition;
         }
     }
 }

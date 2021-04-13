@@ -1,8 +1,5 @@
 ﻿using System;
-using OG.AST.Functions;
-using OG.ASTBuilding.Functions;
 using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
 using OG.ASTBuilding.TreeNodes.BoolNodes;
 using OG.ASTBuilding.TreeNodes.DeclarationNodes;
@@ -12,17 +9,19 @@ namespace OG.ASTBuilding.Shapes
 {
     public class ParameterNodeExtractor : OGBaseVisitor<ParameterNode>
     {
-        private BoolNodeExtractor _boolNodeExtractor = null;
-        private MathNodeExtractor _mathNodeExtractor = null;
-        private FunctionCallExtractor _functionCallNodeExtractor = null;
- 
+        private BoolNodeExtractor _boolNodeExtractor;
+        private MathNodeExtractor _mathNodeExtractor;
+        private FunctionCallExtractor _functionCallNodeExtractor;
+
+        public ParameterNodeExtractor()
+        {
+            _mathNodeExtractor = null;
+        }
+
         public override ParameterNode VisitSingleParameter(OGParser.SingleParameterContext context)
         {
-            
-            OGParser.PassedParamContext parameterContext = context.parameter;
             ParameterNode result =  ExtractParameterNode(context.parameter);
             return result;
-
         }
 
         public ParameterNode ExtractParameterNode(OGParser.PassedDirectValueContext context)
@@ -65,10 +64,9 @@ namespace OG.ASTBuilding.Shapes
             if (functionExpressionContext != null && !functionExpressionContext.IsEmpty)
             {
                 _functionCallNodeExtractor = new FunctionCallExtractor();
-                IFunctionCall functionCall = _functionCallNodeExtractor.VisitFunctionCall(functionExpressionContext);
+                FunctionCall functionCall = _functionCallNodeExtractor.VisitFunctionCall(functionExpressionContext);
                 
                 return new FunctionCallParameterNode(functionCall);
-
             }
 
             return null;
@@ -83,7 +81,7 @@ namespace OG.ASTBuilding.Shapes
                 OGParser.PassedIDContext idValue = (OGParser.PassedIDContext) context;
                 return VisitPassedID(idValue);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             { }
             try
             {
@@ -91,7 +89,7 @@ namespace OG.ASTBuilding.Shapes
                
                 return ExtractParameterNode(expressionValue);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             { }
 
             try
@@ -101,7 +99,7 @@ namespace OG.ASTBuilding.Shapes
 
                 return VisitPassedEndPointReference(endPointContext);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             { }
             
             try
@@ -110,12 +108,10 @@ namespace OG.ASTBuilding.Shapes
                     (OGParser.PassedStartPointReferenceContext) context;
                 return VisitPassedStartPointReference(startPointContext);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             {
             }
-            
-            //Her opstår mutual rekursion. Vi skal lave function call nodes for at lave function call nodes-
-           
+
             OGParser.PassedFunctionCallContext funcCallContext = (OGParser.PassedFunctionCallContext) context;
             return ExtractParameterNode(funcCallContext);
         }
@@ -130,7 +126,7 @@ namespace OG.ASTBuilding.Shapes
             
             OGParser.FunctionCallContext functionCallContext = funcCallContext.funcCall;
             _functionCallNodeExtractor = new FunctionCallExtractor();
-            IFunctionCall funcCall = _functionCallNodeExtractor.VisitFunctionCall(functionCallContext);
+            FunctionCall funcCall = _functionCallNodeExtractor.VisitFunctionCall(functionCallContext);
             return new FunctionCallParameterNode(funcCall);
         }
 
@@ -148,9 +144,5 @@ namespace OG.ASTBuilding.Shapes
             PointReferenceNode pointRef = new PointReferenceNodeExtractor().ExtractPointReferenceNode(endpointContext);
             return new ParameterNode(new IdNode(context.endpointRef.id.Text), pointRef);
         }
-
-
-
-
     }
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using OG.ASTBuilding.TreeNodes;
+﻿using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.BodyNodes;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
 
 namespace OG.ASTBuilding.Shapes
 {

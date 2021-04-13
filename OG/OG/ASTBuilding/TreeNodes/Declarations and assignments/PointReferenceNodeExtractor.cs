@@ -12,29 +12,27 @@ namespace OG.ASTBuilding.Shapes
     public class PointReferenceNodeExtractor : OGBaseVisitor<PointReferenceNode>
     {
         private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
-        private ParameterNodeListBuilder _parameterNodeListBuilder = new ParameterNodeListBuilder();
+        private readonly ParameterNodeListBuilder _parameterNodeListBuilder = new ParameterNodeListBuilder();
         public override PointReferenceNode VisitPointReference(OGParser.PointReferenceContext context)
         {
             
             OGParser.NumberTupleContext tupleContext = context.tuple;
             OGParser.StartPointReferenceContext startPointContext = context.startPoint;
-            OGParser.EndPointReferenceContext endPointcontext = context.endPoint;
+            OGParser.EndPointReferenceContext endPointContext = context.endPoint;
             OGParser.FunctionCallContext pointFunctionCallContext = context.funcCall;
 
-            IToken idcontext = context.idPoint;
-            //If context and context.point is not null get text.
-           
+       
 
             //Check if text is not null and contains either .endPoint or .startPoint
             //else if tupleContext is not null empty try and create tuplePointReference
             //else if pointFunctionCallContext is not null or empty, create function call node. 
             //Else throw
             if (
-                endPointcontext != null 
-                && !string.IsNullOrWhiteSpace(endPointcontext.GetText()) 
-                && (endPointcontext.GetText().Contains(".endPoint")))
+                endPointContext != null 
+                && !string.IsNullOrWhiteSpace(endPointContext.GetText()) 
+                && (endPointContext.GetText().Contains(".endPoint")))
             {
-                return ExtractPointReferenceNode(endPointcontext);
+                return ExtractPointReferenceNode(endPointContext);
             }
             
             if (startPointContext != null 
@@ -137,8 +135,8 @@ namespace OG.ASTBuilding.Shapes
                 {
                     OGParser.FromWithStartPointRefContext fromStartPoint =
                         (OGParser.FromWithStartPointRefContext) context;
-                    OGParser.StartPointReferenceContext startPointcontext = fromStartPoint.fromPoint;
-                    return ExtractPointReferenceNode(startPointcontext);
+                    OGParser.StartPointReferenceContext startPointContext = fromStartPoint.fromPoint;
+                    return ExtractPointReferenceNode(startPointContext);
 
                 }
                 catch (InvalidCastException e)

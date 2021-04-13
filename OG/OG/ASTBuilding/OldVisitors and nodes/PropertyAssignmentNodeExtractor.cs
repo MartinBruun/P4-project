@@ -2,7 +2,7 @@ using System;
 using Antlr4.Runtime.Atn;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
-using CoordinateXYValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXYValueNode;
+using CoordinateXyValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXyValueNode;
 
 namespace OG.ASTBuilding.Visitors
 {
@@ -12,7 +12,7 @@ namespace OG.ASTBuilding.Visitors
         public PropertyAssignmentNode VisitPropertyAssignmentNode(OGParser.PropertyAssignmentContext context)
         {
             
-            CoordinateXYValueNode xyValue = new CoordinateXYValueNode(new IdNode(context.xyVal.id.Text), context.xyVal.xy.Text);
+            CoordinateXyValueNode xyValue = new CoordinateXyValueNode(new IdNode(context.xyVal.id.Text), context.xyVal.xy.Text);
             MathNode value = new MathNodeExtractor().ExtractMathNode(context.mathExpression());
             return new PropertyAssignmentNode(xyValue, value);
         }

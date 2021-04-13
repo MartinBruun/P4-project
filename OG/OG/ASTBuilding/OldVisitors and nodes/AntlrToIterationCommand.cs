@@ -21,7 +21,7 @@ namespace OG.ASTBuilding.Visitors
 
         public override IterationNode VisitUntilFuncCall(OGParser.UntilFuncCallContext context)
         {
-            IFunctionCall func = new FunctionCallExtractor().VisitFunctionCall(context.iterator);
+            FunctionCall func = new FunctionCallExtractor().VisitFunctionCall(context.iterator);
             BodyNode body = GetBody(context.statements);
             return new UntilFunctionCallNode(func, body);
         }

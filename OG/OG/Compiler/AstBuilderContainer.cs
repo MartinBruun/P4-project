@@ -11,7 +11,7 @@ namespace OG
         /// <summary>
         /// Parser used to create parse tree from a start rule.
         /// </summary>
-        private OGParser Parser { get; set; }
+        private OGParser Parser { get; }
         
         /// <summary>
         /// Parse tree visitor used to go through parse tree and create AST nodes
@@ -29,10 +29,10 @@ namespace OG
             Parser = parser;
             AstBuilder = new TVisitor();
             ParseTree = CreateStartNode();
-            Ast = BuildAST();
+            Ast = BuildAst();
         }
 
-        private TNode BuildAST()
+        private TNode BuildAst()
         {
             AstBuilder = new TVisitor();
             Ast =  AstBuilder.Visit(ParseTree);

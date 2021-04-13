@@ -5,12 +5,12 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
     public class NumberIterationNode : IterationNode
     {
-        public MathNode iterations;
+        public MathNode Iterations;
         
 
         public NumberIterationNode(MathNode numberOfIterations, BodyNode bodyNode):base(bodyNode)
         {
-            iterations = numberOfIterations;
+            Iterations = numberOfIterations;
         }
 
     }

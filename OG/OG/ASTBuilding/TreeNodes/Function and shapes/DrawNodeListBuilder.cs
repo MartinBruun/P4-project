@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Antlr4.Runtime.Misc;
-using OG.ASTBuilding.Shapes;
 using System.Linq;
+using static System.String;
 
 namespace OG.ASTBuilding.Draw
 {
@@ -55,16 +54,16 @@ namespace OG.ASTBuilding.Draw
                     OGParser.DrawFromCmdContext fromContext = (OGParser.DrawFromCmdContext) context;
                     if (!fromContext.IsEmpty)
                     {
-                        string Id = fromContext.id.Text;
-                        string ValueString = String.Concat(fromContext.GetText().Replace(";","").Replace(".from","").Replace(Id,"")
-                            .Where(c => !Char.IsWhiteSpace(c)));
+                        string id = fromContext.id.Text;
+                        string valueString = Concat(fromContext.GetText().Replace(";","").Replace(".from","").Replace(id,"")
+                            .Where(c => !char.IsWhiteSpace(c)));
                         Console.WriteLine("\tFromCommand with ID '{0}' and from value {1} detected. Creating Node...",
-                            Id, ValueString);
+                            id, valueString);
                         result = _drawCommandNodeExtractor.VisitDrawFromCmd(fromContext);
                         return result;
                     }
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException)
                 {
                     //if we have a failed cast, try the other type before throwing
                 }
