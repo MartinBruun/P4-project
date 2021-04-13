@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/rasmushenriksen/Desktop/P4/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -777,29 +777,15 @@ public interface IOGListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLineCommand([NotNull] OGParser.LineCommandContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>chainedToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.toCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterChainedToCommand([NotNull] OGParser.ChainedToCommandContext context);
+	void EnterToCommands([NotNull] OGParser.ToCommandsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>chainedToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.toCommands"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitChainedToCommand([NotNull] OGParser.ChainedToCommandContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>singleToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSingleToCommand([NotNull] OGParser.SingleToCommandContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>singleToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSingleToCommand([NotNull] OGParser.SingleToCommandContext context);
+	void ExitToCommands([NotNull] OGParser.ToCommandsContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.curveCommand"/>.
 	/// </summary>
@@ -1166,6 +1152,26 @@ public interface IOGListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.startPointReference"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStartPointReference([NotNull] OGParser.StartPointReferenceContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.startPointReference"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStartPointReference([NotNull] OGParser.StartPointReferenceContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.endPointReference"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterEndPointReference([NotNull] OGParser.EndPointReferenceContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.endPointReference"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitEndPointReference([NotNull] OGParser.EndPointReferenceContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.coordinateXYValue"/>.
 	/// </summary>

@@ -16,7 +16,6 @@ namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
         {
             get;
             set;
-
         }
 
 

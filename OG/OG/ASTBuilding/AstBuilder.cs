@@ -27,8 +27,8 @@ namespace OG.ASTBuilding
             List<DrawCommandNode> drawCommands = _drawNodeListBuilder.VisitDraw(context.drawFunction);
             Console.WriteLine("\nVisiting functions...");
             List<FunctionNode> functionNodes = _functionNodeListBuilder.VisitFunctionDcls(context.functionsDeclarations);
-            throw new NotImplementedException("Cannot create shape nodes yet");
-            List<ShapeNode> shapeNodes = new List<ShapeNode>();
+            //throw new NotImplementedException("Cannot create shape nodes yet");
+            //List<ShapeNode> shapeNodes = new List<ShapeNode>();
 
 
             DrawNode draw = new DrawNode(drawCommands);

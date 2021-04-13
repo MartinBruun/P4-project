@@ -43,7 +43,6 @@ drawCommands: drawCommand drawCommands
             
 drawCommand     : id=ID';'                             #drawCmd
                 | id=ID fromCmd=fromCommand ';'        #drawFromCmd
-                | id=ID fromCmd=fromCommand ';'        #drawFromCmd
                 ;
 //Shapes:
 shapeDcl            : 'shape' id=ID '{' bdy=body '}'
@@ -82,13 +81,13 @@ pointDeclaration    : 'point'  id=ID '='  value=pointReference    #pointDclPoint
                     ;
 
 pointReference      :  '(' tuple=numberTuple ')' 
-                    | point=StartPointReference
-                    | point=EndPointReference 
-                    | point=ID
+                    | startPoint=startPointReference
+                    | endPoint=endPointReference 
+                    | idPoint=ID
                     | funcCall=functionCall
                     ;
+                    
 numberTuple         : lhs=mathExpression ',' rhs=mathExpression;
-
 
 assignment          : variableAssignment 
                     | propertyAssignment
@@ -109,9 +108,9 @@ pointAssignment     :  endPointAssignment
                     |  id=ID '=' value=pointReference
                     ;
 
-startPointAssignment: id=StartPointReference '=' value=pointReference
+startPointAssignment: id=startPointReference '=' value=pointReference
                     ;
-endPointAssignment  : id=EndPointReference '=' value=pointReference
+endPointAssignment  : id=endPointReference '=' value=pointReference
                     ;
 
 
@@ -166,24 +165,24 @@ movementCommand : lineCmd=lineCommand ';'
 
 lineCommand     : type='line' fromCmd=fromCommand  toCmds=toCommands;
 
-toCommands: toCmd=toCommand chainedToCmds=toCommands          #chainedToCommand
-          | toCmd=toCommand                                   #singleToCommand
+toCommands: toCmd=toCommand chainedToCmds=toCommands         
+          | toCmd=toCommand                                
           ;
 
    
 
-curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmd=toCommand;
+curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmds=toCommands;
                 
 toCommand       : '.''to''(' id=ID ')'                      #toWithId
                 | '.''to''(' tuple=numberTuple ')'          #toWithNumberTuple
-                | '.''to''(' oPoint=StartPointReference ')'  #toWithStartPointRef
-                | '.''to''(' toPoint=EndPointReference ')'    #toWithEndPointRef
+                | '.''to''(' toPoint=startPointReference ')'  #toWithStartPointRef
+                | '.''to''(' toPoint=endPointReference ')'    #toWithEndPointRef
                 ;
 
 fromCommand     :  '.''from' '(' id=ID')'                             #fromWithId
                 |  '.''from' '(' tuple=numberTuple ')'                #fromWithNumberTuple
-                |  '.''from' '(' fromPoint=StartPointReference ')'    #fromWithStartPointRef
-                |  '.''from' '(' fromPoint=EndPointReference ')'      #fromWithEndPointRef
+                |  '.''from' '(' fromPoint=startPointReference ')'    #fromWithStartPointRef
+                |  '.''from' '(' fromPoint=endPointReference ')'      #fromWithEndPointRef
                 ;
 
 
@@ -232,8 +231,8 @@ passedParams: firstParameter=passedParam ',' params=passedParams #multiParameter
 passedParam : id = ID                                       #passedID
             | funcCall = functionCall                       #passedFunctionCall
             | expr = expression                             #passedDirectValue
-            | endpointRef =  EndPointReference              #passedEndPointReference
-            | startpointRef = StartPointReference           #passedStartPointReference
+            | endpointRef =  endPointReference              #passedEndPointReference
+            | startpointRef = startPointReference           #passedStartPointReference
             ;
 
 
@@ -319,12 +318,12 @@ Machine : 'Machine';
 WorkArea: 'WorkArea';
 Size    : 'size';
 
-StartPointReference : ID'.''startPoint';
-EndPointReference   : ID'.''endPoint';
+startPointReference : id=ID'.''startPoint';
+endPointReference   : id=ID'.''endPoint';
 If  : 'if';
 Then: 'then';
 
-coordinateXYValue: (id=ID xy='.x') | (id=ID xy='.y') | (id=StartPointReference|id=EndPointReference) (xy='.x'|xy='.y') ;
+coordinateXYValue: (id=ID xy='.x') | (id=ID xy='.y') | (startPoint=startPointReference|endPoint=endPointReference) (xy='.x'|xy='.y') ;
 ID: [a-zA-Z]+[0-9a-zA-Z]*; //ID skal være nederst for ikke at overwrite alle de andre keywords.
 
 

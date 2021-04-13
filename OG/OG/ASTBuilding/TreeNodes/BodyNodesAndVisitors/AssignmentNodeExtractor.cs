@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Formats.Asn1;
 using System.Linq;
-using System.Linq.Expressions;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
 using OG.ASTBuilding.Draw;
+using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
 using OG.ASTBuilding.TreeNodes.DeclarationNodes;
-using CoordinateXYValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXYValueNode;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 {
     public class AssignmentNodeExtractor : OGBaseVisitor<AssignmentNode>
     {
@@ -140,10 +132,7 @@ namespace OG.ASTBuilding.Shapes
                 MathNode mathNode = _mathNodeExtractor.ExtractMathNode(mathExprContext);
                 CoordinateXYValueNode xyValue =
                     new CoordinateXYValueNode(new IdNode(propAssign.xyVal.id.Text), propAssign.xyVal.xy.Text);
-                
-                
-                return new PropertyAssignmentNode(xyValue, 
-                    mathNode);
+                return new PropertyAssignmentNode(xyValue, mathNode);
             }
 
 
@@ -222,42 +211,40 @@ namespace OG.ASTBuilding.Shapes
         private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
         public override PointReferenceNode VisitPointReference(OGParser.PointReferenceContext context)
         {
-            
-            OGParser.NumberTupleContext tupleContext = context.tuple;
-            ITerminalNode startPointRefContext = context.StartPointReference();
-            ITerminalNode endPointRefContext = context.StartPointReference();
-
-            string[] endPointText = endPointRefContext.GetText().Split(".");
-            string[] startPointText = startPointRefContext.GetText().Split(".");
-
-            if (endPointText.Length == 2 && endPointText.Contains("endPoint") &&
-                !string.IsNullOrWhiteSpace(endPointText[0]))
+            if (context.tuple != null)
             {
-                ShapePointRefNode shapePointRef = new ShapePointRefNode(new IdNode(endPointText[0]),
-                    ShapePointRefNode.PointTypes.Endpoint);
-                return new PointReferenceNode(endPointRefContext.GetText(), shapePointRef);
-                
-            } else if (startPointText.Length == 2 && startPointText.Contains("startPoint") &&
-                       !string.IsNullOrWhiteSpace(endPointText[0]))
+                MathNode lhs = _mathNodeExtractor.ExtractMathNode(context.tuple.lhs);
+                MathNode rhs = _mathNodeExtractor.ExtractMathNode(context.tuple.rhs);
+                return new PointReferenceNode(context.GetText(), rhs, lhs);
+            }
+            else if (context.startPoint != null)
             {
-
-                ShapePointRefNode shapePointRef = new ShapePointRefNode(new IdNode(startPointText[0]),
+                ShapePointRefNode shapePointRef = new ShapePointRefNode(
+                    new IdNode(context.idPoint.Text),
                     ShapePointRefNode.PointTypes.StartPoint);
-                return new PointReferenceNode(startPointRefContext.GetText(), shapePointRef);
-                //Valid StartPoint! Create and return node
-            } else if (tupleContext != null && !tupleContext.IsEmpty)
+                return new PointReferenceNode(context.startPoint.GetText(), shapePointRef);
+            }
+            else if (context.endPoint != null)
             {
-                MathNode lhs = _mathNodeExtractor.ExtractMathNode(tupleContext.lhs);
-                MathNode rhs = _mathNodeExtractor.ExtractMathNode(tupleContext.rhs);
-                return new PointReferenceNode(tupleContext.GetText(), rhs, lhs);
+                ShapePointRefNode shapePointRef = new ShapePointRefNode(
+                    new IdNode(context.idPoint.Text),
+                    ShapePointRefNode.PointTypes.Endpoint);
+                return new PointReferenceNode(context.endPoint.GetText(), shapePointRef);
+            }
+            else if (context.idPoint != null)
+            {
+                IdNode id = new IdNode(context.idPoint.Text);
+                return new PointReferenceNode(context.GetText(), id);
+            }
+            else if (context.funcCall != null)
+            {
+                FunctionCallNode func = new FunctionCallExtractor().VisitFunctionCall(context.funcCall);
+                return new PointReferenceNode(context.GetText(), func);
             }
             else
             {
-                throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
+                throw new AstNodeCreationException($"Node at {context.GetText()} could not be created at VisitPointReference.");
             }
-       
-   
-            return null;
         }
     }
 }

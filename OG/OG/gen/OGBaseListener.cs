@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/rasmushenriksen/Desktop/P4/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -914,33 +914,17 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLineCommand([NotNull] OGParser.LineCommandContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>chainedToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.toCommands"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterChainedToCommand([NotNull] OGParser.ChainedToCommandContext context) { }
+	public virtual void EnterToCommands([NotNull] OGParser.ToCommandsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>chainedToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.toCommands"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitChainedToCommand([NotNull] OGParser.ChainedToCommandContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>singleToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSingleToCommand([NotNull] OGParser.SingleToCommandContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>singleToCommand</c>
-	/// labeled alternative in <see cref="OGParser.toCommands"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSingleToCommand([NotNull] OGParser.SingleToCommandContext context) { }
+	public virtual void ExitToCommands([NotNull] OGParser.ToCommandsContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.curveCommand"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -1371,6 +1355,30 @@ public partial class OGBaseListener : IOGListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.startPointReference"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterStartPointReference([NotNull] OGParser.StartPointReferenceContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.startPointReference"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitStartPointReference([NotNull] OGParser.StartPointReferenceContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="OGParser.endPointReference"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterEndPointReference([NotNull] OGParser.EndPointReferenceContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="OGParser.endPointReference"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitEndPointReference([NotNull] OGParser.EndPointReferenceContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.coordinateXYValue"/>.
 	/// <para>The default implementation does nothing.</para>

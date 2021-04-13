@@ -6,6 +6,7 @@ namespace OG.AST.Functions
 {
     public class BodyNodeExtractor : OGBaseVisitor<BodyNode>
     {
+        // TODO: Should be one List<Statement> instead, so the order is preserved.
         private List<DeclarationNode> _declarationNodes = new List<DeclarationNode>();
         private List<AssignmentNode> _assignmentNodes = new List<AssignmentNode>();
         private List<CommandNode> _commandNodes = new List<CommandNode>();
