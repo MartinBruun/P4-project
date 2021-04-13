@@ -6,12 +6,9 @@ namespace OG.AST.Functions
 {
     public class CommandNodeExtractor : OGBaseVisitor<CommandNode>
     {
-        private AntlrToIterationCommand _iterationNodeExtractor = new AntlrToIterationCommand();
-        private AntlrASTToMovementCommand _movementCommandExtractor = new AntlrASTToMovementCommand();
-        private DrawCommandNodeExtractor _drawCommandNodeExtractor = new DrawCommandNodeExtractor();
         public override CommandNode VisitStmt(OGParser.StmtContext context)
         {
-            if (context == null || context.cmd == null)
+            if (context?.cmd == null)
             {
                 return null;
             }
@@ -21,22 +18,23 @@ namespace OG.AST.Functions
 
             if (drawCommandContext != null && !drawCommandContext.IsEmpty)
             {
-                return _drawCommandNodeExtractor.VisitStmt(context);
+                
+                return new DrawCommandNodeExtractor().VisitStmt(context);
             }
 
             if (movementContext != null && !movementContext.IsEmpty)
             {
-                return _movementCommandExtractor.VisitMovementCommand(movementContext);
+                return new AntlrASTToMovementCommand().VisitMovementCommand(movementContext);
             }
 
             if (iterationContext == null || iterationContext.IsEmpty) return null;
             if (iterationContext.numberIterCmd != null && !iterationContext.numberIterCmd.IsEmpty)
             {
-                return _iterationNodeExtractor.VisitNumberIteration(iterationContext.numberIterCmd);
+                return new AntlrToIterationCommand().VisitNumberIteration(iterationContext.numberIterCmd);
             }
             else if (iterationContext.untilIterCmd != null && !iterationContext.untilIterCmd.IsEmpty)
             {
-                return _iterationNodeExtractor.ExtractIterationNode(iterationContext.untilIterCmd);
+                return new AntlrToIterationCommand().ExtractIterationNode(iterationContext.untilIterCmd);
             }
 
             //It was not a command;

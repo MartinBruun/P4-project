@@ -11,6 +11,8 @@ function point funPOINT(){
 }
 function bool bools(){
 
+line.from(2,2).to(3,3);
+
 number a = 10;
 number b = -10;
 point p = (a,b);

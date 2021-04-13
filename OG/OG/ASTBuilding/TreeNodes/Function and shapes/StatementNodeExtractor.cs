@@ -27,7 +27,11 @@ namespace OG.AST.Functions
                 return declarationNode;
             }
 
-            var commandNode = _commandNodeExtractor.VisitStmt(context);
+            CommandNode commandNode = _commandNodeExtractor.VisitStmt(context);
+            if (commandNode != null)
+            {
+                return commandNode;
+            }
 
             ///TODO Do the same for commandNodeExtractor (som også skal laves)
 
