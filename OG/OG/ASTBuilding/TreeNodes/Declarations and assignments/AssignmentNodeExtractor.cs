@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Formats.Asn1;
-using System.Linq.Expressions;
-using Antlr4.Runtime;
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
-using CoordinateXYValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXYValueNode;
+﻿
 
-namespace OG.ASTBuilding.Shapes
+using System;
+using OG.ASTBuilding.Draw;
+using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+
+namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 {
     public class AssignmentNodeExtractor : OGBaseVisitor<AssignmentNode>
     {
@@ -139,10 +134,7 @@ namespace OG.ASTBuilding.Shapes
                 MathNode mathNode = _mathNodeExtractor.ExtractMathNode(mathExprContext);
                 CoordinateXYValueNode xyValue =
                     new CoordinateXYValueNode(new IdNode(propAssign.xyVal.id.Text), propAssign.xyVal.xy.Text);
-                
-                
-                return new PropertyAssignmentNode(xyValue, 
-                    mathNode);
+                return new PropertyAssignmentNode(xyValue, mathNode);
             }
 
 
@@ -195,10 +187,15 @@ namespace OG.ASTBuilding.Shapes
                 return new PointAssignmentNode(id, pointRefNode);
             } else  if (endPointAssignmentContext != null && !endPointAssignmentContext.IsEmpty)
             {
-                throw new NotImplementedException();
-            } else if (startPointAssignment != null && !endPointAssignmentContext.IsEmpty)
+
+                PointReferenceNode value = _pointReferenceNodeExtractor.VisitPointReference(endPointAssignmentContext.value);
+                string id = endPointAssignmentContext.id.id.Text;
+                return new PointAssignmentNode(new IdNode(id), value);
+            } else if (startPointAssignment != null && !startPointAssignment.IsEmpty)
             {
-                throw new NotImplementedException();
+                PointReferenceNode value = _pointReferenceNodeExtractor.VisitPointReference(startPointAssignment.value);
+                string id = startPointAssignment.id.id.Text;
+                return new PointAssignmentNode(new IdNode(id), value);
             }
             else
             {
@@ -207,6 +204,12 @@ namespace OG.ASTBuilding.Shapes
                                                    " StartPointAssigmentContext");
                 ;
             }
+            
+
         }
+        
+        
     }
+
+   
 }

@@ -1,17 +1,18 @@
-﻿using OG.ASTBuilding.Terminals;
+﻿using System.Collections.Generic;
+using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.DeclarationNodes;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
-    public class CurveCommandNode : MovementCommand
+    public class CurveCommandNode : MovementCommandNode
     {
-        public MathNode angle;
+        public MathNode Angle;
 
-
-        public CurveCommandNode(MathNode angleExpression, PositionNode fromPosition, PositionNode ToPosition)
+        public CurveCommandNode(PointReferenceNode fromPosition, List<PointReferenceNode> toPosition, MathNode angleExpression)
         {
-            angle = angleExpression;
-            from = fromPosition;
-            to = ToPosition;
+            Angle = angleExpression;
+            From = fromPosition;
+            To = toPosition;
         }
     }
 }

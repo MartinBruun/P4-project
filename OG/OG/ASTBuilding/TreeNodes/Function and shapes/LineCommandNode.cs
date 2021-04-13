@@ -1,11 +1,14 @@
-﻿namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
+﻿using System.Collections.Generic;
+using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+
+namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
 {
-    public class LineCommandNode : MovementCommand
+    public class LineCommandNode : MovementCommandNode
     {
-        public LineCommandNode(PositionNode fromPosition, PositionNode ToPosition)
+        public LineCommandNode(PointReferenceNode fromPosition, List<PointReferenceNode> toPosition)
         {
-            from = fromPosition;
-            to = ToPosition;
+            From = fromPosition;
+            To = toPosition;
         }
     }
 }

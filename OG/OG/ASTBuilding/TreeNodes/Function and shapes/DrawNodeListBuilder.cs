@@ -84,7 +84,7 @@ namespace OG.ASTBuilding.Draw
             }
             catch (Exception e)
             {
-                throw new AstNodeCreationException(e.Message);
+                Console.WriteLine("\nEXCEPTION IN CREATE DRAW COMMAND NODE!!\n\n");
             }
 
             return null;

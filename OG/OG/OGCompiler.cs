@@ -38,7 +38,7 @@ namespace OG
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser);
 
-            
+
             //ASTContainer<AstBuilderVisitor, ProgramNode> ast = new ASTContainer<AstBuilderVisitor, ProgramNode>(parCon.Parser);
             
 
