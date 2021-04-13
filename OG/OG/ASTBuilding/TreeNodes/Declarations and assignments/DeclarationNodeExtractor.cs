@@ -103,5 +103,17 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
             
             
         }
+
+        public override DeclarationNode VisitStmt(OGParser.StmtContext context)
+        {
+            OGParser.DeclarationContext  declarationContext = context.dcl;
+
+            if (declarationContext != null && !declarationContext.IsEmpty)
+            {
+                return ExtractDeclarationNode(declarationContext);
+            }
+
+            return null;
+        }
     }
 }

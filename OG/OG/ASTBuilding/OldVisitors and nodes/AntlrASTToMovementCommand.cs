@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Antlr4.Runtime.Misc;
+using OG.ASTBuilding.Draw;
 using OG.ASTBuilding.MathExpression;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
@@ -13,7 +14,15 @@ namespace OG.ASTBuilding.Visitors
     {
         public override MovementCommandNode VisitMovementCommand(OGParser.MovementCommandContext context)
         {
-            return base.VisitMovementCommand(context);
+            if (context.curveCmd != null && !context.curveCmd.IsEmpty)
+            {
+                return VisitCurveCommand(context.curveCmd);
+            } else if (context.lineCmd != null && !context.lineCmd.IsEmpty)
+            {
+                return VisitLineCommand(context.lineCmd);
+            }
+
+            throw new AstNodeCreationException("Movement command context did not contain curve or line");
         }
 
         public override MovementCommandNode VisitLineCommand(OGParser.LineCommandContext context)

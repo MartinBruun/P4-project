@@ -9,17 +9,13 @@ namespace OG.ASTBuilding.Shapes
 {
     public class BodyNode : AstNode
     {
-        // TODO: Should be one List<Statement> instead, so the order is preserved.
-        public List<DeclarationNode> DeclarationNodes = new List<DeclarationNode>();
-        public List<AssignmentNode> AssignmentNodes = new List<AssignmentNode>();
-        public List<CommandNode> CommandNodes = new List<CommandNode>();
 
+        public List<StatementNode> StatementNodes { get; set; }
 
-        public BodyNode(List<DeclarationNode> dcls, List<AssignmentNode> assignments, List<CommandNode> commands)
+        public BodyNode(List<StatementNode> statements)
         {
-            CommandNodes = commands;
-            DeclarationNodes = dcls;
-            AssignmentNodes = assignments;
+            StatementNodes = statements;
         }
     }
+    
 }

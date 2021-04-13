@@ -8,11 +8,12 @@ namespace OG.ASTBuilding.Visitors
 {
     public class PropertyAssignmentNodeExtractor : OGBaseVisitor<AssignmentNode>
     {
+        
         public PropertyAssignmentNode VisitPropertyAssignmentNode(OGParser.PropertyAssignmentContext context)
         {
-            CoordinateXYValueNode xyValue = new CoordinateXYValueNode(new IdNode(context.xyVal.id.Text), context.xyVal.xy.Text);
-            MathNode value = new MathNode(context.value.GetText(), MathNode.MathType.CoordinateXyValueNode);
             
+            CoordinateXYValueNode xyValue = new CoordinateXYValueNode(new IdNode(context.xyVal.id.Text), context.xyVal.xy.Text);
+            MathNode value = new MathNodeExtractor().ExtractMathNode(context.mathExpression());
             return new PropertyAssignmentNode(xyValue, value);
         }
     }

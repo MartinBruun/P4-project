@@ -1,6 +1,10 @@
 ﻿namespace OG.ASTBuilding.Terminals
 {
-    public abstract class InfixMathNode : MathNode
+    public interface IInfixMathNode
+    {
+    }
+
+    public abstract class InfixMathNode : MathNode, IInfixMathNode
     {
         public MathNode RHS { get; set; } = null;
         public MathNode LHS { get; set; } = null;

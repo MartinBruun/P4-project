@@ -3253,7 +3253,7 @@ public partial class OGParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitAtomXYValue(this);
+			if (typedVisitor != null) return typedVisitor.VisitAtomXyValue(this);
 			else return visitor.VisitChildren(this);
 		}
 	}

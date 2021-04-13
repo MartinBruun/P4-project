@@ -177,7 +177,7 @@ namespace OG.ASTBuilding.Shapes
                 try
                 {
                     OGParser.AtomXYValueContext xyValueContext = (OGParser.AtomXYValueContext) context;
-                    return VisitAtomXYValue(xyValueContext);
+                    return VisitAtomXyValue(xyValueContext);
                 }
                 catch (InvalidCastException e)
                 {
@@ -208,7 +208,7 @@ namespace OG.ASTBuilding.Shapes
 
         public override MathNode VisitAtomId(OGParser.AtomIdContext context)
         {
-            return new MathNode(context.id.Text, MathNode.MathType.IdValueNode);
+            return new MathIdNode(context.GetText(),new IdNode(context.id.Text));
         }
 
         public override MathNode VisitNumber(OGParser.NumberContext context)
@@ -216,9 +216,9 @@ namespace OG.ASTBuilding.Shapes
             return new NumberNode(double.Parse(context.value.Text, CultureInfo.InvariantCulture));
         }
 
-        public override MathNode VisitAtomXYValue(OGParser.AtomXYValueContext context)
+        public override MathNode VisitAtomXyValue(OGParser.AtomXYValueContext context)
         {
-            return new CoordinateXYValueNode(context.xyValue.GetText(), MathNode.MathType.CoordinateXyValueNode);
+            return new CoordinateXyValueNode(context.xyValue.GetText(), MathNode.MathType.CoordinateXyValueNode);
         }
 
         /// <summary>

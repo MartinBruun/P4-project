@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using OG.AST.Functions;
 using OG.ASTBuilding.Shapes;
@@ -8,7 +9,7 @@ using OG.ASTBuilding.TreeNodes.BoolNodes;
 
 namespace OG.ASTBuilding.Visitors
 {
-    public class AntlrToIterationCommand:OGBaseVisitor<IterationNode>,ISemanticErrorable, IUnnecessarySettingsErrorable
+    public class AntlrToIterationCommand:OGBaseVisitor<IterationNode>
     {
         BodyNodeExtractor _bodyExtractor = new BodyNodeExtractor();
 
@@ -36,12 +37,28 @@ namespace OG.ASTBuilding.Visitors
 
         public override IterationNode VisitNumberIteration(OGParser.NumberIterationContext context)
         {
+            
             MathNode mathNode = new MathNodeExtractor().ExtractMathNode(context.iterator);
             BodyNode body = GetBody(context.statements);
             return new NumberIterationNode(mathNode, body);
         }
 
-        public List<SemanticError> SemanticErrors { get; set; }
-        public string TopNode { get; set; } = "numberIteration";
+        public IterationNode ExtractIterationNode(OGParser.UntilIterationContext context)
+        {
+            try
+            {
+                OGParser.UntilFuncCallContext funcCallContext = (OGParser.UntilFuncCallContext) context;
+                return VisitUntilFuncCall(funcCallContext);
+
+            }
+            catch (InvalidCastException e)
+            {}
+
+            OGParser.UntilConditionContext untilConditionContext = (OGParser.UntilConditionContext) context;
+            return VisitUntilCondition(untilConditionContext);
+
+        }
+        
+        
     }
 }

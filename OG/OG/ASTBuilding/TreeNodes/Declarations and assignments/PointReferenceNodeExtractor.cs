@@ -17,17 +17,31 @@ namespace OG.ASTBuilding.Shapes
         {
             
             OGParser.NumberTupleContext tupleContext = context.tuple;
-            //If context and context.point is not null get text.
-            string pointText = context?.point?.Text;
+            OGParser.StartPointReferenceContext startPointContext = context.startPoint;
+            OGParser.EndPointReferenceContext endPointcontext = context.endPoint;
             OGParser.FunctionCallContext pointFunctionCallContext = context.funcCall;
+
+            IToken idcontext = context.idPoint;
+            //If context and context.point is not null get text.
+           
 
             //Check if text is not null and contains either .endPoint or .startPoint
             //else if tupleContext is not null empty try and create tuplePointReference
             //else if pointFunctionCallContext is not null or empty, create function call node. 
             //Else throw
-            if (!string.IsNullOrWhiteSpace(pointText) && (pointText.Contains(".endPoint") || pointText.Contains(".startPoint")))
+            if (
+                endPointcontext != null 
+                && !string.IsNullOrWhiteSpace(endPointcontext.GetText()) 
+                && (endPointcontext.GetText().Contains(".endPoint")))
             {
-                return CheckForStartEndPointText(pointText, context.GetText());
+                return ExtractPointReferenceNode(endPointcontext);
+            }
+            
+            if (startPointContext != null 
+                && !string.IsNullOrWhiteSpace(startPointContext.GetText()) 
+                && (startPointContext.GetText().Contains(".startPoint")))
+            {
+                return ExtractPointReferenceNode(startPointContext);
             }
             
             if (context.ID() != null && !string.IsNullOrEmpty(context.ID().GetText()))
@@ -53,7 +67,17 @@ namespace OG.ASTBuilding.Shapes
             throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
         }
 
-        private PointReferenceNode CheckForStartEndPointText(string pointText, string fullContextText)
+        public PointReferenceNode ExtractPointReferenceNode(OGParser.EndPointReferenceContext endPointContext)
+        {
+            return CheckForStartEndPointText(endPointContext.GetText());
+        }
+
+        public PointReferenceNode ExtractPointReferenceNode(OGParser.StartPointReferenceContext startPointContext)
+        {
+            return CheckForStartEndPointText(startPointContext.GetText());
+        }
+
+        private PointReferenceNode CheckForStartEndPointText(string pointText)
         {
             string[] startEndPointText = pointText.Split(".");
             if (
@@ -62,7 +86,7 @@ namespace OG.ASTBuilding.Shapes
                 startEndPointText.Length == 2 && startEndPointText.Contains("endPoint"))
             {
                 //Result
-                return new ShapeEndPointNode(fullContextText, new IdNode(startEndPointText[0]));
+                return new ShapeEndPointNode(pointText, new IdNode(startEndPointText[0]));
 
             }
             else if
@@ -71,9 +95,9 @@ namespace OG.ASTBuilding.Shapes
                  startEndPointText.Length == 2 && startEndPointText.Contains("startPoint"))
             {
                 //Result
-                return new ShapeStartPointNode(fullContextText, new IdNode(startEndPointText[0]));
+                return new ShapeStartPointNode(pointText, new IdNode(startEndPointText[0]));
             }
-            throw new AstNodeCreationException("Could not create PointReferenceNode from" + fullContextText);
+            throw new AstNodeCreationException("Could not create PointReferenceNode from" +pointText);
         }
 
         public override PointReferenceNode VisitPointDclIdAssign(OGParser.PointDclIdAssignContext context)
@@ -113,15 +137,17 @@ namespace OG.ASTBuilding.Shapes
                 {
                     OGParser.FromWithStartPointRefContext fromStartPoint =
                         (OGParser.FromWithStartPointRefContext) context;
-                    return CheckForStartEndPointText(fromStartPoint?.fromPoint?.Text, fromStartPoint?.GetText());
+                    OGParser.StartPointReferenceContext startPointcontext = fromStartPoint.fromPoint;
+                    return ExtractPointReferenceNode(startPointcontext);
 
                 }
                 catch (InvalidCastException e)
                 { }
 
                 OGParser.FromWithEndPointRefContext fromEndPoint = (OGParser.FromWithEndPointRefContext) context;
-                
-                return CheckForStartEndPointText(fromEndPoint?.fromPoint?.Text, fromEndPoint?.GetText());
+                OGParser.EndPointReferenceContext endPointContext = fromEndPoint.fromPoint;
+                return ExtractPointReferenceNode(endPointContext);
+
             }
             catch (InvalidCastException e)
             {

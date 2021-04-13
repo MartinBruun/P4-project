@@ -8,7 +8,7 @@ namespace OG.ASTBuilding.Shapes
     public class ParameterNodeListBuilder : OGBaseVisitor<List<ParameterNode>>
     {
         private List<ParameterNode> Parameters { get; set; } = new List<ParameterNode>();
-        private ParameterNodeExtractor _paramExtractor = new ParameterNodeExtractor();
+        private readonly ParameterNodeExtractor _paramExtractor = new ParameterNodeExtractor();
 
         public override List<ParameterNode> VisitFunctionCall(OGParser.FunctionCallContext context)
         {
@@ -38,10 +38,8 @@ namespace OG.ASTBuilding.Shapes
                     return VisitMultiParameters(multipleParams);
                  
                 }
-                catch (InvalidCastException e)
-                {
-                    
-                }
+                catch (InvalidCastException)
+                { }
 
                 OGParser.NoParameterContext noParams = (OGParser.NoParameterContext) parameters;
                 return new List<ParameterNode>();

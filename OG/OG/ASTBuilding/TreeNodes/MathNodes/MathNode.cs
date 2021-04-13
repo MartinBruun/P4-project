@@ -2,11 +2,10 @@
 
 namespace OG.ASTBuilding.Terminals
 {
-    public class MathNode : ExpressionNode
+    public abstract class MathNode : ExpressionNode
     {
         public enum MathType
         {
-            GenericMathNode = 0,
             GenericInfixNode,
             AdditionNode,
             SubtractionNode,
@@ -33,4 +32,5 @@ namespace OG.ASTBuilding.Terminals
 
   
     }
+
 }

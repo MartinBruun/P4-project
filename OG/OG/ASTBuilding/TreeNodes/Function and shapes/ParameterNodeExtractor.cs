@@ -133,10 +133,23 @@ namespace OG.ASTBuilding.Shapes
             return new FunctionCallParameterNode(funcCallNode);
         }
 
-        public override ParameterNode VisitEndPointAssignment(OGParser.EndPointAssignmentContext context)
+
+        public override ParameterNode VisitPassedStartPointReference(OGParser.PassedStartPointReferenceContext context)
         {
-            IdNode id = new IdNode(context.id.Text);
-            return new ParameterNode(id);
+            OGParser.StartPointReferenceContext startPRefContext = context.startpointRef;
+            PointReferenceNode pointRef = new PointReferenceNodeExtractor().ExtractPointReferenceNode(startPRefContext);
+            return new ParameterNode(new IdNode(context.startpointRef.id.Text), pointRef);
         }
+
+        public override ParameterNode VisitPassedEndPointReference(OGParser.PassedEndPointReferenceContext context)
+        {
+            OGParser.EndPointReferenceContext endpointContext = context.endpointRef;
+            PointReferenceNode pointRef = new PointReferenceNodeExtractor().ExtractPointReferenceNode(endpointContext);
+            return new ParameterNode(new IdNode(context.endpointRef.id.Text), pointRef);
+        }
+
+
+
+
     }
 }

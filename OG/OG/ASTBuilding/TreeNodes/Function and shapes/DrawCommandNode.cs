@@ -1,9 +1,11 @@
-﻿using OG.ASTBuilding.Terminals;
+﻿using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.BodyNodes;
 using OG.ASTBuilding.TreeNodes.DeclarationNodes;
 
 namespace OG.ASTBuilding.Draw
 {
-    public class DrawCommandNode : AstNode
+    public class DrawCommandNode : CommandNode
     {
         public IdNode id;
         public PointReferenceNode from;

@@ -6,6 +6,7 @@ namespace OG.ASTBuilding.Shapes
 {
     public class AssignmentNodeListBuild : OGBaseVisitor<List<AssignmentNode>>
     {
+        
         private readonly List<AssignmentNode> _assignments = new List<AssignmentNode>();
         private readonly AssignmentNodeExtractor _assignmentNodeExtractor = new AssignmentNodeExtractor();
 

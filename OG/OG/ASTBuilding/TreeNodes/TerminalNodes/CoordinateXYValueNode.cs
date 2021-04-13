@@ -1,8 +1,8 @@
 ﻿namespace OG.ASTBuilding.Terminals
 {
-    public class CoordinateXYValueNode : MathNode
+    public class CoordinateXyValueNode : TerminalMathNode
     {
-        public CoordinateXYValueNode(string value, MathType mathNodeTypeOf) : base(value, mathNodeTypeOf)
+        public CoordinateXyValueNode(string value, MathType mathNodeTypeOf) : base(value, mathNodeTypeOf)
         {
         }
     }

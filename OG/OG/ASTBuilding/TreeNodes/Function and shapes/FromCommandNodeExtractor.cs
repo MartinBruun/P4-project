@@ -11,6 +11,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
     {
         public PointReferenceNode ExtractFromCommandNode(OGParser.FromCommandContext context)
         {
+            
             try
             {
                 OGParser.FromWithIdContext idContext = (OGParser.FromWithIdContext) context;
@@ -46,28 +47,27 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
         public override PointReferenceNode VisitFromWithId(OGParser.FromWithIdContext context)
         {
             IdNode id = new IdNode(context.id.Text);
-            return new PointReferenceNode(context.GetText(), id);
+            return new PointReferenceIdNode(context.GetText(),id);
         }
 
         public override PointReferenceNode VisitFromWithNumberTuple(OGParser.FromWithNumberTupleContext context)
         {
             MathNode firstNum = new MathNodeExtractor().ExtractMathNode(context.tuple.lhs);
             MathNode secondNum = new MathNodeExtractor().ExtractMathNode(context.tuple.rhs);
-            return new PointReferenceNode(context.GetText(),firstNum, secondNum);
+            return new TuplePointNode(context.GetText(),firstNum, secondNum );
         }
 
         public override PointReferenceNode VisitFromWithStartPointRef(OGParser.FromWithStartPointRefContext context)
         {
             IdNode shapeId = new IdNode(context.fromPoint.id.Text);
             ShapePointRefNode startPoint = new ShapePointRefNode(shapeId, ShapePointRefNode.PointTypes.StartPoint);
-            return new PointReferenceNode(context.GetText(), startPoint);
+            return new ShapeStartPointNode(context.GetText(), shapeId);
         }
 
         public override PointReferenceNode VisitFromWithEndPointRef(OGParser.FromWithEndPointRefContext context)
         {
             IdNode shapeId = new IdNode(context.fromPoint.id.Text);
-            ShapePointRefNode endPoint = new ShapePointRefNode(shapeId, ShapePointRefNode.PointTypes.StartPoint);
-            return new PointReferenceNode(context.GetText(), endPoint);
+            return new ShapeEndPointNode(context.GetText(), shapeId);
         }
     }
 }

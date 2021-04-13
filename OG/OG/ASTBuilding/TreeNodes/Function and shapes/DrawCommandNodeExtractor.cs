@@ -24,6 +24,29 @@ namespace OG.ASTBuilding.Draw
             
             return new DrawCommandNode(id, pointRef);
         }
+
+        public override DrawCommandNode VisitStmt(OGParser.StmtContext context)
+        {
+            if (context.cmd?.drawCmd == null || context.cmd.drawCmd.IsEmpty) return null;
+
+            return ExtractDrawCommandNode(context.cmd.drawCmd);
+
+        }
+
+        public DrawCommandNode ExtractDrawCommandNode(OGParser.DrawCommandContext context)
+        {
+            try
+            {
+                OGParser.DrawCmdContext drawCmdContext = (OGParser.DrawCmdContext) context;
+                return VisitDrawCmd(drawCmdContext);
+            }
+            catch (InvalidCastException e)
+            {}
+            
+            OGParser.DrawFromCmdContext drawFromContext = (OGParser.DrawFromCmdContext) context;
+            return VisitDrawFromCmd(drawFromContext);
+
+        }
     }
 
    

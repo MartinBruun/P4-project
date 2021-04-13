@@ -2,9 +2,10 @@
  using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BoolNodes;
+ using OG.ASTBuilding.TreeNodes.DeclarationNodes;
 
 
-namespace OG.ASTBuilding.Terminals
+ namespace OG.ASTBuilding.Terminals
 {
     public class ParameterNode : AstNode
     {
@@ -49,10 +50,27 @@ namespace OG.ASTBuilding.Terminals
         /// <param name="id"></param>
         public ParameterNode(IdNode id)
         {
-
             Expression = null;
             ParamType = ParameterType.Id;
             ParameterId = id;
+        }
+
+        public ParameterNode(IdNode id, ShapeEndPointNode endpoint)
+        {
+            ParameterId = id;
+            Expression = endpoint;
+        }
+        
+        public ParameterNode(IdNode id, ShapeStartPointNode startPoint)
+        {
+            ParameterId = id;
+            Expression = startPoint;
+        }
+        
+        public ParameterNode(IdNode id, PointReferenceNode startPoint)
+        {
+            ParameterId = id;
+            Expression = startPoint;
         }
         
        
