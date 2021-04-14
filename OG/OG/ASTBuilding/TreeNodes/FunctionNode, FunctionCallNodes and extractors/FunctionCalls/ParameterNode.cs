@@ -51,18 +51,6 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             ParameterId = id;
         }
 
-        public ParameterNode(IdNode id, ShapeEndPointNode endpoint)
-        {
-            ParameterId = id;
-            Expression = endpoint;
-        }
-        
-        public ParameterNode(IdNode id, ShapeStartPointNode startPoint)
-        {
-            ParameterId = id;
-            Expression = startPoint;
-        }
-        
         public ParameterNode(IdNode id, PointReferenceNode startPoint)
         {
             ParameterId = id;
@@ -83,6 +71,11 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
             return "Parameter does not contain id: " + ParamType.ToString();
         }
+    }
+
+    public interface IParameterNode
+    {
+        public IExpressionNode Expression { get; set; }        
     }
 
     

@@ -38,4 +38,9 @@ namespace OG.ASTBuilding.TreeNodes
     public abstract class AstStartNode : AstNode
     {
     }
+
+    public interface IAstStartNode : IAstNode
+    {
+        
+    }
 }

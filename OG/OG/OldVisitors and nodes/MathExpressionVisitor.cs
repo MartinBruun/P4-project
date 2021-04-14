@@ -32,7 +32,7 @@ namespace OG.ASTBuilding.MathExpression
             return VisitChildren(context);
         }
 
-        public override NumberNode VisitNumber([NotNull] OGParser.NumberContext context) // TODO: Skal gøres mere generisk så den accepterer float eller double.
+        public override NumberNode VisitNumber([NotNull] OGParser.NumberContext context)
         {
             int number = int.Parse(context.GetChild(0).GetText());
             return new NumberNode(number);

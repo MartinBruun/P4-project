@@ -25,7 +25,7 @@ namespace OG
             
             
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
-                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("boolExpression"));
+                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("program"));
             
             ProgramNode p = astContainer.AstTreeTopNode;
 

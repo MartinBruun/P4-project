@@ -11,11 +11,7 @@ namespace OG.ASTBuilding.TreeNodes
         private List<DrawCommandNode> DrawCommandNodes { get; set; } = new List<DrawCommandNode>();
         private DrawCommandNodeExtractor _drawCommandNodeExtractor = new DrawCommandNodeExtractor();
 
-        /// <summary>
-        /// TODO Create setting nodes
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
+       
         public override List<DrawCommandNode> VisitDraw(OGParser.DrawContext context)
         {
 

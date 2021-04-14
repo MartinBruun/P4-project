@@ -6,13 +6,13 @@ draw
    
 }
 function void triangle() {
-    point startPoint = (0,0);
-    line.from(startPoint).to(x,y).to(x,y).to(startPoint);
+    point startpoint = (0,0);
+    line.from(startpoint).to(x,y).to(x,y).to(startpoint);
 }
 
 function void triangle() {
-    point startPoint = (0,0);
-    line.from(startPoint).to(x,y).to(x,y).to(startPoint);
+    point startpoint = (0,0);
+    line.from(startpoint).to(x,y).to(x,y).to(startpoint);
 }
 
 
@@ -20,12 +20,12 @@ shape C {
 	number myXNumber = 5;
 	number myYNumber = 5;
 	number max = 10;
-	point myStartPoint = (0,5);
+	point mystartpoint = (0,5);
 
 	repeat.until (myXNumber == max) 
-		line.from(myStartPoint).to(myXNumber,myYNumber);
+		line.from(mystartpoint).to(myXNumber,myYNumber);
 		
-		myStartPoint = (myXNumber, myYNumber);
+		mystartpoint = (myXNumber, myYNumber);
 		myXNumber = 1;
 		
 	repeat.end

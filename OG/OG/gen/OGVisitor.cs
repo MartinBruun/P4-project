@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -395,7 +395,7 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAtomXyValue([NotNull] OGParser.AtomXYValueContext context);
+	Result VisitAtomXYValue([NotNull] OGParser.AtomXYValueContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>atomId</c>
 	/// labeled alternative in <see cref="OGParser.atom"/>.

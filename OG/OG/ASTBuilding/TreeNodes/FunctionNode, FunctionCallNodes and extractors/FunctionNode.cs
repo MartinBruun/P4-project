@@ -22,4 +22,12 @@ namespace OG.ASTBuilding.TreeNodes
             return "FunctionNode with ID: " + Id.ToString();
         }
     }
+
+    public interface IFunctionNode
+    {
+        public IdNode Id { get; set; }
+
+        public string ReturnType { get; set; }
+        public BodyNode Body { get; set; }
+    }
 }

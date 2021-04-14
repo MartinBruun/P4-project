@@ -1,8 +1,12 @@
-﻿using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
-
-namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
+﻿namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 {
-    public class BoolComparerNode : BoolNode
+    public interface IBoolComparerNode
+    {
+        BoolNode RHS { get; set; }
+        BoolNode LHS { get; set; }
+    }
+
+    public abstract class BoolComparerNode : BoolNode, IBoolComparerNode
     {
         public BoolNode RHS { get; set; }
         public BoolNode LHS { get; set; }
@@ -11,17 +15,6 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         {
             this.LHS = LHS;
             this.RHS = RHS;
-        }
-    }
-    
-    public abstract class MathComparerNode : BoolNode
-    {
-        public MathNode RHS { get; set; }
-        public MathNode LHS { get; set; }
-        protected MathComparerNode(MathNode lhs, MathNode rhs,string value, BoolType type) : base(value, type)
-        {
-            RHS = rhs;
-            LHS = lhs;
         }
     }
 }

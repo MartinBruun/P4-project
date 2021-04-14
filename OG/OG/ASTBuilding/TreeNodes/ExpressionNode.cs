@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 
 namespace OG.ASTBuilding.TreeNodes
 {
@@ -25,7 +26,10 @@ namespace OG.ASTBuilding.TreeNodes
             this.ExprType = exprType;
             Value = exprText;
         }
+    }
 
+    public interface IExpressionNode
+    {
 
     }
 }

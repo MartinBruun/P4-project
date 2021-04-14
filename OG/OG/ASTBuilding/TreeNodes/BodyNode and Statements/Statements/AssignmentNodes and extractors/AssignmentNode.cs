@@ -19,4 +19,9 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             this.AssignType = assignmentType;
         }
     }
+
+    public interface IAssignmentNode : IStatementNode
+    {
+        public IIdNode Id { get; set; }
+    }
 }

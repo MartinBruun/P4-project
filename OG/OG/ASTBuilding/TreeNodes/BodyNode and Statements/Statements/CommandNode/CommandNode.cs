@@ -3,4 +3,8 @@
     public abstract class CommandNode : StatementNode
     {
     }
+    
+    public interface ICommandnode{
+
+    }
 }

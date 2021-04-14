@@ -1,5 +1,6 @@
 ﻿using System;
 using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
@@ -63,9 +64,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             {
                 try
                 {
-                    OGParser.FunctionCallAssignContext funcCallAssignContext =
-                        (OGParser.FunctionCallAssignContext) context;
-                    throw new NotImplementedException("Cannot create function call assignments yet.");
+                    OGParser.FunctionCallContext functionCallContext = ((OGParser.FunctionCallAssignContext) context).funcCall;
+                    FunctionCallNode x = new FunctionCallNodeExtractor().VisitFunctionCall(functionCallContext);
+
+                    return new FunctionCallAssignNode(x.FunctionName, x.Parameters);
 
 
                 }

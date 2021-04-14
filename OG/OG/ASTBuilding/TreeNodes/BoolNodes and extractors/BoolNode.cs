@@ -30,4 +30,9 @@
             return "Type: " + BoolNodeType.ToString() + "\t Value: " + Value;
         }
     }
+
+    public interface IBoolNode : IExpressionNode
+    {
+
+    }
 }

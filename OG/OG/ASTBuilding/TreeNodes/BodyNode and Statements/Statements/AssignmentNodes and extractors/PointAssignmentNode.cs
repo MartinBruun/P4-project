@@ -3,9 +3,7 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    /// <summary>
-    /// TODO
-    /// </summary>
+
     public class PointAssignmentNode : AssignmentNode
     { 
         public PointReferenceNode AssignedValue { get; set; }

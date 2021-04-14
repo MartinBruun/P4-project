@@ -13,5 +13,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements
             StatementNodes = statements;
         }
     }
-    
+
+    public interface IBody
+    {
+        public List<IStatementNode> StatementNodes { get; set; }
+    }
+
 }

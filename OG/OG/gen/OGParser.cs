@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Rasmus/OneDrive/Aalborg University/4 Semester/Project/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -2355,12 +2355,13 @@ public partial class OGParser : Parser {
 	}
 	public partial class FunctionCallAssignContext : VariableAssignmentContext {
 		public IToken id;
+		public FunctionCallContext funcCall;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Assign() { return GetToken(OGParser.Assign, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Terminator() { return GetToken(OGParser.Terminator, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(OGParser.ID, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public FunctionCallContext functionCall() {
 			return GetRuleContext<FunctionCallContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Terminator() { return GetToken(OGParser.Terminator, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(OGParser.ID, 0); }
 		public FunctionCallAssignContext(VariableAssignmentContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
@@ -2499,7 +2500,7 @@ public partial class OGParser : Parser {
 				State = 310;
 				Match(Assign);
 				State = 311;
-				functionCall();
+				((FunctionCallAssignContext)_localctx).funcCall = functionCall();
 				State = 312;
 				Match(Terminator);
 				}
@@ -3253,7 +3254,7 @@ public partial class OGParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitAtomXyValue(this);
+			if (typedVisitor != null) return typedVisitor.VisitAtomXYValue(this);
 			else return visitor.VisitChildren(this);
 		}
 	}

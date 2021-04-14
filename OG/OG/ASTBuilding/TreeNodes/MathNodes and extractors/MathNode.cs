@@ -31,4 +31,9 @@
   
     }
 
+    public interface IMathNode : IExpressionNode
+    {
+       
+    }
+
 }

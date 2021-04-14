@@ -13,6 +13,7 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
             FunctionName = functionName;
         }
 
+
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
     }

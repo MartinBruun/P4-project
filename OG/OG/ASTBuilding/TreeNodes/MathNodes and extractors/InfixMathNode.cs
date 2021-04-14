@@ -1,9 +1,5 @@
 ﻿namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
-    public interface IInfixMathNode
-    {
-    }
-
     public abstract class InfixMathNode : MathNode, IInfixMathNode
     {
         public MathNode RHS { get; set; } = null;
@@ -14,6 +10,13 @@
             LHS = lhs;
             RHS = rhs;
         }
+
+    }
+
+    public interface IInfixMathNode
+    {
+        public MathNode RHS { get; set; }
+        public MathNode LHS { get; set; }
 
     }
 }

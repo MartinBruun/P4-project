@@ -100,7 +100,7 @@ variableAssignment  : id=ID'=' value=ID             ';' #idAssign
                     | id=ID'=' value=boolExpression ';' #boolAssign    
                     | id=ID'=' value=mathExpression ';' #numberAssign
                     | pointAssignment               ';' #pointAssign
-                    | id=ID '=' functionCall        ';' #functionCallAssign
+                    | id=ID '=' funcCall=functionCall        ';' #functionCallAssign
                     ; 
 
 pointAssignment     :  endPointAssignment

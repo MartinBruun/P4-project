@@ -13,4 +13,9 @@
             return Value;
         }
     }
+    
+    public interface IIdNode
+    {
+        public string Value { get; set; }
+    }
 }

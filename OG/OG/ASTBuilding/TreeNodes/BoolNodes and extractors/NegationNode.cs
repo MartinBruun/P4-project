@@ -9,4 +9,14 @@
             BoolExpression = boolExpr;
         }
     }
+
+    public interface IPreFixBoolNode
+    {
+        
+    }
+
+    public interface INegationNode : IPreFixBoolNode
+    {
+        public BoolNode BoolExpression { get; set; }
+    }
 }
