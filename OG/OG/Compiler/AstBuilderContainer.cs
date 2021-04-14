@@ -36,7 +36,10 @@ namespace OG.Compiler
 
         public AstBuilderContainer(OGParser parser, TVisitor visitor)
         {
+            Parser = parser;
             AstBuilder = visitor;
+            ParseTree = CreateStartNode();
+            AstTreeTopNode = BuildAst();
         }
         
         
