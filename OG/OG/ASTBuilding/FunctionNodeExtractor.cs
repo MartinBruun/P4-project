@@ -9,7 +9,6 @@ namespace OG.AST.Functions
         private readonly BodyNodeExtractor _bodyNodeExtractor = new BodyNodeExtractor();
         public override FunctionNode VisitFunctionDcl(OGParser.FunctionDclContext context)
         {
-            FunctionNode resultNode = null;
             OGParser.VoidFunctionDCLContext voidFunction  = context.voidFunctionDCL();
             OGParser.ReturnFunctionDCLContext returnFunction = context.returnFunctionDCL();
             //If it is a void function, create a function node from its body and text.

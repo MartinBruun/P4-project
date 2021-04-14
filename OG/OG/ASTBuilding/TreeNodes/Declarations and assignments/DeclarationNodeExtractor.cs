@@ -28,7 +28,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
                         (OGParser.NumberDclContext) context;
                     return VisitNumberDcl(numberDeclarationContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 { }
 
                 try
@@ -38,13 +38,13 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
                     
                     return VisitPointDcl(pointDeclarationContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 { }
                 
                 OGParser.BoolDclContext boolDeclarationContext = (OGParser.BoolDclContext) context;
                 return VisitBoolDcl(boolDeclarationContext);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             {
                 throw new AstNodeCreationException("Could not convert DeclarationContext for expression"
                                                    + context.GetText() 
@@ -86,7 +86,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
                     return new PointDeclarationNode(new IdNode(pointIdAssign.id.Text), pointReferenceIdNode);
 
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {}
                 
                 OGParser.PointDclPointRefAssignContext pointReferenceAssignContext  = (OGParser.PointDclPointRefAssignContext) context.pointDcl;
@@ -94,7 +94,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 
                 return new PointDeclarationNode(new IdNode(pointReferenceAssignContext.id.Text), pointReferenceNode);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             {
                 throw new AstNodeCreationException("PointDclcontext  could not be typecast" +
                                                    " to PointDclIdAssignContext or" +

@@ -54,7 +54,7 @@ namespace OG
 
                 return ParseTree;
             }
-            catch(NullReferenceException nullError)
+            catch(NullReferenceException )
             {
                 throw new NullReferenceException(
                     $"TypeChecker.CreateTopNodeParseTree tries to access method ({AstBuilder.TopNode}) which does not exist.\n" +

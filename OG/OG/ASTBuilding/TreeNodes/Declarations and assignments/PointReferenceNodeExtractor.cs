@@ -128,7 +128,7 @@ namespace OG.ASTBuilding.Shapes
                     return  VisitFromWithNumberTuple(fromTuple);
                    
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {}
 
                 try
@@ -139,7 +139,7 @@ namespace OG.ASTBuilding.Shapes
                     return ExtractPointReferenceNode(startPointContext);
 
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 { }
 
                 OGParser.FromWithEndPointRefContext fromEndPoint = (OGParser.FromWithEndPointRefContext) context;
@@ -147,7 +147,7 @@ namespace OG.ASTBuilding.Shapes
                 return ExtractPointReferenceNode(endPointContext);
 
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             {
                 throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
             }

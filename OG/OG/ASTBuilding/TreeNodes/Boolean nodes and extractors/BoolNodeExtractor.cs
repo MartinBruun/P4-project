@@ -27,7 +27,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.BoolExprBoolCompContext boolCmprContext = (OGParser.BoolExprBoolCompContext) context;
                     return VisitBoolExprBoolComp(boolCmprContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 { }
 
                 try
@@ -42,7 +42,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.BoolExprMathCompContext mathCmprContext = (OGParser.BoolExprMathCompContext) context;
                     return VisitBoolExprMathComp(mathCmprContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 { }
                 try
                 {
@@ -54,18 +54,20 @@ namespace OG.ASTBuilding.Shapes
                             {
                                 return new TrueNode(tOrFContext.value.Text);
                             }
-                            else if (tOrFContext.value.Text == "False") ;
-                        {
-                            return new FalseNode("False");
-                        }
+                            else if (tOrFContext.value.Text == "false")
+                            {
+                                return new FalseNode("False");
+                            }
                             break;
                         default:
                             
                             throw new AstNodeCreationException("TrueFalse context does not contain literals true or false " + 
                                                                context.GetText());
                     }
+                    throw new AstNodeCreationException("TrueFalse context does not contain literals true or false " + 
+                                                       context.GetText());
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 { }
 
                 try
@@ -73,7 +75,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.BoolExprNotPrefixContext notExprContext = (OGParser.BoolExprNotPrefixContext) context;
                     return VisitBoolExprNotPrefix(notExprContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
                 }
                 
@@ -83,7 +85,7 @@ namespace OG.ASTBuilding.Shapes
                 {
                     OGParser.BoolExprIDContext idBoolContext = (OGParser.BoolExprIDContext) context;
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 { }
                 
                 OGParser.BoolExprFuncCallContext boolFuncCallContext = (OGParser.BoolExprFuncCallContext) context;
@@ -120,13 +122,13 @@ namespace OG.ASTBuilding.Shapes
             {
                 case ">":
                     return new GreaterThanComparerNode(lhs, rhs, context.GetText());
-                    break;
+                
                 case "<":
                     return new LessThanComparerNode(lhs, rhs, context.GetText());
-                    break;
+                    
                 case "==":
                     return new EqualsComparerNode(lhs, rhs, context.GetText());
-                    break;
+                
                 default:
                     throw new AstNodeCreationException("BoolExprMathComprContext did not contain <, > or ==.");
 
@@ -149,12 +151,9 @@ namespace OG.ASTBuilding.Shapes
             {
                 case "&&":
                     return new AndComparerNode(rhs, lhs, content);
-                    break;
-                
                 case "||":
                     return new OrComparerNode(rhs, lhs, content);
-                    
-                    break;
+
                 default:
                     throw new AstNodeCreationException("BoolExprBoolCompContext did not contain && or ||.");
 

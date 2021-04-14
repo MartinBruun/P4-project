@@ -70,7 +70,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 
 
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
  
                 }
@@ -80,7 +80,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
                     OGParser.IdAssignContext idAssignContext = (OGParser.IdAssignContext) context;
                     return ExtractAssignmentNode(idAssignContext);
                 }
-                catch (InvalidCastException idCastException)
+                catch (InvalidCastException )
                 {
                 }
 
@@ -89,7 +89,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
                     OGParser.BoolAssignContext boolAssignContext = (OGParser.BoolAssignContext) context;
                     return ExtractAssignmentNode(boolAssignContext);
                 }
-                catch (InvalidCastException numberCastException)
+                catch (InvalidCastException)
                 {
                 }
 
@@ -98,14 +98,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
                     OGParser.NumberAssignContext numberAssignContext = (OGParser.NumberAssignContext) context;
                     return ExtractAssignmentNode(numberAssignContext);
                 }
-                catch (InvalidCastException numberAssignException)
+                catch (InvalidCastException )
                 {
                 }
 
                 OGParser.PointAssignContext pointAssignContext = (OGParser.PointAssignContext) context;
                 return ExtractAssignmentNode(pointAssignContext);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException)
             {
                 throw new AstNodeCreationException("Could not convert VariableAssignmentContext into " +
                                                    "IdAssignContext,boolAssignContext, NumberAssignContext, or PointAssignContext ");

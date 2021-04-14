@@ -42,7 +42,7 @@ namespace OG.ASTBuilding.MachineSettings
                     (OGParser.MachineModifiersContext) context;
                 return VisitMachineModifiers(modifiersContext);
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             {
             }
 
@@ -141,7 +141,7 @@ namespace OG.ASTBuilding.MachineSettings
                             (OGParser.WorkAreaModifierPropertiesContext) x;
                         VisitWorkAreaModifierProperties(workAreaMods);
                     }
-                    catch (InvalidCastException e)
+                    catch (InvalidCastException )
                     { }
                    
                     return result;

@@ -67,7 +67,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.SingleTermExprContext singleTermContext = (OGParser.SingleTermExprContext) context;
                     return VisitSingleTermExpr(singleTermContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException)
                 {
                 }
 
@@ -92,7 +92,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.InfixMultExprContext multiplicationExpr = (OGParser.InfixMultExprContext) context;
                     return VisitInfixMultExpr(multiplicationExpr);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
                     OGParser.SingleTermChildContext singleTermExpr = (OGParser.SingleTermChildContext) context;
                     return VisitSingleTermChild(singleTermExpr);
@@ -118,7 +118,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.SingleAtomContext singleAtomContext = (OGParser.SingleAtomContext) factorContext;
                     return VisitSingleAtom(singleAtomContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
 
                 }
@@ -129,7 +129,7 @@ namespace OG.ASTBuilding.Shapes
                         (OGParser.ParenthesisMathExprContext) factorContext;
                     return VisitParenthesisMathExpr(parenContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
                     //Do nothing
                 }
@@ -165,7 +165,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.AtomfuncCallContext functionCall = (OGParser.AtomfuncCallContext) context;
                     return VisitAtomfuncCall(functionCall);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
 
                 }
@@ -174,7 +174,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.AtomXYValueContext xyValueContext = (OGParser.AtomXYValueContext) context;
                     return VisitAtomXyValue(xyValueContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
                     //Do nothing, try next cast
                 }
@@ -184,7 +184,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.AtomIdContext idContext = (OGParser.AtomIdContext) context;
                     return VisitAtomId(idContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
                     //Do nothing, try next cast
                 }
@@ -193,7 +193,7 @@ namespace OG.ASTBuilding.Shapes
                 return VisitNumber(numberContext);
                 
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             {
                 throw new AstNodeCreationException("Could not convert AtomContext into " +
                                                    "AtomfuncCallContext, AtomXYValueContext, AtomIdContext, or NumberContext ");
@@ -236,7 +236,7 @@ namespace OG.ASTBuilding.Shapes
                     OGParser.SingleAtomContext singleAtomContext = (OGParser.SingleAtomContext) factorContext;
                     return VisitSingleAtom(singleAtomContext);
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
                    
                 }
@@ -248,7 +248,7 @@ namespace OG.ASTBuilding.Shapes
 
                     //Visit
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException )
                 {
                     //Do nothing
                 }
@@ -296,17 +296,20 @@ namespace OG.ASTBuilding.Shapes
                     {
                         return new AdditionNode(rhsNode, lhsNode);
                     }
-                    else if (context.op.Text.Contains("/")) ;
+                    
+                    if (context.op.Text.Contains("/")) 
                     {
-                        return new SubtractionNode(rhsNode, lhsNode);
+                        return new DivisionNode(rhsNode, lhsNode);
                     }
-                
+
                     break;
                 default:
-                   
                     throw new AstNodeCreationException("InfixMultExprContext " + 
                                                        context.GetText() + " did not contain * or /");
                 }
+            
+            throw new AstNodeCreationException("InfixMultExprContext " + 
+                                               context.GetText() + " did not contain * or /");
         }
         
         public override MathNode VisitSingleAtom(OGParser.SingleAtomContext context)
@@ -323,7 +326,6 @@ namespace OG.ASTBuilding.Shapes
         /// <exception cref="AstNodeCreationException"></exception>
         public override MathNode VisitAtomfuncCall(OGParser.AtomfuncCallContext context)
         {
-            
             OGParser.FunctionCallContext funcCallContext = context.funcCall;
             _functionCallNodeExtractor = new MathFunctionCallNodeExtractor();
            return  _functionCallNodeExtractor.VisitFunctionCall(funcCallContext);

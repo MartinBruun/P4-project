@@ -51,7 +51,7 @@ namespace OG.ASTBuilding.Visitors
                 return VisitUntilFuncCall(funcCallContext);
 
             }
-            catch (InvalidCastException e)
+            catch (InvalidCastException )
             {}
 
             OGParser.UntilConditionContext untilConditionContext = (OGParser.UntilConditionContext) context;

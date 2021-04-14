@@ -41,7 +41,7 @@ namespace OG.Compiler
                     (IParseTree) OGParser.GetType().GetMethod(Visitor.TopNode).Invoke(OGParser, null);
                 return parseTree;
             }
-            catch(NullReferenceException nullError)
+            catch(NullReferenceException)
             {
                 throw new NullReferenceException(
                     $"TypeChecker.CreateTopNodeParseTree tries to access method ({Visitor.TopNode}) which does not exist.\n" +
