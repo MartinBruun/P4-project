@@ -8,12 +8,6 @@ jobs:
   CheckBuild:
     runs-on: windows-latest
     steps:
-      - name: Add a fake 'git' to the PATH to force checkout to download zipball instead
-# Check this link to see what this means: https://github.com/actions/checkout/issues/314
-        shell: cmd
-        run: |
-          echo echo hello > git.bat
-          echo ::add-path::%CD%
       - name: Checks out to current branch
         uses: actions/checkout@v1.1.0
       - name: Add msbuild to PATH
