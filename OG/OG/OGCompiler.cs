@@ -17,7 +17,7 @@ namespace OG
         private static void Main(string[] args)
         {
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
-            // test comment
+            // test commen
             
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
