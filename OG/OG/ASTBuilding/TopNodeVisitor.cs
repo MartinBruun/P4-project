@@ -15,6 +15,16 @@ namespace OG.ASTBuilding
             TopNode = topNodeRuleText;
         }
 
+        public TopNodeVisitor()
+        {
+            if (!OGParser.ruleNames.Contains("program"))
+            {
+                throw new ArgumentException("No such rule name in OGParser ruleNames array");
+            }
+            TopNode = "program";
+        }
+
+
         public string TopNode { get; set; }
     }
 

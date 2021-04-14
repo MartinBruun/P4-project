@@ -23,12 +23,15 @@ namespace OG
             LexerContainer lexCon  = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
             
+            
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
-                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser);
+                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("boolExpression"));
+            
+            ProgramNode p = astContainer.AstTreeTopNode;
 
 
             //ASTContainer<AstBuilderVisitor, ProgramNode> ast = new ASTContainer<AstBuilderVisitor, ProgramNode>(parCon.Parser);
-            
+
 
             /*
              

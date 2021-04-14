@@ -25,39 +25,32 @@ namespace OG.Compiler
         /// </summary>
         private IParseTree ParseTree { get; set; }
 
-        public TNode AstTopNode { get; private set; }
+        public TNode AstTreeTopNode { get; private set; }
         public AstBuilderContainer(OGParser parser)
         {
             Parser = parser;
             AstBuilder = new TVisitor();
             ParseTree = CreateStartNode();
-            AstTopNode = BuildAst();
+            AstTreeTopNode = BuildAst();
+        }
+
+        public AstBuilderContainer(OGParser parser, TVisitor visitor)
+        {
+            AstBuilder = visitor;
         }
         
-        public AstBuilderContainer(OGParser parser, string topNodeText)
-        {
-            Parser = parser;
-            AstBuilder = new TVisitor();
-            ParseTree = CreateStartNode();
-            AstTopNode = BuildAst();
-        }
+        
+        
 
         private TNode BuildAst()
         {
             AstBuilder = new TVisitor();
-            AstTopNode =  AstBuilder.Visit(ParseTree);
+            AstTreeTopNode =  AstBuilder.Visit(ParseTree);
 
-            return AstTopNode;
+            return AstTreeTopNode;
         }
         
-        private TNode BuildAst(string topRuleName)
-        {
-            AstBuilder = new TVisitor();
-            AstTopNode =  AstBuilder.Visit(ParseTree);
-
-            return AstTopNode;
-        }
-        
+       
         private IParseTree CreateStartNode()
         {
             try
