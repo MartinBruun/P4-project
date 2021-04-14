@@ -11,7 +11,7 @@ namespace OG.ASTBuilding.Shapes
     {
         private BoolNodeExtractor _boolNodeExtractor;
         private MathNodeExtractor _mathNodeExtractor;
-        private FunctionCallExtractor _functionCallNodeExtractor;
+        private FunctionCallNodeExtractor _functionCallNodeNodeExtractor;
 
         public ParameterNodeExtractor()
         {
@@ -63,10 +63,10 @@ namespace OG.ASTBuilding.Shapes
 
             if (functionExpressionContext != null && !functionExpressionContext.IsEmpty)
             {
-                _functionCallNodeExtractor = new FunctionCallExtractor();
-                FunctionCall functionCall = _functionCallNodeExtractor.VisitFunctionCall(functionExpressionContext);
+                _functionCallNodeNodeExtractor = new FunctionCallNodeExtractor();
+                FunctionCallNode functionCallNode = _functionCallNodeNodeExtractor.VisitFunctionCall(functionExpressionContext);
                 
-                return new FunctionCallParameterNode(functionCall);
+                return new FunctionCallParameterNode(functionCallNode);
             }
 
             return null;
@@ -125,9 +125,9 @@ namespace OG.ASTBuilding.Shapes
         {
             
             OGParser.FunctionCallContext functionCallContext = funcCallContext.funcCall;
-            _functionCallNodeExtractor = new FunctionCallExtractor();
-            FunctionCall funcCall = _functionCallNodeExtractor.VisitFunctionCall(functionCallContext);
-            return new FunctionCallParameterNode(funcCall);
+            _functionCallNodeNodeExtractor = new FunctionCallNodeExtractor();
+            FunctionCallNode funcCallNode = _functionCallNodeNodeExtractor.VisitFunctionCall(functionCallContext);
+            return new FunctionCallParameterNode(funcCallNode);
         }
 
 
