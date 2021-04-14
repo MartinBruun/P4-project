@@ -618,7 +618,7 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitAtomXYValue([NotNull] OGParser.AtomXYValueContext context) { return VisitChildren(context); }
+	public virtual Result VisitAtomXyValue([NotNull] OGParser.AtomXYValueContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>atomId</c>
 	/// labeled alternative in <see cref="OGParser.atom"/>.

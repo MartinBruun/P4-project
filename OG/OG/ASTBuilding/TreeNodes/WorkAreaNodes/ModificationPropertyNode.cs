@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using OG.ASTBuilding;
-
-namespace OG.ASTBuilding.MachineSettings
+﻿namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
 {
     public abstract class ModificationPropertyNode : MachineSettingNode
     {

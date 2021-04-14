@@ -10,12 +10,14 @@ using OG.ASTBuilding;
 using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
-using OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
+using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 using OG.ASTBuilding.Visitors;
 using OG.Compiler;
 
 namespace Tests
 {
+    /*
     public class AstBuilderTests
     {
         private TNode CreateAST<TNode, TVisitor>(string fileName, string dirName) 
@@ -75,5 +77,5 @@ namespace Tests
             // Assert.AreEqual(0, node.SizeProperty.ZMin.Value);
             // Assert.AreEqual(100, node.SizeProperty.ZMax.Value);
         }
-    }
+    }*/
 }

@@ -23,7 +23,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checks out to current branch
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Uses java to make use of antlr4 possible
         uses: actions/setup-java@v1
         with:

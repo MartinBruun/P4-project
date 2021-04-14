@@ -395,7 +395,7 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAtomXYValue([NotNull] OGParser.AtomXYValueContext context);
+	Result VisitAtomXyValue([NotNull] OGParser.AtomXYValueContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>atomId</c>
 	/// labeled alternative in <see cref="OGParser.atom"/>.
