@@ -10,7 +10,8 @@ using OG.ASTBuilding;
 using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
-using OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
+using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 using OG.ASTBuilding.Visitors;
 using OG.Compiler;
 

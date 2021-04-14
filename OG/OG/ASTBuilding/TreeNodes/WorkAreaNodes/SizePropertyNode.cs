@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using OG.ASTBuilding;
+﻿using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.MachineSettings
+namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
 {
     public class SizePropertyNode : WorkAreaSettingNode
     {

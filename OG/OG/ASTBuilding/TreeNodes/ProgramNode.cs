@@ -1,12 +1,9 @@
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using Antlr4.Runtime.Atn;
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Functions;
 using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
-namespace OG.ASTBuilding
+namespace OG.ASTBuilding.TreeNodes
 {
     public class ProgramNode : AstStartNode 
      {

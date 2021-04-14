@@ -1,4 +1,4 @@
-﻿namespace OG.ASTBuilding.Terminals
+﻿namespace OG.ASTBuilding.TreeNodes.TerminalNodes
 {
     public class IdNode : AstNode
     {

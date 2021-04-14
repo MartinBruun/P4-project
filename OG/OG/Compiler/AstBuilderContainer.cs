@@ -1,17 +1,19 @@
 ﻿using System;
 using Antlr4.Runtime.Tree;
 using OG.ASTBuilding;
+using OG.ASTBuilding.TreeNodes;
 
-namespace OG
+namespace OG.Compiler
 {
+    
     public class AstBuilderContainer<TVisitor, TNode>
-        where TVisitor : OGBaseVisitor<TNode>, ITopNodeable,new()
-        where TNode    : AstStartNode
+        where TVisitor : TopNodeVisitor<TNode>, new()
+        where TNode    : AstNode
     {
         /// <summary>
         /// Parser used to create parse tree from a start rule.
         /// </summary>
-        private OGParser Parser { get; set; }
+        private OGParser Parser { get; }
         
         /// <summary>
         /// Parse tree visitor used to go through parse tree and create AST nodes
@@ -23,23 +25,35 @@ namespace OG
         /// </summary>
         private IParseTree ParseTree { get; set; }
 
-        public TNode Ast { get; private set; }
+        public TNode AstTreeTopNode { get; private set; }
         public AstBuilderContainer(OGParser parser)
         {
             Parser = parser;
             AstBuilder = new TVisitor();
             ParseTree = CreateStartNode();
-            Ast = BuildAST();
+            AstTreeTopNode = BuildAst();
         }
 
-        private TNode BuildAST()
+        public AstBuilderContainer(OGParser parser, TVisitor visitor)
         {
-            AstBuilder = new TVisitor();
-            Ast =  AstBuilder.Visit(ParseTree);
-
-            return Ast;
+            Parser = parser;
+            AstBuilder = visitor;
+            ParseTree = CreateStartNode();
+            AstTreeTopNode = BuildAst();
         }
         
+        
+        
+
+        private TNode BuildAst()
+        {
+            AstBuilder = new TVisitor();
+            AstTreeTopNode =  AstBuilder.Visit(ParseTree);
+
+            return AstTreeTopNode;
+        }
+        
+       
         private IParseTree CreateStartNode()
         {
             try
@@ -54,7 +68,7 @@ namespace OG
 
                 return ParseTree;
             }
-            catch(NullReferenceException nullError)
+            catch(NullReferenceException )
             {
                 throw new NullReferenceException(
                     $"TypeChecker.CreateTopNodeParseTree tries to access method ({AstBuilder.TopNode}) which does not exist.\n" +
