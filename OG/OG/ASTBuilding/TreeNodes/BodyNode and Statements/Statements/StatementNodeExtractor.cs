@@ -1,10 +1,10 @@
-﻿
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.TreeNodes.BodyNodes;
+﻿using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
 
-namespace OG.AST.Functions
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements
 {
     public class StatementNodeExtractor : OGBaseVisitor<StatementNode>
     {
@@ -26,7 +26,7 @@ namespace OG.AST.Functions
                 return declarationNode;
             }
 
-            CommandNode commandNode = _commandNodeExtractor.VisitStmt(context);
+            CommandNode.CommandNode commandNode = _commandNodeExtractor.VisitStmt(context);
             if (commandNode != null)
             {
                 return commandNode;

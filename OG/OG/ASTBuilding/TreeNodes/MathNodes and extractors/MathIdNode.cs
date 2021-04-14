@@ -1,4 +1,6 @@
-﻿namespace OG.ASTBuilding.Terminals
+﻿using OG.ASTBuilding.TreeNodes.TerminalNodes;
+
+namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
     public class MathIdNode : TerminalMathNode
     {

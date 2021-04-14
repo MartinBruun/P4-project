@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.Boolean_nodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.TreeNodes.BoolNodes
+namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
     public class BoolFunctionCallNode : BoolTerminalNode, IFunctionCallNode
     {

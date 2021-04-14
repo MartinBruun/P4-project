@@ -6,6 +6,8 @@ using OG;
 using OG.ASTBuilding;
 using OG.ASTBuilding.MathExpression;
 using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 
 namespace OG.ASTBuilding.MachineSettings

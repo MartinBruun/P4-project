@@ -1,11 +1,7 @@
+using OG.ASTBuilding.TreeNodes.PointReferences;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
- using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.TreeNodes;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
- using OG.ASTBuilding.TreeNodes.DeclarationNodes;
-
-
- namespace OG.ASTBuilding.Terminals
+namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
     public class ParameterNode : AstNode
     {

@@ -1,4 +1,4 @@
-﻿namespace OG.ASTBuilding.Terminals
+﻿namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
     public interface IInfixMathNode
     {

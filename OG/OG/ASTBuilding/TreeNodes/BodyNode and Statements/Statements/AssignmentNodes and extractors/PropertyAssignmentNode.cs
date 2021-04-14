@@ -1,7 +1,7 @@
-﻿using OG.ASTBuilding.Terminals;
+﻿using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using CoordinateXyValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXyValueNode;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
     public class PropertyAssignmentNode : AssignmentNode
     {

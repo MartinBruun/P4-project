@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security;
-using System.Threading;
-using System.Xml.Schema;
 using Antlr4.Runtime.Misc;
-using OG.ASTBuilding.Draw;
+using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 
-namespace OG.ASTBuilding.MachineSettings
+namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
 {
     public class MachineSettingNodeExtractor : OGBaseVisitor<MachineSettingNode>
     {

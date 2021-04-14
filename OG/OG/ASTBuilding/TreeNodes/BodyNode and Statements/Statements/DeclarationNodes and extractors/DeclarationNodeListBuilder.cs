@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes;
-using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors
 {
     public class DeclarationNodeListBuilder : OGBaseVisitor<List<DeclarationNode>>
     {

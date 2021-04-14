@@ -1,14 +1,8 @@
 ﻿using System.Collections.Generic;
-using Antlr4.Runtime.Misc;
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.MathExpression;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes;
-using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.PointReferences;
 
-namespace OG.ASTBuilding.Visitors
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
     public class AntlrASTToMovementCommand : OGBaseVisitor<MovementCommandNode>
     {

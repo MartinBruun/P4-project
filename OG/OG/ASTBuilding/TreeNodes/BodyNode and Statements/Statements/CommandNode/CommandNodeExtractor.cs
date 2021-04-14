@@ -1,8 +1,4 @@
-﻿using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.Visitors;
-
-namespace OG.AST.Functions
+﻿namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
     public class CommandNodeExtractor : OGBaseVisitor<CommandNode>
     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.FunctionCalls;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
     public class FunctionCallAssignNode : AssignmentNode, IFunctionCallNode
     {

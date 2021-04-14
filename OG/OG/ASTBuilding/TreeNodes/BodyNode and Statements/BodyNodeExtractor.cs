@@ -1,9 +1,8 @@
-﻿
-using System.Collections.Generic;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.TreeNodes.BodyNodes;
+﻿using System.Collections.Generic;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements;
 
-namespace OG.AST.Functions
+
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements
 {
     public class BodyNodeExtractor : OGBaseVisitor<BodyNode>
     {

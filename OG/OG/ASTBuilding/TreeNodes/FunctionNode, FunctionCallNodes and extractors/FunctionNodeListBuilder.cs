@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using OG.ASTBuilding.Functions;
 
-namespace OG.AST.Functions
+namespace OG.ASTBuilding.TreeNodes
 {
     /// <summary>
     /// Visits a single function declaration and builds a FunctionNode from it by building a BodyNode, IdNode, and setting return type of the node. Global symbol table for functions is checked for duplicate values.

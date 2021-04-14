@@ -1,4 +1,4 @@
-﻿namespace OG.ASTBuilding.TreeNodes.BoolNodes
+﻿namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 {
     public class OrComparerNode : BoolComparerNode
     {

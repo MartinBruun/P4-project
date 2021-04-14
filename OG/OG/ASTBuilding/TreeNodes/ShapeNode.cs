@@ -1,6 +1,9 @@
-﻿using OG.ASTBuilding.Terminals;
+﻿using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes
 {
     public class ShapeNode : AstNode
     {

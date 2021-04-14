@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using OG.ASTBuilding;
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Functions;
 using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.TreeNodes;
 
 namespace OG.ASTBuilding
 {

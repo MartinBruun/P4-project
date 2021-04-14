@@ -1,12 +1,14 @@
 ﻿using System;
 using Antlr4.Runtime.Tree;
 using OG.ASTBuilding;
+using OG.ASTBuilding.TreeNodes;
 
-namespace OG
+namespace OG.Compiler
 {
+    
     public class AstBuilderContainer<TVisitor, TNode>
-        where TVisitor : OGBaseVisitor<TNode>, ITopNodeable,new()
-        where TNode    : AstStartNode
+        where TVisitor : TopNodeVisitor<TNode>, new()
+        where TNode    : AstNode
     {
         /// <summary>
         /// Parser used to create parse tree from a start rule.
@@ -23,21 +25,37 @@ namespace OG
         /// </summary>
         private IParseTree ParseTree { get; set; }
 
-        public TNode Ast { get; private set; }
+        public TNode AstTopNode { get; private set; }
         public AstBuilderContainer(OGParser parser)
         {
             Parser = parser;
             AstBuilder = new TVisitor();
             ParseTree = CreateStartNode();
-            Ast = BuildAst();
+            AstTopNode = BuildAst();
+        }
+        
+        public AstBuilderContainer(OGParser parser, string topNodeText)
+        {
+            Parser = parser;
+            AstBuilder = new TVisitor();
+            ParseTree = CreateStartNode();
+            AstTopNode = BuildAst();
         }
 
         private TNode BuildAst()
         {
             AstBuilder = new TVisitor();
-            Ast =  AstBuilder.Visit(ParseTree);
+            AstTopNode =  AstBuilder.Visit(ParseTree);
 
-            return Ast;
+            return AstTopNode;
+        }
+        
+        private TNode BuildAst(string topRuleName)
+        {
+            AstBuilder = new TVisitor();
+            AstTopNode =  AstBuilder.Visit(ParseTree);
+
+            return AstTopNode;
         }
         
         private IParseTree CreateStartNode()

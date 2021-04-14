@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using Antlr4.Runtime;
 using OG.ASTBuilding;
-using OG.ASTBuilding.Functions;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.Compiler;
 
 namespace OG

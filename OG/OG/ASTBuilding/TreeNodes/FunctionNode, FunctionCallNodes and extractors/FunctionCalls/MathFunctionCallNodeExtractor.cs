@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Terminals;
+﻿using System.Collections.Generic;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
     public class MathFunctionCallNodeExtractor : OGBaseVisitor<MathFunctionCallNode>
     {

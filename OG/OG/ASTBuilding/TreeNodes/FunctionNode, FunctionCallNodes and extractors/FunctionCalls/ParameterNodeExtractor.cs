@@ -1,11 +1,11 @@
 ﻿using System;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using OG.ASTBuilding.Shapes;
+using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.PointReferences;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
     public class ParameterNodeExtractor : OGBaseVisitor<ParameterNode>
     {

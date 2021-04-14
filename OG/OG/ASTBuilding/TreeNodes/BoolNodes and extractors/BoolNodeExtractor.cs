@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Reflection.Metadata;
-using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
+using OG.ASTBuilding.TreeNodes.FunctionCalls;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 {
     public class BoolNodeExtractor : OGBaseVisitor<BoolNode>
     {

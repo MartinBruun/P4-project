@@ -1,6 +1,7 @@
-﻿using OG.ASTBuilding;
+﻿using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 
-namespace OG.ASTBuilding.Terminals
+namespace OG.ASTBuilding.TreeNodes.TerminalNodes
 {
     public class NumberNode: TerminalMathNode
     {

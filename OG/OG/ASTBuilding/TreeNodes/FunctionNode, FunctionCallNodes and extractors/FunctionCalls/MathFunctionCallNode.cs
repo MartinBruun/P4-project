@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Terminals
+namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
     public class MathFunctionCallNode : TerminalMathNode, IFunctionCallNode
     {

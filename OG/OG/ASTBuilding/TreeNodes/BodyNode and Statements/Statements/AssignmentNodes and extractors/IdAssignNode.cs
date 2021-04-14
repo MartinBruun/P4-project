@@ -1,7 +1,6 @@
-﻿using System;
-using OG.ASTBuilding.Terminals;
+﻿using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
     public class IdAssignNode : AssignmentNode
     {

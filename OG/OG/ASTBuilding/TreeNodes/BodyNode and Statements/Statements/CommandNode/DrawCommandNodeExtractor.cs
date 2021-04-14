@@ -1,9 +1,8 @@
 ﻿using System;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using OG.ASTBuilding.TreeNodes.PointReferences;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Draw
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
     public class DrawCommandNodeExtractor : OGBaseVisitor<DrawCommandNode>
     {

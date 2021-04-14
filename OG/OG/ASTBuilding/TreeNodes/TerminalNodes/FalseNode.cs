@@ -1,7 +1,6 @@
-﻿using OG.ASTBuilding.TreeNodes.Boolean_nodes_and_extractors;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
+﻿using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 
-namespace OG.ASTBuilding.Terminals
+namespace OG.ASTBuilding.TreeNodes.TerminalNodes
 {
     public class FalseNode : BoolTerminalNode
     {

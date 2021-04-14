@@ -1,8 +1,8 @@
 ﻿using System;
-using OG.ASTBuilding.Functions;
-using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.AST.Functions
+namespace OG.ASTBuilding.TreeNodes
 {
     public class FunctionNodeExtractor : OGBaseVisitor<FunctionNode>
     {

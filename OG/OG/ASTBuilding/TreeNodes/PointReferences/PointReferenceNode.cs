@@ -1,9 +1,4 @@
-﻿using System;
-using System.Globalization;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.Terminals;
-
-namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
+﻿namespace OG.ASTBuilding.TreeNodes.PointReferences
 {
     /// <summary>
     /// This one is iffy. Need to find a way to represent all point references. This gonna be hard.

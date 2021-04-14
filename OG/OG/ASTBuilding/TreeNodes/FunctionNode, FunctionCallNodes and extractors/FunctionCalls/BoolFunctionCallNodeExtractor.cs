@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
     public class BoolFunctionCallNodeExtractor : OGBaseVisitor<BoolFunctionCallNode>
     {

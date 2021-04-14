@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using OG.AST.Functions;
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Functions;
 using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.TreeNodes.Function_and_shapes;
+using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
+using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.ASTBuilding
 {
-    public class AstBuilder : OGBaseVisitor<ProgramNode>, ITopNodeable
+    public class AstBuilder : TopNodeVisitor<ProgramNode>
     {
         private readonly DrawNodeListBuilder _drawNodeListBuilder = new DrawNodeListBuilder();
         private readonly FunctionNodeListBuilder _functionNodeListBuilder = new FunctionNodeListBuilder();
         private readonly MachineSettingNodeExtractor _settingsNodeExtractor = new MachineSettingNodeExtractor();
         private readonly ShapeNodeListBuilderExtractor _shapeNodeListBuilderExtractor = new ShapeNodeListBuilderExtractor();
-        public string TopNode { get; set; } = "program";
-        public AstBuilder()
+
+        public AstBuilder() : base("program")
         {
-           
+            
         }
+
+
         public override ProgramNode VisitProg(OGParser.ProgContext context)
         {
             MachineSettingNode machineSettingNode = null;
@@ -58,5 +59,8 @@ namespace OG.ASTBuilding
 
         }
 
+        public AstBuilder(string topNodeRuleText) : base(topNodeRuleText)
+        {
+        }
     }
 }

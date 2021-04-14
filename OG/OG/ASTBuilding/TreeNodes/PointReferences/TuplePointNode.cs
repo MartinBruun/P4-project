@@ -1,6 +1,7 @@
 ﻿using OG.ASTBuilding.Terminals;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 
-namespace OG.ASTBuilding.TreeNodes.DeclarationNodes
+namespace OG.ASTBuilding.TreeNodes.PointReferences
 {
     public class TuplePointNode : PointReferenceNode
     {

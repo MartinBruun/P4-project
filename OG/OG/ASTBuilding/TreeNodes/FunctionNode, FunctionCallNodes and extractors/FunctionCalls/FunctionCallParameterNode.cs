@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using OG.ASTBuilding.TreeNodes;
-using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Terminals
+namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
     public class FunctionCallParameterNode : ParameterNode, IFunctionCallNode
     {

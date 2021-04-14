@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.PointReferences;
 
-namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
     public class CurveCommandNode : MovementCommandNode
     {

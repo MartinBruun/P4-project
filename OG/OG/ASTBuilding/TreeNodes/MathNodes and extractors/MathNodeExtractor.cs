@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using Antlr4.Runtime.Tree;
-using OG.ASTBuilding.Draw;
+using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using OG.ASTBuilding.TreeNodes.FunctionCalls;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
     public class MathNodeExtractor : OGBaseVisitor<MathNode>
     {

@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using OG.AST.Functions;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes;
-using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
+using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.FunctionCalls;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 
-namespace OG.ASTBuilding.Visitors
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
     public class AntlrToIterationCommand:OGBaseVisitor<IterationNode>
     {

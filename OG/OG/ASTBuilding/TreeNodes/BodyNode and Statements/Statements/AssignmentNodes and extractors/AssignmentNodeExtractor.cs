@@ -1,12 +1,11 @@
-﻿
+﻿using System;
+using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.PointReferences;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using CoordinateXyValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXyValueNode;
 
-using System;
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
-
-namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
     public class AssignmentNodeExtractor : OGBaseVisitor<AssignmentNode>
     {

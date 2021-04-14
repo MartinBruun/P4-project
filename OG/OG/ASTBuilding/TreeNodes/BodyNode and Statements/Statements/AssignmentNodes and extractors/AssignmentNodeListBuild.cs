@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors;
+﻿using System.Collections.Generic;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
     public class AssignmentNodeListBuild : OGBaseVisitor<List<AssignmentNode>>
     {

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-using OG.ASTBuilding.Draw;
-using OG.ASTBuilding.Shapes;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.PointReferences;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors
 {
     public class DeclarationNodeExtractor : OGBaseVisitor<DeclarationNode>
     {

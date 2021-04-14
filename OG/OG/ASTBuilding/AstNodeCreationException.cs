@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OG.ASTBuilding.Draw
+namespace OG.ASTBuilding
 {
     public class AstNodeCreationException : Exception
     {

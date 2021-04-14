@@ -1,10 +1,6 @@
-﻿using System;
-using System.Linq.Expressions;
-using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes;
-using OG.ASTBuilding.TreeNodes.BodyNodes;
+﻿using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
     public class AssignmentNode : StatementNode
     {

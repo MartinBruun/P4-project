@@ -1,6 +1,4 @@
-﻿using OG.ASTBuilding.Shapes;
-
-namespace OG.ASTBuilding.TreeNodes.BodyNodes.CommandNodes
+﻿namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
     public abstract  class  IterationNode : CommandNode
     {

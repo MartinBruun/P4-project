@@ -1,6 +1,4 @@
-﻿using OG.ASTBuilding.TreeNodes;
-
-namespace OG.ASTBuilding.Terminals
+﻿namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
     public abstract class MathNode : ExpressionNode
     {

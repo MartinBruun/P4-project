@@ -1,4 +1,6 @@
-﻿namespace OG.ASTBuilding.Terminals
+﻿using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+
+namespace OG.ASTBuilding.Terminals
 {
     public class CoordinateXyValueNode : TerminalMathNode
     {

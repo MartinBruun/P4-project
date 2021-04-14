@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-using OG.ASTBuilding.Draw;
+using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using OG.ASTBuilding.TreeNodes.FunctionCalls;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.PointReferences
 {
     public class PointReferenceNodeExtractor : OGBaseVisitor<PointReferenceNode>
     {

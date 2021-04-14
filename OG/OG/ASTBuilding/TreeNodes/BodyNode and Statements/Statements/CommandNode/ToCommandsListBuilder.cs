@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using OG.ASTBuilding.TreeNodes.DeclarationNodes;
+using OG.ASTBuilding.TreeNodes.PointReferences;
 
-namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
     public class ToCommandsListBuilder : OGBaseVisitor<List<PointReferenceNode>>
     {

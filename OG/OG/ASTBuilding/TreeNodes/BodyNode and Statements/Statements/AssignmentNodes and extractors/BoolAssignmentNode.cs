@@ -1,7 +1,7 @@
-﻿using OG.ASTBuilding.Terminals;
-using OG.ASTBuilding.TreeNodes.BoolNodes;
+﻿using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
-namespace OG.ASTBuilding.Shapes
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
     public class BoolAssignmentNode : AssignmentNode
     {

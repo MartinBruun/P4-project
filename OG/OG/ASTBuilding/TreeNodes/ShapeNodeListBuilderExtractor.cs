@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using OG.ASTBuilding.Shapes;
 
-namespace OG.ASTBuilding.TreeNodes.Function_and_shapes
+namespace OG.ASTBuilding.TreeNodes
 {
     public class ShapeNodeListBuilderExtractor : OGBaseVisitor<List<ShapeNode>>
     {
