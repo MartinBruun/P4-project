@@ -43,10 +43,10 @@ namespace OG.ASTBuilding.TreeNodes
         
         private DrawCommandNode ExtractDrawCommandNode(OGParser.DrawCommandContext context)
         {
-            try
+            try //to create a DrawCommand
             {
                 DrawCommandNode result = null;
-                try
+                try //to create a DrawFromCommand
                 {
                     OGParser.DrawFromCmdContext fromContext = (OGParser.DrawFromCmdContext) context;
                     if (!fromContext.IsEmpty)

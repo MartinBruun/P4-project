@@ -9,6 +9,7 @@ using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting.Visitors;
 using OG.Compiler;
 
 namespace OG
@@ -37,8 +38,9 @@ namespace OG
             
             ProgramNode p = astContainer.AstTreeTopNode;
 
-            
-          
+            OG_ASTPretyPrinter v = new OG_ASTPretyPrinter();
+            p.Accept(v);
+
 
 
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
@@ -14,9 +14,9 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.AstVisiting.Visitors
 {
-    public class ToStringVisitor : IProgramVisitor
+    public class OG_ASTPretyPrinter:IProgramVisitor
     {
-        public void Visit(MathFunctionCallNode node)
+         public void Visit(MathFunctionCallNode node)
         {
             Console.WriteLine("MathfuncCall: " + node.ToString());
             Visit(node.FunctionName);
@@ -214,12 +214,22 @@ namespace OG.AstVisiting.Visitors
 
         public void Visit(DrawCommandNode node)
         {
-            Console.WriteLine(node.ToString());
+            
+            Console.WriteLine("DID I GET HERE?"+node.ToString());
         }
 
         public void Visit(DrawNode node)
         {
             Console.WriteLine("Found Draw node"+node.ToString());
+            foreach (var cmd in node.drawCommands)
+            {
+                Console.WriteLine("Found Draw element node");
+                if (cmd != null ){
+                    cmd.Id.Accept(this);
+                    // cmd.From.Accept(this);
+                }
+            }
+            
         }
 
         public void Visit(CoordinateXyValueNode node)
@@ -288,7 +298,6 @@ namespace OG.AstVisiting.Visitors
             node.drawNode.Accept(this);
         }
 
-
-   
+        
     }
 }
