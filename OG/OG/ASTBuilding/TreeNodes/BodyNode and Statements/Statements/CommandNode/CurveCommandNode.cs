@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class CurveCommandNode : MovementCommandNode
+    public class CurveCommandNode : MovementCommandNode, ICurveCommandNodeVisitable
     {
         public MathNode Angle;
 
@@ -13,5 +14,15 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         {
             Angle = angleExpression;
         }
+
+        public void Accept(ICurveCommandVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public interface ICurveCommandNodeVisitable
+    {
+        public void Accept(ICurveCommandVisitor visitor);
     }
 }

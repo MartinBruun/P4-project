@@ -1,9 +1,10 @@
 ﻿using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class DrawCommandNode : CommandNode
+    public class DrawCommandNode : CommandNode, IDrawNodeVisitable
     {
         public IdNode Id;
         public PointReferenceNode From;
@@ -18,6 +19,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         {
             Id = id;
             From = null;
+        }
+
+        public void Accept(IDrawNodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

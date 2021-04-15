@@ -1,10 +1,11 @@
 ﻿
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class FunctionNode : AstNode
+    public class FunctionNode : AstNode, IFunctionNodeVisitable
     {
         public IdNode Id { get; set; }
 
@@ -20,6 +21,11 @@ namespace OG.ASTBuilding.TreeNodes
         public override string ToString()
         {
             return "FunctionNode with ID: " + Id.ToString();
+        }
+
+        public void Accept(IFunctionNodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 

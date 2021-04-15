@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class ProgramNode : AstStartNode 
+    public class ProgramNode : AstStartNode, IProgramNodeVisitable
      {
          public List<MachineSettingNode> MachineSettingNodes { get; set; }
          public DrawNode drawNode;
@@ -33,14 +34,16 @@ namespace OG.ASTBuilding.TreeNodes
          {
              
          }
+
+         public void Accept(IProgramVisitor visitor)
+         {
+             visitor.Visit(this);
+         }
      }
 
     public abstract class AstStartNode : AstNode
     {
     }
 
-    public interface IAstStartNode : IAstNode
-    {
-        
-    }
+
 }

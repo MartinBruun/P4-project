@@ -1,4 +1,6 @@
-﻿namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
+﻿using OG.AstVisiting;
+
+namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 {
     public class BoolNode : ExpressionNode
     {

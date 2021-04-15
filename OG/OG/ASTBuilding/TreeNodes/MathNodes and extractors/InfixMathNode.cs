@@ -5,7 +5,7 @@
         public MathNode RHS { get; set; } = null;
         public MathNode LHS { get; set; } = null;
 
-        public InfixMathNode(MathNode rhs, MathNode lhs, MathType MathType):base(rhs.ToString(),MathType.GenericInfixNode)
+        public InfixMathNode(MathNode rhs, MathNode lhs, MathType mathType):base(rhs.ToString(),mathType)
         {
             LHS = lhs;
             RHS = rhs;

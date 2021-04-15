@@ -6,11 +6,18 @@ using OG.ASTBuilding;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.Compiler;
 
 namespace OG
 {
+
+    
+    
+    
+    
     public class OGCompiler
     {
         public static Dictionary<IdNode, FunctionNode> GlobalFunctionDeclarations = new Dictionary<IdNode, FunctionNode>();
@@ -18,6 +25,7 @@ namespace OG
         private static void Main(string[] args)
         {
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
+            
             
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
@@ -28,6 +36,10 @@ namespace OG
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("program"));
             
             ProgramNode p = astContainer.AstTreeTopNode;
+
+            
+          
+
 
 
             //ASTContainer<AstBuilderVisitor, ProgramNode> ast = new ASTContainer<AstBuilderVisitor, ProgramNode>(parCon.Parser);

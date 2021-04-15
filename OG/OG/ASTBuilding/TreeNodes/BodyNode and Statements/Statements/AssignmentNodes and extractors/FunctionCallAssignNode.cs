@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    public class FunctionCallAssignNode : AssignmentNode, IFunctionCallNode
+    public class FunctionCallAssignNode : AssignmentNode, IFunctionCallNode, 
+        IFunctionCallNodeVisitable
     {
         public FunctionCallAssignNode(IdNode id, List<ParameterNode> parameters) : base(id, AssignmentType.FunctionCallAssignment)
         {
@@ -14,5 +16,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
 
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
+     
+        public void Accept(IFunctionCallNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

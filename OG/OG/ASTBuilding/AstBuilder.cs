@@ -19,8 +19,7 @@ namespace OG.ASTBuilding
         {
             
         }
-
-
+        
         public override ProgramNode VisitProg(OGParser.ProgContext context)
         {
             MachineSettingNode machineSettingNode = null;

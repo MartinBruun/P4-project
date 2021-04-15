@@ -1,8 +1,9 @@
 ﻿using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class NumberIterationNode : IterationNode
+    public class NumberIterationNode : IterationNode, INumberIterationVisitable
     {
         public MathNode Iterations;
         
@@ -12,5 +13,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             Iterations = numberOfIterations;
         }
 
+        public void Accept(INumberIterationNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    public interface INumberIterationVisitable
+    {
+        public void Accept(INumberIterationNodeVisitor visitor);
     }
 }
