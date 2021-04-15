@@ -2,7 +2,7 @@
 
 namespace OG.AstVisiting
 {
-    public interface ICoodinateXyVisitor
+    public interface ICoordinateXyVisitor
     {
         public void Visit(CoordinateXyValueNode node);
         public void Visit(OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXyValueNode node);

@@ -2,7 +2,7 @@
 
 namespace OG.AstVisiting
 {
-    public interface IDeclarationVisitor : IFunctionCallNodeVisitor
+    public interface IDeclarationVisitor : IAssignmentVisitor
     {
         public void Visit(BoolDeclarationNode node);
         public void Visit(NumberDeclarationNode node);

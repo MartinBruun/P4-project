@@ -3,10 +3,12 @@ using OG.ASTBuilding.TreeNodes.FunctionCalls;
 
 namespace OG.AstVisiting
 {
-    public interface IFunctionCallNodeVisitor : IMathFuncCallVisitor, IBoolFuncCallVisitor, IPointFuncCallVisitor, IMathFunctionCallAssigmentVisitor
+    public interface IFunctionCallNodeVisitor : INativeFunctionCallsVisitor, IUntilFunctionCallVisitor
     {
-        public void Visit(UntilFunctionCallNode node);
-        public void Visit(ParameterNode node);
         public void Visit(FunctionCallNode node);
+    }
+
+    public interface INativeFunctionCallsVisitor: IMathFuncCallVisitor, IBoolFuncCallVisitor, IPointFuncCallVisitor, IParameterNodeVisitor
+    {
     }
 }

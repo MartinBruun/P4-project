@@ -22,7 +22,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 
         }
 
-        public void Accept(ICoodinateXyVisitor visitor)
+        public void Accept(ICoordinateXyVisitor visitor)
         {
             visitor.Visit(this);
         }

@@ -1,4 +1,5 @@
-﻿using OG.ASTBuilding.Terminals;
+﻿using System;
+using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors;
@@ -17,252 +18,276 @@ namespace OG.AstVisiting.Visitors
     {
         public void Visit(MathFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine("MathfuncCall: " + node.ToString());
+            Visit(node.FunctionName);
+            foreach (ParameterNode parameterNode in node.Parameters)
+            {
+                Visit(parameterNode);
+            }
         }
 
         public void Visit(BoolFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine("BoolFunc call: " + node.ToString());
+            Visit(node.FunctionName);
+            foreach (ParameterNode parameterNode in node.Parameters)
+            {
+                Visit(parameterNode);
+            }
         }
 
         public void Visit(PointFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine("PointFunc call: " + node.ToString());
+            Visit(node.FunctionName);
+            foreach (ParameterNode parameterNode in node.Parameters)
+            {
+                Visit(parameterNode);
+            }
         }
 
         public void Visit(FunctionCallAssignNode node)
         {
-            throw new System.NotImplementedException();
-        }
-
-        void IFunctionCallNodeVisitor.Visit(UntilFunctionCallNode node)
-        {
-            throw new System.NotImplementedException();
+            Console.WriteLine("PointFunc call assign: " + node.ToString());
+            Visit(node.FunctionName);
+            foreach (ParameterNode parameterNode in node.Parameters)
+            {
+                Visit(parameterNode);
+            }
         }
 
         public void Visit(UntilNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
+
+        }
+
+        public void Visit(FunctionCallParameterNode node)
+        {
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(ParameterNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(FunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(BoolDeclarationNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(NumberDeclarationNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(PointDeclarationNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(LineCommandNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(CurveCommandNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         void IUntilFunctionCallVisitor.Visit(UntilFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(NumberIterationNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(IdNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(AdditionNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(SubtractionNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(MultiplicationNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(DivisionNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(NumberNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(MathIdNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(PowerNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(LessThanComparerNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(GreaterThanComparerNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(EqualsComparerNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(NegationNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(OrComparerNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(AndComparerNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(FalseNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(TrueNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(PointReferenceIdNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(ShapeEndPointNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(ShapeStartPointNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(TuplePointNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(DrawCommandNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(DrawNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(CoordinateXyValueNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXyValueNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(PropertyAssignmentNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(MathAssignmentNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(BoolAssignmentNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(PointAssignmentNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(BodyNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(ShapeNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(IFunctionNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(FunctionNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(SizePropertyNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(WorkAreaSettingNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
 
         public void Visit(ProgramNode node)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(node.ToString());
         }
+
+
+   
     }
 }

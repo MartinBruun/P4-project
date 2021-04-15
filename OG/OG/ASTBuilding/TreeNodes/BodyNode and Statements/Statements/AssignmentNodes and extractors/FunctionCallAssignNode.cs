@@ -5,8 +5,8 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    public class FunctionCallAssignNode : AssignmentNode, IFunctionCallNode, 
-        IFunctionCallNodeVisitable
+    public class FunctionCallAssignNode : AssignmentNode, IFunctionCallNode, IFunctionCallAssignmentVisitable
+ 
     {
         public FunctionCallAssignNode(IdNode id, List<ParameterNode> parameters) : base(id, AssignmentType.FunctionCallAssignment)
         {
@@ -17,9 +17,16 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
      
-        public void Accept(IFunctionCallNodeVisitor visitor)
+        public void Accept(IFunctionCallAssignmentNodeVisitor visitor)
         {
             visitor.Visit(this);
         }
     }
+
+    public interface IFunctionCallAssignmentVisitable
+    {
+        public void Accept(IFunctionCallAssignmentNodeVisitor visitor);
+    }
+
+  
 }

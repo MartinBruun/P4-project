@@ -2,9 +2,14 @@
 
 namespace OG.AstVisiting
 {
-    public interface IParameterNodeVisitor
+    public interface IParameterNodeVisitor : IParameterFunctionCall, IMathNodeVisitor, IBoolNodeVisitor, IPointReferenceNodeVisitor
+    {
+
+        public void Visit(ParameterNode node);
+    }
+
+    public interface IParameterFunctionCall
     {
         public void Visit(FunctionCallParameterNode node);
-        public void Visit(ParameterNode node);
     }
 }

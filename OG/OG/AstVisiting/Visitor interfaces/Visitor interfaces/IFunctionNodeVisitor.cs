@@ -2,7 +2,7 @@
 
 namespace OG.AstVisiting
 {
-    public interface IFunctionNodeVisitor : IBodyNodeVisitor, IBoolFuncCallVisitor, IMathFuncCallVisitor, IPointFuncCallVisitor
+    public interface IFunctionNodeVisitor : IBodyNodeVisitor
     {
         public void Visit(IFunctionNode node);
         public void Visit(FunctionNode node);

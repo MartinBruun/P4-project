@@ -13,5 +13,10 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
         {
             visitor.Visit(this);
         }
+
+        public override string ToString()
+        {
+            return "FALSE";
+        }
     }
 }

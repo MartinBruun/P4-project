@@ -2,6 +2,6 @@
 {
     public interface ICoordinateXyVisitable
     {
-        public void Accept(ICoodinateXyVisitor visitor);
+        public void Accept(ICoordinateXyVisitor visitor);
     }
 }

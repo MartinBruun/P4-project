@@ -9,7 +9,7 @@ namespace OG.ASTBuilding.Terminals
         {
         }
 
-        public void Accept(ICoodinateXyVisitor visitor)
+        public void Accept(ICoordinateXyVisitor visitor)
         {
             visitor.Visit(this);
         }
