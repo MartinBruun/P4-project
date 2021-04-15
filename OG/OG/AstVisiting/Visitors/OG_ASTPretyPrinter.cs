@@ -17,43 +17,56 @@ namespace OG.AstVisiting.Visitors
     public class OG_ASTPretyPrinter:IProgramVisitor
     {
          public void Visit(MathFunctionCallNode node)
-        {
-            Console.WriteLine("MathfuncCall: " + node.ToString());
+         {
+             Console.WriteLine("function number");
             Visit(node.FunctionName);
+            Console.WriteLine("(");
+
             foreach (ParameterNode parameterNode in node.Parameters)
             {
                 Visit(parameterNode);
             }
+            Console.WriteLine(")");
+
         }
 
         public void Visit(BoolFunctionCallNode node)
         {
-            Console.WriteLine("BoolFunc call: " + node.ToString());
+            Console.WriteLine("function bool");
             Visit(node.FunctionName);
+            Console.WriteLine("(");
             foreach (ParameterNode parameterNode in node.Parameters)
             {
                 Visit(parameterNode);
             }
+            Console.WriteLine(")");  
         }
 
         public void Visit(PointFunctionCallNode node)
         {
-            Console.WriteLine("PointFunc call: " + node.ToString());
+            Console.WriteLine("function point");
             Visit(node.FunctionName);
+            Console.WriteLine("(");
             foreach (ParameterNode parameterNode in node.Parameters)
             {
                 Visit(parameterNode);
             }
+            Console.WriteLine(")");  
+
         }
 
+        //TODO: HVad er dette????
         public void Visit(FunctionCallAssignNode node)
         {
-            Console.WriteLine("PointFunc call assign: " + node.ToString());
+            Console.WriteLine("function assign???");
             Visit(node.FunctionName);
+            Console.WriteLine("(");
             foreach (ParameterNode parameterNode in node.Parameters)
             {
                 Visit(parameterNode);
             }
+            Console.WriteLine(")");  
+
         }
 
         public void Visit(UntilNode node)
@@ -64,7 +77,8 @@ namespace OG.AstVisiting.Visitors
 
         public void Visit(FunctionCallParameterNode node)
         {
-            Console.WriteLine(node.ToString());
+            
+            Console.WriteLine(node.ParameterId+":"+node.Expression);
         }
 
         public void Visit(ParameterNode node)
@@ -74,7 +88,10 @@ namespace OG.AstVisiting.Visitors
 
         public void Visit(FunctionCallNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.WriteLine(node.FunctionName);
+            Console.WriteLine(node.Parameters);
+
+
         }
 
         public void Visit(BoolDeclarationNode node)
@@ -197,6 +214,11 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine(node.ToString());
         }
 
+        public void Visit(IPointReferenceNode node)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Visit(ShapeEndPointNode node)
         {
             Console.WriteLine(node.ToString());
@@ -220,16 +242,27 @@ namespace OG.AstVisiting.Visitors
 
         public void Visit(DrawNode node)
         {
-            Console.WriteLine("Found Draw node"+node.ToString());
+            Console.WriteLine("draw{");
             foreach (var cmd in node.drawCommands)
             {
-                Console.WriteLine("Found Draw element node");
                 if (cmd != null ){
-                    cmd.Id.Accept(this);
-                    // cmd.From.Accept(this);
+                    if (cmd.From != null)
+                    {
+                        cmd.Id.Accept(this);
+                        cmd.From.Accept(this);
+                        Console.WriteLine(";\n");
+
+                    }
+                    else
+                    {
+                        cmd.Id.Accept(this);
+                        Console.WriteLine(";\n");
+
+
+                    }
                 }
             }
-            
+            Console.WriteLine("}\n");
         }
 
         public void Visit(CoordinateXyValueNode node)
@@ -274,6 +307,7 @@ namespace OG.AstVisiting.Visitors
 
         public void Visit(IFunctionNode node)
         {
+            
             Console.WriteLine(node.ToString());
         }
 
@@ -292,10 +326,35 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine(node.ToString());
         }
 
+        public void Visit(IMachineSettingVisitable node)
+        {
+            Console.WriteLine("Machine."+node.ToString());
+            node.Accept(this);
+        }
+
         public void Visit(ProgramNode node)
         {
-            Console.WriteLine("Found ProgramNode"+node.ToString());
+            Console.WriteLine("THE PROGRAM:\n\n");
+            
+            foreach (var setting in node.MachineSettingNodes)
+            {
+                Console.WriteLine("Found Setting....Needs fixing is recursive");
+                // setting.Accept(this);
+            }
+            
             node.drawNode.Accept(this);
+            
+            foreach (var item in node.FunctionDcls)
+            {
+                item.Accept(this);
+            }
+            
+            foreach (var item in node.ShapeDcls)
+            {
+                item.Accept(this);
+            }
+            
+            
         }
 
         

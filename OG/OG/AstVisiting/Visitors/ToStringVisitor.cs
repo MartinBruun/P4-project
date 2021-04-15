@@ -197,6 +197,11 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine(node.ToString());
         }
 
+        public void Visit(IPointReferenceNode node)
+        {
+            Console.WriteLine(node.ToString());
+        }
+
         public void Visit(ShapeEndPointNode node)
         {
             Console.WriteLine(node.ToString());
@@ -280,6 +285,11 @@ namespace OG.AstVisiting.Visitors
         public void Visit(WorkAreaSettingNode node)
         {
             Console.WriteLine(node.ToString());
+        }
+
+        public void Visit(IMachineSettingVisitable setting)
+        {
+            throw new NotImplementedException();
         }
 
         public void Visit(ProgramNode node)

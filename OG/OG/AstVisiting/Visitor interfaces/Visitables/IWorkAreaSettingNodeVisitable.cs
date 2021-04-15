@@ -1,6 +1,6 @@
 ﻿namespace OG.AstVisiting
 {
-    public interface IWorkAreaSettingNodeVisitable
+    public interface IWorkAreaSettingNodeVisitable: IMachineSettingVisitable
     {
         public void Accept(IWorkAreaSettingNodeVisitor visitor);
     }
