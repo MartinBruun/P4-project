@@ -32,10 +32,7 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             return "Type: " + MathNodeType.ToString() + "\t Value: " + Value;
         }
 
-        public void Accept(IAstVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+    
     }
 
     public interface IMathNode : IExpressionNode
