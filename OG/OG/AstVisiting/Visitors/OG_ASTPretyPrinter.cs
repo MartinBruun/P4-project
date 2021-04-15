@@ -2,6 +2,7 @@ using System;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors;
@@ -18,200 +19,227 @@ namespace OG.AstVisiting.Visitors
     {
          public void Visit(MathFunctionCallNode node)
          {
-             Console.WriteLine("function number");
+             Console.Write("function number");
             Visit(node.FunctionName);
-            Console.WriteLine("(");
+            Console.Write("(");
 
             foreach (ParameterNode parameterNode in node.Parameters)
             {
                 Visit(parameterNode);
             }
-            Console.WriteLine(")");
+            Console.Write(")");
 
         }
 
         public void Visit(BoolFunctionCallNode node)
         {
-            Console.WriteLine("function bool");
-            Visit(node.FunctionName);
-            Console.WriteLine("(");
+            Console.Write("function bool");
+            node.FunctionName.Accept(this);
+            Console.Write("(");
             foreach (ParameterNode parameterNode in node.Parameters)
             {
-                Visit(parameterNode);
+                parameterNode.Accept(this);
             }
-            Console.WriteLine(")");  
+            Console.Write(")");  
         }
 
         public void Visit(PointFunctionCallNode node)
         {
-            Console.WriteLine("function point");
-            Visit(node.FunctionName);
-            Console.WriteLine("(");
+            Console.Write("function point");
+            node.FunctionName.Accept(this);
+            Console.Write("(");
             foreach (ParameterNode parameterNode in node.Parameters)
             {
-                Visit(parameterNode);
+                parameterNode.Accept(this);
             }
-            Console.WriteLine(")");  
+            Console.Write(")");  
 
         }
 
         //TODO: HVad er dette????
         public void Visit(FunctionCallAssignNode node)
         {
-            Console.WriteLine("function assign???");
-            Visit(node.FunctionName);
-            Console.WriteLine("(");
+            Console.Write("function assign???");
+            node.FunctionName.Accept(this);
+            Console.Write("(");
             foreach (ParameterNode parameterNode in node.Parameters)
             {
-                Visit(parameterNode);
+                parameterNode.Accept(this);
             }
-            Console.WriteLine(")");  
+            Console.Write(")");  
 
         }
 
         public void Visit(UntilNode node)
         {
-            Console.WriteLine(node.ToString());
-
+            Console.Write(node.Predicate.Value);
+            node.Body.Accept(this);
         }
 
         public void Visit(FunctionCallParameterNode node)
         {
+            node.ParameterId.Accept(this);
             
-            Console.WriteLine(node.ParameterId+":"+node.Expression);
         }
 
         public void Visit(ParameterNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.ParamType + ":");
+            node.ParameterId.Accept(this);
         }
 
         public void Visit(FunctionCallNode node)
         {
-            Console.WriteLine(node.FunctionName);
-            Console.WriteLine(node.Parameters);
-
+            node.FunctionName.Accept(this);
+            Console.Write("(");
+            foreach (var p in node.Parameters)
+            {
+                    p.Accept(this);
+            }
+            Console.Write(")");
 
         }
 
         public void Visit(BoolDeclarationNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("bool ");
+            node.Id.Accept(this);
+            Console.Write("="+node.AssignedExpression.Value);
+
         }
 
         public void Visit(NumberDeclarationNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("number ");
+            node.Id.Accept(this);
+            Console.Write("="+node.AssignedExpression.Value);
         }
 
         public void Visit(PointDeclarationNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("point ");                        
+            node.Id.Accept(this);
+            Console.Write("="+node.AssignedExpression.Value);
         }
 
         public void Visit(LineCommandNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("line.");
+            node.From.Accept(this);
+            foreach (var t in node.To)
+            {
+                t.Accept(this);
+            }
+            
         }
 
         public void Visit(CurveCommandNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write($"line.angle({node.Angle.Value}).");
+            node.From.Accept(this);                        
+            foreach (var t in node.To)                     
+            {                                              
+                t.Accept(this);                            
+            }                                              
         }
 
         void IUntilFunctionCallVisitor.Visit(UntilFunctionCallNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("repeat.until("); 
+            node.Predicate.Accept(this);
+            Console.Write(")");
+            node.Body.Accept(this);
         }
 
         public void Visit(NumberIterationNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("repeat("+node.Iterations.Value + ")");
+            node.Body.Accept(this);
         }
 
         public void Visit(IdNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.Value);
         }
 
         public void Visit(AdditionNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.LHS +"+"+node.RHS) ;
+            
         }
 
         public void Visit(SubtractionNode node)
         {
-            Console.WriteLine(node.ToString());
-        }
+            Console.Write(node.LHS +"-"+node.RHS) ;        }
 
         public void Visit(MultiplicationNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.LHS +"*"+node.RHS) ;
         }
 
         public void Visit(DivisionNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.LHS +"/"+node.RHS) ;
         }
 
         public void Visit(NumberNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.NumberValue);
         }
 
         public void Visit(MathIdNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.AssignedValueId.Accept(this);
         }
 
         public void Visit(PowerNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.LHS +"^"+node.RHS) ;
         }
 
         public void Visit(LessThanComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.LHS +"<"+node.RHS) ;
         }
 
         public void Visit(GreaterThanComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.LHS +">"+node.RHS) ;
         }
 
         public void Visit(EqualsComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.LHS +"=="+node.RHS) ;
         }
 
         public void Visit(NegationNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.Value);
         }
 
         public void Visit(OrComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.LHS.Value + "||" + node.RHS.Value);
         }
 
         public void Visit(AndComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.LHS.Value + "&&" + node.RHS.Value);
         }
 
         public void Visit(FalseNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(" false ");
         }
 
         public void Visit(TrueNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(" true ");
         }
 
         public void Visit(PointReferenceIdNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.AssignedValue.Accept(this);
         }
 
         public void Visit(IPointReferenceNode node)
@@ -221,28 +249,32 @@ namespace OG.AstVisiting.Visitors
 
         public void Visit(ShapeEndPointNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.ShapeName.Accept(this);
+            Console.Write( node.Value );
+           
         }
 
         public void Visit(ShapeStartPointNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.ShapeName.Accept(this);   
+            Console.Write( node.Value );           
         }
 
         public void Visit(TuplePointNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("(" + node.XValue + "," + node.YValue + ")");
         }
 
+        //Never used
         public void Visit(DrawCommandNode node)
         {
-            
-            Console.WriteLine("DID I GET HERE?"+node.ToString());
+            node.Id.Accept(this);
+            node.From.Accept(this);
         }
 
         public void Visit(DrawNode node)
         {
-            Console.WriteLine("draw{");
+            Console.Write("draw{");
             foreach (var cmd in node.drawCommands)
             {
                 if (cmd != null ){
@@ -250,96 +282,121 @@ namespace OG.AstVisiting.Visitors
                     {
                         cmd.Id.Accept(this);
                         cmd.From.Accept(this);
-                        Console.WriteLine(";\n");
+                        Console.Write(";");
 
                     }
                     else
                     {
                         cmd.Id.Accept(this);
-                        Console.WriteLine(";\n");
-
-
+                        Console.Write(";");
+                        
                     }
                 }
             }
-            Console.WriteLine("}\n");
+            Console.Write("}\n");
         }
 
         public void Visit(CoordinateXyValueNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.Value);
         }
 
         public void Visit(ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXyValueNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
+            Console.Write(node.Property);
         }
 
         public void Visit(PropertyAssignmentNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
+            node.coordinateValueNode.Accept(this);
+            Console.Write(node.assignedValue.Value);
         }
 
         public void Visit(MathAssignmentNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
         }
 
         public void Visit(BoolAssignmentNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
+            Console.Write("="+node.AssignedValue.Value);
         }
 
         public void Visit(PointAssignmentNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.Id.Accept(this);                        
+            Console.Write("="+node.AssignedValue.Value); 
         }
 
         public void Visit(BodyNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("{\n");
+            foreach (var stmt in node.StatementNodes)
+            {
+                Console.Write("***FIX THIS STMTS***");
+                Console.Write(stmt.ToString());
+                Console.Write("***F***\n");
+            }
+
+            Console.Write("\n}\n");
+
+        }
+
+        public void Visit(IStatementNodeVisitable node)
+        {
+            node.Accept(this);
         }
 
         public void Visit(ShapeNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
+            node.Body.Accept(this);
         }
 
         public void Visit(IFunctionNode node)
         {
-            
-            Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
+            node.Body.Accept(this);
         }
 
         public void Visit(FunctionNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("function "+ node.ReturnType + " ");
+            node.Id.Accept(this);
+            Console.Write("( )");
+            node.Body.Accept(this);
         }
 
         public void Visit(SizePropertyNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("Xmin:"+node.XMin.Value + "Xmax:"+node.XMax.Value + "Ymin:"+node.YMin.Value + "Ymax:"+node.YMax.Value);
         }
 
         public void Visit(WorkAreaSettingNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.SizeProperty.Accept(this);
         }
 
         public void Visit(IMachineSettingVisitable node)
         {
-            Console.WriteLine("Machine."+node.ToString());
-            node.Accept(this);
+            Console.Write("\nFIXME***** Machine.WorkArea.size = \n");
+            ((WorkAreaSettingNode) node).Accept(this);
+            Console.Write("\nFIXME*****\n");
+
+            // node.Accept(this);
         }
 
         public void Visit(ProgramNode node)
         {
-            Console.WriteLine("THE PROGRAM:\n\n");
+            Console.Write("THE PROGRAM:\n\n");
             
             foreach (var setting in node.MachineSettingNodes)
             {
-                Console.WriteLine("Found Setting....Needs fixing is recursive");
-                // setting.Accept(this);
+                Console.Write("Found Setting....UGLY HACK in Visit(IMachineSettingVisitable node) but it works for now  is recursive\n");
+                setting.Accept(this);
             }
             
             node.drawNode.Accept(this);
@@ -353,8 +410,6 @@ namespace OG.AstVisiting.Visitors
             {
                 item.Accept(this);
             }
-            
-            
         }
 
         

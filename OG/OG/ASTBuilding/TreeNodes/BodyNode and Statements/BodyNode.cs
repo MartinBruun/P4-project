@@ -22,7 +22,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements
 
     public interface IBody
     {
-        public List<IStatementNode> StatementNodes { get; set; }
+        public List<StatementNode> StatementNodes { get; set; }
     }
 
 }

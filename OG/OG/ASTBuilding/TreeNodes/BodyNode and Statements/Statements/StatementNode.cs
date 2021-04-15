@@ -1,12 +1,17 @@
-﻿namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements
+﻿using OG.AstVisiting;
+
+namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements
 {
-    public abstract class StatementNode : AstNode
+    public  class StatementNode : AstNode, IStatementNodeVisitable
     {
-        
+        public void Accept(IStatementVisitor visitor)
+        {
+            visitor.Visit( this);
+        }
     }
 
-    public interface IStatementNode : IAstNode
+    public interface IStatementNodeVisitable : IAstNode
     {
-        
+        public void Accept(IStatementVisitor visitor);
     }
 }

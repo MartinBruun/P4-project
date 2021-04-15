@@ -2,6 +2,7 @@
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors;
@@ -260,6 +261,11 @@ namespace OG.AstVisiting.Visitors
         public void Visit(BodyNode node)
         {
             Console.WriteLine(node.ToString());
+        }
+
+        public void Visit(IStatementNodeVisitable node)
+        {
+            throw new NotImplementedException();
         }
 
         public void Visit(ShapeNode node)

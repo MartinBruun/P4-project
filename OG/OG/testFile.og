@@ -39,7 +39,13 @@ return true;
 
 
  
-function void funA(){}
+function void funA(){
+number q = 33;
+}
 
-shape shapeA{}
-shape shapeB{}
+shape shapeA{
+line.from(2,2).to(3,3).to(89,5);
+}
+shape shapeB{
+a;
+}
