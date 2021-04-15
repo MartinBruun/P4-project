@@ -25,8 +25,5 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         }
     }
     
-    public interface IPointAssignmentVisitable
-    {
-        public void Accept(IPointReferenceAssignmentVisitor visitor);
-    }
+   
 }

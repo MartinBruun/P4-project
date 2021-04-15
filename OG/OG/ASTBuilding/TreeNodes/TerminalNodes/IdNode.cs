@@ -23,8 +23,5 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
 
  
 
-    public interface IIdNode
-    {
-        public string Value { get; set; }
-    }
+
 }
