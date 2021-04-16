@@ -17,15 +17,15 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
      
-        public void Accept(IFunctionCallAssignmentNodeVisitor visitor)
+        public void Accept(IFunctionCallAssignmentNodeVisitorBundle visitorBundle)
         {
-            visitor.Visit(this);
+            visitorBundle.Visit(this);
         }
     }
 
     public interface IFunctionCallAssignmentVisitable
     {
-        public void Accept(IFunctionCallAssignmentNodeVisitor visitor);
+        public void Accept(IFunctionCallAssignmentNodeVisitorBundle visitorBundle);
     }
 
   

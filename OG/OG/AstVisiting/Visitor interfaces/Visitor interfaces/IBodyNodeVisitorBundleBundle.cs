@@ -2,7 +2,7 @@
 
 namespace OG.AstVisiting
 {
-    public interface IIterationNodeVisitor : IUntilNodeVisitor, INumberIterationNodeVisitor
+    public interface IBodyNodeVisitorBundle : IStatementVisitorBundle
     {
         public void Visit(BodyNode node);
     }

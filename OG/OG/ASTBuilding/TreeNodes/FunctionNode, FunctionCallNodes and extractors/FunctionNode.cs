@@ -23,9 +23,9 @@ namespace OG.ASTBuilding.TreeNodes
             return "FunctionNode with ID: " + Id.ToString();
         }
 
-        public void Accept(IFunctionNodeVisitor visitor)
+        public void Accept(IFunctionNodeVisitorBundle visitorBundleBundleBundleBundle)
         {
-            visitor.Visit(this);
+            visitorBundleBundleBundleBundle.Visit(this);
         }
     }
 

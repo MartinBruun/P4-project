@@ -6,7 +6,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.PointReferences
 {
-    public class  PointFunctionCallNode : PointReferenceNode, IFunctionCallNode,IFunctionNodeVisitable, IPointReferenceVisitable
+    public class  PointFunctionCallNode : PointReferenceNode, IFunctionCallNode, IPointReferenceVisitable
     {
         public PointFunctionCallNode(string pointText, IdNode functionName, List<ParameterNode> functionParameters) : base(pointText, PointReferenceNodeType.PointFunctionCallNode)
         {
@@ -17,14 +17,11 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
 
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
-        public void Accept(IPointReferenceNodeVisitor visitor)
+        public void Accept(IPointFuncCallVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        public void Accept(IFunctionNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace OG.AstVisiting
 {
-    public interface IProgramVisitor : IShapeNodeVisitor, IFunctionNodeVisitor, IDrawNodeVisitor, IMachineSettingVisitor
+    public interface IProgramVisitor
     {
         public void Visit(ProgramNode node);
     }

@@ -18,9 +18,9 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         }
 
 
-        public void Accept(IFunctionCallNodeVisitor visitor)
+        public void Accept(IFunctionCallNodeVisitorBundleBundle visitorBundleBundle)
         {
-            visitor.Visit(this);
+            visitorBundleBundle.Visit(this);
         }
     }
 }

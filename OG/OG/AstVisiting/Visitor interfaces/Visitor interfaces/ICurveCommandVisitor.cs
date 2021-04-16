@@ -2,7 +2,7 @@
 
 namespace OG.AstVisiting
 {
-    public interface ICurveCommandVisitor
+    public interface ICurveCommandVisitor : IMathNodeVisitor, IPointReferenceNodeVisitor
     {
         public void Visit(CurveCommandNode node);
     }

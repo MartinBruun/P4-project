@@ -4,14 +4,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements
 {
     public  class StatementNode : AstNode, IStatementNodeVisitable
     {
-        public void Accept(IStatementVisitor visitor)
+        public void Accept(IStatementVisitorBundle visitorBundle)
         {
-            visitor.Visit( this);
+            visitorBundle.Visit( this);
         }
     }
 
     public interface IStatementNodeVisitable : IAstNode
     {
-        public void Accept(IStatementVisitor visitor);
+        public void Accept(IStatementVisitorBundle visitorBundle);
     }
 }

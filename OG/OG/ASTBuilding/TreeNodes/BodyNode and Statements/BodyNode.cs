@@ -14,9 +14,9 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements
             StatementNodes = statements;
         }
 
-        public void Accept(IBodyNodeVisitor visitor)
+        public void Accept(IBodyNodeVisitorBundle visitorBundleBundleBundleBundle)
         {
-            visitor.Visit(this);
+            visitorBundleBundleBundleBundle.Visit(this);
         }
     }
 

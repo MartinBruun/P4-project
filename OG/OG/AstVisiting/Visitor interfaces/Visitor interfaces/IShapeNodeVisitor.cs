@@ -2,8 +2,10 @@
 
 namespace OG.AstVisiting
 {
-    public interface IShapeNodeVisitor : IBodyNodeVisitor
+    public interface IShapeNodeVisitor
     {
         public void Visit(ShapeNode node);
     }
+
+  
 }

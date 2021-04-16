@@ -21,11 +21,7 @@ namespace OG.ASTBuilding.TreeNodes
             return "ShapeDeclarationNode with ID: " + Id;
         }
 
-        public void Accept(IBodyNodeVisitor nodeVisitor)
-        {
-            nodeVisitor.Visit(Body);
-        }
-
+      
         public void Accept(IShapeNodeVisitor visitor)
         {
             visitor.Visit(this);

@@ -15,6 +15,15 @@ using OG.Compiler;
 namespace OG
 {
 
+    public abstract class ErrorInheritorVisitor : IErrorable
+    {
+        
+        public ErrorInheritorVisitor(List<SemanticError> errs)
+        {
+            SemanticErrors = errs;
+        }
+        public List<SemanticError> SemanticErrors { get; set; }
+    }     
     
     
     
@@ -38,7 +47,7 @@ namespace OG
             
             ProgramNode p = astContainer.AstTreeTopNode;
 
-            OnceDecleredVisitor v = new OnceDecleredVisitor();
+            OnceDecleredVisitorBundle v = new OnceDecleredVisitorBundle();
             p.Accept(v);
 
 

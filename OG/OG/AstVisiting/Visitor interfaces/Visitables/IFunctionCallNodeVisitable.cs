@@ -2,7 +2,7 @@
 {
     public interface IFunctionCallNodeVisitable
     {
-        public void Accept(IFunctionCallNodeVisitor visitor);
+        public void Accept(IFunctionCallNodeVisitorBundleBundle visitorBundleBundle);
 
     }
 }

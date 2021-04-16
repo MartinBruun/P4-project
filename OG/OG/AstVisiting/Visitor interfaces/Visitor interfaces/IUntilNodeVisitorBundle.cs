@@ -2,7 +2,7 @@
 
 namespace OG.AstVisiting
 {
-    public interface IUntilNodeVisitor : IFunctionCallNodeVisitor
+    public interface IUntilNodeVisitorBundleBundle : IFunctionCallNodeVisitorBundleBundle
     {
         public void Visit(UntilNode node);
     }

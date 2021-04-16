@@ -2,6 +2,6 @@
 {
     public interface IBodyNodeVisitable
     {
-        public void Accept(IBodyNodeVisitor visitor);
+        public void Accept(IBodyNodeVisitorBundle visitorBundleBundleBundleBundle);
     }
 }

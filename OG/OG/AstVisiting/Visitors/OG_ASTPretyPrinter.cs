@@ -16,7 +16,7 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.AstVisiting.Visitors
 {
-    public class OG_ASTPretyPrinter:IProgramVisitor
+    public class OG_ASTPretyPrinter:IAllBaseNodeVisitorBundleBundleBundleBundle
     {
         //Gem resultatet af visitmetoderne i små eller store AST trees
         private ProgramNode main;
@@ -410,11 +410,12 @@ namespace OG.AstVisiting.Visitors
             {
                 item.Accept(this);
             }
-            
-            foreach (var item in node.ShapeDcls)
+
+            foreach (ShapeNode shape in node.ShapeDcls)
             {
-                item.Accept(this);
+                shape.Accept(this);
             }
+           
         }
 
         

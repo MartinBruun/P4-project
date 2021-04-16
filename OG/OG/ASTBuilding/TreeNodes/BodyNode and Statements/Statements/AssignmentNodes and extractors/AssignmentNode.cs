@@ -3,7 +3,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    public class AssignmentNode : StatementNode
+    public abstract class AssignmentNode : StatementNode
     {
         public enum AssignmentType
         {

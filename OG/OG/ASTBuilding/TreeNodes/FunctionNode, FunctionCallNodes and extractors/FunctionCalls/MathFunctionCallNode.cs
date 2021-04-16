@@ -17,9 +17,9 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             Parameters = parameters;
         }
 
-        public void Accept(IFunctionCallNodeVisitor visitor)
+        public void Accept(IFunctionCallNodeVisitorBundleBundle visitorBundleBundle)
         {
-            visitor.Visit(this);
+            visitorBundleBundle.Visit(this);
         }
     }
 }

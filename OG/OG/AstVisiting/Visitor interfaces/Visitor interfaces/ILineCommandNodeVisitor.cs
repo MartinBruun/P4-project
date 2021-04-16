@@ -2,7 +2,7 @@
 
 namespace OG.AstVisiting
 {
-    public interface ILineCommandNodeVisitor
+    public interface ILineCommandNodeVisitor : IPointReferenceNodeVisitor
     {
         public void Visit(LineCommandNode node);
     }

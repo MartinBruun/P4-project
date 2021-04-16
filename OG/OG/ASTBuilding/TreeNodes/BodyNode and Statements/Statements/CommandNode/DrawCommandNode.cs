@@ -26,9 +26,9 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             visitor.Visit(this);
         }
 
-        public void Accept(IStatementVisitor visitor)
+        public void Accept(IStatementVisitorBundle visitorBundle)
         {
-            visitor.Visit(this);
+            visitorBundle.Visit(this);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IUntilFunctionCallVisitable
     {
-        public void Accept(IUntilNodeVisitor visitor);
+        public void Accept(IUntilNodeVisitorBundleBundle visitorBundleBundle);
     }
 }

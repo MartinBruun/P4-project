@@ -2,6 +2,6 @@
 {
     public interface IFunctionNodeVisitable
     {
-        public void Accept(IFunctionNodeVisitor visitor);
+        public void Accept(IFunctionNodeVisitorBundle visitorBundleBundleBundleBundle);
     }
 }

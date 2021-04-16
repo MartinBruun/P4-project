@@ -16,7 +16,7 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.AstVisiting.Visitors
 {
-    public class OnceDecleredVisitor:ISizePropertyVisitor , IFunctionNodeVisitor,IProgramVisitor
+    public class OnceDecleredVisitorBundle: IAllBaseNodeVisitorBundleBundleBundleBundle
     {
         private List<string> declaredIDs = new List<string>();
         public void Visit(SizePropertyNode node)
@@ -250,10 +250,11 @@ namespace OG.AstVisiting.Visitors
             throw new System.NotImplementedException();
         }
 
-        void IIterationNodeVisitor.Visit(BodyNode node)
+        public void Visit(BodyNode node)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
+
 
         public void Visit(ShapeNode node)
         {
@@ -270,7 +271,7 @@ namespace OG.AstVisiting.Visitors
             throw new System.NotImplementedException();
         }
 
-        void IBodyNodeVisitor.Visit(BodyNode node)
+        void IBodyNodeVisitorBundle.Visit(BodyNode node)
         {
             throw new System.NotImplementedException();
         }
