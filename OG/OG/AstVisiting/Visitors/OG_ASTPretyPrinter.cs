@@ -16,7 +16,7 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.AstVisiting.Visitors
 {
-    public class OG_ASTPretyPrinter:IAllBaseNodeVisitorBundleBundleBundleBundle
+    public class OG_ASTPretyPrinter:IAllBaseNodeVisitorBundle
     {
         //Gem resultatet af visitmetoderne i små eller store AST trees
         private ProgramNode main;

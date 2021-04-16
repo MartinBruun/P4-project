@@ -15,7 +15,7 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.AstVisiting.Visitors
 {
-    public class ToStringVisitor : IAllBaseNodeVisitorBundleBundleBundleBundle
+    public class ToStringVisitor : IAllBaseNodeVisitorBundle
     {
         public void Visit(MathFunctionCallNode node)
         {

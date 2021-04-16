@@ -16,7 +16,7 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.AstVisiting.Visitors
 {
-    public class OnceDecleredVisitorBundle: IAllBaseNodeVisitorBundleBundleBundleBundle
+    public class OnceDecleredVisitorBundle: IAllBaseNodeVisitorBundle
     {
         private List<string> declaredIDs = new List<string>();
         public void Visit(SizePropertyNode node)
