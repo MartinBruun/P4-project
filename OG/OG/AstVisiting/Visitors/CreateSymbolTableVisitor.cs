@@ -20,7 +20,7 @@ namespace OG.AstVisiting.Visitors
     {
         private Dictionary<string, string> symTable = new Dictionary<string, string>();
         Stack<string> stack = new Stack<string>();
-
+        private int level = 0;
         void PrintSymbolTable()
         {
             foreach (var item in symTable)
@@ -28,50 +28,56 @@ namespace OG.AstVisiting.Visitors
                 Console.WriteLine(item.Key + ":" + item.Value);
             }
         }
+
+        void Add(string key, string value)
+        {
+            try
+            {
+                if (level != 0)
+                {
+                    symTable.Add(stack.Peek()+key, value);
+                }
+                symTable.Add(level+key, value);
+                Console.WriteLine(key+":"+value);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
         
+        
+        //Visitors
         object IVisitor.Visit(ProgramNode node)
         {
             Console.WriteLine("Creating SymbolTable");
-
-
             {
-                try
-                {
-                    foreach (var item in node.FunctionDcls)
+                foreach (var item in node.FunctionDcls)
                     {
-                        KeyValuePair<string, string> element =
-                            new KeyValuePair<string, string>(item.Id.Value, item.ReturnType);
-                        symTable.Add(element.Key, element.Value);
+                        Add(item.Id.Value, item.ReturnType);
+                        stack.Push(level+item.Id.Value);
                         item.Accept(this);
-                        Console.WriteLine(element);
+                        item.Body.Accept(this);
+                        stack.Pop();
 
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
-                try
-                {
+                
                     foreach (var item in node.ShapeDcls)
                     {
-                        KeyValuePair<string, string> element =
-                            new KeyValuePair<string, string>(item.Id.Value, "shape");
-                        symTable.Add(element.Key, element.Value);
-                        Console.WriteLine(element);
+                        Add(item.Id.Value, "shape");
+                        stack.Push(level+item.Id.Value);
+                        item.Accept(this);
+                        item.Body.Accept(this);
+                        stack.Pop();
 
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
             }
+            Console.WriteLine("\n---SYMBOLTABLE:---\n");
             PrintSymbolTable();
             return new object();
         }
 
+        
         public object Visit(AssignmentNode node)
         {
             Console.WriteLine(node.ToString()); 
@@ -177,46 +183,54 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(BoolDeclarationNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Add(node.Id.Value, "bool");
+            node.AssignedExpression.Accept(this);
             return new object();
         }
 
         public object Visit(DeclarationNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            
+            Add(node.Id.Value, "bool");
+            node.AssignedExpression.Accept(this);
+            Console.Write("b\n"); 
             return new object();
         }
 
         public object Visit(NumberDeclarationNode node)
         {
-            Console.Write(node.Id.Value);
-            Console.Write(" = ");
-            Console.Write(node.AssignedExpression);
-            Console.Write(" \n ");
-
+            Add(node.Id.Value, "number");
+            node.AssignedExpression.Accept(this);
+            Console.Write("n\n"); 
+            
             return new object();
         }
 
         public object Visit(PointDeclarationNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Add(node.Id.Value, "point");
+            node.AssignedExpression.Accept(this);
+            Console.Write("p\n"); 
+
             return new object();
         }
 
         public object Visit(StatementNode node)
         {
             node.Accept(this);
-            
+            Console.Write("s\n");
             return new object();
         }
 
         public object Visit(BodyNode node)
         {
+            level++;
             foreach (var item in node.StatementNodes)
             {
                 item.Accept(this);
             }
 
+            level--;
             return new object();
         }
 
