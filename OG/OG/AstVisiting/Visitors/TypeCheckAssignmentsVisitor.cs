@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
@@ -16,12 +17,17 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.AstVisiting.Visitors
 {
-    public class CreateSymbolTableVisitor : IVisitor
+    public class TypeCheckAssignmentsVisitor:IVisitor
     {
         private Dictionary<string, string> symTable = new Dictionary<string, string>();
         Stack<string> stack = new Stack<string>();
         private int level = 0;
-
+        
+        public TypeCheckAssignmentsVisitor(Dictionary<string, string> symbolTable)
+        {
+            symTable = symbolTable;
+        }
+        
         public Dictionary<string, string> GetSymbolTable()
         {
             return symTable;
@@ -34,34 +40,23 @@ namespace OG.AstVisiting.Visitors
             }
         }
 
-        // string Name(string key)
-        // {
-        //     string _name;
-        //     try
-        //     {
-        //         if (level != 0)
-        //         {
-        //             return stack.Peek()+"_"+key;
-        //         }
-        //         return _name=level+"_"+stack.Peek()+"_"+key;
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Console.WriteLine(e.Message);
-        //     }
-        //
-        //     return "";
-        // }
-        void Add(string key, string value)
+        void Check(string key, string type)
         {
             try
             {
                 if (level != 0)
                 {
-                    symTable.Add(stack.Peek()+"_"+key, value);
+                    if (symTable[stack.Peek()+"_"+key] != type)
+                    {
+                        throw new Exception(message: "TypeMismatch");
+                    }
                 }
-                symTable.Add(level+"_"+stack.Peek()+"_"+key, value);
-                Console.WriteLine(key+":"+value);
+
+                if (symTable[level+"_"+stack.Peek()+"_"+key] != type)
+                {
+                    throw new Exception(message: "TypeMismatch");
+                }
+                Console.WriteLine(key+":"+type);
             }
             catch (Exception e)
             {
@@ -77,8 +72,7 @@ namespace OG.AstVisiting.Visitors
             {
                 foreach (var item in node.FunctionDcls)
                     {
-                        Add(item.Id.Value, item.ReturnType);
-                        stack.Push(level+"_"+item.Id.Value);
+                        stack.Push(level+item.Id.Value);
                         item.Accept(this);
                         item.Body.Accept(this);
                         stack.Pop();
@@ -87,8 +81,7 @@ namespace OG.AstVisiting.Visitors
                 
                     foreach (var item in node.ShapeDcls)
                     {
-                        Add(item.Id.Value, "shape");
-                        stack.Push(level+"_"+item.Id.Value);
+                        stack.Push(level+item.Id.Value);
                         item.Accept(this);
                         item.Body.Accept(this);
                         stack.Pop();
@@ -103,43 +96,43 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(AssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            node.Accept(this);
             return new object();
         }
 
         public object Visit(BoolAssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Check(node.Id.Value,"bool");            
             return new object();
         }
 
         public object Visit(FunctionCallAssignNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Check(node.Id.Value, symTable[node.FunctionName.Value]);
             return new object();
         }
 
         public object Visit(IdAssignNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Check(node.Id.Value, symTable[level+stack.Peek()+node.AssignedValue.Value]);
             return new object();
         }
 
         public object Visit(MathAssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Check(node.Id.Value, "number");
             return new object();
         }
 
         public object Visit(PointAssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Check(node.Id.Value, "point");
             return new object();
         }
 
         public object Visit(PropertyAssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Check(node.Id.Value,"number" );
             return new object();
         }
 
@@ -216,7 +209,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(BoolDeclarationNode node)
         {
-            Add(node.Id.Value, "bool");
             node.AssignedExpression.Accept(this);
             return new object();
         }
@@ -224,7 +216,6 @@ namespace OG.AstVisiting.Visitors
         public object Visit(DeclarationNode node)
         {
             
-            Add(node.Id.Value, "bool");
             node.AssignedExpression.Accept(this);
             Console.Write("b\n"); 
             return new object();
@@ -232,7 +223,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(NumberDeclarationNode node)
         {
-            Add(node.Id.Value, "number");
             node.AssignedExpression.Accept(this);
             Console.Write("n\n"); 
             
@@ -241,7 +231,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointDeclarationNode node)
         {
-            Add(node.Id.Value, "point");
             node.AssignedExpression.Accept(this);
             Console.Write("p\n"); 
 
@@ -571,5 +560,4 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
     }
-
 }

@@ -48,8 +48,10 @@ namespace OG
             ProgramNode p = astContainer.AstTreeTopNode;
 
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
-            CreateSymbolTableVisitor PP = new CreateSymbolTableVisitor();
             p.Accept(ST);
+            TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
+            p.Accept(TT);
+
 
 
 
