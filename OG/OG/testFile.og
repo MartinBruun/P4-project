@@ -42,6 +42,9 @@ return true;
 function void funA(){
 number q = 33;
 }
+function void funA(){
+number q = 33;
+}
 
 shape shapeA{
 line.from(2,2).to(3,3).to(89,5);

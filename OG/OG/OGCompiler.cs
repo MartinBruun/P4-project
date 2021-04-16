@@ -38,7 +38,7 @@ namespace OG
             
             ProgramNode p = astContainer.AstTreeTopNode;
 
-            OG_ASTPretyPrinter v = new OG_ASTPretyPrinter();
+            OnceDecleredVisitor v = new OnceDecleredVisitor();
             p.Accept(v);
 
 

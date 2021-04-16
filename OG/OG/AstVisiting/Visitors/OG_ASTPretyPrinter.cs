@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
@@ -17,6 +18,8 @@ namespace OG.AstVisiting.Visitors
 {
     public class OG_ASTPretyPrinter:IProgramVisitor
     {
+        //Gem resultatet af visitmetoderne i små eller store AST trees
+        private ProgramNode main;
          public void Visit(MathFunctionCallNode node)
          {
              Console.Write("function number");
@@ -392,13 +395,15 @@ namespace OG.AstVisiting.Visitors
         public void Visit(ProgramNode node)
         {
             Console.Write("THE PROGRAM:\n\n");
-            
+            ProgramNode p;
+            List<MachineSettingNode> m;
             foreach (var setting in node.MachineSettingNodes)
             {
                 Console.Write("Found Setting....UGLY HACK in Visit(IMachineSettingVisitable node) but it works for now  is recursive\n");
                 setting.Accept(this);
             }
-            
+
+            DrawNode d;
             node.drawNode.Accept(this);
             
             foreach (var item in node.FunctionDcls)
