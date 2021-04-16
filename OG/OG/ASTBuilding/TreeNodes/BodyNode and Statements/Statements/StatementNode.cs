@@ -1,17 +1,14 @@
 ﻿using OG.AstVisiting;
+using OG.AstVisiting.Visitors;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements
 {
-    public  class StatementNode : AstNode, IStatementNodeVisitable
+    public abstract class StatementNode :AstNode, IAstNode//, IStatementNodeVisitable
     {
-        public void Accept(IStatementVisitorBundle visitorBundle)
-        {
-            visitorBundle.Visit( this);
-        }
     }
 
-    public interface IStatementNodeVisitable : IAstNode
-    {
-        public void Accept(IStatementVisitorBundle visitorBundle);
-    }
+    // public interface IStatementNodeVisitable : IAstNode
+    // {
+    //     public void Accept(IStatementVisitorBundle visitorBundle);
+    // }
 }

@@ -47,8 +47,9 @@ namespace OG
             
             ProgramNode p = astContainer.AstTreeTopNode;
 
-            OnceDecleredVisitorBundle v = new OnceDecleredVisitorBundle();
-            p.Accept(v);
+            CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
+            CreateSymbolTableVisitor PP = new CreateSymbolTableVisitor();
+            p.Accept(ST);
 
 
 

@@ -1,5 +1,6 @@
 ﻿using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors
 {
@@ -9,6 +10,12 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
         {
             Id = id;
             AssignedExpression = assignmentAssignedExpression;
+        }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
         }
     }
     

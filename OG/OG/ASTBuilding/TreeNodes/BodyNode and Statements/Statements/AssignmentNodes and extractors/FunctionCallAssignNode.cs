@@ -21,6 +21,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         {
             visitorBundle.Visit(this);
         }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 
     public interface IFunctionCallAssignmentVisitable

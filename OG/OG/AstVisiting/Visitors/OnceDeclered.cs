@@ -266,10 +266,7 @@ namespace OG.AstVisiting.Visitors
             node.Id.Accept(this);
         }
 
-        public void Visit(IStatementNodeVisitable node)
-        {
-            throw new System.NotImplementedException();
-        }
+       
 
         void IBodyNodeVisitorBundle.Visit(BodyNode node)
         {

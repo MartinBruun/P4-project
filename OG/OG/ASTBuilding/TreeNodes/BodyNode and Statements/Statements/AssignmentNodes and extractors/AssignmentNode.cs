@@ -21,7 +21,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         }
     }
 
-    public interface IAssignmentNode : IStatementNodeVisitable
+    public interface IAssignmentNode //: IStatementNodeVisitable
     {
         public IIdNode Id { get; set; }
     }

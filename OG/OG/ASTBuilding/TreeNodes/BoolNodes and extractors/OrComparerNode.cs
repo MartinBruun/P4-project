@@ -14,5 +14,10 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
             visitor.Visit(this);
 
         }
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
+        }
     }
 }

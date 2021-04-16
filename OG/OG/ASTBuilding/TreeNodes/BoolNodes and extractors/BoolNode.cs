@@ -31,6 +31,12 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         {
             return "Type: " + BoolNodeType.ToString() + "\t Value: " + Value;
         }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
+        }
     }
 
     public interface IBoolNode : IExpressionNode

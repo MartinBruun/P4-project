@@ -1,4 +1,5 @@
 ﻿using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.PointReferences
 {
@@ -24,6 +25,12 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
             ShapeNameId = id;
             PointType = p;
         }
+        
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);        
+        }
 
+       
     }
 }

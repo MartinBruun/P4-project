@@ -27,13 +27,13 @@ namespace OG.ASTBuilding.TreeNodes
         {
             visitorBundleBundleBundleBundle.Visit(this);
         }
+        
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
+        }
     }
 
-    public interface IFunctionNode
-    {
-        public IdNode Id { get; set; }
-
-        public string ReturnType { get; set; }
-        public BodyNode Body { get; set; }
-    }
+    
 }
