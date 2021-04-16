@@ -6,11 +6,28 @@ using OG.ASTBuilding;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting.Visitors;
 using OG.Compiler;
 
 namespace OG
 {
+
+    public abstract class ErrorInheritorVisitor : IErrorable
+    {
+        
+        public ErrorInheritorVisitor(List<SemanticError> errs)
+        {
+            SemanticErrors = errs;
+        }
+        public List<SemanticError> SemanticErrors { get; set; }
+    }     
+    
+    
+    
+    
     public class OGCompiler
     {
         public static Dictionary<IdNode, FunctionNode> GlobalFunctionDeclarations = new Dictionary<IdNode, FunctionNode>();
@@ -19,15 +36,21 @@ namespace OG
         {
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
+            
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
             
             
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
-                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("boolExpression"));
+                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("program"));
             
             ProgramNode p = astContainer.AstTreeTopNode;
+
+            OnceDecleredVisitorBundle v = new OnceDecleredVisitorBundle();
+            p.Accept(v);
+
+
 
 
             //ASTContainer<AstBuilderVisitor, ProgramNode> ast = new ASTContainer<AstBuilderVisitor, ProgramNode>(parCon.Parser);

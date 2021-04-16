@@ -1,9 +1,10 @@
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class ParameterNode : AstNode
+    public class ParameterNode : AstNode, IParameterNodeVisitable
     {
         public enum ParameterType
         {
@@ -51,18 +52,6 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             ParameterId = id;
         }
 
-        public ParameterNode(IdNode id, ShapeEndPointNode endpoint)
-        {
-            ParameterId = id;
-            Expression = endpoint;
-        }
-        
-        public ParameterNode(IdNode id, ShapeStartPointNode startPoint)
-        {
-            ParameterId = id;
-            Expression = startPoint;
-        }
-        
         public ParameterNode(IdNode id, PointReferenceNode startPoint)
         {
             ParameterId = id;
@@ -83,7 +72,14 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
             return "Parameter does not contain id: " + ParamType.ToString();
         }
+
+        public void Accept(IParameterNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+
+        }
     }
+
 
     
 }

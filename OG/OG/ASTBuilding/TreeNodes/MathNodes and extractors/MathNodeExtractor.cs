@@ -211,7 +211,7 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             return new NumberNode(double.Parse(context.value.Text, CultureInfo.InvariantCulture));
         }
 
-        public override MathNode VisitAtomXyValue(OGParser.AtomXYValueContext context)
+        public MathNode VisitAtomXyValue(OGParser.AtomXYValueContext context)
         {
             return new CoordinateXyValueNode(context.xyValue.GetText(), MathNode.MathType.CoordinateXyValueNode);
         }

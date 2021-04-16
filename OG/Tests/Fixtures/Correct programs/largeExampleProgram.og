@@ -15,20 +15,20 @@ function bool boolFunc (point a, point b) {
 
 
 function number dist (point a, point b) {
- return AFSTANDSFORMEL;
+ return 3;
 } 
 
 
 shape A {
-	point startPoint = (10,10);
-	line.from(startPoint).to(10,15);
-	curve.withAngle(23).from(startPoint).to(15,10);
+	point startpoint = (10,10);
+	line.from(startpoint).to(10,15);
+	curve.withAngle(23).from(startpoint).to(15,10);
 }
 
 
 
 shape B {
-	/*Bs startPoint er implicit sat til global startPoint;*/
+	/*Bs startpoint er implicit sat til global startpoint;*/
 	A.startPoint = startpoint; /*Vi har en ny A inde i B. Dennes startpunkt saettes til global start point Dette er ikke defineret endnu*/
 	A; /*Tegn A*/
 	line.from(A.endPoint).to(C.startPoint); /*No from betyder implicit sidst brugte punkt (Sidst brugte punkt holdes styr paa som global vaerdi)*/	
@@ -40,7 +40,7 @@ shape C {
 	point a = (5,5);
 	point b = (13,13);
 	
-	startPoint = a;
+	startpoint = a;
 	curve.withAngle(273).from(a).to(b);
 	
 	number myNumber = 1.3;

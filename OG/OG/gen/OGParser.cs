@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from /Users/saxjax/developer/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -275,37 +275,6 @@ public partial class OGParser : Parser {
 	}
 
 	public partial class MachineModsContext : ParserRuleContext {
-		public MachineModsContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_machineMods; } }
-	 
-		public MachineModsContext() { }
-		public virtual void CopyFrom(MachineModsContext context) {
-			base.CopyFrom(context);
-		}
-	}
-	public partial class EndOfMachineModifiersContext : MachineModsContext {
-		public EndOfMachineModifiersContext(MachineModsContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterEndOfMachineModifiers(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitEndOfMachineModifiers(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitEndOfMachineModifiers(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class MachineModifiersContext : MachineModsContext {
 		public WorkAreaModContext workAreaModifications;
 		public MachineModsContext machineModifications;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DOT() { return GetToken(OGParser.DOT, 0); }
@@ -315,21 +284,25 @@ public partial class OGParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public MachineModsContext machineMods() {
 			return GetRuleContext<MachineModsContext>(0);
 		}
-		public MachineModifiersContext(MachineModsContext context) { CopyFrom(context); }
+		public MachineModsContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_machineMods; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterMachineModifiers(this);
+			if (typedListener != null) typedListener.EnterMachineMods(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitMachineModifiers(this);
+			if (typedListener != null) typedListener.ExitMachineMods(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitMachineModifiers(this);
+			if (typedVisitor != null) return typedVisitor.VisitMachineMods(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -343,19 +316,17 @@ public partial class OGParser : Parser {
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case DOT:
-				_localctx = new MachineModifiersContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 132;
 				Match(DOT);
 				State = 133;
-				((MachineModifiersContext)_localctx).workAreaModifications = workAreaMod();
+				_localctx.workAreaModifications = workAreaMod();
 				State = 134;
-				((MachineModifiersContext)_localctx).machineModifications = machineMods();
+				_localctx.machineModifications = machineMods();
 				}
 				break;
 			case Terminator:
-				_localctx = new EndOfMachineModifiersContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
 				}
@@ -376,38 +347,30 @@ public partial class OGParser : Parser {
 	}
 
 	public partial class WorkAreaModContext : ParserRuleContext {
-		public WorkAreaModContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_workAreaMod; } }
-	 
-		public WorkAreaModContext() { }
-		public virtual void CopyFrom(WorkAreaModContext context) {
-			base.CopyFrom(context);
-		}
-	}
-	public partial class WorkAreaModifierContext : WorkAreaModContext {
 		public WorkAreaModPrptsContext workAreaModificationProperties;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode WorkArea() { return GetToken(OGParser.WorkArea, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public WorkAreaModPrptsContext workAreaModPrpts() {
 			return GetRuleContext<WorkAreaModPrptsContext>(0);
 		}
-		public WorkAreaModifierContext(WorkAreaModContext context) { CopyFrom(context); }
+		public WorkAreaModContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_workAreaMod; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterWorkAreaModifier(this);
+			if (typedListener != null) typedListener.EnterWorkAreaMod(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitWorkAreaModifier(this);
+			if (typedListener != null) typedListener.ExitWorkAreaMod(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitWorkAreaModifier(this);
+			if (typedVisitor != null) return typedVisitor.VisitWorkAreaMod(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -417,13 +380,12 @@ public partial class OGParser : Parser {
 		WorkAreaModContext _localctx = new WorkAreaModContext(Context, State);
 		EnterRule(_localctx, 6, RULE_workAreaMod);
 		try {
-			_localctx = new WorkAreaModifierContext(_localctx);
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 139;
 			Match(WorkArea);
 			State = 140;
-			((WorkAreaModifierContext)_localctx).workAreaModificationProperties = workAreaModPrpts();
+			_localctx.workAreaModificationProperties = workAreaModPrpts();
 			}
 		}
 		catch (RecognitionException re) {
@@ -438,18 +400,6 @@ public partial class OGParser : Parser {
 	}
 
 	public partial class WorkAreaModPrptsContext : ParserRuleContext {
-		public WorkAreaModPrptsContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_workAreaModPrpts; } }
-	 
-		public WorkAreaModPrptsContext() { }
-		public virtual void CopyFrom(WorkAreaModPrptsContext context) {
-			base.CopyFrom(context);
-		}
-	}
-	public partial class WorkAreaModifierPropertiesContext : WorkAreaModPrptsContext {
 		public SizePrptContext sizeProperty;
 		public WorkAreaModPrptsContext workAreaModificationProperties;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DOT() { return GetToken(OGParser.DOT, 0); }
@@ -459,40 +409,25 @@ public partial class OGParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public WorkAreaModPrptsContext workAreaModPrpts() {
 			return GetRuleContext<WorkAreaModPrptsContext>(0);
 		}
-		public WorkAreaModifierPropertiesContext(WorkAreaModPrptsContext context) { CopyFrom(context); }
+		public WorkAreaModPrptsContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_workAreaModPrpts; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterWorkAreaModifierProperties(this);
+			if (typedListener != null) typedListener.EnterWorkAreaModPrpts(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitWorkAreaModifierProperties(this);
+			if (typedListener != null) typedListener.ExitWorkAreaModPrpts(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitWorkAreaModifierProperties(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class EndOfWorkAreaModifierPropertiesContext : WorkAreaModPrptsContext {
-		public EndOfWorkAreaModifierPropertiesContext(WorkAreaModPrptsContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterEndOfWorkAreaModifierProperties(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitEndOfWorkAreaModifierProperties(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitEndOfWorkAreaModifierProperties(this);
+			if (typedVisitor != null) return typedVisitor.VisitWorkAreaModPrpts(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -506,19 +441,17 @@ public partial class OGParser : Parser {
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,2,Context) ) {
 			case 1:
-				_localctx = new WorkAreaModifierPropertiesContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 142;
 				Match(DOT);
 				State = 143;
-				((WorkAreaModifierPropertiesContext)_localctx).sizeProperty = sizePrpt();
+				_localctx.sizeProperty = sizePrpt();
 				State = 144;
-				((WorkAreaModifierPropertiesContext)_localctx).workAreaModificationProperties = workAreaModPrpts();
+				_localctx.workAreaModificationProperties = workAreaModPrpts();
 				}
 				break;
 			case 2:
-				_localctx = new EndOfWorkAreaModifierPropertiesContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
 				}
@@ -537,18 +470,6 @@ public partial class OGParser : Parser {
 	}
 
 	public partial class SizePrptContext : ParserRuleContext {
-		public SizePrptContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_sizePrpt; } }
-	 
-		public SizePrptContext() { }
-		public virtual void CopyFrom(SizePrptContext context) {
-			base.CopyFrom(context);
-		}
-	}
-	public partial class SizePropertyContext : SizePrptContext {
 		public WorkAreaVarsContext workAreaVariables;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Size() { return GetToken(OGParser.Size, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LParen() { return GetToken(OGParser.LParen, 0); }
@@ -556,21 +477,25 @@ public partial class OGParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public WorkAreaVarsContext workAreaVars() {
 			return GetRuleContext<WorkAreaVarsContext>(0);
 		}
-		public SizePropertyContext(SizePrptContext context) { CopyFrom(context); }
+		public SizePrptContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_sizePrpt; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterSizeProperty(this);
+			if (typedListener != null) typedListener.EnterSizePrpt(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitSizeProperty(this);
+			if (typedListener != null) typedListener.ExitSizePrpt(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitSizeProperty(this);
+			if (typedVisitor != null) return typedVisitor.VisitSizePrpt(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -580,7 +505,6 @@ public partial class OGParser : Parser {
 		SizePrptContext _localctx = new SizePrptContext(Context, State);
 		EnterRule(_localctx, 10, RULE_sizePrpt);
 		try {
-			_localctx = new SizePropertyContext(_localctx);
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 149;
@@ -588,7 +512,7 @@ public partial class OGParser : Parser {
 			State = 150;
 			Match(LParen);
 			State = 151;
-			((SizePropertyContext)_localctx).workAreaVariables = workAreaVars();
+			_localctx.workAreaVariables = workAreaVars();
 			State = 152;
 			Match(RParen);
 			}
@@ -2355,12 +2279,13 @@ public partial class OGParser : Parser {
 	}
 	public partial class FunctionCallAssignContext : VariableAssignmentContext {
 		public IToken id;
+		public FunctionCallContext funcCall;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Assign() { return GetToken(OGParser.Assign, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Terminator() { return GetToken(OGParser.Terminator, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(OGParser.ID, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public FunctionCallContext functionCall() {
 			return GetRuleContext<FunctionCallContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Terminator() { return GetToken(OGParser.Terminator, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(OGParser.ID, 0); }
 		public FunctionCallAssignContext(VariableAssignmentContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
@@ -2499,7 +2424,7 @@ public partial class OGParser : Parser {
 				State = 310;
 				Match(Assign);
 				State = 311;
-				functionCall();
+				((FunctionCallAssignContext)_localctx).funcCall = functionCall();
 				State = 312;
 				Match(Terminator);
 				}
@@ -3253,7 +3178,7 @@ public partial class OGParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitAtomXyValue(this);
+			if (typedVisitor != null) return typedVisitor.VisitAtomXYValue(this);
 			else return visitor.VisitChildren(this);
 		}
 	}

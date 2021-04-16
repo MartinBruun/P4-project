@@ -1,9 +1,10 @@
 ﻿using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.AstVisiting;
 using CoordinateXyValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.CoordinateXyValueNode;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    public class PropertyAssignmentNode : AssignmentNode
+    public class PropertyAssignmentNode : AssignmentNode, IPropertyAssignmentVisitable
     {
         public MathNode assignedValue { get; set; }
         public CoordinateXyValueNode coordinateValueNode { get; set; }
@@ -13,5 +14,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             assignedValue =  value;
             this.coordinateValueNode = xyValue;
         }
+
+        public void Accept(IPropertyAssignmentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
+    
 }

@@ -1,8 +1,9 @@
 ﻿using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    public class AssignmentNode : StatementNode
+    public abstract class AssignmentNode : StatementNode
     {
         public enum AssignmentType
         {
@@ -18,5 +19,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         {
             this.AssignType = assignmentType;
         }
+    }
+
+    public interface IAssignmentNode : IStatementNodeVisitable
+    {
+        public IIdNode Id { get; set; }
     }
 }

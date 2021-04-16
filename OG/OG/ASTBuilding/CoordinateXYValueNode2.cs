@@ -1,9 +1,10 @@
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 {
-    public class CoordinateXyValueNode : AstNode
+    public class CoordinateXyValueNode : AstNode, ICoordinateXyVisitable
     {
         public IdNode Id { get; set; }
         public string Property { get; set; }
@@ -19,6 +20,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
             Id = id;
             Property = xyProperty;
 
+        }
+
+        public void Accept(ICoordinateXyVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

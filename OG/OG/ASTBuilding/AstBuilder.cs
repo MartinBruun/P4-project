@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using OG.ASTBuilding.MachineSettings;
+// using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
@@ -19,8 +19,7 @@ namespace OG.ASTBuilding
         {
             
         }
-
-
+        
         public override ProgramNode VisitProg(OGParser.ProgContext context)
         {
             MachineSettingNode machineSettingNode = null;
@@ -33,7 +32,7 @@ namespace OG.ASTBuilding
             if (context.settings != null)
             {
                 Console.WriteLine("Visiting machine settings...");
-                machineSettingNode = _settingsNodeExtractor.VisitProg(context);
+                machineSettingNode = _settingsNodeExtractor.VisitMachineSettings(context.settings);
                 Console.WriteLine(machineSettingNode);
             }
 

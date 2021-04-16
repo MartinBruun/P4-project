@@ -6,6 +6,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
 {
     public class DrawCommandNodeExtractor : OGBaseVisitor<DrawCommandNode>
     {
+        public override DrawCommandNode VisitDrawCmd(OGParser.DrawCmdContext context)
+        {
+            return new DrawCommandNode(id: new IdNode(context.id.Text));
+        }
+
         private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor = new PointReferenceNodeExtractor();
 
         public override DrawCommandNode VisitDrawFromCmd(OGParser.DrawFromCmdContext context)

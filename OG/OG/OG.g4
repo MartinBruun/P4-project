@@ -9,18 +9,18 @@ machineSettings  : 'Machine' machineModifications=machineMods ';'
              |                                                
              ;
 
-machineMods : '.' workAreaModifications=workAreaMod machineModifications=machineMods   #machineModifiers
-            |                                                                          #endOfMachineModifiers
+machineMods : '.' workAreaModifications=workAreaMod machineModifications=machineMods   
+            |                                                                          
             ;
 
-workAreaMod : 'WorkArea' workAreaModificationProperties=workAreaModPrpts #workAreaModifier
+workAreaMod : 'WorkArea' workAreaModificationProperties=workAreaModPrpts //#workAreaModifier
             ;
                  
-workAreaModPrpts : '.' sizeProperty=sizePrpt workAreaModificationProperties=workAreaModPrpts #workAreaModifierProperties
-                 |                                                                           #endOfWorkAreaModifierProperties
+workAreaModPrpts : '.' sizeProperty=sizePrpt workAreaModificationProperties=workAreaModPrpts //#workAreaModifierProperties
+                 |                                                                           //#endOfWorkAreaModifierProperties
                  ;
                            
-sizePrpt : 'size' '(' workAreaVariables=workAreaVars ')' #sizeProperty
+sizePrpt : 'size' '(' workAreaVariables=workAreaVars ')' //#sizeProperty
          ;
 
 workAreaVars : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
@@ -100,7 +100,7 @@ variableAssignment  : id=ID'=' value=ID             ';' #idAssign
                     | id=ID'=' value=boolExpression ';' #boolAssign    
                     | id=ID'=' value=mathExpression ';' #numberAssign
                     | pointAssignment               ';' #pointAssign
-                    | id=ID '=' functionCall        ';' #functionCallAssign
+                    | id=ID '=' funcCall=functionCall        ';' #functionCallAssign
                     ; 
 
 pointAssignment     :  endPointAssignment

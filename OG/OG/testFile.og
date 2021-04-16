@@ -1,7 +1,9 @@
 Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
 
 draw {
-
+a;
+b;
+c;
 }
 
 
@@ -37,7 +39,16 @@ return true;
 
 
  
-function void funA(){}
+function void funA(){
+number q = 33;
+}
+function void funA(){
+number q = 33;
+}
 
-shape shapeA{}
-shape shapeB{}
+shape shapeA{
+line.from(2,2).to(3,3).to(89,5);
+}
+shape shapeB{
+a;
+}

@@ -1,12 +1,11 @@
 ﻿using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    /// <summary>
-    /// TODO
-    /// </summary>
-    public class PointAssignmentNode : AssignmentNode
+
+    public class PointAssignmentNode : AssignmentNode, IPointAssignmentVisitable
     { 
         public PointReferenceNode AssignedValue { get; set; }
 
@@ -19,5 +18,12 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         {
             return AssignedValue.ToString() + Id.ToString();
         }
+
+        public void Accept(IPointReferenceAssignmentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
+    
+   
 }

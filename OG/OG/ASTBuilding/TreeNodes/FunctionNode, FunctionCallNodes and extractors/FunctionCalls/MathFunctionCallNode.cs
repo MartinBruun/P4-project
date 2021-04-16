@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class MathFunctionCallNode : TerminalMathNode, IFunctionCallNode
+    public class MathFunctionCallNode : TerminalMathNode, IFunctionCallNode, IFunctionCallNodeVisitable
     {
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
@@ -14,6 +15,11 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         {
             FunctionName = id;
             Parameters = parameters;
+        }
+
+        public void Accept(IFunctionCallNodeVisitorBundleBundle visitorBundleBundle)
+        {
+            visitorBundleBundle.Visit(this);
         }
     }
 }

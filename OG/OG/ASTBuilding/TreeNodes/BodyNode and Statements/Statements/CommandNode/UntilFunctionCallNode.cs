@@ -1,8 +1,9 @@
 using OG.ASTBuilding.TreeNodes.FunctionCalls;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class UntilFunctionCallNode : IterationNode
+    public class UntilFunctionCallNode : IterationNode, IUntilFunctionCallVisitable
     {
         public FunctionCallNode Predicate;
 
@@ -10,5 +11,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         {
             Predicate = predicate;
         }
+        
+
+        public void Accept(IUntilNodeVisitorBundleBundle visitorBundleBundle)
+        {
+            visitorBundleBundle.Visit(this);
+            
+        }
     }
+
+
 }
