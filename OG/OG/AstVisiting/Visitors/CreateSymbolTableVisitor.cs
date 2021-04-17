@@ -56,11 +56,11 @@ namespace OG.AstVisiting.Visitors
         {
             try
             {
-                if (level != 0)
-                {
-                    symTable.Add(stack.Peek()+"_"+key, value);
-                }
-                symTable.Add(level+"_"+stack.Peek()+"_"+key, value);
+                // if (level != 0)
+                // {
+                //     symTable.Add(level+"_"+stack.Peek()+"_"+key, value);
+                // }
+                symTable.Add(stack.Peek()+"_"+key, value);
                 Console.WriteLine(key+":"+value);
             }
             catch (Exception e)
@@ -75,10 +75,13 @@ namespace OG.AstVisiting.Visitors
         {
             Console.WriteLine("Creating SymbolTable");
             {
+                stack.Push(""+level);
                 foreach (var item in node.FunctionDcls)
                     {
+                        
                         Add(item.Id.Value, item.ReturnType);
-                        stack.Push(level+"_"+item.Id.Value);
+                        stack.Push(stack.Peek() + "_" + item.Id.Value);
+                        Console.WriteLine("***Added" + stack.Peek());
                         item.Accept(this);
                         item.Body.Accept(this);
                         stack.Pop();
@@ -88,14 +91,15 @@ namespace OG.AstVisiting.Visitors
                     foreach (var item in node.ShapeDcls)
                     {
                         Add(item.Id.Value, "shape");
-                        stack.Push(level+"_"+item.Id.Value);
+                        stack.Push(stack.Peek() + "_" + item.Id.Value);
                         item.Accept(this);
                         item.Body.Accept(this);
                         stack.Pop();
 
                     }
             }
-            Console.WriteLine("\n---SYMBOLTABLE:---\n");
+            Console.WriteLine("\n---SYMBOLTABLE:---");
+            Console.WriteLine($"Reached level {stack.Pop()} on stack\n");
             PrintSymbolTable();
             return new object();
         }
@@ -103,50 +107,50 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(AssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(BoolAssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(FunctionCallAssignNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(IdAssignNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(MathAssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(PointAssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(PropertyAssignmentNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($" level{level}_! "); 
             return new object();
         }
 
         public object Visit(CommandNode node)
         {
             node.Accept(this);
-            // Console.WriteLine(node.ToString()); 
+            // Console.Write($"{level}_!"); 
             return new object();
         }
 
@@ -167,13 +171,13 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(DrawCommandNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(IterationNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
@@ -192,25 +196,30 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MovementCommandNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(NumberIterationNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            node.Accept(this);
+            Console.WriteLine("NumIt!!!!!!!!!");
             return new object();
         }
 
         public object Visit(UntilFunctionCallNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            node.Body.Accept(this);
+            Console.WriteLine("UnF!!!!!!!!!");
             return new object();
         }
 
         public object Visit(UntilNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            
+            node.Body.Accept(this);
+            Console.WriteLine("UnN!!!!!!!!!"+stack.Peek());
+
             return new object();
         }
 
@@ -258,78 +267,80 @@ namespace OG.AstVisiting.Visitors
         public object Visit(BodyNode node)
         {
             level++;
+            stack.Push(level+"_"+stack.Peek());
             foreach (var item in node.StatementNodes)
             {
                 item.Accept(this);
             }
 
             level--;
+            stack.Pop();
             return new object();
         }
 
         public object Visit(AndComparerNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(BoolComparerNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(BoolNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(BoolTerminalNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(EqualsComparerNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(GreaterThanComparerNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(LessThanComparerNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(MathComparerNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(NegationNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(OrComparerNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(BoolFunctionCallNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
@@ -345,19 +356,19 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionCallParameterNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(IFunctionCallNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(MathFunctionCallNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
@@ -380,7 +391,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(IFunctionNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
@@ -394,19 +405,19 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(DivisionNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(InfixMathNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(MathIdNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
@@ -418,67 +429,67 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MultiplicationNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(PowerNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(SubtractionNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(TerminalMathNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(PointFunctionCallNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(PointReferenceIdNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(PointReferenceNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(ShapeEndPointNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(ShapePointReference node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(ShapePointRefNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(ShapeStartPointNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
@@ -493,67 +504,67 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FalseNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(IdNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(NumberNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(TrueNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(MachineSettingNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(ModificationPropertyNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(SizePropertyNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(WorkAreaSettingNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(AstNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         object IVisitor.Visit(DrawNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(ExpressionNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
@@ -561,13 +572,13 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ShapeNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
 
         public object Visit(CoordinateXyValueNode node)
         {
-            Console.WriteLine(node.ToString()); 
+            Console.Write($"{level}_!"); 
             return new object();
         }
     }
