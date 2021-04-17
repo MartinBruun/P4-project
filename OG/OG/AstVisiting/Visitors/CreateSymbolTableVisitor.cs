@@ -16,6 +16,13 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.AstVisiting.Visitors
 {
+    /// <summary>
+    /// Items are added to symboltable when visiting
+    /// a functionDecl in Functiondeclarations
+    /// a shapeDecl in ShapeDeclarations 
+    /// any Declaration inside a Body 
+    /// 
+    /// </summary>
     public class CreateSymbolTableVisitor : IVisitor
     {
         private Dictionary<string, string> symTable = new Dictionary<string, string>();
@@ -61,7 +68,7 @@ namespace OG.AstVisiting.Visitors
                 //     symTable.Add(level+"_"+stack.Peek()+"_"+key, value);
                 // }
                 symTable.Add(stack.Peek()+"_"+key, value);
-                Console.WriteLine(key+":"+value);
+                Console.WriteLine(stack.Peek()+"_"+key+":"+value);
             }
             catch (Exception e)
             {
@@ -73,7 +80,7 @@ namespace OG.AstVisiting.Visitors
         //Visitors
         object IVisitor.Visit(ProgramNode node)
         {
-            Console.WriteLine("Creating SymbolTable");
+            Console.WriteLine("\n---Creating SymbolTable---");
             {
                 stack.Push(""+level);
                 foreach (var item in node.FunctionDcls)
@@ -81,9 +88,7 @@ namespace OG.AstVisiting.Visitors
                         
                         Add(item.Id.Value, item.ReturnType);
                         stack.Push(stack.Peek() + "_" + item.Id.Value);
-                        Console.WriteLine("***Added" + stack.Peek());
                         item.Accept(this);
-                        item.Body.Accept(this);
                         stack.Pop();
 
                     }
@@ -93,7 +98,6 @@ namespace OG.AstVisiting.Visitors
                         Add(item.Id.Value, "shape");
                         stack.Push(stack.Peek() + "_" + item.Id.Value);
                         item.Accept(this);
-                        item.Body.Accept(this);
                         stack.Pop();
 
                     }
@@ -103,167 +107,7 @@ namespace OG.AstVisiting.Visitors
             PrintSymbolTable();
             return new object();
         }
-
         
-        public object Visit(AssignmentNode node)
-        {
-            Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(BoolAssignmentNode node)
-        {
-            Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(FunctionCallAssignNode node)
-        {
-            Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(IdAssignNode node)
-        {
-            Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(MathAssignmentNode node)
-        {
-            Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(PointAssignmentNode node)
-        {
-            Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(PropertyAssignmentNode node)
-        {
-            Console.Write($" level{level}_! "); 
-            return new object();
-        }
-
-        public object Visit(CommandNode node)
-        {
-            node.Accept(this);
-            // Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(CurveCommandNode node)
-        {
-            Console.Write("curve.angle(");
-            node.Angle.Accept(this);
-            Console.Write(").from");
-            node.From.Accept(this);
-            foreach (var to in node.To)
-            {
-                Console.Write(".to");
-                to.Accept(this);
-            }
-            Console.WriteLine(); 
-            return new object();
-        }
-
-        public object Visit(DrawCommandNode node)
-        {
-            Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(IterationNode node)
-        {
-            Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(LineCommandNode node)
-        {
-            Console.Write("line.from");
-            node.From.Accept(this);
-            foreach (var to in node.To)
-            {
-                Console.Write(".to");
-                to.Accept(this);
-            }
-            Console.WriteLine(); 
-            return new object();
-        }
-
-        public object Visit(MovementCommandNode node)
-        {
-            Console.Write($"{level}_!"); 
-            return new object();
-        }
-
-        public object Visit(NumberIterationNode node)
-        {
-            node.Accept(this);
-            Console.WriteLine("NumIt!!!!!!!!!");
-            return new object();
-        }
-
-        public object Visit(UntilFunctionCallNode node)
-        {
-            node.Body.Accept(this);
-            Console.WriteLine("UnF!!!!!!!!!");
-            return new object();
-        }
-
-        public object Visit(UntilNode node)
-        {
-            
-            node.Body.Accept(this);
-            Console.WriteLine("UnN!!!!!!!!!"+stack.Peek());
-
-            return new object();
-        }
-
-        public object Visit(BoolDeclarationNode node)
-        {
-            Add(node.Id.Value, "bool");
-            node.AssignedExpression.Accept(this);
-            return new object();
-        }
-
-        public object Visit(DeclarationNode node)
-        {
-            
-            Add(node.Id.Value, "bool");
-            node.AssignedExpression.Accept(this);
-            Console.Write("b\n"); 
-            return new object();
-        }
-
-        public object Visit(NumberDeclarationNode node)
-        {
-            Add(node.Id.Value, "number");
-            node.AssignedExpression.Accept(this);
-            Console.Write("n\n"); 
-            
-            return new object();
-        }
-
-        public object Visit(PointDeclarationNode node)
-        {
-            Add(node.Id.Value, "point");
-            node.AssignedExpression.Accept(this);
-            Console.Write("p\n"); 
-
-            return new object();
-        }
-
-        public object Visit(StatementNode node)
-        {
-            node.Accept(this);
-            Console.Write("s\n");
-            return new object();
-        }
-
         public object Visit(BodyNode node)
         {
             level++;
@@ -278,106 +122,273 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
+        
+        public object Visit(AssignmentNode node)
+        {
+           // Console.Write($"Scope level{level}"); 
+            return new object();
+        }
+
+        public object Visit(BoolAssignmentNode node)
+        {
+           // Console.Write($"Scope level{level}"); 
+            return new object();
+        }
+
+        public object Visit(FunctionCallAssignNode node)
+        {
+           // Console.Write($"Scope level{level}"); 
+            return new object();
+        }
+
+        public object Visit(IdAssignNode node)
+        {
+           // Console.Write($"Scope level{level}"); 
+            return new object();
+        }
+
+        public object Visit(MathAssignmentNode node)
+        {
+           // Console.Write($"Scope level{level}"); 
+            return new object();
+        }
+
+        public object Visit(PointAssignmentNode node)
+        {
+           // Console.Write($"Scope level{level}"); 
+            return new object();
+        }
+
+        public object Visit(PropertyAssignmentNode node)
+        {
+            // Console.Write($" level{level}_! "); 
+            return new object();
+        }
+
+        public object Visit(CommandNode node)
+        {
+            node.Accept(this);
+            // Console.Write($"{level}_!"); 
+            return new object();
+        }
+
+        public object Visit(CurveCommandNode node)
+        {
+            // Console.Write("curve.angle(");
+            // node.Angle.Accept(this);
+            // Console.Write(").from");
+            // node.From.Accept(this);
+            // foreach (var to in node.To)
+            // {
+                // Console.Write(".to");
+                // to.Accept(this);
+            // }
+            // Console.WriteLine(); 
+            return new object();
+        }
+
+        public object Visit(DrawCommandNode node)
+        {
+           // Console.Write($"Scope level{level}"); 
+            return new object();
+        }
+
+        public object Visit(IterationNode node)
+        {
+           // Console.Write($"Scope level{level}"); 
+            return new object();
+        }
+
+        public object Visit(LineCommandNode node)
+        {
+            // Console.Write("line.from");
+            // node.From.Accept(this);
+            // foreach (var to in node.To)
+            // {
+            //     Console.Write(".to");
+            //     to.Accept(this);
+            // }
+            // Console.WriteLine(); 
+            return new object();
+        }
+
+        public object Visit(MovementCommandNode node)
+        {
+           // Console.Write($"Scope level{level}"); 
+            return new object();
+        }
+
+        public object Visit(NumberIterationNode node)
+        {
+            node.Accept(this);
+            Console.Write("NumberIterN\n"); 
+
+            // Console.Write("***NumberIteration***");
+            return new object();
+        }
+
+        public object Visit(UntilFunctionCallNode node)
+        {
+            node.Body.Accept(this);
+            Console.Write("UntilFuncN\n"); 
+
+            // Console.Write("***UntilFunction***");
+            return new object();
+        }
+
+        public object Visit(UntilNode node)
+        {
+            node.Body.Accept(this);
+            Console.Write("UntilN\n"); 
+
+            // Console.Write("***UntilNode"+stack.Peek()+"***");
+            return new object();
+        }
+
+        public object Visit(BoolDeclarationNode node)
+        {
+            Add(node.Id.Value, "bool");
+            Console.Write("BoolN\n"); 
+
+            // node.AssignedExpression.Accept(this);
+            return new object();
+        }
+
+        public object Visit(DeclarationNode node)
+        {
+            
+            node.Accept(this);
+            Console.Write("ADeclarationN\n"); 
+
+            return new object();
+        }
+
+        public object Visit(NumberDeclarationNode node)
+        {
+            Add(node.Id.Value, "number");
+            // node.AssignedExpression.Accept(this);
+            Console.Write("NumberN\n"); 
+            return new object();
+        }
+
+        public object Visit(PointDeclarationNode node)
+        {
+            Add(node.Id.Value, "point");
+            // node.AssignedExpression.Accept(this);
+            // Console.Write("p\n"); 
+
+            return new object();
+        }
+
+        public object Visit(StatementNode node)
+        {
+            node.Accept(this);
+            Console.Write("StatementN\n");
+            return new object();
+        }
+
+       
+
         public object Visit(AndComparerNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(BoolComparerNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(BoolNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(BoolTerminalNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(EqualsComparerNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(GreaterThanComparerNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(LessThanComparerNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(MathComparerNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(NegationNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(OrComparerNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(BoolFunctionCallNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(FunctionCallNode node)
         {
-            node.FunctionName.Accept(this);
-            foreach (var p in node.Parameters)
-            {
-                p.Accept(this);
-            }
+            // node.FunctionName.Accept(this);
+            // foreach (var p in node.Parameters)
+            // {
+            //     p.Accept(this);
+            // }
             return new object();
         }
 
         public object Visit(FunctionCallParameterNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(IFunctionCallNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(MathFunctionCallNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(ParameterNode node)
         {
-            Console.Write(node.ParamType);
-             node.ParameterId.Accept(this);
-             node.Expression.Accept(this);
-            Console.Write(","); 
+            // Console.Write(node.ParamType);
+            //  node.ParameterId.Accept(this);
+            //  node.Expression.Accept(this);
+            // Console.Write(","); 
             return new object();
         }
 
@@ -385,186 +396,187 @@ namespace OG.AstVisiting.Visitors
         {
             node.Id.Accept(this);
             node.Body.Accept(this);
-            
+            Console.Write("FunctionN\n"); 
+
             return new object();
         }
-
+//Anvendes ikke
         public object Visit(IFunctionNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(AdditionNode node)
         {
-           node.LHS.Accept(this);
-           Console.Write("+");
-           node.RHS.Accept(this);
+           // node.LHS.Accept(this);
+           // Console.Write("+");
+           // node.RHS.Accept(this);
            return new object();
         }
 
         public object Visit(DivisionNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(InfixMathNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(MathIdNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(MathNode node)
         {
-            Console.Write(node.Value); 
+            // Console.Write(node.Value); 
             return new object();
         }
 
         public object Visit(MultiplicationNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(PowerNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(SubtractionNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(TerminalMathNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(PointFunctionCallNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(PointReferenceIdNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(PointReferenceNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(ShapeEndPointNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(ShapePointReference node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(ShapePointRefNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(ShapeStartPointNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(TuplePointNode node)
         {
-            Console.Write("(");
-            node.XValue.Accept(this);
-            node.YValue.Accept(this);
-            Console.WriteLine(")");
+            // Console.Write("(");
+            // node.XValue.Accept(this);
+            // node.YValue.Accept(this);
+            // Console.WriteLine(")");
             return new object();
         }
 
         public object Visit(FalseNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(IdNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(NumberNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(TrueNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(MachineSettingNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(ModificationPropertyNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(SizePropertyNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(WorkAreaSettingNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(AstNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         object IVisitor.Visit(DrawNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
         public object Visit(ExpressionNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
 
@@ -572,13 +584,13 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ShapeNode node)
         {
-            Console.Write($"{level}_!"); 
+            node.Body.Accept(this);
             return new object();
         }
 
         public object Visit(CoordinateXyValueNode node)
         {
-            Console.Write($"{level}_!"); 
+           // Console.Write($"Scope level{level}"); 
             return new object();
         }
     }
