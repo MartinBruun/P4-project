@@ -46,7 +46,7 @@ namespace Tests
         [TestCase("mathAddition.og", "Testing a file with additive math expressions")]
         [TestCase("mathMultiplication.og", "Testing a file with multiplicative math expressions")]
         [TestCase("while.og", "testing while loops")]
-        public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
+        public void Test_Fixtures_ShouldNotFindAnyDoubleDeclarations(string fileName, string description)
         {
             OGParser parser = CreateParser(fileName, "Correct programs/");
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
@@ -73,6 +73,40 @@ namespace Tests
             
             Assert.AreEqual(0,errors.Count,
              description);
+        }
+        
+        
+        [TestCase("ShapeDoubleDeclarations.og",2, "testing that two shapes of the same name are discovered")]
+        [TestCase("FunctionDoubleDeclarations.og",1, "testing that two Functions of the same name are discovered")]
+        [TestCase("VariableDoubleDeclarations.og",6, "testing that two Variables of the same name are discovered")]
+        
+        public void Test_Fixtures_ShouldFindDoubleDeclarations(string fileName,int errorCount, string description)
+        {
+            OGParser parser = CreateParser(fileName, "Incorrect programs/DoubleDeclarationErrors/");
+            AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
+                new AstBuilderContainer<AstBuilder, ProgramNode>(parser, new AstBuilder("program"));
+
+            ProgramNode p = astContainer.AstTreeTopNode;
+            CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
+
+            p.Accept(ST);
+            var symboltable = ST.GetSymbolTable();
+            var errors = ST.getErrors();
+            
+            Console.WriteLine("\n-----Contents of symboltable-----");
+            foreach (var item in symboltable)
+            {
+                Console.WriteLine(item.Key + ":" + item.Value);
+            }
+            
+            Console.WriteLine("\n---Bad declarations---");
+            foreach (var item in errors)
+            {
+                Console.WriteLine(item);
+            }
+            
+            Assert.AreEqual(errorCount,errors.Count,
+                description);
         }
         
         
