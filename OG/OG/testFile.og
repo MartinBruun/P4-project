@@ -1,7 +1,7 @@
 Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
 draw {a;b;c;}
 /*Functions*/
-function bool bools(){
+function bool bools(number c, number f){
 number a = myfunc(3*3);
 line.from(a*a*a*a*A*a, myfunc()).to(a.endPoint.x, 2*a.endPoint.y);
 number a = 10;
@@ -25,7 +25,7 @@ test03 = a > b  || a + b < 10^2;
 return true;
 }
  
-function void funA(){
+function void funA(number k, number l){
 number q = 33;
 bool test3 = a + b == 0;
 number q = 33;

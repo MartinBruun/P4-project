@@ -1,5 +1,7 @@
 ﻿
+using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
+using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting;
 
@@ -8,6 +10,8 @@ namespace OG.ASTBuilding.TreeNodes
     public class FunctionNode : AstNode, IFunctionNodeVisitable
     {
         public IdNode Id { get; set; }
+        // public List<ParameterNode> Params { get; set; }
+            
 
         public string ReturnType { get; set; }
         public BodyNode Body;
