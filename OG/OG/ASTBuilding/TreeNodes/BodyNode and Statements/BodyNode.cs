@@ -18,6 +18,12 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements
         {
             visitorBundleBundleBundleBundle.Visit(this);
         }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
+        }
     }
 
     public interface IBody

@@ -78,6 +78,11 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             visitor.Visit(this);
 
         }
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
+        }
     }
 
 

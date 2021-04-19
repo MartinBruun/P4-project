@@ -1,5 +1,6 @@
 ﻿using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.PointReferences
 {
@@ -12,6 +13,11 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         {
             YValue = yValue;
             XValue = xValue;
+        }
+        
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);        
         }
     }
 }

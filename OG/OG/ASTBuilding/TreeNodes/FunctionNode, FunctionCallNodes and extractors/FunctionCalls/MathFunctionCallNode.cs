@@ -21,5 +21,10 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         {
             visitorBundleBundle.Visit(this);
         }
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
+        }
     }
 }

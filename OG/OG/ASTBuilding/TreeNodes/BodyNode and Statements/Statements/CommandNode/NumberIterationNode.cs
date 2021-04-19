@@ -17,6 +17,12 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         {
             visitor.Visit(this);
         }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
+        }
     }
 
     public interface INumberIterationVisitable

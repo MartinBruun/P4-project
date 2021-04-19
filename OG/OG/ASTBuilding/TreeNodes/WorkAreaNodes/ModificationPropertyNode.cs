@@ -1,7 +1,7 @@
-﻿// namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
-// {
-//     public abstract class ModificationPropertyNode : MachineSettingNode
-//     {
-//         
-//     }
-// }
+﻿namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
+{
+    public abstract class ModificationPropertyNode : MachineSettingNode
+    {
+        
+    }
+}

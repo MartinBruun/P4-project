@@ -4,7 +4,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class DrawCommandNode : CommandNode, IDrawNodeVisitable,IStatementNodeVisitable
+    public class DrawCommandNode : CommandNode, IDrawNodeVisitable//,IStatementNodeVisitable
     {
         public IdNode Id;
         public PointReferenceNode From;
@@ -26,9 +26,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             visitor.Visit(this);
         }
 
-        public void Accept(IStatementVisitorBundle visitorBundle)
+        // public void Accept(IStatementVisitorBundle visitorBundle)
+        // {
+        //     visitorBundle.Visit(this);
+        // }
+        public override void Accept(IVisitor visitor)
         {
-            visitorBundle.Visit(this);
+            visitor.Visit(this);
+
         }
     }
 }

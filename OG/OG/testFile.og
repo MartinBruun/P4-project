@@ -1,54 +1,60 @@
 Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
-
-draw {
-a;
-b;
-c;
-}
-
-
+draw {a;b;c;}
+/*Functions*/
 function bool bools(){
 number a = myfunc(3*3);
 line.from(a*a*a*a*A*a, myfunc()).to(a.endPoint.x, 2*a.endPoint.y);
-
 number a = 10;
 number b = -10;
 point p = (a,b);
 t = true;
 f = false;
-
 test1 = a < b;
 test2 = a > b;
-
-test3 = a + b == 0;
+bool test3 = a + b == 0;
 test4 = a - b == 20;
 test5 = a < p.y;
 test6 = b > p.y && a - b > 3 || b-a == -20;
-
 test7 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
 test8 = 7^2^6^7^4^2 / 123 == 49;
 test9 = 7^2 > 49;
 test01 = 7^2 < 48;
-
-
+bool test3 = a + b == 0;
 test02 = a < b && a + b > 9;
 test03 = a > b  || a + b < 10^2;
-
 return true;
 }
-
-
  
 function void funA(){
 number q = 33;
+bool test3 = a + b == 0;
+number q = 33;
 }
 function void funA(){
 number q = 33;
 }
-
+/*Shapes*/
 shape shapeA{
-line.from(2,2).to(3,3).to(89,5);
+number a = 10;
+number b = 20;
+repeat.until(a>b)
+    bool repeatPoint = true;
+    line.from(a,b).to(b,a).to(8,5);
+/*    curve.angle(30).from(a,a).to(b,b);*/
+    a = a * 2;
+    b= b + 2;
+repeat.end
 }
 shape shapeB{
-a;
+shapeA;
+number a = 1;
+number b = 2;
+repeat(4)
+    bool repeatPoint = true;
+    line.from(a,b).to(b,a).to(8,5);
+/*    curve.angle(30).from(a,a).to(b,b);*/
+    a = a * 2;
+    b= b + 2;
+repeat.end
+}
 }

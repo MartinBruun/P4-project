@@ -4,6 +4,6 @@ namespace OG.AstVisiting
 {
     public interface IStatementVisitorBundle : IDeclarationVisitor, ICommandNodeVisitorBundle, IAssignmentVisitorBundle
     {
-        public void Visit(IStatementNodeVisitable node);
+        // public void Visit(IStatementNodeBundleVisitable node);
     }
 }

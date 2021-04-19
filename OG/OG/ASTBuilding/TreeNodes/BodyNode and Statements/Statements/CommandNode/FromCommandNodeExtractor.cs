@@ -45,8 +45,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
 
         public override PointReferenceNode VisitFromWithId(OGParser.FromWithIdContext context)
         {
-            IdNode id = new IdNode(context.id.Text);
-            return new PointReferenceIdNode(context.GetText(),id);
+        try            
+            {
+                IdNode id = new IdNode(context.id.Text);
+                return new PointReferenceIdNode(context.GetText(),id);
+            } catch (InvalidCastException)
+            {
+                throw new AstNodeCreationException($"Node {context.GetText()} couldn't be created at FromCommandNodeExtractor.");
+            }
         }
 
         public override PointReferenceNode VisitFromWithNumberTuple(OGParser.FromWithNumberTupleContext context)

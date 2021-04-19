@@ -263,10 +263,7 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine(node.ToString());
         }
 
-        public void Visit(IStatementNodeVisitable node)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public void Visit(ShapeNode node)
         {

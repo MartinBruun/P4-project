@@ -5,11 +5,11 @@ draw
    A;
    B;
 }
-function bool boolFunc (point a, point b) {
+function bool boolFuncA (point a, point b) {
 	return dist(a, b) < 6.6;
 }
 
-function bool boolFunc (point a, point b) {
+function bool boolFuncB (point a, point b) {
 	return dist(a, b) < 6.6;
 }
 
@@ -45,7 +45,7 @@ shape C {
 	
 	number myNumber = 1.3;
 
-	repeat.until (boolFunc(a,D.startPoint)) /*Oversaettes til GOTO i G-code*/
+	repeat.until (boolFuncA(a,D.startPoint)) /*Oversaettes til GOTO i G-code*/
 		D.startPoint = (a.x, b.y);
 		D;
 		
