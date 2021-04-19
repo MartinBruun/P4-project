@@ -46,5 +46,15 @@ repeat.until(a>b)
 repeat.end
 }
 shape shapeB{
-a;
+shapeA;
+number a = 1;
+number b = 2;
+repeat(4)
+    bool repeatPoint = true;
+    line.from(a,b).to(b,a).to(8,5);
+/*    curve.angle(30).from(a,a).to(b,b);*/
+    a = a * 2;
+    b= b + 2;
+repeat.end
+}
 }

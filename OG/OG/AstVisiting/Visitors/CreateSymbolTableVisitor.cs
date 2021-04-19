@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
@@ -25,14 +26,12 @@ namespace OG.AstVisiting.Visitors
     /// </summary>
     public class CreateSymbolTableVisitor : IVisitor
     {
+        private List<SemanticError> errors = new List<SemanticError>();
         private Dictionary<string, string> symTable = new Dictionary<string, string>();
         Stack<string> stack = new Stack<string>();
         private int level = 0;
 
-        public Dictionary<string, string> GetSymbolTable()
-        {
-            return symTable;
-        }
+     
         void PrintSymbolTable()
         {
             foreach (var item in symTable)
@@ -40,25 +39,16 @@ namespace OG.AstVisiting.Visitors
                 Console.WriteLine(item.Key + ":" + item.Value);
             }
         }
+        
+        public Dictionary<string, string> GetSymbolTable()
+        {
+            return symTable;
+        }
 
-        // string Name(string key)
-        // {
-        //     string _name;
-        //     try
-        //     {
-        //         if (level != 0)
-        //         {
-        //             return stack.Peek()+"_"+key;
-        //         }
-        //         return _name=level+"_"+stack.Peek()+"_"+key;
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Console.WriteLine(e.Message);
-        //     }
-        //
-        //     return "";
-        // }
+        public List<SemanticError> getErrors()
+        {
+            return errors;
+        }
         void Add(string key, string value)
         {
             try
@@ -72,6 +62,7 @@ namespace OG.AstVisiting.Visitors
             }
             catch (Exception e)
             {
+                errors.Add(new SemanticError(0, 0, stack.Peek()+"_"+key+":"+e.Message));
                 Console.WriteLine(e.Message);
             }
         }
@@ -85,12 +76,10 @@ namespace OG.AstVisiting.Visitors
                 stack.Push(""+level);
                 foreach (var item in node.FunctionDcls)
                     {
-                        
                         Add(item.Id.Value, item.ReturnType);
                         stack.Push(stack.Peek() + "_" + item.Id.Value);
                         item.Accept(this);
                         stack.Pop();
-
                     }
                 
                     foreach (var item in node.ShapeDcls)
@@ -220,7 +209,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(NumberIterationNode node)
         {
-            node.Accept(this);
+            node.Body.Accept(this);
             Console.Write("NumberIterN\n"); 
 
             // Console.Write("***NumberIteration***");

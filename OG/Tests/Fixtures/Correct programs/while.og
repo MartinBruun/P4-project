@@ -5,12 +5,12 @@ draw
    C;
    
 }
-function void triangle() {
+function void triangleA() {
     point startpoint = (0,0);
     line.from(startpoint).to(x,y).to(x,y).to(startpoint);
 }
 
-function void triangle() {
+function void triangleB() {
     point startpoint = (0,0);
     line.from(startpoint).to(x,y).to(x,y).to(startpoint);
 }
@@ -37,7 +37,7 @@ shape D {
     number desiredAmountOfTriangles = 27;
     repeat.until (numberOfTriangles == desiredAmountOfTriangles)
 
-        triangle.from(origin);
+        triangleB.from(origin);
         
     repeat.end
 }

@@ -1,7 +1,7 @@
 grammar OG;
 
 
-program: settings=machineSettings drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls #prog
+program: settings=machineSettings drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls EOF #prog
        ;
 
 // Machine Settings
