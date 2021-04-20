@@ -55,7 +55,7 @@ namespace OG.AstVisiting.Visitors
         //Visitors
         public object Visit(ProgramNode node)
         {   S.enterScope("Global");
-            Console.WriteLine("\n---Creating SymbolTable---");
+            Console.WriteLine("\n--- TypeChecking ---");
                  
                 node.drawNode.Accept(this);
             
@@ -221,7 +221,14 @@ namespace OG.AstVisiting.Visitors
         public object Visit(IdAssignNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            try
+            {
+                node.CompileTimeType = S.checkType(node.AssignedValue.Value);
+            }catch
+            {
+                errors.Add(new SemanticError(node, $"{node.AssignedValue.Value} has not been declared "));
+            }
             return new object();
         }
 
@@ -406,10 +413,8 @@ namespace OG.AstVisiting.Visitors
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
 
-            // Console.Write(node.ParamType);
-            //  node.ParameterId.Accept(this);
-            //  node.Expression.Accept(this);
-            // Console.Write(","); 
+            node.ParameterId.Accept(this); 
+            node.Expression.Accept(this);
             return new object();
         }
 
@@ -436,7 +441,8 @@ namespace OG.AstVisiting.Visitors
         public object Visit(DivisionNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            node.Accept(this);
             return new object();
         }
 
@@ -444,6 +450,9 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.Accept(this);
+            Console.WriteLine("!!!Infix 449");
+
             return new object();
         }
 
@@ -454,16 +463,16 @@ namespace OG.AstVisiting.Visitors
             
             if (!(S.checkType(node.AssignedValueId.Value) == "number"))
             {
-                errors.Add(new SemanticError(node, "TypeMismatch"));
+                errors.Add(new SemanticError(node, $"{node.AssignedValueId.Value} is not a number: TypeMismatch"));
             }
-            return new object();
+            return "number";
         }
 
         public object Visit(MathNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
-
+            node.Accept(this);
             // Console.Write(node.Value); 
             return new object();
         }
@@ -500,6 +509,8 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            Console.WriteLine("!!!PointFuncCall 503");
+
             return new object();
         }
 
@@ -510,7 +521,7 @@ namespace OG.AstVisiting.Visitors
             
             if (!(S.checkType(node.AssignedValue.Value) == "point"))
             {
-                errors.Add(new SemanticError(node, "TypeMismatch"));
+                errors.Add(new SemanticError(node, $"{node.AssignedValue.Value} is not point : TypeMismatch"));
             }
             return new object();
         }
@@ -519,6 +530,8 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            Console.WriteLine("!!!PointRefference 522");
+
             return new object();
         }
 
@@ -526,20 +539,25 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            Console.WriteLine("!!!ShapePointEndNode 529");
+
             return new object();
         }
 
         public object Visit(ShapePointReference node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            Console.WriteLine("!!!ShapePointRefference 536");
             return new object();
         }
 
         public object Visit(ShapePointRefNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            Console.WriteLine("!!!ShapePointRefNode 544");
+
             return new object();
         }
 
@@ -572,9 +590,17 @@ namespace OG.AstVisiting.Visitors
         public object Visit(IdNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
-            Console.WriteLine("!!!!!!!!!!!!!!!"+ S.checkType(node.Value));
-                       
+            Console.WriteLine(node.ToString());
+            try
+            {
+                node.CompileTimeType = S.checkType(node.Value);
+                Console.WriteLine("set CompiletimeType on IDNode");
+            }
+            catch
+            {
+                errors.Add(new SemanticError(node, $"{node.Value} has not been declared"));
+            }
+
             return new object();
         }
 
@@ -634,6 +660,10 @@ namespace OG.AstVisiting.Visitors
             foreach (var item in node.drawCommands)
             {
                 item.Id.Accept(this);
+                if (item.Id.CompileTimeType != "shape")
+                {
+                    errors.Add(new SemanticError(item, $"{item.Id.Value} is not a declared shape TypeMismatch"));
+                }
             }
             return new object();
         }
@@ -644,9 +674,6 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine(node.ToString()); 
             return new object();
         }
-
-        
-
         
 
         public object Visit(CoordinateXyValueNode node)

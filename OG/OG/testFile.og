@@ -1,10 +1,10 @@
 Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
-draw {a;b;c;}
+draw {shapeA;shapeB; }
 /*Functions*/
+/*
 function bool bools(){
 number a = myfunc(3*3);
 line.from(a*a*a*a*A*a, myfunc()).to(a.endPoint.x, 2*a.endPoint.y);
-number a = 10;
 number b = -10;
 point p = (a,b);
 t = true;
@@ -13,13 +13,15 @@ bool test1 = a < b;
 bool test2 = a > b;
 bool test3 = a + b == 0;
 number test4 = a - b == 20;
+number test44 = a/b;
+number BadDivision = a+test1;
 bool test5 = a < p.y;
 test1 = b > p.y && a - b > 3 || b-a == -20;
 test4 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
 number test6 = 7^2^6^7^4^2 / 123 == 49;
 bool test9 = 7^2 > 49;
 test01 = 7^2 < 48;
-bool test3 = a + b == 0;
+test3 = a + b == 0;
 test02 = a < b && a + b > 9;
 test03 = a > b  || a + b < 10^2;
 
@@ -27,20 +29,26 @@ test03 = a > b  || a + b < 10^2;
 
 return true;
 }
+ */
  
 function point myfunc(number a){
-    return (a,a);
+    bool c = true;
+    number b = c +b *c/b + q;
+    /*number d = b+c;
+    return (a,a);*/
 } 
- 
-function void funA(){
+/* 
+function void funA(number a){
 number q = 33;
 bool test3 = a + b == 0;
 number q = 33;
 }
-function void funA(){
+function void funB(){
 number q = 33;
+
 }
 /*Shapes*/
+/*
 shape shapeA{
 number a = 10;
 number b = 20;
@@ -48,7 +56,7 @@ repeat.until(a>b)
     bool repeatPoint = true;
     line.from(a,b).to(b,a).to(8,5);
 /*    curve.angle(30).from(a,a).to(b,b);*/
-    a = a * 2;
+/*    a = a * 2;
     b= b + 2;
 repeat.end
 }
@@ -61,8 +69,8 @@ mystartpoint = (myXNumber, myYNumber);
     point repeatPoint = shapeA;
     line.from(a,b).to(b,a).to(8,5);
 /*    curve.angle(30).from(a,a).to(b,b);*/
-    a = a * 2;
+/*    a = a * 2;
     b= b + 2;
 repeat.end
 }
-}
+}*/

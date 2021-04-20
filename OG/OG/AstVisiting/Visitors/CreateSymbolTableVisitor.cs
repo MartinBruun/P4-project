@@ -182,7 +182,7 @@ namespace OG.AstVisiting.Visitors
 
             if (!S.Add(node.Id.Value, "bool"))
             {
-                errors.Add(new SemanticError(node,"Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable"));
             }
             
             return new object();
@@ -197,7 +197,7 @@ namespace OG.AstVisiting.Visitors
 
             if (!S.Add(node.Id.Value, "number"))
             {
-                errors.Add(new SemanticError(node,"Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable"));
             }
             Console.Write("NumberN\n"); 
             return new object();

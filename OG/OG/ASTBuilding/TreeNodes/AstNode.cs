@@ -8,6 +8,7 @@ namespace OG.ASTBuilding.TreeNodes
     /// </summary>
     public abstract class AstNode: IVisitable
     {
+        public string CompileTimeType;
         public abstract void Accept(IVisitor visitor);
 
     }
