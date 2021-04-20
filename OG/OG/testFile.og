@@ -9,21 +9,28 @@ number b = -10;
 point p = (a,b);
 t = true;
 f = false;
-test1 = a < b;
-test2 = a > b;
+bool test1 = a < b;
+bool test2 = a > b;
 bool test3 = a + b == 0;
-test4 = a - b == 20;
-test5 = a < p.y;
-test6 = b > p.y && a - b > 3 || b-a == -20;
-test7 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
-test8 = 7^2^6^7^4^2 / 123 == 49;
-test9 = 7^2 > 49;
+number test4 = a - b == 20;
+bool test5 = a < p.y;
+test1 = b > p.y && a - b > 3 || b-a == -20;
+test4 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
+number test6 = 7^2^6^7^4^2 / 123 == 49;
+bool test9 = 7^2 > 49;
 test01 = 7^2 < 48;
 bool test3 = a + b == 0;
 test02 = a < b && a + b > 9;
 test03 = a > b  || a + b < 10^2;
+
+ 
+
 return true;
 }
+ 
+function point myfunc(number a){
+    return (a,a);
+} 
  
 function void funA(){
 number q = 33;
@@ -50,7 +57,7 @@ shapeA;
 number a = 1;
 number b = 2;
 repeat(4)
-    bool repeatPoint = true;
+    point repeatPoint = shapeA;
     line.from(a,b).to(b,a).to(8,5);
 /*    curve.angle(30).from(a,a).to(b,b);*/
     a = a * 2;

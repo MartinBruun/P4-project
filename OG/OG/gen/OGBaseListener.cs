@@ -486,6 +486,20 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitIdAssign([NotNull] OGParser.IdAssignContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>boolAssign</c>
 	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -527,20 +541,6 @@ public partial class OGBaseListener : IOGListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPointAssign([NotNull] OGParser.PointAssignContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>functionCallAssign</c>
-	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>functionCallAssign</c>
-	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// <para>The default implementation does nothing.</para>

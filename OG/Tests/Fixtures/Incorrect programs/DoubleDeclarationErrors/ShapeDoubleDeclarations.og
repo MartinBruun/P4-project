@@ -19,7 +19,7 @@ shape ShapeA {
 }
 /*error*/
 shape ShapeA {
-	number distB = 0;//Bemærk : hvis to shapes med samme navn indeholder variabler af samme navn så tælles de indeholdte variabler også med som fejl!
+	number distB = 0;/*Bemærk : hvis to shapes med samme navn indeholder variabler af samme navn så tælles de indeholdte variabler også med som fejl!*/
     
 }
 
@@ -33,5 +33,8 @@ shape ShapeA {
 	repeat.until (boolFuncA(a,D.startPoint)) 
 		point a = (3,3);
 	repeat.end
+	
+	
+	
 }
 

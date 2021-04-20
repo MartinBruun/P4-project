@@ -26,9 +26,11 @@ namespace OG.AstVisiting.Visitors
     /// </summary>
     public class CreateSymbolTableVisitor : IVisitor
     {
+        
         private List<SemanticError> errors = new List<SemanticError>();
         private Dictionary<string, string> symTable = new Dictionary<string, string>();
-        Stack<string> stack = new Stack<string>();
+        private Stack<string> stack = new Stack<string>();
+        private int repeatNumber = 0;
         private int level = 0;
 
      
@@ -40,6 +42,7 @@ namespace OG.AstVisiting.Visitors
             }
         }
         
+        //Mark: Getters
         public Dictionary<string, string> GetSymbolTable()
         {
             return symTable;
@@ -49,14 +52,12 @@ namespace OG.AstVisiting.Visitors
         {
             return errors;
         }
+        
+        //Mark:Add
         void Add(string key, string value)
         {
             try
             {
-                // if (level != 0)
-                // {
-                //     symTable.Add(level+"_"+stack.Peek()+"_"+key, value);
-                // }
                 symTable.Add(stack.Peek()+"_"+key, value);
                 Console.WriteLine(stack.Peek()+"_"+key+":"+value);
             }
@@ -66,53 +67,167 @@ namespace OG.AstVisiting.Visitors
                 Console.WriteLine(e.Message);
             }
         }
+
+        //Mark:Naming Functions
+        public string GetCurrentStackElement()
+        {
+            return stack.Peek();
+        }
+        
+        public void ProgramStartElementNaming()
+        {
+            stack.Push(""+level);
+        }
+        
+        public void ProgramFunctionListElementNaming(FunctionNode item)
+        {
+            stack.Push(stack.Peek() + "_" + item.Id.Value);
+                item.Accept(this);
+                stack.Pop();
+        }
+        public void ProgramShapeListElementNaming(ShapeNode item)
+        {
+            stack.Push(stack.Peek() + "_" + item.Id.Value);
+            item.Accept(this);
+            stack.Pop();
+        }
+        
+        
+        public void RepetitionElementNaming(BodyNode body)
+        {
+            stack.Push(stack.Peek()+"_rep"+repeatNumber);
+            repeatNumber++;
+            body.Accept(this);
+            stack.Pop();
+        }
+
+        public void BodyElementNaming(BodyNode body)
+        {
+            level++;
+            stack.Push(level+"_"+stack.Peek());
+            foreach (var item in body.StatementNodes)
+            {
+                item.Accept(this);
+            }
+            level--;
+            stack.Pop();
+            
+        }
         
         
         //Visitors
-        object IVisitor.Visit(ProgramNode node)
+        public object Visit(ProgramNode node)
         {
             Console.WriteLine("\n---Creating SymbolTable---");
-            {
-                stack.Push(""+level);
+                            
+                ProgramStartElementNaming();
                 foreach (var item in node.FunctionDcls)
                     {
                         Add(item.Id.Value, item.ReturnType);
-                        stack.Push(stack.Peek() + "_" + item.Id.Value);
-                        item.Accept(this);
-                        stack.Pop();
+                        ProgramFunctionListElementNaming(item);
                     }
                 
                     foreach (var item in node.ShapeDcls)
                     {
                         Add(item.Id.Value, "shape");
-                        stack.Push(stack.Peek() + "_" + item.Id.Value);
-                        item.Accept(this);
-                        stack.Pop();
-
+                        ProgramShapeListElementNaming(item);
                     }
-            }
+            
             Console.WriteLine("\n---SYMBOLTABLE:---");
             Console.WriteLine($"Reached level {stack.Pop()} on stack\n");
             PrintSymbolTable();
             return new object();
         }
+
+        public object Visit(FunctionNode node)
+        {
+            // node.Id.Accept(this);
+            node.Body.Accept(this);
+            Console.Write("FunctionN\n"); 
+            repeatNumber = 0;
+            return new object();
+        }
+        
+        public object Visit(ShapeNode node)
+        {
+            node.Body.Accept(this);
+            repeatNumber = 0;
+            return new object();
+        }
+        
+        public object Visit(NumberIterationNode node)
+        {
+            RepetitionElementNaming(node.Body);
+            Console.Write("NumberIterN\n");
+            return new object();
+        }
+
+        public object Visit(UntilFunctionCallNode node)
+        {
+            RepetitionElementNaming(node.Body);
+            Console.Write("UntilFuncN\n");
+            return new object();
+        }
+
+        public object Visit(UntilNode node)
+        { 
+            RepetitionElementNaming(node.Body);
+            Console.Write("UntilN\n"); 
+
+            // Console.Write("***UntilNode"+stack.Peek()+"***");
+            return new object();
+        }
         
         public object Visit(BodyNode node)
         {
-            level++;
-            stack.Push(level+"_"+stack.Peek());
-            foreach (var item in node.StatementNodes)
-            {
-                item.Accept(this);
-            }
-
-            level--;
-            stack.Pop();
+            BodyElementNaming(node);
             return new object();
         }
 
         
-        public object Visit(AssignmentNode node)
+        public object Visit(DeclarationNode node)
+        {
+            node.Accept(this);
+            Console.Write("ADeclarationN\n");
+            return new object();
+        }
+        
+        public object Visit(BoolDeclarationNode node)
+        {
+            Add(node.Id.Value, "bool");
+            Console.Write("BoolN\n");
+            return new object();
+        }
+
+        
+
+        public object Visit(NumberDeclarationNode node)
+        {
+            Add(node.Id.Value, "number");
+            // node.AssignedExpression.Accept(this);
+            Console.Write("NumberN\n"); 
+            return new object();
+        }
+
+        public object Visit(PointDeclarationNode node)
+        {
+            Add(node.Id.Value, "point");
+            // node.AssignedExpression.Accept(this);
+            // Console.Write("p\n"); 
+
+            return new object();
+        }
+
+        public object Visit(StatementNode node)
+        {
+            node.Accept(this);
+            Console.Write("StatementN\n");
+            return new object();
+        }
+        
+        
+       //Unused Visitors
+       public object Visit(AssignmentNode node)
         {
            // Console.Write($"Scope level{level}"); 
             return new object();
@@ -163,16 +278,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(CurveCommandNode node)
         {
-            // Console.Write("curve.angle(");
-            // node.Angle.Accept(this);
-            // Console.Write(").from");
-            // node.From.Accept(this);
-            // foreach (var to in node.To)
-            // {
-                // Console.Write(".to");
-                // to.Accept(this);
-            // }
-            // Console.WriteLine(); 
+            
             return new object();
         }
 
@@ -190,14 +296,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(LineCommandNode node)
         {
-            // Console.Write("line.from");
-            // node.From.Accept(this);
-            // foreach (var to in node.To)
-            // {
-            //     Console.Write(".to");
-            //     to.Accept(this);
-            // }
-            // Console.WriteLine(); 
             return new object();
         }
 
@@ -206,77 +304,7 @@ namespace OG.AstVisiting.Visitors
            // Console.Write($"Scope level{level}"); 
             return new object();
         }
-
-        public object Visit(NumberIterationNode node)
-        {
-            node.Body.Accept(this);
-            Console.Write("NumberIterN\n"); 
-
-            // Console.Write("***NumberIteration***");
-            return new object();
-        }
-
-        public object Visit(UntilFunctionCallNode node)
-        {
-            node.Body.Accept(this);
-            Console.Write("UntilFuncN\n"); 
-
-            // Console.Write("***UntilFunction***");
-            return new object();
-        }
-
-        public object Visit(UntilNode node)
-        {
-            node.Body.Accept(this);
-            Console.Write("UntilN\n"); 
-
-            // Console.Write("***UntilNode"+stack.Peek()+"***");
-            return new object();
-        }
-
-        public object Visit(BoolDeclarationNode node)
-        {
-            Add(node.Id.Value, "bool");
-            Console.Write("BoolN\n"); 
-
-            // node.AssignedExpression.Accept(this);
-            return new object();
-        }
-
-        public object Visit(DeclarationNode node)
-        {
-            
-            node.Accept(this);
-            Console.Write("ADeclarationN\n"); 
-
-            return new object();
-        }
-
-        public object Visit(NumberDeclarationNode node)
-        {
-            Add(node.Id.Value, "number");
-            // node.AssignedExpression.Accept(this);
-            Console.Write("NumberN\n"); 
-            return new object();
-        }
-
-        public object Visit(PointDeclarationNode node)
-        {
-            Add(node.Id.Value, "point");
-            // node.AssignedExpression.Accept(this);
-            // Console.Write("p\n"); 
-
-            return new object();
-        }
-
-        public object Visit(StatementNode node)
-        {
-            node.Accept(this);
-            Console.Write("StatementN\n");
-            return new object();
-        }
-
-       
+        
 
         public object Visit(AndComparerNode node)
         {
@@ -346,11 +374,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionCallNode node)
         {
-            // node.FunctionName.Accept(this);
-            // foreach (var p in node.Parameters)
-            // {
-            //     p.Accept(this);
-            // }
+            
             return new object();
         }
 
@@ -381,14 +405,7 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-        public object Visit(FunctionNode node)
-        {
-            node.Id.Accept(this);
-            node.Body.Accept(this);
-            Console.Write("FunctionN\n"); 
-
-            return new object();
-        }
+        
 //Anvendes ikke
         public object Visit(IFunctionNode node)
         {
@@ -571,11 +588,7 @@ namespace OG.AstVisiting.Visitors
 
         
 
-        public object Visit(ShapeNode node)
-        {
-            node.Body.Accept(this);
-            return new object();
-        }
+        
 
         public object Visit(CoordinateXyValueNode node)
         {
