@@ -10,11 +10,12 @@ namespace OG.AstVisiting.Visitors
         private Stack<string> stack = new Stack<string>();
 
         private int level = 0;
-        private string currentScopeName = "0_";
+        private int repeatLevel = 0;
+        private string currentScopeName = "0";
 
         public SymbolTable()
         {
-            stack.Push("0_");
+            stack.Push("0");
         }
         public class SymbolTableItem
         {
@@ -34,15 +35,30 @@ namespace OG.AstVisiting.Visitors
         public void exitScope(string id)
         {
             level--;
-            currentScopeName = stack.Pop();
+            repeatLevel = 0;
+            stack.Pop();
+            currentScopeName = stack.Peek();
         }
+        
 
-        public string checkType(string id)
+        public void enterRepeatScope()
         {
-            string variableId = currentScopeName + "_" + id;
-            return Elements[variableId];
+           string id = "repeat"+repeatLevel;
+           repeatLevel++;
+           level++;
+           currentScopeName = level+"_"+ stack.Peek()+"_"+id;
+           stack.Push(currentScopeName);
         }
-
+        public void exitRepeatScope()
+        {
+            level--;
+            stack.Pop();
+            currentScopeName = stack.Peek();
+        }
+        
+        
+        
+        
         public bool Add(string id, string type)
         {
             try
@@ -56,6 +72,22 @@ namespace OG.AstVisiting.Visitors
                 return false;
             }
            
+        }
+
+        public string GetCurrentType()
+        {
+            return Elements[stack.Peek()];
+        }
+        
+        public string GetCurrentScope()
+        {
+            return stack.Peek();
+        }
+        
+        public string checkType(string id)
+        {
+            string variableId = currentScopeName + "_" + id;
+            return Elements[variableId];
         }
     }
 }

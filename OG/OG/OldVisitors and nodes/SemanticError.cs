@@ -1,3 +1,5 @@
+using OG.ASTBuilding.TreeNodes;
+
 namespace OG.ASTBuilding
 {
     public class SemanticError
@@ -6,6 +8,7 @@ namespace OG.ASTBuilding
         public int Column { get; set; }
         public string Msg { get; set; }
         public string Context { get; set; }
+        public AstNode Node { get; set; }
 
         public SemanticError(int line, int column, string msg)
         {
@@ -20,6 +23,12 @@ namespace OG.ASTBuilding
             Column = column;
             Msg = msg;
             Context = context;
+        }
+
+        public SemanticError(AstNode node, string msg)
+        {
+            Msg = msg;
+            Node = node;
         }
 
         public override string ToString()

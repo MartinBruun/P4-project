@@ -57,6 +57,7 @@ shapeA;
 number a = 1;
 number b = 2;
 repeat(4)
+mystartpoint = (myXNumber, myYNumber);
     point repeatPoint = shapeA;
     line.from(a,b).to(b,a).to(8,5);
 /*    curve.angle(30).from(a,a).to(b,b);*/

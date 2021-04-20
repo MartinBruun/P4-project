@@ -23,8 +23,8 @@ shape C {
 	point mystartpoint = (0,5);
 
 	repeat.until (myXNumber == max) 
-		line.from(mystartpoint).to(myXNumber,myYNumber);
-		
+		/*line.from(mystartpoint).to(myXNumber,myYNumber);
+		*/
 		mystartpoint = (myXNumber, myYNumber);
 		myXNumber = 1;
 		

@@ -50,9 +50,8 @@ namespace OG
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
             p.Accept(ST);
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
-            // p.Accept(TT);
-            // TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
-            // p.Accept(TT);
+            p.Accept(TT);
+            
 
 
 
