@@ -6,17 +6,19 @@ function bool bools(){
     number a = myfunc(3*3);
     bool b = myfunc(3*3);
     point c = myfunc(3*3);
-    line.from(a*a*a*a*A*a, myfunc()).to(a.endPoint.x, 2*a.endPoint.y);
-    number b = -10;
-    point p = (a,b);
-    t = 4;
-    f = 6;
+    number d = -10;
+    bool e = true;
+    point f = (a,b);
+    a = 4;
+    b = 6;
+    /*c = f;*/
+   
     bool test1 = a < b;
     bool test2 = a > b;
     bool test3 = a + b == 0;
     number test4 = a - b == 20;
     number test44 = a/b;
-    number BadDivision = a+test1;
+    number BadDivision = a/test1;
     bool test5 = a < p.y;
     test1 = b > p.y && a - b > 3 || b-a == -20;
     test4 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
@@ -54,6 +56,7 @@ number q = 33;
 shape shapeA{
 number a = 3;
 number b = 20;
+line.from(a*a*a*a*A*a, myfunc()).to(a.endPoint.x, 2*a.endPoint.y);
 repeat.until(a>b)
     bool repeatPoint = true;
     line.from(a,b).to(b,a).to(8,5);

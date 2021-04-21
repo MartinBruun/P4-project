@@ -271,16 +271,20 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString());
+            //TODO: der bør måske være en id på alle 
+
             try
             {
+                
                 if (S.CheckDeclaredTypeOf(node.Id.Value) != S.CheckDeclaredTypeOf(node.AssignedValue.Value))
                 {
-                    errors.Add(new SemanticError(node, $"visitIdAssignNode:{node.Id.Value} does not match type of  {node.AssignedValue.Value}"));
+                    errors.Add(new SemanticError(node, $"visitIdAssignNode:{node.Id.Value} does not match type of  AssignedValue"));
                 }
             }catch
             {
-                errors.Add(new SemanticError(node, $"VisitIDAssignNode:{node.Id.Value} or {node.AssignedValue.Value} has not been declared "));
+                errors.Add(new SemanticError(node, $"VisitIDAssignNode:{node.Id.Value} or AssignedValue has not been declared "));
             }
+            node.AssignedValue.Accept(this);
             return new object();
         }
 
