@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+
 using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
@@ -58,7 +60,6 @@ namespace OG.AstVisiting.Visitors
         
         
         
-        
         public bool Add(string id, string type)
         {
             try
@@ -84,10 +85,36 @@ namespace OG.AstVisiting.Visitors
             return stack.Peek();
         }
         
-        public string checkType(string id)
+        public string CheckDeclaredTypeOf(string id)
         {
-            string variableId = currentScopeName + "_" + id;
-            return Elements[variableId];
+            string IdInScope = currentScopeName + "_" + id;
+            
+                try
+                {
+                    return Elements[IdInScope];
+                }
+                catch { }
+
+                
+                Stack<string> stackCopy = new Stack<string>(stack.ToArray());
+                Console.Write($"Checking {stackCopy.Pop()}");
+
+               while (stackCopy.Count > 0)
+                {
+                    
+                    try
+                    {
+                        string name = stackCopy.Pop() + "_" + id;
+                        Console.Write($"Checking {name}");
+                        return Elements[name];
+                    }
+                    catch
+                    {
+                    }
+                }
+            
+            throw new Exception($"{id} is not in symboltable");
+            return "Not ok";
         }
     }
 }

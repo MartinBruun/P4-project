@@ -82,6 +82,8 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
                 try
                 {
                     OGParser.BoolExprIDContext idBoolContext = (OGParser.BoolExprIDContext) context;
+                    VisitBoolExprID(idBoolContext);
+
                 }
                 catch (InvalidCastException )
                 { }
@@ -163,6 +165,11 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
             OGParser.FunctionCallContext funcCall = context.funcCall;
             _boolFunctionNodeExtractor = new BoolFunctionCallNodeExtractor();
             return _boolFunctionNodeExtractor.VisitFunctionCall(funcCall);
+        }
+
+        public override BoolNode VisitBoolExprID(OGParser.BoolExprIDContext context)
+        {
+            return new BoolExprIdNode(context.GetText(),new IdNode(context.id.Text),BoolNode.BoolType.IdValueNode);
         }
     }
 }

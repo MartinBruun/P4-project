@@ -80,7 +80,7 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine("\n---SYMBOLTABLE:---");
             Console.WriteLine($"Reached S.GetCurrentScope() {S.GetCurrentScope()} on stack\n");
             PrintSymbolTable();
-            Console.WriteLine("\n---Bad declarations---");
+            Console.WriteLine("\n---Double declared---");
             foreach (var item in errors)
             {
                 Console.WriteLine(item);
@@ -215,6 +215,15 @@ namespace OG.AstVisiting.Visitors
            
 
             return new object();
+        }
+
+        public object visit(BoolExprIdNode node)
+        {
+            Console.Write($"Scope {S.GetCurrentScope()} | ");
+            Console.WriteLine(node.ToString());
+            
+            return new object();
+
         }
 
         public object Visit(StatementNode node)

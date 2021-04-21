@@ -1,43 +1,45 @@
 Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
-draw {shapeA;shapeB; }
+draw {shapeA;shapeB; c; }
 /*Functions*/
-/*
+
 function bool bools(){
-number a = myfunc(3*3);
-line.from(a*a*a*a*A*a, myfunc()).to(a.endPoint.x, 2*a.endPoint.y);
-number b = -10;
-point p = (a,b);
-t = true;
-f = false;
-bool test1 = a < b;
-bool test2 = a > b;
-bool test3 = a + b == 0;
-number test4 = a - b == 20;
-number test44 = a/b;
-number BadDivision = a+test1;
-bool test5 = a < p.y;
-test1 = b > p.y && a - b > 3 || b-a == -20;
-test4 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
-number test6 = 7^2^6^7^4^2 / 123 == 49;
-bool test9 = 7^2 > 49;
-test01 = 7^2 < 48;
-test3 = a + b == 0;
-test02 = a < b && a + b > 9;
-test03 = a > b  || a + b < 10^2;
-
- 
-
-return true;
+    number a = myfunc(3*3);
+    bool b = myfunc(3*3);
+    point c = myfunc(3*3);
+    line.from(a*a*a*a*A*a, myfunc()).to(a.endPoint.x, 2*a.endPoint.y);
+    number b = -10;
+    point p = (a,b);
+    t = 4;
+    f = 6;
+    bool test1 = a < b;
+    bool test2 = a > b;
+    bool test3 = a + b == 0;
+    number test4 = a - b == 20;
+    number test44 = a/b;
+    number BadDivision = a+test1;
+    bool test5 = a < p.y;
+    test1 = b > p.y && a - b > 3 || b-a == -20;
+    test4 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
+    number test6 = 7^2^6^7^4^2 / 123 == 49;
+    bool test9 = 7^2 > 49;
+    test01 = 7^2 < 48;
+    test3 = a + b == 0;
+    test02 = a < b && a + b > 9;
+    test03 = a > b  || a + b < 10^2;
+    
+    return true;
 }
- */
  
-function point myfunc(number a){
-    bool c = true;
-    number b = c +b *c/b + q;
-    /*number d = b+c;
-    return (a,a);*/
+ 
+function number myfunc(number a){
+    bool c = false;
+    number b =  q + b + c / d * b;
+    number d = b+c;
+    d=5;
+    return true /*(a,a)*/;
 } 
-/* 
+
+ 
 function void funA(number a){
 number q = 33;
 bool test3 = a + b == 0;
@@ -48,29 +50,35 @@ number q = 33;
 
 }
 /*Shapes*/
-/*
+
 shape shapeA{
-number a = 10;
+number a = 3;
 number b = 20;
 repeat.until(a>b)
     bool repeatPoint = true;
     line.from(a,b).to(b,a).to(8,5);
 /*    curve.angle(30).from(a,a).to(b,b);*/
-/*    a = a * 2;
+    a = a * 2;
     b= b + 2;
 repeat.end
 }
+
+
 shape shapeB{
 shapeA;
-number a = 1;
+bool mybool = false;
+bool a = true;
 number b = 2;
 repeat(4)
-mystartpoint = (myXNumber, myYNumber);
-    point repeatPoint = shapeA;
+ repeat(2)
+    mystartpoint = (myXNumber, myYNumber);
+    point repeatPoint = (a,b);
     line.from(a,b).to(b,a).to(8,5);
 /*    curve.angle(30).from(a,a).to(b,b);*/
-/*    a = a * 2;
+    a = a * 2;
     b= b + 2;
+    bool stop = true || true;
+    repeat.end
 repeat.end
 }
-}*/
+}

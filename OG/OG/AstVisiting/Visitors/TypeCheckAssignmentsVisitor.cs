@@ -56,7 +56,12 @@ namespace OG.AstVisiting.Visitors
         public object Visit(ProgramNode node)
         {   S.enterScope("Global");
             Console.WriteLine("\n--- TypeChecking ---");
-                 
+
+            foreach (var item in node.MachineSettingNodes)
+            {
+                item.Accept(this);
+            }
+            
                 node.drawNode.Accept(this);
             
                 foreach (var item in node.FunctionDcls)
@@ -69,10 +74,11 @@ namespace OG.AstVisiting.Visitors
                         item.Accept(this);
                     }
             S.exitScope("Global");
+            
             Console.WriteLine("\n---TypeChecker:---");
             Console.WriteLine($"Reached S.GetCurrentScope() {S.GetCurrentScope()} on stack\n");
             PrintSymbolTable();
-            Console.WriteLine("\n---Bad declarations---");
+            Console.WriteLine("\n---Missing or bad typed declarations---");
             foreach (var item in errors)
             {
                 Console.WriteLine(item);
@@ -164,7 +170,11 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString());
-            
+            node.AssignedExpression.Accept(this);
+            // if (!(node.AssignedExpression.CompileTimeType == "bool"))
+            // {
+            //     errors.Add(new SemanticError(node , $"VisitBoolDeclNode: {node.Id.Value} Assignment does not match declared type!"));
+            // }
             return new object();
         }
 
@@ -174,7 +184,8 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString());
-            Console.Write("NumberN\n"); 
+            Console.Write("NumberN\n");
+            node.AssignedExpression.Accept(this);
             return new object();
         }
 
@@ -182,7 +193,27 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString());
+            node.AssignedExpression.Accept(this);
             return new object();
+        }
+
+        public object visit(BoolExprIdNode node)
+        {
+            Console.Write($"Scope {S.GetCurrentScope()} | ");
+            Console.WriteLine(node.ToString());
+            try
+            {
+                if (!(S.CheckDeclaredTypeOf(node.Id.Value) == "bool"))
+                {
+                    errors.Add(new SemanticError(node, $"visitBoolExprNode: {node.Id.Value} is not declared as bool: Typemismatch!"));
+                }
+            }catch
+            {
+                errors.Add(new SemanticError(node, $"visitBoolExprNode: {node.Id.Value} Has not been declared: Undeclared"));
+            }
+
+            return new object();
+
         }
 
         public object Visit(StatementNode node)
@@ -201,20 +232,38 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.Accept(this);
            return new object();
         }
 
         public object Visit(BoolAssignmentNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            //TODO: Det ser ud til at boolassignment mangler en id
+            // try
+            // {
+            //     if (S.CheckDeclaredTypeOf(node.Id.Value) != "bool")
+            //     {
+            //         errors.Add(new SemanticError(node, $"visitBoolAssignNode:{node.Id.Value} is not a bool : TypeMismatch! "));
+            //     }
+            // }catch
+            // {
+            //     errors.Add(new SemanticError(node, $"visitBoolAssignNode:{node.Id.Value}  has not been declared : Undeclared"));
+            // }
+            node.AssignedValue.Accept(this);
             return new object();
         }
 
         public object Visit(FunctionCallAssignNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            if (S.CheckDeclaredTypeOf(node.FunctionName.Value) != S.CheckDeclaredTypeOf(node.Id.Value))
+            {
+                errors.Add(new SemanticError(node, $"visitFunctionCallAssignment:{node.Id.Value} does not match type of function {node.FunctionName.Value}"));
+            }
+            
             return new object();
         }
 
@@ -224,10 +273,13 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine(node.ToString());
             try
             {
-                node.CompileTimeType = S.checkType(node.AssignedValue.Value);
+                if (S.CheckDeclaredTypeOf(node.Id.Value) != S.CheckDeclaredTypeOf(node.AssignedValue.Value))
+                {
+                    errors.Add(new SemanticError(node, $"visitIdAssignNode:{node.Id.Value} does not match type of  {node.AssignedValue.Value}"));
+                }
             }catch
             {
-                errors.Add(new SemanticError(node, $"{node.AssignedValue.Value} has not been declared "));
+                errors.Add(new SemanticError(node, $"VisitIDAssignNode:{node.Id.Value} or {node.AssignedValue.Value} has not been declared "));
             }
             return new object();
         }
@@ -235,21 +287,49 @@ namespace OG.AstVisiting.Visitors
         public object Visit(MathAssignmentNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            //TODO: der bør måske være en id på alle  mathassignments
+            //node.Id.Accept(this);
+            // try
+            // {
+            //     if (S.CheckDeclaredTypeOf(node.Id.Value) != "number")
+            //     {
+            //         errors.Add(new SemanticError(node, $"visitMathAssignmentNode: {node.Id.Value} is not a number : TypeMismatch!"));
+            //     }
+            // }catch
+            // {
+            //     errors.Add(new SemanticError(node, $"visitMathAssignmentNode:{node.Id.Value}  has not been declared "));
+            // }
+            node.AssignedValue.Accept(this);
+           
             return new object();
         }
 
         public object Visit(PointAssignmentNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            //TODO: der bør måske være en id 
+            // try
+            // {
+            //     if (S.CheckDeclaredTypeOf(node.Id.Value) != "point")
+            //     {
+            //         errors.Add(new SemanticError(node, $"visitMathAssignmentNode: {node.Id.Value} is not a point : TypeMismatch!"));
+            //     }
+            // }catch
+            // {
+            //     errors.Add(new SemanticError(node, $"VisitIDAssignNode:{node.Id.Value} or {node.AssignedValue.Value} has not been declared "));
+            // }
+            node.AssignedValue.Accept(this);
             return new object();
         }
 
         public object Visit(PropertyAssignmentNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            
+            node.assignedValue.Accept(this);
             return new object();
         }
 
@@ -266,6 +346,12 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.Angle.Accept(this);
+            node.From.Accept(this);
+            foreach (var item in node.To)
+            {
+                item.Accept(this);
+            }
 
             return new object();
         }
@@ -273,7 +359,9 @@ namespace OG.AstVisiting.Visitors
         public object Visit(DrawCommandNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            //TODO: måske bør man lave symboltable opslaget her .
+            node.Id.Accept(this);
             return new object();
         }
 
@@ -281,8 +369,9 @@ namespace OG.AstVisiting.Visitors
         { 
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
-
-           node.Body.Accept(this);
+            node.Accept(this);
+            //TODO:vurder om body skal besøges her.
+           //node.Body.Accept(this);
             return new object();
         }
 
@@ -290,6 +379,11 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.From.Accept(this);
+            foreach (var item in node.To)
+            {
+                item.Accept(this);
+            }
 
             return new object();
         }
@@ -297,7 +391,8 @@ namespace OG.AstVisiting.Visitors
         public object Visit(MovementCommandNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            //node.Accept(this);
             return new object();
         }
         
@@ -305,7 +400,9 @@ namespace OG.AstVisiting.Visitors
         public object Visit(AndComparerNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
@@ -313,20 +410,24 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
         public object Visit(BoolNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            //TODO: overvej om der skal påtegnes noget her
             return new object();
         }
 
         public object Visit(BoolTerminalNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            node.Accept(this);
             return new object();
         }
 
@@ -334,13 +435,17 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
         public object Visit(GreaterThanComparerNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
@@ -348,6 +453,8 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
@@ -355,27 +462,42 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
         public object Visit(NegationNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            //TODO: overvej om der skal gøres noget her
             return new object();
         }
 
         public object Visit(OrComparerNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
         public object Visit(BoolFunctionCallNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            try
+            {
+                if (S.CheckDeclaredTypeOf(node.FunctionName.Value)!= "bool")
+                {
+                    errors.Add(new SemanticError(node, $"VisitBoolFunctionCallNode: {node.FunctionName.Value} is not of type bool : Typemismatch! "));
+                }
+            }catch
+            {
+                errors.Add(new SemanticError(node, $"VisitBoolFunctionCallNode: {node.FunctionName.Value} has not been declared "));
+            }
             return new object();
         }
 
@@ -431,6 +553,8 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
 
            // node.LHS.Accept(this);
            // Console.Write("+");
@@ -442,7 +566,8 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString());
-            node.Accept(this);
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
@@ -460,11 +585,19 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString());
-            
-            if (!(S.checkType(node.AssignedValueId.Value) == "number"))
+
+            try
             {
-                errors.Add(new SemanticError(node, $"{node.AssignedValueId.Value} is not a number: TypeMismatch"));
+                if (S.CheckDeclaredTypeOf(node.AssignedValueId.Value) != "number")
+                {
+                    errors.Add(new SemanticError(node, $"VisitMathIdNode: {node.AssignedValueId.Value} is not a number: TypeMismatch"));
+                }
             }
+            catch 
+            {
+                errors.Add(new SemanticError(node, $"VisitMathIdNode: {node.AssignedValueId.Value} Has not been declared: Undeclared"));
+            }
+
             return "number";
         }
 
@@ -480,7 +613,9 @@ namespace OG.AstVisiting.Visitors
         public object Visit(MultiplicationNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
@@ -488,13 +623,17 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
         public object Visit(SubtractionNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
@@ -502,6 +641,7 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.Accept(this);
             return new object();
         }
 
@@ -510,7 +650,18 @@ namespace OG.AstVisiting.Visitors
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
             Console.WriteLine("!!!PointFuncCall 503");
-
+            try
+            {
+                if (S.CheckDeclaredTypeOf(node.FunctionName.Value) != "point")
+                {
+                    errors.Add(new SemanticError(node, $"VisitPointFunctionCallNode: {node.FunctionName.Value} is not a pointFunction: TypeMismatch"));
+                }
+            }
+            catch 
+            {
+                errors.Add(new SemanticError(node, $"VisitPointFunctionCallNode: {node.FunctionName.Value} Has not been declared: Undeclared"));
+            }
+            
             return new object();
         }
 
@@ -519,10 +670,18 @@ namespace OG.AstVisiting.Visitors
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString());
             
-            if (!(S.checkType(node.AssignedValue.Value) == "point"))
+            try
             {
-                errors.Add(new SemanticError(node, $"{node.AssignedValue.Value} is not point : TypeMismatch"));
+                if (S.CheckDeclaredTypeOf(node.AssignedValue.Value) != "point")
+                {
+                    errors.Add(new SemanticError(node, $"VisitPointReferenceIdNode: {node.AssignedValue.Value} is not a pointRefference : TypeMismatch"));
+                }
             }
+            catch 
+            {
+                errors.Add(new SemanticError(node, $"VisitPointReferenceIdNode: {node.AssignedValue.Value} Has not been declared: Undeclared"));
+            }
+            
             return new object();
         }
 
@@ -531,7 +690,6 @@ namespace OG.AstVisiting.Visitors
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
             Console.WriteLine("!!!PointRefference 522");
-
             return new object();
         }
 
@@ -540,6 +698,7 @@ namespace OG.AstVisiting.Visitors
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
             Console.WriteLine("!!!ShapePointEndNode 529");
+            node.Accept(this);
 
             return new object();
         }
@@ -549,6 +708,7 @@ namespace OG.AstVisiting.Visitors
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString());
             Console.WriteLine("!!!ShapePointRefference 536");
+            node.Accept(this);
             return new object();
         }
 
@@ -557,6 +717,7 @@ namespace OG.AstVisiting.Visitors
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString());
             Console.WriteLine("!!!ShapePointRefNode 544");
+            node.ShapeNameId.Accept(this);
 
             return new object();
         }
@@ -565,18 +726,16 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.ShapeName.Accept(this);
             return new object();
         }
 
         public object Visit(TuplePointNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
-
-            // Console.Write("(");
-            // node.XValue.Accept(this);
-            // node.YValue.Accept(this);
-            // Console.WriteLine(")");
+            Console.WriteLine(node.ToString());
+            node.XValue.Accept(this);
+            node.YValue.Accept(this);
             return new object();
         }
 
@@ -584,6 +743,7 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            //TODO: gør noget med denne ??
             return new object();
         }
 
@@ -593,12 +753,12 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine(node.ToString());
             try
             {
-                node.CompileTimeType = S.checkType(node.Value);
+                node.CompileTimeType = S.CheckDeclaredTypeOf(node.Value);
                 Console.WriteLine("set CompiletimeType on IDNode");
             }
             catch
             {
-                errors.Add(new SemanticError(node, $"{node.Value} has not been declared"));
+                errors.Add(new SemanticError(node, $"VisitIdNode: {node.Value} has not been declared"));
             }
 
             return new object();
@@ -607,7 +767,8 @@ namespace OG.AstVisiting.Visitors
         public object Visit(NumberNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            
             return new object();
         }
 
@@ -622,6 +783,7 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.Accept(this);
             return new object();
         }
 
@@ -629,20 +791,26 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.Accept(this);
             return new object();
         }
 
         public object Visit(SizePropertyNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            node.XMax.Accept(this);
+            node.YMax.Accept(this);
+            node.XMin.Accept(this);
+            node.YMin.Accept(this);
             return new object();
         }
 
         public object Visit(WorkAreaSettingNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString()); 
+            Console.WriteLine(node.ToString());
+            node.SizeProperty.Accept(this);
             return new object();
         }
 
@@ -652,7 +820,6 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine(node.ToString()); 
             return new object();
         }
-
         object IVisitor.Visit(DrawNode node)
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -660,10 +827,6 @@ namespace OG.AstVisiting.Visitors
             foreach (var item in node.drawCommands)
             {
                 item.Id.Accept(this);
-                if (item.Id.CompileTimeType != "shape")
-                {
-                    errors.Add(new SemanticError(item, $"{item.Id.Value} is not a declared shape TypeMismatch"));
-                }
             }
             return new object();
         }
@@ -672,6 +835,7 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            node.Accept(this);
             return new object();
         }
         
@@ -680,6 +844,7 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write($"Scope {S.GetCurrentScope()} | ");
             Console.WriteLine(node.ToString()); 
+            //TODO her kunne måske godt lægges et check om den besøgte node er et point.
             return new object();
         }
     }

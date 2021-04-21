@@ -42,6 +42,8 @@ namespace OG.AstVisiting
         public Object Visit(DeclarationNode node);
         public Object Visit(NumberDeclarationNode node);
         public Object Visit(PointDeclarationNode node);
+
+        public Object visit(BoolExprIdNode node);
         
         //
         public Object Visit(StatementNode node);
