@@ -33,7 +33,7 @@ namespace OG.ASTBuilding
 
         public override string ToString()
         {
-            return $"{Msg}\nLine: {Line} Column: {Column} at:\n--> {Context}";
+            return $"{Msg}\nLine: {Node.Line} Column: {Node.Column} at:\n--> {Context}";
         }
     }
 }
