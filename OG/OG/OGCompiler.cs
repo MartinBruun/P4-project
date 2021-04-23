@@ -51,7 +51,7 @@ namespace OG
 
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
             p.Accept(ST);
-            errors.AddRange(ST.getErrors());
+            errors.AddRange(ST.GetErrors());
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             p.Accept(TT);
             errors.AddRange(TT.GetErrors());

@@ -1,23 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Antlr4.Runtime;
+using NUnit.Framework;
 using OG.ASTBuilding;
 using OG.ASTBuilding.TreeNodes;
 using OG.AstVisiting.Visitors;
-
-namespace Tests
-{
-    
-        using NUnit.Framework;
-using System;
-using System.IO;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-
-using OG;
 using OG.Compiler;
 
 namespace Tests
-
 {
-    public class SymboltableCreatorTest
+    public class TypeCheckerTest
     {
         /// <summary>
         /// Creates the Parser used for all the tests in this file.
@@ -27,6 +20,8 @@ namespace Tests
         /// <returns></returns>
         private OGParser CreateParser(string fileName, string dirName)
         {
+            Dictionary<string, string> symbolTable = new Dictionary<string, string>();
+
             string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
             LexerContainer lexCon = new LexerContainer(code);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
@@ -37,7 +32,7 @@ namespace Tests
         }
         
         [TestCase("base.og", "Testing the minimal meaningful product")]
-        [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
+       // [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
         [TestCase("base_function.og", "Testing the base case for declaring a function")]
         [TestCase("base_shape.og", "Testing the base case for declaring a shape")]
         [TestCase("boolExpressions.og", "Testing declaration and use of bool expressions")]
@@ -52,7 +47,7 @@ namespace Tests
         [TestCase("NestedRepeatLoopsInShape.og", "testing nested Repeat loops in shape")]
 
         
-        public void Test_Fixtures_ShouldNotFindAnyDoubleDeclarations(string fileName, string description)
+        public void Test_Fixtures_ShouldNotFindAnyTypeMismatches(string fileName, string description)
         {
             OGParser parser = CreateParser(fileName, "Correct programs/");
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
@@ -60,35 +55,37 @@ namespace Tests
 
             ProgramNode p = astContainer.AstTreeTopNode;
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
-
             p.Accept(ST);
-            var symboltable = ST.GetSymbolTable();
-            var errors = ST.GetErrors();
+            TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
+            p.Accept(TT);
+            
+            var symboltable = TT.GetSymbolTable();
+            var errors = TT.GetErrors();
+            
+            Console.WriteLine("\n---Type Errors---");
+            foreach (var item in errors)
+            {
+                Console.WriteLine(item);
+            }
             
             Console.WriteLine("\n-----Contents of symboltable-----");
             foreach (var item in symboltable)
             {
                 Console.WriteLine(item.Key + ":" + item.Value);
             }
-            
-            Console.WriteLine("\n---Bad declarations---");
-            foreach (var item in errors)
-            {
-                Console.WriteLine(item);
-            }
-            
             Assert.AreEqual(0,errors.Count,
              description);
         }
         
         
-        [TestCase("ShapeDoubleDeclarations.og",2, "testing that two shapes of the same name are discovered")]
-        [TestCase("FunctionDoubleDeclarations.og",1, "testing that two Functions of the same name are discovered")]
-        [TestCase("VariableDoubleDeclarations.og",6, "testing that two Variables of the same name are discovered")]
-        
-        public void Test_Fixtures_ShouldFindDoubleDeclarations(string fileName,int errorCount, string description)
+        // [TestCase("ShapeDoubleDeclarations.og",2, "testing that two shapes of the same name are discovered")]
+        // [TestCase("FunctionDoubleDeclarations.og",1, "testing that two Functions of the same name are discovered")]
+        // [TestCase("VariableDoubleDeclarations.og",6, "testing that two Variables of the same name are discovered")]
+        [TestCase("boolToNumber.og",6, "testing that a boolian can not be assigned to a number variable")]
+
+        public void Test_Fixtures_ShouldFindTypeMismatch(string fileName,int errorCount, string description)
         {
-            OGParser parser = CreateParser(fileName, "Incorrect programs/DoubleDeclarationErrors/");
+            OGParser parser = CreateParser(fileName, "Incorrect programs/");
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parser, new AstBuilder("program"));
 
@@ -96,8 +93,18 @@ namespace Tests
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
 
             p.Accept(ST);
-            var symboltable = ST.GetSymbolTable();
-            var errors = ST.GetErrors();
+            TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
+            p.Accept(TT);
+            
+            var symboltable = TT.GetSymbolTable();
+            var errors = TT.GetErrors();
+            
+            
+            Console.WriteLine("\n---Type mismatch ERRORS---");
+            foreach (var item in errors)
+            {
+                Console.WriteLine(item);
+            }
             
             Console.WriteLine("\n-----Contents of symboltable-----");
             foreach (var item in symboltable)
@@ -105,19 +112,9 @@ namespace Tests
                 Console.WriteLine(item.Key + ":" + item.Value);
             }
             
-            Console.WriteLine("\n---Bad declarations---");
-            foreach (var item in errors)
-            {
-                Console.WriteLine(item);
-            }
-            
             Assert.AreEqual(errorCount,errors.Count,
                 description);
         }
         
-        
     }
-}
-
-    
 }

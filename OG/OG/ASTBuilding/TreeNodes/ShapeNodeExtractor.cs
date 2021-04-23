@@ -11,7 +11,10 @@ namespace OG.ASTBuilding.TreeNodes
         public override ShapeNode VisitShapeDcl(OGParser.ShapeDclContext context)
         {
             BodyNode body = _bodyNodeExtractor.VisitBody(context.bdy);
-            return new ShapeNode(new IdNode(context.id.Text), body);
+            ShapeNode node =  new ShapeNode(new IdNode(context.id.Text), body);
+            node.Line =context.id.Line;
+            node.Column =context.id.Column;
+            return node;
         }
     }
 }

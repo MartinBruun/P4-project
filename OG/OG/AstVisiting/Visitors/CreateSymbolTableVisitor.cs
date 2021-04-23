@@ -42,7 +42,7 @@ namespace OG.AstVisiting.Visitors
             return S.Elements;
         }
 
-        public List<SemanticError> getErrors()
+        public List<SemanticError> GetErrors()
         {
             return errors;
         }
@@ -94,6 +94,14 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString()); 
 
             S.enterScope(node.Id.Value);
+            //TODO: fjern når vi har fikset params på function creatoren
+            IdNode i = new IdNode("Jakob");
+            ParameterNode Jakob = new ParameterNode(i);
+            Jakob.Accept(this);
+            foreach (var param in node.Parameters)
+            {
+                param.Accept(this);
+            }
             node.Body.Accept(this);
             S.exitScope(node.Id.Value);
             return new object();
@@ -425,11 +433,14 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
+            node.FunctionCallNode.Accept(this);
             return new object();
         }
 
         public object Visit(IFunctionCallNode node)
         {
+            //TODO: overvej om vi skal kalde params og id her !! UD den bruges vist ikke
+
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
             return new object();
@@ -437,6 +448,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MathFunctionCallNode node)
         {
+            //TODO: overvej om vi skal kalde params og id her !!
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
             return new object();
@@ -445,8 +457,14 @@ namespace OG.AstVisiting.Visitors
         public object Visit(ParameterNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-
+            // Console.WriteLine(node.ToString());
+            //TODO: BEMÆRK AT TYPEN ER SAT TIL PARAM!!!!!!DET SKAL ÆNDRES
+            if (!(S.Add(node.ParameterId.Value, "param")))
+            {
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.ParameterId.Value} Already exists in SymbolTable"));
+            }
+            //TODO: det er ike sikkert at denne del behøves
+            node.ParameterId.Accept(this);
             // // Console.Write(node.ParamType);
             //  node.ParameterId.Accept(this);
             //  node.Expression.Accept(this);

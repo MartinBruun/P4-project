@@ -257,8 +257,8 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionCallAssignNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            Console.Write($"\n!!!!!FunctionCallAssignment Scope {S.GetCurrentScope()} | ");
+            Console.WriteLine(node.ToString());
             if (S.CheckDeclaredTypeOf(node.FunctionName.Value) != S.CheckDeclaredTypeOf(node.Id.Value))
             {
                 errors.Add(new SemanticError(node, $"visitFunctionCallAssignment:{node.Id.Value} does not match type of function {node.FunctionName.Value}"));

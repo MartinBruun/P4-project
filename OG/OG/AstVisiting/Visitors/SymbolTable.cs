@@ -134,14 +134,14 @@ namespace OG.AstVisiting.Visitors
 
                 
                 Stack<string> stackCopy = new Stack<string>(stack.ToArray());
-                Console.Write($"Checking {stackCopy.Pop()}");
+                Console.Write($"\nChecking {stackCopy.Peek()}\n");
                //Alle containing scopes gennemløbes
                while (stackCopy.Count > 0)
                 {
                     try
                     {
                         string name = stackCopy.Pop() + "_" + id;
-                        Console.Write($"Checking {name}");
+                        Console.Write($"\nChecking nextScope {name}\n");
                         return Elements[name];
                     }
                     catch

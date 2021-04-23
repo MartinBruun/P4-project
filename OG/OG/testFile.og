@@ -2,7 +2,7 @@ Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
 draw {shapeA;shapeB; c; }
 /*Functions*/
 
-function bool bools(){
+function bool bools(number z,bool l){
     number a = myfunc(3*3);
     bool b = myfunc(3*3);
     point c = myfunc(3*3);
@@ -71,7 +71,7 @@ shape shapeB{
 shapeA;
 bool mybool = false;
 bool a = true;
-number b = 2;
+number b = 2+a;
 repeat(4)
  repeat(2)
     mystartpoint = (myXNumber, myYNumber);

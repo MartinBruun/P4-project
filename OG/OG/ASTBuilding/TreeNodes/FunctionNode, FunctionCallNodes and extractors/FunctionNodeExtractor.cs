@@ -5,7 +5,7 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 namespace OG.ASTBuilding.TreeNodes
 {
     public class FunctionNodeExtractor : OGBaseVisitor<FunctionNode>
-    {
+    { //TODO: tilføj params
         private readonly BodyNodeExtractor _bodyNodeExtractor = new BodyNodeExtractor();
         public override FunctionNode VisitFunctionDcl(OGParser.FunctionDclContext context)
         {
@@ -14,6 +14,7 @@ namespace OG.ASTBuilding.TreeNodes
             //If it is a void function, create a function node from its body and text.
             string functionName;
             string returnType;
+            
             
             if (voidFunction != null && !voidFunction.IsEmpty)
             {

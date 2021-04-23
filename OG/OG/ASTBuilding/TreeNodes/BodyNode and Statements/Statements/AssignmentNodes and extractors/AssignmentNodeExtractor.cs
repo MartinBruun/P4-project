@@ -64,10 +64,12 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             {
                 try
                 {
+                    //TODO: jeg tror der er noget galt her, det er som om jeg får FunctionName på begge ide'er
                     OGParser.FunctionCallContext functionCallContext = ((OGParser.FunctionCallAssignContext) context).funcCall;
                     FunctionCallNode x = new FunctionCallNodeExtractor().VisitFunctionCall(functionCallContext);
-
-                    return new FunctionCallAssignNode(x.FunctionName, x.Parameters);
+                    IdNode id = new IdNode(functionCallContext.id.Text);
+                    
+                    return new FunctionCallAssignNode(id,x.FunctionName, x.Parameters);
 
 
                 }

@@ -17,8 +17,10 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             {
                 IdNode id = new IdNode(context.id.Text);
                 parameterNodes = _parameterNodeListBuilder.VisitFunctionCall(context);
-
-                return new FunctionCallNode(id, parameterNodes, context.GetText());
+                 FunctionCallNode F = new FunctionCallNode(id, parameterNodes, context.GetText());
+                 F.Line =context.id.Line;
+                 F.Column =context.id.Column;
+                 return F;
             }
 
             throw new AstNodeCreationException(
