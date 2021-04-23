@@ -110,13 +110,16 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(AssignmentNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.WriteLine("Assignment Node: " + node.ToString());
             return new object();
         }
 
         public object Visit(BoolAssignmentNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
+            Console.Write(" = ");
+            node.AssignedValue.Accept(this);
+            Console.Write(";\n");
             return new object();
         }
 
@@ -134,7 +137,10 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MathAssignmentNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
+            Console.Write(" = ");
+            node.AssignedValue.Accept(this);
+            Console.Write("\n");
             return new object();
         }
 
@@ -179,7 +185,33 @@ namespace OG.AstVisiting.Visitors
                 Console.Write(".to");
                 toCommand.Accept(this);
             }
+            Console.Write("\n");
             return new object();
+        }
+        
+        public object Visit(PointReferenceNode node)
+        {
+            node.Accept(this);
+            return new object();
+        }
+        
+        public object Visit(TuplePointNode node)
+        {
+            Console.Write("(");
+            node.XValue.Accept(this);
+            Console.Write(", ");
+            node.YValue.Accept(this);
+            Console.Write(")");
+            
+            return new object();
+        }
+
+        
+        public object Visit(CoordinateXyValueNode node)
+        {
+            Console.Write(node.Value);
+            return new object();
+     
         }
 
         public object Visit(MovementCommandNode node)
@@ -190,7 +222,11 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(NumberIterationNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("repeat(");
+            node.Iterations.Accept(this);
+            Console.Write(")");
+            node.Body.Accept(this);
+            Console.Write("\nrepeat.end\n");
             return new object();
         }
 
@@ -202,13 +238,21 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(UntilNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("repeat.until(");
+            node.Predicate.Accept(this);
+            Console.Write(")\n");
+            node.Body.Accept(this);
+            Console.Write("repeat.end\n");
+            
             return new object();
         }
 
         public object Visit(BoolDeclarationNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("bool ");
+            node.Id.Accept(this);
+            Console.Write(" = ");
+            node.AssignedExpression.Accept(this);
             return new object();
         }
 
@@ -224,13 +268,18 @@ namespace OG.AstVisiting.Visitors
             node.Id.Accept(this);
             Console.Write(" = ");
             node.AssignedExpression.Accept(this);
+            Console.Write(";\n");
             
             return new object();
         }
 
         public object Visit(PointDeclarationNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("point ");
+            node.Id.Accept(this);
+            Console.Write(" = ");
+            node.AssignedExpression.Accept(this);
+            Console.Write(";\n");
             return new object();
         }
 
@@ -238,25 +287,26 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(AndComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
         public object Visit(BoolComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.WriteLine("BoolComparer: " + node.ToString());
             return new object();
         }
 
         public object Visit(BoolNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.Value);
             return new object();
         }
 
         public object Visit(BoolTerminalNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.WriteLine("Terminal node: " + node.ToString());
             return new object();
         }
 
@@ -292,7 +342,8 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(OrComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            node.RHS.Accept(this);
             return new object();
         }
 
@@ -416,12 +467,7 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-        public object Visit(PointReferenceNode node)
-        {
-            
-            node.Accept(this);
-            return new object();
-        }
+        
 
         public object Visit(ShapeEndPointNode node)
         {
@@ -447,17 +493,7 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-        public object Visit(TuplePointNode node)
-        {
-            Console.Write("(");
-            node.XValue.Accept(this);
-            Console.Write(", ");
-            node.YValue.Accept(this);
-            Console.Write(")");
-            
-            return new object();
-        }
-
+        
         public object Visit(FalseNode node)
         {
             Console.WriteLine(node.ToString());
@@ -478,7 +514,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(TrueNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.Value);
             return new object();
         }
 
@@ -524,11 +560,6 @@ namespace OG.AstVisiting.Visitors
 
        
 
-        public object Visit(CoordinateXyValueNode node)
-        {
-            Console.Write(node.Value);
-            return new object();
-     
-        }
+        
     }
 }

@@ -40,7 +40,7 @@ number b = 20;
 repeat.until(a>b)
     bool repeatPoint = true;
     line.from(a,b).to(b,a).to(8,5);
-/*    curve.angle(30).from(a,a).to(b,b);*/
+    /*curve.angle(30).from(a,a).to(b,b);*/
     a = a * 2;
     b= b + 2;
 repeat.end
