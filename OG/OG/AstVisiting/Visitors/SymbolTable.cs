@@ -128,20 +128,27 @@ namespace OG.AstVisiting.Visitors
             
                 try
                 {
-                    return Elements[IdInScope];
+                    Console.Write($"\nChecking {currentScopeName + "_" + id}");
+                    var result = Elements[IdInScope];
+                    Console.WriteLine($": found {result}");
+                    return result;
+
                 }
                 catch { }
 
                 
-                Stack<string> stackCopy = new Stack<string>(stack.ToArray());
-                Console.Write($"\nChecking {stackCopy.Peek()}\n");
+                Stack<string> stackCopy1 = new Stack<string>(stack.ToArray());
+                Stack<string> stackCopy = new Stack<string>(stackCopy1.ToArray());
+                // Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
                //Alle containing scopes gennemløbes
                while (stackCopy.Count > 0)
                 {
                     try
                     {
                         string name = stackCopy.Pop() + "_" + id;
-                        Console.Write($"\nChecking nextScope {name}\n");
+                        Console.Write($"\nChecking nextScope {name}");
+                        var result = Elements[name];
+                        Console.WriteLine($": found {result}");
                         return Elements[name];
                     }
                     catch
@@ -149,7 +156,7 @@ namespace OG.AstVisiting.Visitors
                     }
                 }
             //TODO: Lav en ordentlig exception type
-            throw new Exception($"{id} is not in symboltable");
+            throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
         }
     }
 }

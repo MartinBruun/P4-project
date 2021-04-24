@@ -2,6 +2,16 @@ Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
 draw {shapeA;shapeB; c; }
 /*Functions*/
 
+
+function bool TestIdassign(number z,bool l){
+bool a= true;
+number b = 1;
+
+a=b;
+a = myfunc(3*3);
+return a;}
+
+/*
 function bool bools(number z,bool l){
     number a = myfunc(3*3);
     bool b = myfunc(3*3);
@@ -12,7 +22,7 @@ function bool bools(number z,bool l){
     a = 4;
     b = 6;
     /*c = f;*/
-   
+  /* 
     bool test1 = a < b;
     bool test2 = a > b;
     bool test3 = a + b == 0;
@@ -41,7 +51,7 @@ function number myfunc(number a){
     return true /*(a,a)*/;
 } 
 
- 
+/* 
 function void funA(number a){
 number q = 33;
 bool test3 = a + b == 0;
@@ -52,7 +62,7 @@ number q = 33;
 
 }
 /*Shapes*/
-
+/*
 shape shapeA{
 number a = 3;
 number b = 20;
@@ -61,7 +71,7 @@ repeat.until(a>b)
     bool repeatPoint = true;
     line.from(a,b).to(b,a).to(8,5);
 /*    curve.angle(30).from(a,a).to(b,b);*/
-    a = a * 2;
+ /*   a = a * 2;
     b= b + 2;
 repeat.end
 }
@@ -78,7 +88,7 @@ repeat(4)
     point repeatPoint = (a,b);
     line.from(a,b).to(b,a).to(8,5);
 /*    curve.angle(30).from(a,a).to(b,b);*/
-    a = a * 2;
+ /*   a = a * 2;
     b= b + 2;
     bool stop = true || true;
     repeat.end

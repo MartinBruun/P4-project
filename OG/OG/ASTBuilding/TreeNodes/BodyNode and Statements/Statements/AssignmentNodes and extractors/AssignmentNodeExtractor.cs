@@ -82,6 +82,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
                 {
                     OGParser.IdAssignContext idAssignContext = (OGParser.IdAssignContext) context;
                     return ExtractAssignmentNode(idAssignContext);
+                    
                 }
                 catch (InvalidCastException )
                 {

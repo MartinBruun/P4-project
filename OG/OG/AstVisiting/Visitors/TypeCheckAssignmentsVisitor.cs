@@ -275,7 +275,9 @@ namespace OG.AstVisiting.Visitors
 
             try
             {
-                
+                // Console.WriteLine(
+                //     "Jakob LHS =" + S.CheckDeclaredTypeOf(node.Id.Value) + "RHS = "+S.CheckDeclaredTypeOf(
+                //         node.AssignedValue.Value));
                 if (S.CheckDeclaredTypeOf(node.Id.Value) != S.CheckDeclaredTypeOf(node.AssignedValue.Value))
                 {
                     errors.Add(new SemanticError(node, $"visitIdAssignNode:{node.Id.Value} does not match type of  AssignedValue"));
