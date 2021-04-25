@@ -2,9 +2,9 @@
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class ShapeNodeListBuilderExtractor : OGBaseVisitor<List<ShapeNode>>
+    public class ShapeNodeListBuilderExtractor : AstBuilderErrorInheritor<List<ShapeNode>>
     {
-        private readonly ShapeNodeExtractor _shapeNodeExtractor = new ShapeNodeExtractor();
+        private readonly ShapeNodeExtractor _shapeNodeExtractor;
         private readonly List<ShapeNode> _shapes = new List<ShapeNode>();
         public override List<ShapeNode> VisitShapeDcls(OGParser.ShapeDclsContext context)
         {
@@ -18,6 +18,11 @@ namespace OG.ASTBuilding.TreeNodes
             }
 
             return _shapes;
+        }
+        
+        public ShapeNodeListBuilderExtractor(List<SemanticError> errs) : base(errs)
+        {
+            _shapeNodeExtractor = new ShapeNodeExtractor(errs);
         }
     }
 }

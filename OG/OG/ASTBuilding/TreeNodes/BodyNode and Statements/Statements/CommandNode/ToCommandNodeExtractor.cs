@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class ToCommandNodeExtractor : OGBaseVisitor<PointReferenceNode>
+    public class ToCommandNodeExtractor : AstBuilderErrorInheritor<PointReferenceNode>
     {
+
+        public ToCommandNodeExtractor(List<SemanticError> errs):base(errs)
+        {
+            
+        }
+        
         public PointReferenceNode ExtractToCommandNode(OGParser.ToCommandContext context)
         {
             try
@@ -37,7 +44,12 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             }
             catch (InvalidCastException )
             {
-                throw new AstNodeCreationException($"Node {context.GetText()} couldn't be created at FromCommandNodeExtractor.");
+                SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,$"Node {context.GetText()} couldn't be created at FromCommandNodeExtractor. ToCommandContext could not be cast into concrete context")
+                {
+                    IsFatal = true
+                });
+
+                return null;
             }
         }
         public override PointReferenceNode VisitToWithId(OGParser.ToWithIdContext context)
@@ -48,8 +60,8 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
 
         public override PointReferenceNode VisitToWithNumberTuple(OGParser.ToWithNumberTupleContext context)
         {
-            MathNode firstNum = new MathNodeExtractor().ExtractMathNode(context.tuple.lhs);
-            MathNode secondNum = new MathNodeExtractor().ExtractMathNode(context.tuple.rhs);
+            MathNode firstNum = new MathNodeExtractor(SemanticErrors).ExtractMathNode(context.tuple.lhs);
+            MathNode secondNum = new MathNodeExtractor(SemanticErrors).ExtractMathNode(context.tuple.rhs);
             return new TuplePointNode(context.GetText(), firstNum, secondNum);
         }
 

@@ -76,6 +76,7 @@ booleanDeclaration  : 'bool'   id=ID   '=' value=boolExpression
                     ;
 numberDeclaration   : 'number' id=ID '=' value=mathExpression
                     ;
+                    
 pointDeclaration    : 'point'  id=ID '='  value=pointReference    #pointDclPointRefAssign
                     | 'point'  id=ID  '=' value=ID                #pointDclIdAssign
                     ;

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OG.ASTBuilding
 {
-    public abstract class TopNodeVisitor<TNode> : OGBaseVisitor<TNode>, ITopNodeable
+    public abstract class TopNodeVisitor<TNode> : AstBuilderErrorInheritor<TNode>, ITopNodeable
     {
-        public TopNodeVisitor(string topNodeRuleText)
+        public TopNodeVisitor(string topNodeRuleText) : base(new List<SemanticError>())
         {
             if (!OGParser.ruleNames.Contains(topNodeRuleText))
             {
@@ -15,7 +16,7 @@ namespace OG.ASTBuilding
             TopNode = topNodeRuleText;
         }
 
-        public TopNodeVisitor()
+        public TopNodeVisitor(): base(new List<SemanticError>())
         {
             if (!OGParser.ruleNames.Contains("program"))
             {

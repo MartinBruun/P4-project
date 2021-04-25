@@ -3,7 +3,7 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class BoolFunctionCallNodeExtractor : OGBaseVisitor<BoolFunctionCallNode>
+    public class BoolFunctionCallNodeExtractor : AstBuilderErrorInheritor<BoolFunctionCallNode>
     {
         /// <summary>
         /// Must not be created on initialisation. Danger of infinite recursion.
@@ -12,11 +12,14 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
         public override BoolFunctionCallNode VisitFunctionCall(OGParser.FunctionCallContext context)
         {
-            _parameterListBuilder = new ParameterNodeListBuilder();
+            _parameterListBuilder = new ParameterNodeListBuilder(SemanticErrors);
             IdNode id = new IdNode(context.id.Text);
             List<ParameterNode> parameters = _parameterListBuilder.VisitFunctionCall(context);
             return new BoolFunctionCallNode(context.GetText(), id, parameters);
         }
-        
+
+        public BoolFunctionCallNodeExtractor(List<SemanticError> errs) : base(errs)
+        {
+        }
     }
 }

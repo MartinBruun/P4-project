@@ -4,7 +4,7 @@ draw {shapeA;shapeB; c; }
 
 
 function bool TestIdassign(number z,bool l){
-bool a= true;
+bool a= true
 number b = 1;
 
 a=b;

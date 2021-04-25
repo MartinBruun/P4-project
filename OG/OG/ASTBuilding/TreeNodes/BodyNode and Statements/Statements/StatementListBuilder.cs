@@ -2,10 +2,12 @@
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements
 {
-    public class StatementListBuilder : OGBaseVisitor<List<StatementNode>>
+    public class StatementListBuilder : AstBuilderErrorInheritor<List<StatementNode>>
     {
-        private readonly StatementNodeExtractor _statementNodeExtractor = new StatementNodeExtractor();
+        private readonly StatementNodeExtractor _statementNodeExtractor;
         private readonly List<StatementNode> _statements = new List<StatementNode>();
+        
+        
 
         public override List<StatementNode> VisitBody(OGParser.BodyContext context)
         {
@@ -26,6 +28,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements
             }
 
             return _statements;
+        }
+
+        public StatementListBuilder(List<SemanticError> errs) : base(errs)
+        {
+            _statementNodeExtractor = new StatementNodeExtractor(errs);
         }
     }
 }

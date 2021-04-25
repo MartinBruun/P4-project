@@ -1,13 +1,19 @@
 using System;
+using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class AntlrToIterationCommand:OGBaseVisitor<IterationNode>
+    public class AntlrToIterationCommand: AstBuilderErrorInheritor<IterationNode>
     {
-        BodyNodeExtractor _bodyExtractor = new BodyNodeExtractor();
+        private BodyNodeExtractor _bodyExtractor;
+
+        public AntlrToIterationCommand(List<SemanticError> errs):base(errs)
+        {
+            _bodyExtractor = new BodyNodeExtractor(errs);
+        }
 
         private BodyNode GetBody(OGParser.BodyContext context)
         {
@@ -17,14 +23,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
 
         public override IterationNode VisitUntilFuncCall(OGParser.UntilFuncCallContext context)
         {
-            FunctionCallNode func = new FunctionCallNodeExtractor().VisitFunctionCall(context.iterator);
+            FunctionCallNode func = new FunctionCallNodeExtractor(SemanticErrors).VisitFunctionCall(context.iterator);
             BodyNode body = GetBody(context.statements);
             return new UntilFunctionCallNode(func, body);
         }
 
         public override IterationNode VisitUntilCondition(OGParser.UntilConditionContext context)
         {
-            BoolNode boolnode = new BoolNodeExtractor().ExtractBoolNode(context.iterator);
+            BoolNode boolnode = new BoolNodeExtractor(SemanticErrors).ExtractBoolNode(context.iterator);
             BodyNode body = GetBody(context.statements);
             return new UntilNode(boolnode, body);
         }
@@ -34,7 +40,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         public override IterationNode VisitNumberIteration(OGParser.NumberIterationContext context)
         {
             
-            MathNode mathNode = new MathNodeExtractor().ExtractMathNode(context.iterator);
+            MathNode mathNode = new MathNodeExtractor(new List<SemanticError>()).ExtractMathNode(context.iterator);
             BodyNode body = GetBody(context.statements);
             return new NumberIterationNode(mathNode, body);
         }
