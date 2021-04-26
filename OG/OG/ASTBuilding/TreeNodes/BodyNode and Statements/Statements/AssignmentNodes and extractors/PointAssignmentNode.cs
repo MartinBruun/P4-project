@@ -25,6 +25,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
 
         }
 
+
         public void Accept(IPointReferenceAssignmentVisitor visitor)
         {
             visitor.Visit(this);
