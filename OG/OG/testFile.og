@@ -22,7 +22,13 @@ test01 = 7^2 < 48;
 bool test3 = a + b == 0;
 test02 = a < b && a + b > 9;
 test03 = a > b  || a + b < 10^2;
-b = somefunction();
+k = somefunction();
+bool b = somefunction();
+number c = somefunction();
+bool b = somefunction(2);
+k = somefunction(2);
+number d = 2;
+/*number c = somefunction(d);*/
 return true;
 }
  

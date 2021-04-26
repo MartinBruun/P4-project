@@ -20,7 +20,6 @@ namespace OG.AstVisiting.Visitors
     
         public object Visit(ProgramNode node)
         {
-        Console.WriteLine("\n\nVisiting Machine Settings: \n");
             foreach (var setting in node.MachineSettingNodes)
             {
                 setting.Accept(this);
