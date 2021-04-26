@@ -5,13 +5,18 @@ draw
    C;
    
 }
+
 function void triangleA() {
     point startpoint = (0,0);
+    number x = 1;
+    number y = 2;
     line.from(startpoint).to(x,y).to(x,y).to(startpoint);
 }
 
 function void triangleB() {
     point startpoint = (0,0);
+    number x = 1;
+    number y = 2;
     line.from(startpoint).to(x,y).to(x,y).to(startpoint);
 }
 
@@ -23,8 +28,8 @@ shape C {
 	point mystartpoint = (0,5);
 
 	repeat.until (myXNumber == max) 
-		line.from(mystartpoint).to(myXNumber,myYNumber);
-		
+		/*line.from(mystartpoint).to(myXNumber,myYNumber);
+		*/
 		mystartpoint = (myXNumber, myYNumber);
 		myXNumber = 1;
 		

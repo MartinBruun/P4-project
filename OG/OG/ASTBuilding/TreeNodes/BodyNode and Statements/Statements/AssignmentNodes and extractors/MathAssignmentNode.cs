@@ -7,7 +7,7 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
     public class MathAssignmentNode : AssignmentNode, IMathAssignmentVisitable
     {
-        private MathNode AssignedValue { get; set; }
+        public MathNode AssignedValue { get; set; }
 
         public MathAssignmentNode(IdNode id, MathNode value) : base(id, AssignmentType.VariableAssignmentNode)
         {

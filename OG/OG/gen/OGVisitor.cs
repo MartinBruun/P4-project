@@ -257,6 +257,13 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIdAssign([NotNull] OGParser.IdAssignContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>boolAssign</c>
 	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
 	/// </summary>
@@ -277,13 +284,6 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitPointAssign([NotNull] OGParser.PointAssignContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>functionCallAssign</c>
-	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// </summary>

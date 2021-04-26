@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Antlr4.Runtime.Tree;
 using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
@@ -6,9 +7,17 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 {
-    public class BoolNodeExtractor : OGBaseVisitor<BoolNode>
+    public class BoolNodeExtractor : AstBuilderErrorInheritor<BoolNode>
     {
-        private readonly MathNodeExtractor _mathExtractor = new MathNodeExtractor();
+        private readonly MathNodeExtractor _mathExtractor;
+
+
+
+        public BoolNodeExtractor(List<SemanticError> errs) : base(errs)
+        {
+            _mathExtractor = new MathNodeExtractor(errs);
+        }
+        
         /// <summary>
         /// Must not be created on construction!
         /// Danger of infinite recursion as it contains function call management itself!
@@ -82,6 +91,8 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
                 try
                 {
                     OGParser.BoolExprIDContext idBoolContext = (OGParser.BoolExprIDContext) context;
+                    VisitBoolExprID(idBoolContext);
+
                 }
                 catch (InvalidCastException )
                 { }
@@ -92,7 +103,7 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
             }
             catch (InvalidCastException e)
             {
-                throw new AstNodeCreationException("Something went wrong when converting BoolExpressionContext into " +
+                throw new AstNodeCreationException($"Line:{context.Start.Line}--Something went wrong when converting BoolExpressionContext into " +
                                                    "BoolExprNotPrefixContext, " +
                                                    "BoolExprBoolCompContext, " +
                                                    "BoolExprMathCompContext, " +
@@ -153,7 +164,11 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
                     return new OrComparerNode(rhs, lhs, content);
 
                 default:
-                    throw new AstNodeCreationException("BoolExprBoolCompContext did not contain && or ||.");
+                    SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,"BoolExprBoolCompContext did not contain && or ||.")
+                    {
+                        IsFatal = true
+                    });
+                    return null;
 
             }
         }
@@ -161,8 +176,13 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         public override BoolNode VisitBoolExprFuncCall(OGParser.BoolExprFuncCallContext context)
         {
             OGParser.FunctionCallContext funcCall = context.funcCall;
-            _boolFunctionNodeExtractor = new BoolFunctionCallNodeExtractor();
+            _boolFunctionNodeExtractor = new BoolFunctionCallNodeExtractor(SemanticErrors);
             return _boolFunctionNodeExtractor.VisitFunctionCall(funcCall);
+        }
+
+        public override BoolNode VisitBoolExprID(OGParser.BoolExprIDContext context)
+        {
+            return new BoolExprIdNode(context.GetText(),new IdNode(context.id.Text),BoolNode.BoolType.IdValueNode);
         }
     }
 }

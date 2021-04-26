@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
@@ -7,15 +8,31 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
-    public class MathNodeExtractor : OGBaseVisitor<MathNode>
+    public class MathNodeExtractor : AstBuilderErrorInheritor<MathNode>
     {
+
+        public MathNodeExtractor(List<SemanticError> errs): base(errs)
+        {
+            
+        }
 
         private MathFunctionCallNodeExtractor _functionCallNodeExtractor = null;
         
         public override MathNode VisitSingleTermExpr(OGParser.SingleTermExprContext context)
         {
+
+            OGParser.TermContext termContext;
             
-            OGParser.TermContext termContext = context.child;
+            if (context == null)
+            {
+                return null;
+            }
+            else
+            {
+                termContext = context.child;
+            }
+            
+            
             return ExtractMathNode(termContext);
 
         }
@@ -47,7 +64,9 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
                     }
                     break;
                 default:
-                    throw new AstNodeCreationException("InfixAdditionContext did not contain + or -");
+                    SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column, "InfixAdditionContext did not contain + or -.")
+                        {IsFatal = true});
+                    break;
             }
 
             //Should not happen.
@@ -76,9 +95,12 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             }
             catch (InvalidCastException e)
             {
-                throw new AstNodeCreationException("Something went wrong when converting MathExpressionContext" +
-                                                   " to InfixAdditionContext" +
-                                                   " and SingleTermExprContext.\n " + e.Message);
+                
+                SemanticErrors.Add(new SemanticError("Something went wrong when converting MathExpressionContext" +
+                                                     " to InfixAdditionContext" +
+                                                     " and SingleTermExprContext.\n " + e.Message){IsFatal =  true});
+                return null;
+
             }
 
         }
@@ -101,8 +123,12 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             }
             catch (InvalidCastException e)
             {
-                throw new AstNodeCreationException("Something went wrong when converting TermContext to InfixMultExprContext" +
-                                                   " and SingleTermChildContext. " + e.Message);
+                
+                SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,
+                "Something went wrong when converting TermContext to InfixMultExprContext" +
+                                                     " and SingleTermChildContext. " + e.Message)
+                    {IsFatal = true});
+                return null;
             }
            
             
@@ -146,8 +172,10 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             }
             catch (InvalidCastException e)
             {
-                throw new AstNodeCreationException("Term context is cannot be converted to PowerExprContext" +
-                                                   ", or ParenthesisMathContext. " + e.Message);
+                SemanticErrors.Add(new SemanticError(factorContext.Start.Line, factorContext.Start.Column,
+                "Term context is cannot be converted to PowerExprContext" +
+                                                     ", or ParenthesisMathContext. " + e.Message)
+                    {IsFatal = true});
             }
             
            
@@ -195,8 +223,11 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             }
             catch (InvalidCastException )
             {
-                throw new AstNodeCreationException("Could not convert AtomContext into " +
-                                                   "AtomfuncCallContext, AtomXYValueContext, AtomIdContext, or NumberContext ");
+                SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,                     "Could not convert AtomContext into " +
+                    "AtomfuncCallContext, AtomXYValueContext, AtomIdContext, or NumberContext ")
+                    {IsFatal = true});
+
+                return null;
             }
            
         }
@@ -263,8 +294,9 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             }
             catch (InvalidCastException e)
             {
-                throw new AstNodeCreationException("Term context is cannot be converted to PowerExprContext" +
-                                                   ", or ParenthesisMathContext. " + e.Message);
+                SemanticErrors.Add(new SemanticError(context.Start.Line,context.Start.Column,
+                        "Could not convert SingleTermChildContext into specific context")
+                    {IsFatal = true});
             }
            
             return null;
@@ -294,22 +326,22 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
                 case OGLexer.Mul_Div:
                     if (context.op.Text.Contains("*"))
                     {
-                        return new AdditionNode(rhsNode, lhsNode);
+                        return new MultiplicationNode(rhsNode, lhsNode);
                     }
-                    
-                    if (context.op.Text.Contains("/")) 
+
+                    if (context.op.Text.Contains("/"))
                     {
                         return new DivisionNode(rhsNode, lhsNode);
                     }
 
                     break;
-                default:
-                    throw new AstNodeCreationException("InfixMultExprContext " + 
-                                                       context.GetText() + " did not contain * or /");
-                }
-            
-            throw new AstNodeCreationException("InfixMultExprContext " + 
-                                               context.GetText() + " did not contain * or /");
+            }
+
+            SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column, "InfixMultContext did not contain + or -.")
+            {
+                IsFatal = true
+            });
+            return null;
         }
         
         public override MathNode VisitSingleAtom(OGParser.SingleAtomContext context)
@@ -327,7 +359,7 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         public override MathNode VisitAtomfuncCall(OGParser.AtomfuncCallContext context)
         {
             OGParser.FunctionCallContext funcCallContext = context.funcCall;
-            _functionCallNodeExtractor = new MathFunctionCallNodeExtractor();
+            _functionCallNodeExtractor = new MathFunctionCallNodeExtractor(SemanticErrors);
            return  _functionCallNodeExtractor.VisitFunctionCall(funcCallContext);
 
         }

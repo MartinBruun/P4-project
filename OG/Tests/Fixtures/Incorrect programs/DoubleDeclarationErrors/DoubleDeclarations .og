@@ -1,0 +1,49 @@
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw 
+{
+   A;
+   B;
+}
+function bool boolFuncA (point a, point b) {
+	return dist(a, b) < 6.6;
+}
+/*error*/
+function bool boolFuncA (point a, point b) {
+	return dist(a, b) < 6.6;
+}
+
+
+function number dist (point a, point b) {
+number distA = 0;
+/*error*/
+number distA = 1;
+ return 3;
+} 
+
+shape D {
+	point startpoint = (10,10);
+	line.from(startpoint).to(10,15);
+	curve.withAngle(23).from(startpoint).to(15,10);
+}
+
+
+/*error*/
+shape ShapeA {
+	number distA = 0;
+    /*error*/
+    number distB = 1;
+}
+
+/*error*/
+shape ShapeA {
+	point a = (5,5);
+	point b = (13,13);
+	
+	number myNumber = 1.3;
+
+	repeat.until (boolFuncA(a,D.startPoint)) 
+		point a = (3,3);
+	repeat.end
+}
+

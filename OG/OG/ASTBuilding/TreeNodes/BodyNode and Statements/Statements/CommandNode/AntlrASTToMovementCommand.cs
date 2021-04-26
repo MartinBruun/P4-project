@@ -4,7 +4,7 @@ using OG.ASTBuilding.TreeNodes.PointReferences;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class AntlrASTToMovementCommand : OGBaseVisitor<MovementCommandNode>
+    public class AntlrASTToMovementCommand : AstBuilderErrorInheritor<MovementCommandNode>
     {
         public override MovementCommandNode VisitMovementCommand(OGParser.MovementCommandContext context)
         {
@@ -15,25 +15,37 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             {
                 return VisitLineCommand(context.lineCmd);
             }
+            
+            SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,"Movement command context did not contain curve or line")
+            {
+                IsFatal = true
+            });
+            return null;
 
-            throw new AstNodeCreationException("Movement command context did not contain curve or line");
         }
 
         public override MovementCommandNode VisitLineCommand(OGParser.LineCommandContext context)
         {
-            PointReferenceNode from = new FromCommandNodeExtractor().ExtractFromCommandNode(context.fromCmd);
-            List<PointReferenceNode> to = new ToCommandsListBuilder().BuildToCommandNodes(context.toCmds);
-
-            return new LineCommandNode(from, to);
+            PointReferenceNode from = new FromCommandNodeExtractor(SemanticErrors).ExtractFromCommandNode(context.fromCmd);
+            List<PointReferenceNode> to = new ToCommandsListBuilder(SemanticErrors).BuildToCommandNodes(context.toCmds);
+            LineCommandNode p = new LineCommandNode(from, to) 
+                {Line = context.type.Line, Column = context.type.Column};
+            return p;
         }
 
         public override MovementCommandNode VisitCurveCommand(OGParser.CurveCommandContext context)
         {
-            PointReferenceNode from = new FromCommandNodeExtractor().ExtractFromCommandNode(context.fromCmd);
-            List<PointReferenceNode> to = new ToCommandsListBuilder().BuildToCommandNodes(context.toCmds);
-            MathNode angle = new MathNodeExtractor().ExtractMathNode(context.angle);
+            PointReferenceNode from = new FromCommandNodeExtractor(SemanticErrors).ExtractFromCommandNode(context.fromCmd);
+            List<PointReferenceNode> to = new ToCommandsListBuilder(SemanticErrors).BuildToCommandNodes(context.toCmds);
+            MathNode angle = new MathNodeExtractor(SemanticErrors).ExtractMathNode(context.angle);
+            CurveCommandNode res = new CurveCommandNode(from, to, angle) 
+                {Line = context.type.Line, Column = context.type.Column};
+            return res;
+        }
 
-            return new CurveCommandNode(from, to, angle);
+        public AntlrASTToMovementCommand(List<SemanticError> errs) : base(errs)
+        {
+            
         }
     }
 }

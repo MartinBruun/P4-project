@@ -4,14 +4,17 @@ using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements
 {
-    public class BodyNodeExtractor : OGBaseVisitor<BodyNode>
+    public class BodyNodeExtractor : AstBuilderErrorInheritor<BodyNode>
     {
         public override BodyNode VisitBody(OGParser.BodyContext context)
         {
-            List<StatementNode> statementNodes = new StatementListBuilder().VisitBody(context);
+            List<StatementNode> statementNodes = new StatementListBuilder(SemanticErrors).VisitBody(context);
             return new BodyNode(statementNodes);
         }
 
+        public BodyNodeExtractor(List<SemanticError> errs) : base(errs)
+        {
+        }
     }
 }
 

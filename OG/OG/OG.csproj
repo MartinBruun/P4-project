@@ -13,4 +13,8 @@
       <Folder Include="gen" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Compiler\SymbolTables.cs" />
+    </ItemGroup>
+
 </Project>

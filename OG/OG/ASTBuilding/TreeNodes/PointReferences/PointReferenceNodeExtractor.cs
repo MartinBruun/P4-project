@@ -9,10 +9,18 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.PointReferences
 {
-    public class PointReferenceNodeExtractor : OGBaseVisitor<PointReferenceNode>
+    public class PointReferenceNodeExtractor : AstBuilderErrorInheritor<PointReferenceNode>
     {
-        private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
-        private readonly ParameterNodeListBuilder _parameterNodeListBuilder = new ParameterNodeListBuilder();
+        private readonly MathNodeExtractor _mathNodeExtractor;
+        private readonly ParameterNodeListBuilder _parameterNodeListBuilder;
+        
+        public PointReferenceNodeExtractor(List<SemanticError> errs) : base(errs)
+        { 
+            _mathNodeExtractor = new MathNodeExtractor(errs);
+            _parameterNodeListBuilder = new ParameterNodeListBuilder(errs);
+        }
+        
+        
         public override PointReferenceNode VisitPointReference(OGParser.PointReferenceContext context)
         {
             
@@ -62,7 +70,11 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
                 return new PointFunctionCallNode(context.GetText(), id, parameters);
             }
 
-            throw new AstNodeCreationException("Could not create PointReferenceNode from" + context.GetText());
+            SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,"Could not create PointReferenceNode from" + context.GetText() )
+            {
+                IsFatal = true
+            });
+            return null;
         }
 
         public PointReferenceNode ExtractPointReferenceNode(OGParser.EndPointReferenceContext endPointContext)
@@ -164,5 +176,7 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
             MathNode rhs = _mathNodeExtractor.ExtractMathNode(context.tuple.rhs);
             return new TuplePointNode(context.GetText(), lhs, rhs);
         }
+
+ 
     }
 }

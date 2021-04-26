@@ -1,3 +1,5 @@
+using OG.ASTBuilding.TreeNodes;
+
 namespace OG.ASTBuilding
 {
     public class SemanticError
@@ -6,6 +8,8 @@ namespace OG.ASTBuilding
         public int Column { get; set; }
         public string Msg { get; set; }
         public string Context { get; set; }
+        public AstNode Node { get; set; }
+        public bool IsFatal { get; set; } = false;
 
         public SemanticError(int line, int column, string msg)
         {
@@ -22,9 +26,20 @@ namespace OG.ASTBuilding
             Context = context;
         }
 
+        public SemanticError(AstNode node, string msg)
+        {
+            Msg = msg;
+            Node = node;
+        }
+
+        public SemanticError(string msg)
+        {
+            Msg = msg;
+        }
+
         public override string ToString()
         {
-            return $"{Msg}\nLine: {Line} Column: {Column} at:\n--> {Context}";
+            return $"{Msg}\nLine: {Node.Line} Column: {Node.Column} at:\n--> {Context}";
         }
     }
 }
