@@ -1,0 +1,4 @@
+function void() {
+number d = 2;
+number c = somefunction(d);
+}

@@ -1,16 +1,15 @@
-﻿using NUnit.Framework;
 using System;
 using System.IO;
 using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-
-using OG;
+using NUnit.Framework;
+using OG.ASTBuilding;
+using OG.ASTBuilding.TreeNodes;
+using OG.AstVisiting.Visitors;
 using OG.Compiler;
 
-namespace Tests
-
+namespace Tests.Fixtures
 {
-    public class ParserTests
+    public class PrettyPrinterTest
     {
         /// <summary>
         /// Creates the Parser used for all the tests in this file.
@@ -23,6 +22,7 @@ namespace Tests
             string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
             LexerContainer lexCon = new LexerContainer(code);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
+            
             OGParser parser = parCon.Parser;
             ErrorListenerHelper<IToken> listener = new ErrorListenerHelper<IToken>();
             parser.AddErrorListener(listener);
@@ -39,28 +39,19 @@ namespace Tests
         [TestCase("mathAddition.og", "Testing a file with additive math expressions")]
         [TestCase("mathMultiplication.og", "Testing a file with multiplicative math expressions")]
         [TestCase("while.og", "testing while loops")]
-        [TestCase("functionCallAsAssignment.og", "Testing assigning a function call to an ID")]
-        [TestCase("soleFunctionCall.og", "Testing a single function call")]
-        [TestCase("funcCallAssignmentWithParams.og", "Testing a function call to an ID with params")]
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
             OGParser parser = CreateParser(fileName, "Correct programs/");
+            AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
+                new AstBuilderContainer<AstBuilder, ProgramNode>(parser, new AstBuilder("program"));
 
-            Assert.DoesNotThrow(() =>
-            {
-                IParseTree tree = parser.program();
-            }, description);
+            ProgramNode p = astContainer.AstTreeTopNode;
+            PrettyPrinter ST = new PrettyPrinter();
+
+            p.Accept(ST);
+            Assert.True(true);
+
         }
         
-        [TestCase("nested_shape.og", "Testing that nested shapes are not valid")]
-        public void Test_Fixtures_ShouldRaiseSyntaxExceptions(string fileName, string description)
-        {
-            OGParser parser = CreateParser(fileName, "Incorrect programs/");
-
-            Assert.Throws<SyntaxException>(() =>
-            {
-                IParseTree tree = parser.program();
-            }, description);
-        }
     }
 }
