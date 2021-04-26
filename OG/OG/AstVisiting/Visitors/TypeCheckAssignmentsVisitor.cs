@@ -24,7 +24,7 @@ namespace OG.AstVisiting.Visitors
 
         
 
-        public TypeCheckAssignmentsVisitor(Dictionary<string,string> symbolTable)
+        public TypeCheckAssignmentsVisitor(Dictionary<string,AstNode> symbolTable)
         {
             S.Elements = symbolTable;
         }
@@ -39,7 +39,7 @@ namespace OG.AstVisiting.Visitors
         }
         
         //Mark: Getters
-        public Dictionary<string, string> GetSymbolTable()
+        public Dictionary<string, AstNode> GetSymbolTable()
         {
             return S.Elements;
         }
@@ -276,6 +276,8 @@ namespace OG.AstVisiting.Visitors
                 {
                     p.Accept(this);
                 }
+                S.resetParameterCount();
+                
             // }
             // catch
             // {
@@ -545,6 +547,8 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionCallParameterNode node)
         {
+            S.increaseParameterCount();
+            S.CheckDeclaredTypeOf(node.ParameterId.Value);
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
             return new object();
