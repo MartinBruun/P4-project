@@ -3,11 +3,16 @@ using System.Collections.Generic;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors
 {
-    public class DeclarationNodeListBuilder : OGBaseVisitor<List<DeclarationNode>>
+    public class DeclarationNodeListBuilder : AstBuilderErrorInheritor<List<DeclarationNode>>
     {
-        private List<SemanticError> ErrorList { get; set; }
         private List<DeclarationNode> _declarations = new List<DeclarationNode>();
-        private DeclarationNodeExtractor _declarationNodeExtractor = new DeclarationNodeExtractor();
+        private DeclarationNodeExtractor _declarationNodeExtractor;
+
+
+        public DeclarationNodeListBuilder(List<SemanticError> errs ):base(errs)
+        {
+            _declarationNodeExtractor = new DeclarationNodeExtractor(errs);
+        }
 
         
         /// <summary>

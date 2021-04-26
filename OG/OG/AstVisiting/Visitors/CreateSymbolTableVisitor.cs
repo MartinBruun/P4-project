@@ -225,14 +225,14 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-        public object visit(BoolExprIdNode node)
+        public object Visit(BoolExprIdNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             
             return new object();
-
         }
+        
 
         public object Visit(StatementNode node)
         {
@@ -294,6 +294,14 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString()); 
             return new object();
         }
+
+        public object Visit(ParameterTypeNode node)
+        {
+            Console.WriteLine(node.ParameterType == ParameterTypeNodeExtractor.IOgTyped.OgType.Point );
+            Console.WriteLine(node.IdNode.Value);
+            return new object();
+        }
+
 
         public object Visit(CommandNode node)
         {

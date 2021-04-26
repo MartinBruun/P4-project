@@ -1,5 +1,5 @@
 Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
-draw {shapeA;shapeB; c; }
+draw {a;b;c;}
 /*Functions*/
 
 
@@ -54,31 +54,18 @@ function bool bools(number z,bool l){
     return true;
 }
  
- 
-function number myfunc(number a){
-    bool c = false;
-    number b =  q + b + c / d * b;
-    number d = b+c;
-    d=5;
-    return true /*(a,a)*/;
-} 
-
-/* 
-function void funA(number a){
+function void funA(){
 number q = 33;
 bool test3 = a + b == 0;
 number q = 33;
 }
-function void funB(){
+function void funA(){
 number q = 33;
-
 }
 /*Shapes*/
-
 shape shapeA{
-number a = 3;
+number a = 10;
 number b = 20;
-line.from(a*a*a*a*A*a, myfunc()).to(a.endPoint.x, 2*a.endPoint.y);
 repeat.until(a>b)
     bool repeatPoint = true;
     line.from(a,b).to(b,a).to(8,5);
@@ -91,19 +78,14 @@ repeat.end
 /*
 shape shapeB{
 shapeA;
-bool mybool = false;
-bool a = true;
-number b = 2+a;
+number a = 1;
+number b = 2;
 repeat(4)
- repeat(2)
-    mystartpoint = (myXNumber, myYNumber);
-    point repeatPoint = (a,b);
+    bool repeatPoint = true;
     line.from(a,b).to(b,a).to(8,5);
 /*    curve.angle(30).from(a,a).to(b,b);*/
- /*   a = a * 2;
+    a = a * 2;
     b= b + 2;
-    bool stop = true || true;
-    repeat.end
 repeat.end
 }
 }

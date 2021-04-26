@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
@@ -6,11 +7,18 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors
 {
-    public class DeclarationNodeExtractor : OGBaseVisitor<DeclarationNode>
+    public class DeclarationNodeExtractor : AstBuilderErrorInheritor<DeclarationNode>
     {
-        private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
-        private readonly BoolNodeExtractor _boolNodeExtractor = new BoolNodeExtractor();
-        private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor = new PointReferenceNodeExtractor();
+        private readonly MathNodeExtractor _mathNodeExtractor;
+        private readonly BoolNodeExtractor _boolNodeExtractor;
+        private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor;
+
+        public DeclarationNodeExtractor(List<SemanticError> errs ) : base(errs)
+        {
+            _boolNodeExtractor = new BoolNodeExtractor(errs);
+            _mathNodeExtractor = new MathNodeExtractor(errs);
+            _pointReferenceNodeExtractor = new PointReferenceNodeExtractor(errs);
+        }
     
         
         public DeclarationNode ExtractDeclarationNode(OGParser.DeclarationContext context)
@@ -41,9 +49,13 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
             }
             catch (InvalidCastException )
             {
-                throw new AstNodeCreationException("Could not convert DeclarationContext for expression"
-                                                   + context.GetText() 
-                                                   + " into, number, point or boolean declaration context.");
+                SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column, "Could not convert DeclarationContext for expression"
+                    + context.GetText() 
+                    + " into, number, point or boolean declaration context.")
+                {
+                    IsFatal = true
+                });
+                return null;
             }
 
 
@@ -91,9 +103,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
             }
             catch (InvalidCastException )
             {
-                throw new AstNodeCreationException("PointDclcontext  could not be typecast" +
+                
+                SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,"PointDclcontext  could not be typecast" +
                                                    " to PointDclIdAssignContext or" +
-                                                   " PointDclPointRefAssignContext.");
+                                                   " PointDclPointRefAssignContext.")
+                {
+                    IsFatal = true
+                });
+                return null;
             }
             
             

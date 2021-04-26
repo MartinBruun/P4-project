@@ -9,6 +9,7 @@ namespace OG.ASTBuilding
         public string Msg { get; set; }
         public string Context { get; set; }
         public AstNode Node { get; set; }
+        public bool IsFatal { get; set; } = false;
 
         public SemanticError(int line, int column, string msg)
         {
@@ -29,6 +30,11 @@ namespace OG.ASTBuilding
         {
             Msg = msg;
             Node = node;
+        }
+
+        public SemanticError(string msg)
+        {
+            Msg = msg;
         }
 
         public override string ToString()

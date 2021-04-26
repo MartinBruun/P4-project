@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
@@ -8,13 +9,21 @@ using CoordinateXyValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.Coor
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    public class AssignmentNodeExtractor : OGBaseVisitor<AssignmentNode>
+    public class AssignmentNodeExtractor : AstBuilderErrorInheritor<AssignmentNode>
     {
-        private readonly MathNodeExtractor _mathNodeExtractor = new MathNodeExtractor();
-        private readonly BoolNodeExtractor _boolNodeExtractor = new BoolNodeExtractor();
-        private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor = new PointReferenceNodeExtractor();
-        
+        private readonly MathNodeExtractor _mathNodeExtractor;
+        private readonly BoolNodeExtractor _boolNodeExtractor;
+        private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor;
 
+
+        public AssignmentNodeExtractor(List<SemanticError> errs) : base(errs)
+        {
+            _mathNodeExtractor = new MathNodeExtractor(errs);
+            _boolNodeExtractor = new BoolNodeExtractor(errs);
+            _pointReferenceNodeExtractor = new PointReferenceNodeExtractor(errs);
+        }
+        
+        
         /// <summary>
         /// Visits an assignment context and creates an AssignmentNode from it.
         /// </summary>
@@ -66,7 +75,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
                 {
                     //TODO: jeg tror der er noget galt her, det er som om jeg får FunctionName på begge ide'er
                     OGParser.FunctionCallContext functionCallContext = ((OGParser.FunctionCallAssignContext) context).funcCall;
-                    FunctionCallNode x = new FunctionCallNodeExtractor().VisitFunctionCall(functionCallContext);
+                    FunctionCallNode x = new FunctionCallNodeExtractor(SemanticErrors).VisitFunctionCall(functionCallContext);
                     IdNode id = new IdNode(functionCallContext.id.Text);
                     
                     return new FunctionCallAssignNode(id,x.FunctionName, x.Parameters);
@@ -111,8 +120,13 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             }
             catch (InvalidCastException)
             {
-                throw new AstNodeCreationException("Could not convert VariableAssignmentContext into " +
-                                                   "IdAssignContext,boolAssignContext, NumberAssignContext, or PointAssignContext ");
+                SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,"Could not convert VariableAssignmentContext into " +
+                                                   "IdAssignContext,boolAssignContext, NumberAssignContext, or PointAssignContext " + context.GetText())
+                {
+                    IsFatal = true
+                });
+
+                return null;
             }
 
 

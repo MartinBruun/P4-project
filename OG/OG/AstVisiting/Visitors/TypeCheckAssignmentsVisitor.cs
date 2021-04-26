@@ -196,8 +196,9 @@ namespace OG.AstVisiting.Visitors
             node.AssignedExpression.Accept(this);
             return new object();
         }
+        
 
-        public object visit(BoolExprIdNode node)
+        public object Visit(BoolExprIdNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
@@ -359,6 +360,11 @@ namespace OG.AstVisiting.Visitors
             
             node.assignedValue.Accept(this);
             return new object();
+        }
+
+        public object Visit(ParameterTypeNode node)
+        {
+            throw new NotImplementedException();
         }
 
         public object Visit(CommandNode node)

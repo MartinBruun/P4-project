@@ -2,11 +2,16 @@
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    public class AssignmentNodeListBuild : OGBaseVisitor<List<AssignmentNode>>
+    public class AssignmentNodeListBuild : AstBuilderErrorInheritor<List<AssignmentNode>>
     {
         
         private readonly List<AssignmentNode> _assignments = new List<AssignmentNode>();
-        private readonly AssignmentNodeExtractor _assignmentNodeExtractor = new AssignmentNodeExtractor();
+        private readonly AssignmentNodeExtractor _assignmentNodeExtractor;
+
+        public AssignmentNodeListBuild(List<SemanticError> errs) : base(errs)
+        {
+            _assignmentNodeExtractor = new AssignmentNodeExtractor(errs);
+        }
 
         /// <summary>
         /// Visits a body context and extracts all assignments from it. Returns empty list if body contains no statements.
