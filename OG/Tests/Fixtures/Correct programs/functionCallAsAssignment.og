@@ -1,4 +1,10 @@
-function bool bools(number c, number f){
+Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
+draw { }
+
+function bool bools( number c, number f){
 b = somefunction();
+c = somefunction(2);
+f = somefunction(b);
+
 return true;
 }

@@ -1,14 +1,18 @@
 using System;
 using System.IO;
-using Antlr4.Runtime;
 using NUnit.Framework;
 using OG.ASTBuilding;
 using OG.ASTBuilding.TreeNodes;
 using OG.AstVisiting.Visitors;
 using OG.Compiler;
+using Tests;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 
-namespace Tests.Fixtures
-{
+using OG;
+using OG.Compiler;
+
+namespace Tests {
     public class PrettyPrinterTest
     {
         /// <summary>

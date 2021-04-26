@@ -54,8 +54,8 @@ namespace OG.AstVisiting.Visitors
         
         //Visitors
         public object Visit(ProgramNode node)
-        {   S.enterScope("Global");
-            // Console.WriteLine("\n--- TypeChecking ---");
+        {   S.enterScope("Global"); 
+            Console.WriteLine("\n--- TypeChecking ---");
 
             foreach (var item in node.MachineSettingNodes)
             {
@@ -564,16 +564,28 @@ namespace OG.AstVisiting.Visitors
         public object Visit(MathFunctionCallNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+            // Console.WriteLine(node.ToString());
+            
             return new object();
         }
 
         public object Visit(ParameterNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+            // Console.WriteLine(node.ToString());
+            string foundType;
+            //TODO: gør noget her Jakob, vi skal finde ud af at sætte de lokale param variabler i den kaldte funktion
+            if (node.Expression != null)
+            {
+                
+                node.Expression.Accept(this);
+            }
+            else
+            {
+                
+                node.ParameterId.Accept(this);
+            }
 
-            node.ParameterId.Accept(this); 
             // node.Expression.Accept(this);
             return new object();
         }

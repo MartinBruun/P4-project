@@ -53,7 +53,7 @@ namespace OG.AstVisiting.Visitors
         //Visitors
         public object Visit(ProgramNode node)
         {   S.enterScope("Global");
-            // Console.WriteLine("\n---Creating SymbolTable---");
+             Console.WriteLine("\n---Creating SymbolTable---");
                             
                 // ProgramStartElementNaming();
                 foreach (var item in node.FunctionDcls)
@@ -98,9 +98,10 @@ namespace OG.AstVisiting.Visitors
             {
                 param.Accept(this);
             }
+            S.resetParameterCount();
             node.Body.Accept(this);
             S.exitScope(node.Id.Value);
-            S.resetParameterCount();
+            
             return new object();
         }
         

@@ -93,11 +93,16 @@ namespace OG.AstVisiting.Visitors
         /// <returns></returns>
         public bool Add(string id, string type, AstNode node)
         {
+            Console.WriteLine($"pCount {parameterCount} adding {id} to symtbl, {node}");
             try
             {
-                string _id = parameterCount == 0 ? id : $"Param{parameterCount}";
+                
                 node.CompileTimeType = type;
-                Elements.Add(currentScopeName+"_"+_id, node);
+                Elements.Add(currentScopeName+"_"+id, node);
+                if ( parameterCount != 0)
+                {
+                    Elements.Add(currentScopeName+"_"+$"Param{parameterCount}",node);
+                } 
                 return true;
             }
             catch (Exception e)
@@ -136,11 +141,11 @@ namespace OG.AstVisiting.Visitors
         /// <exception cref="Exception"></exception>
         public string CheckDeclaredTypeOf(string id)
         {
-            string IdInScope = currentScopeName + "_" + id;
+            string IdInScope = parameterCount == 0 ? currentScopeName + "_" + id : currentScopeName+"_"+$"Param{parameterCount}" ;
             
                 try
                 {
-                    Console.Write($"\nChecking {currentScopeName + "_" + id}");
+                    Console.Write($"\nChecking {IdInScope}");
                     var result = Elements[IdInScope].CompileTimeType;
                     Console.WriteLine($": found {result}");
                     return result;

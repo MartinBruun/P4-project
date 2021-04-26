@@ -53,8 +53,25 @@ namespace OG
             p.Accept(PP);
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
             p.Accept(ST);
-            errors.Add(ST.GetErrors());
+            errors.AddRange(ST.GetErrors());
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
+            p.Accept(TT);
+            errors.AddRange(TT.GetErrors());
+            symbolTable = TT.GetSymbolTable();
+
+            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
+
+            foreach (var item in errors)
+            {
+                Console.Write("\n"+item + "\n");
+
+            }
+            
+            Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
+            foreach (var item in symbolTable)
+            {
+                Console.WriteLine(item);
+            }
             
             // errors.AddRange(ST.GetErrors());
             // TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());

@@ -1,4 +1,8 @@
-function void() {
+Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
+draw { 
+}
+
+function void EnFunktion() {
 number d = 2;
 number c = somefunction(d);
 }
