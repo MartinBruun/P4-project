@@ -569,8 +569,8 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
 
-            // node.ParameterId.Accept(this); 
-            node.Expression.Accept(this);
+            node.ParameterId.Accept(this); 
+            // node.Expression.Accept(this);
             return new object();
         }
 

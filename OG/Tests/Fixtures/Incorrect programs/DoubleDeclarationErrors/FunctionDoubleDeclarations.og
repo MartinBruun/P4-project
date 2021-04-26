@@ -5,11 +5,11 @@ draw
    A;
    B;
 }
-function bool boolFuncA (number a) {
+function bool boolFuncA () {
 	return dist(a, b) < 6.6;
 }
 /*error*/
-function bool boolFuncA (number a) {
+function bool boolFuncA () {
 	return dist(a, b) < 6.6;
 }
 

@@ -1,11 +1,7 @@
 using OG.ASTBuilding;
 using OG.ASTBuilding.TreeNodes;
 using OG.AstVisiting.Visitors;
-
-namespace Tests
-{
-    
-        using NUnit.Framework;
+using NUnit.Framework;
 using System;
 using System.IO;
 using Antlr4.Runtime;
@@ -84,7 +80,7 @@ namespace Tests
         
         [TestCase("ShapeDoubleDeclarations.og",2, "testing that two shapes of the same name are discovered")]
         [TestCase("FunctionDoubleDeclarations.og",1, "testing that two Functions of the same name are discovered")]
-        [TestCase("VariableDoubleDeclarations.og",6, "testing that two Variables of the same name are discovered")]
+        [TestCase("VariableDoubleDeclarations.og",9, "testing that two Variables of the same name are discovered")]
         
         public void Test_Fixtures_ShouldFindDoubleDeclarations(string fileName,int errorCount, string description)
         {
@@ -120,4 +116,3 @@ namespace Tests
 }
 
     
-}

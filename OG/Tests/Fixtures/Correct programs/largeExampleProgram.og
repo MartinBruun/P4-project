@@ -29,7 +29,7 @@ shape A {
 
 shape B {
 	/*Bs startpoint er implicit sat til global startpoint;*/
-	//A.startPoint = startpoint; /*Vi har en ny A inde i B. Dennes startpunkt saettes til global start point Dette er ikke defineret endnu*/
+	/*A.startPoint = startpoint; /*Vi har en ny A inde i B. Dennes startpunkt saettes til global start point Dette er ikke defineret endnu*/
 	A; /*Tegn A*/
 	line.from(A.endPoint).to(C.startPoint); /*No from betyder implicit sidst brugte punkt (Sidst brugte punkt holdes styr paa som global vaerdi)*/	
 

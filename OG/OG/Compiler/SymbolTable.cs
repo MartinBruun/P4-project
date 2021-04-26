@@ -13,6 +13,7 @@ namespace OG.AstVisiting.Visitors
 
         private int level = 0;
         private int repeatLevel = 0;
+        private int parameterCount = 0;
         private string currentScopeName = "0";
 
         public SymbolTable()
@@ -73,7 +74,16 @@ namespace OG.AstVisiting.Visitors
             stack.Pop();
             currentScopeName = stack.Peek();
         }
-        
+
+        public void enterParameter()
+        {
+            parameterCount++;
+        }
+
+        public void exitParameters()
+        {
+            parameterCount = 0;
+        }
         
         /// <summary>
         /// Tilføjer et ID med tilhørende type i symboltable
@@ -145,7 +155,6 @@ namespace OG.AstVisiting.Visitors
                 {
                     try
                     {
-                        stackCopy.Pop();
                         string name = stackCopy.Pop() + "_" + id;
                         Console.Write($"\n--nextScope {name}");
                         var result = Elements[name];

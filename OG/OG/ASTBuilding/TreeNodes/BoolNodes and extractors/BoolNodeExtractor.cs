@@ -103,7 +103,7 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
             }
             catch (InvalidCastException e)
             {
-                throw new AstNodeCreationException("Something went wrong when converting BoolExpressionContext into " +
+                throw new AstNodeCreationException($"Line:{context.Start.Line}--Something went wrong when converting BoolExpressionContext into " +
                                                    "BoolExprNotPrefixContext, " +
                                                    "BoolExprBoolCompContext, " +
                                                    "BoolExprMathCompContext, " +

@@ -94,10 +94,6 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString()); 
 
             S.enterScope(node.Id.Value);
-            //TODO: fjern når vi har fikset params på function creatoren
-            IdNode i = new IdNode("JakobFakeParam");
-            ParameterNode Jakob = new ParameterNode(i);
-            Jakob.Accept(this);
             foreach (var param in node.Parameters)
             {
                 param.Accept(this);
@@ -297,8 +293,30 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ParameterTypeNode node)
         {
-            Console.WriteLine(node.ParameterType == ParameterTypeNodeExtractor.IOgTyped.OgType.Point );
-            Console.WriteLine(node.IdNode.Value);
+            
+            string type;
+            switch (node.ParameterType)
+            {
+                case ParameterTypeNodeExtractor.IOgTyped.OgType.Bool:
+                    type = "bool";
+                    break;
+                case ParameterTypeNodeExtractor.IOgTyped.OgType.Number:
+                    type = "number";
+                    break;
+                case ParameterTypeNodeExtractor.IOgTyped.OgType.Point:
+                    type = "point";
+                    break;
+                default:
+                    type = "Not set";
+                    break;
+            }
+
+            
+            if (!(S.Add(node.IdNode.Value, type)))
+            {
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.IdNode.Value} Already exists in SymbolTable"));
+            }
+            
             return new object();
         }
 

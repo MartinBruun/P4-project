@@ -24,13 +24,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             visitor.Visit(this);
 
         }
-
-        public override void Accept(IVisitor visitor)
-        {
-            visitor.Visit(this);
-
-        }
-
+        
         public void Accept(IPointReferenceAssignmentVisitor visitor)
         {
             visitor.Visit(this);

@@ -5,25 +5,29 @@ draw
    A;
    B;
 }
-function bool boolFuncA (point a, point b) {
+function bool boolFuncA ( number c, number n) {
     number a = 1;
     /*error*/
     number a = 2;
-	return dist(a, b) < 6.6;
+    number n = 2;/*error*/
+	return dist(a, n) < 6.6;
 }
 
-function bool boolFuncB (point a, point b) {
+function bool boolFuncB (bool c, bool b) {
     bool a = true;
     /*error*/
     bool a = false;
-	return dist(a, b) < 6.6;
+    bool b = 2>3;/*error*/
+
+	return 6 < 6.6;
 }
 
 
-function number dist (point a, point b) {
+function number dist (point a, point p) {
 point distA = (0,0);
 /*error*/
 point distA = (1,1);
+point p = (2,2);/*error*/
  return 3;
 } 
 
