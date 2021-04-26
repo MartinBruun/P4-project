@@ -125,12 +125,14 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionCallAssignNode node)
         {
+            Console.Write("FUNCTION CALL ASSIGN NODE HERE");
             node.Id.Accept(this);
             return new object();
         }
 
         public object Visit(IdAssignNode node)
         {
+            Console.Write("ID ASSIGN NODE: ");
             Console.WriteLine(node.ToString());
             return new object();
         }
@@ -140,24 +142,27 @@ namespace OG.AstVisiting.Visitors
             node.Id.Accept(this);
             Console.Write(" = ");
             node.AssignedValue.Accept(this);
-            Console.Write("\n");
+            Console.Write(";\n");
             return new object();
         }
 
         public object Visit(PointAssignmentNode node)
         {
+            Console.Write("PointAssignmentNode: ");
             Console.WriteLine(node.ToString());
             return new object();
         }
 
         public object Visit(PropertyAssignmentNode node)
         {
+            Console.Write("PropertyAssignmentNode: ");
             Console.WriteLine(node.ToString());
             return new object();
         }
 
         public object Visit(CommandNode node)
         {
+            Console.Write("Command Node: ");
             Console.WriteLine(node.ToString());
             return new object();
         }
@@ -185,7 +190,7 @@ namespace OG.AstVisiting.Visitors
                 Console.Write(".to");
                 toCommand.Accept(this);
             }
-            Console.Write("\n");
+            Console.Write(";\n");
             return new object();
         }
         
@@ -224,7 +229,7 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write("repeat(");
             node.Iterations.Accept(this);
-            Console.Write(")");
+            Console.Write(")\n");
             node.Body.Accept(this);
             Console.Write("\nrepeat.end\n");
             return new object();
@@ -253,11 +258,13 @@ namespace OG.AstVisiting.Visitors
             node.Id.Accept(this);
             Console.Write(" = ");
             node.AssignedExpression.Accept(this);
+            Console.Write(";\n");
             return new object();
         }
 
         public object Visit(DeclarationNode node)
         {
+            Console.Write("DeclarationNode: ");
             Console.WriteLine(node.ToString());
             return new object();
         }
@@ -349,13 +356,32 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(BoolFunctionCallNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write("BoolFunctionCallNode: ");
+            node.FunctionName.Accept(this);
+            Console.Write("(");
+            if (node.Parameters.Count != 0)
+            {
+                foreach (var param in node.Parameters)
+                {
+                    param.Accept(this);
+                }
+            }
+            Console.Write(")");
             return new object();
         }
 
         public object Visit(FunctionCallNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.FunctionName.Accept(this);
+            Console.Write("(");
+            if (node.Parameters.Count != 0)
+            {
+                foreach (var param in node.Parameters)
+                {
+                    param.Accept(this);
+                }
+            }
+            Console.Write(");");
             return new object();
         }
 
@@ -380,7 +406,7 @@ namespace OG.AstVisiting.Visitors
             {
                 param.Accept(this);
             }
-            Console.Write(")\n");
+            Console.Write(")");
             return new object();
         }
 
@@ -409,7 +435,10 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(DivisionNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            Console.Write(" / ");
+            node.RHS.Accept(this);
+            
             return new object();
         }
 
@@ -433,6 +462,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MultiplicationNode node)
         {
+            Console.Write("MultiplicationNode: ");
             Console.WriteLine(node.ToString());
             return new object();
         }
@@ -457,12 +487,14 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointFunctionCallNode node)
         {
+            Console.Write("PointFunctionCallNode: ");
             Console.WriteLine(node.ToString());
             return new object();
         }
 
         public object Visit(PointReferenceIdNode node)
         {
+            Console.Write("PointReferenceIdNode: ");
             Console.WriteLine(node.ToString());
             return new object();
         }
@@ -496,7 +528,7 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(FalseNode node)
         {
-            Console.WriteLine(node.ToString());
+            Console.Write(node.Value);
             return new object();
         }
 
