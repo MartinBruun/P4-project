@@ -37,7 +37,7 @@ namespace OG
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
             List<SemanticError> errors = new List<SemanticError>();
-            Dictionary<string, string> symbolTable = new Dictionary<string, string>();
+            Dictionary<string, AstNode> symbolTable = new Dictionary<string, AstNode>();
 
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
@@ -74,21 +74,9 @@ namespace OG
 
 
 
-
-
-            //ASTContainer<AstBuilderVisitor, ProgramNode> ast = new ASTContainer<AstBuilderVisitor, ProgramNode>(parCon.Parser);
-
-
-            /*
-             
-            ASTContainer<AstBuilder, ProgramNode> astContainer =
-                new ASTContainer<AstBuilder, ProgramNode>(parCon.OGParser);
-
-            ProgramNode ast = astContainer.AST;
-
-            SemanticAnalyserContainer semanticAnalyserContainer = new SemanticAnalyserContainer(ast);
             
-            */
+
+           
             //De resterende items bør udelukkende være dependant på opdaterede AST'er.
             /*
             TypeChecker<ProgramNode, ASTBuilderVisitor> typeChecker        = new TypeChecker<ProgramNode,ASTBuilderVisitor>(parCon.OGParser);

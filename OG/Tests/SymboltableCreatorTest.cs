@@ -77,6 +77,38 @@ namespace Tests
              description);
         }
         
+       
+        [TestCase("FunctionDeclParameters.og",4, "testing that two parameters are discovered and stored in symboltable")]
+        
+        public void Test_Fixtures_ShouldCreateElementsInSymbolTable(string fileName,int elementCount, string description)
+        {
+            OGParser parser = CreateParser(fileName, "Correct programs/");
+            AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
+                new AstBuilderContainer<AstBuilder, ProgramNode>(parser, new AstBuilder("program"));
+
+            ProgramNode p = astContainer.AstTreeTopNode;
+            CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
+
+            p.Accept(ST);
+            var symboltable = ST.GetSymbolTable();
+            var errors = ST.GetErrors();
+            
+            Console.WriteLine("\n-----Contents of symboltable-----");
+            foreach (var item in symboltable)
+            {
+                Console.WriteLine(item.Key + ":" + item.Value);
+            }
+            
+            Console.WriteLine("\n---Bad declarations---");
+            foreach (var item in errors)
+            {
+                Console.WriteLine(item);
+            }
+            
+            Assert.AreEqual(elementCount,symboltable.Count,
+                description);
+        }
+        
         
         [TestCase("ShapeDoubleDeclarations.og",2, "testing that two shapes of the same name are discovered")]
         [TestCase("FunctionDoubleDeclarations.og",1, "testing that two Functions of the same name are discovered")]
