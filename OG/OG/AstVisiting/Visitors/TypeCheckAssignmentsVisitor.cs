@@ -258,11 +258,30 @@ namespace OG.AstVisiting.Visitors
         public object Visit(FunctionCallAssignNode node)
         {
             Console.Write($"\n!!!!!FunctionCallAssignment Scope {S.GetCurrentScope()} | ");
-            Console.WriteLine(node.ToString());
-            if (S.CheckDeclaredTypeOf(node.FunctionName.Value) != S.CheckDeclaredTypeOf(node.Id.Value))
-            {
-                errors.Add(new SemanticError(node, $"visitFunctionCallAssignment:{node.Id.Value} does not match type of function {node.FunctionName.Value}"));
-            }
+            Console.WriteLine($"id:{node.Id.Value}--FuncName: {node.FunctionName.Value}");
+            // try
+            // {
+                node.Id.Accept(this);
+                Console.WriteLine($" CompiletimeType:"+node.Id.CompileTimeType);
+                node.FunctionName.Accept(this);
+                Console.WriteLine($" CompiletimeType:"+node.Id.CompileTimeType);
+
+                if (node.Id.CompileTimeType != node.FunctionName.CompileTimeType)
+                {
+                    errors.Add(new SemanticError(node, $"visitFunctionCallAssignment:{node.Id.Value}:{node.Id.CompileTimeType} does not match type of function {node.FunctionName.Value}:{node.FunctionName.CompileTimeType}"));
+                }
+
+                foreach (var p in node.Parameters)
+                {
+                    p.Accept(this);
+                }
+            // }
+            // catch
+            // {
+            //     node.CompileTimeType = "!Not Found!";
+            //     errors.Add(new SemanticError(node, $"VisitIdNode: {node} has not been declared"));
+            // }
+            
             
             return new object();
         }
@@ -278,15 +297,18 @@ namespace OG.AstVisiting.Visitors
                 // Console.WriteLine(
                 //     "Jakob LHS =" + S.CheckDeclaredTypeOf(node.Id.Value) + "RHS = "+S.CheckDeclaredTypeOf(
                 //         node.AssignedValue.Value));
-                if (S.CheckDeclaredTypeOf(node.Id.Value) != S.CheckDeclaredTypeOf(node.AssignedValue.Value))
+                var LHSType = S.CheckDeclaredTypeOf(node.Id.Value);
+                var RHSType = S.CheckDeclaredTypeOf(node.AssignedValue.Value);
+
+                if (LHSType != RHSType)
                 {
-                    errors.Add(new SemanticError(node, $"visitIdAssignNode:{node.Id.Value} does not match type of  AssignedValue"));
+                    errors.Add(new SemanticError(node, $"visitIdAssignNode:{node.Id.Value}:{LHSType} does not match type of  AssignedValue:{node.AssignedValue.Value}:{RHSType} "));
                 }
             }catch
             {
                 errors.Add(new SemanticError(node, $"VisitIDAssignNode:{node.Id.Value} or AssignedValue has not been declared "));
             }
-            node.AssignedValue.Accept(this);
+            //node.AssignedValue.Accept(this);
             return new object();
         }
 
@@ -541,7 +563,7 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
 
-            node.ParameterId.Accept(this); 
+            // node.ParameterId.Accept(this); 
             node.Expression.Accept(this);
             return new object();
         }
@@ -764,6 +786,7 @@ namespace OG.AstVisiting.Visitors
             }
             catch
             {
+                node.CompileTimeType = "!Not Found!";
                 errors.Add(new SemanticError(node, $"VisitIdNode: {node.Value} has not been declared"));
             }
 

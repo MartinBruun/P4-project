@@ -60,7 +60,7 @@ namespace OG.AstVisiting.Visitors
                     {
                         if (!S.Add(item.Id.Value, item.ReturnType))
                         {
-                            errors.Add(new SemanticError(node,"Already exists in SymbolTable"));
+                            errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+ item.Id.Value} Already exists in SymbolTable"));
                         }
                         item.Accept(this);
                         // ProgramFunctionListElementNaming(item);
@@ -70,7 +70,7 @@ namespace OG.AstVisiting.Visitors
                     {
                         if (!S.Add(item.Id.Value, "shape"))
                         {
-                            errors.Add(new SemanticError(node,"Already exists in SymbolTable"));
+                            errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+item.Id.Value} Already exists in SymbolTable"));
                         }
                         // ProgramShapeListElementNaming(item);
                         item.Accept(this);
@@ -95,7 +95,7 @@ namespace OG.AstVisiting.Visitors
 
             S.enterScope(node.Id.Value);
             //TODO: fjern når vi har fikset params på function creatoren
-            IdNode i = new IdNode("Jakob");
+            IdNode i = new IdNode("JakobFakeParam");
             ParameterNode Jakob = new ParameterNode(i);
             Jakob.Accept(this);
             foreach (var param in node.Parameters)
@@ -175,7 +175,7 @@ namespace OG.AstVisiting.Visitors
 
             if (!S.Add(node.Id.Value, node.DeclaredType.ToString()))
             {
-                errors.Add(new SemanticError(node,"Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable"));
             }
             node.Accept(this);
             // Console.Write("ADeclarationN\n");
@@ -218,7 +218,7 @@ namespace OG.AstVisiting.Visitors
 
             if (!S.Add(node.Id.Value, "point"))
             {
-                errors.Add(new SemanticError(node,"Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable"));
             }
            
 

@@ -71,6 +71,7 @@ commands: cmd=command cmds=commands              #cmds
 declaration         : numberDcl=numberDeclaration';' #numberDcl
                     | pointDcl=pointDeclaration';'   #pointDcl
                     | boolDcl=booleanDeclaration';'  #boolDcl
+                    
                     ;
 booleanDeclaration  : 'bool'   id=ID   '=' value=boolExpression
                     ;

@@ -14,6 +14,7 @@ namespace OG.ASTBuilding.TreeNodes
             ShapeNode node =  new ShapeNode(new IdNode(context.id.Text), body);
             node.Line =context.id.Line;
             node.Column =context.id.Column;
+            
             return node;
         }
     }

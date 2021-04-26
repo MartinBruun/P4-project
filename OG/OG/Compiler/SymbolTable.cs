@@ -145,8 +145,9 @@ namespace OG.AstVisiting.Visitors
                 {
                     try
                     {
+                        stackCopy.Pop();
                         string name = stackCopy.Pop() + "_" + id;
-                        Console.Write($"\nChecking nextScope {name}");
+                        Console.Write($"\n--nextScope {name}");
                         var result = Elements[name];
                         Console.WriteLine($": found {result}");
                         return Elements[name];
@@ -156,6 +157,8 @@ namespace OG.AstVisiting.Visitors
                     }
                 }
             //TODO: Lav en ordentlig exception type
+            // return "!Not Found!";
+            Console.Write($"\n--{id} has not been declared");
             throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
         }
     }

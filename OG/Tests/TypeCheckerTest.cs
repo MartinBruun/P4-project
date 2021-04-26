@@ -32,7 +32,7 @@ namespace Tests
         }
         
         [TestCase("base.og", "Testing the minimal meaningful product")]
-       // [TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
+        //[TestCase("largeExampleProgram.og", "Testing a file with a large amount of mixed commands")]
         [TestCase("base_function.og", "Testing the base case for declaring a function")]
         [TestCase("base_shape.og", "Testing the base case for declaring a shape")]
         [TestCase("boolExpressions.og", "Testing declaration and use of bool expressions")]
@@ -82,6 +82,7 @@ namespace Tests
         // [TestCase("FunctionDoubleDeclarations.og",1, "testing that two Functions of the same name are discovered")]
         // [TestCase("VariableDoubleDeclarations.og",6, "testing that two Variables of the same name are discovered")]
         [TestCase("boolToNumber.og",6, "testing that a boolian can not be assigned to a number variable")]
+        [TestCase("FunctionCallAssignTypeMisMatch.og",2, "testing that a boolian function can not be assigned to a number variable and numberFunction to a boolian variable")]
 
         public void Test_Fixtures_ShouldFindTypeMismatch(string fileName,int errorCount, string description)
         {
