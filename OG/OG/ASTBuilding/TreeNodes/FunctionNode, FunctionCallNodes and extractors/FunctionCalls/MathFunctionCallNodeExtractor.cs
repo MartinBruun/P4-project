@@ -3,7 +3,7 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class MathFunctionCallNodeExtractor : OGBaseVisitor<MathFunctionCallNode>
+    public class MathFunctionCallNodeExtractor : AstBuilderErrorInheritor<MathFunctionCallNode>
     {
         private ParameterNodeListBuilder _parameterListBuilder = null;
 
@@ -16,11 +16,16 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         public override MathFunctionCallNode VisitFunctionCall(OGParser.FunctionCallContext context)
         {
             List<ParameterNode> parameterNodes = new List<ParameterNode>();
-            _parameterListBuilder = new ParameterNodeListBuilder();
+            _parameterListBuilder = new ParameterNodeListBuilder(SemanticErrors);
             IdNode id = new IdNode(context.id.Text);
            parameterNodes = _parameterListBuilder.VisitFunctionCall(context);
             return new MathFunctionCallNode(context.GetText(), id, parameterNodes);
 
+        }
+
+        public MathFunctionCallNodeExtractor(List<SemanticError> errs) : base(errs)
+        {
+            
         }
     }
 }

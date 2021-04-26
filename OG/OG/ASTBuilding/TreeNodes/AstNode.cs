@@ -8,11 +8,25 @@ namespace OG.ASTBuilding.TreeNodes
     /// </summary>
     public abstract class AstNode: IVisitable
     {
+        public string CompileTimeType;
+        public int Line;
+        public int Column;
+
         public abstract void Accept(IVisitor visitor);
 
+        public AstNode()
+        {
+            
+        }
+
+        public AstNode(int line, int column)
+        {
+            Line = line;
+            Column = column;
+        }
     }
 
-    public interface IAstNode
+    public interface IAstNode 
     {
     }
 }

@@ -71,11 +71,13 @@ commands: cmd=command cmds=commands              #cmds
 declaration         : numberDcl=numberDeclaration';' #numberDcl
                     | pointDcl=pointDeclaration';'   #pointDcl
                     | boolDcl=booleanDeclaration';'  #boolDcl
+                    
                     ;
 booleanDeclaration  : 'bool'   id=ID   '=' value=boolExpression
                     ;
 numberDeclaration   : 'number' id=ID '=' value=mathExpression
                     ;
+                    
 pointDeclaration    : 'point'  id=ID '='  value=pointReference    #pointDclPointRefAssign
                     | 'point'  id=ID  '=' value=ID                #pointDclIdAssign
                     ;
@@ -97,10 +99,11 @@ propertyAssignment  : xyVal=coordinateXYValue '=' value=mathExpression';'
 
 
 variableAssignment  : id=ID'=' value=ID             ';' #idAssign
+                    | id=ID '=' funcCall=functionCall ';' #functionCallAssign
                     | id=ID'=' value=boolExpression ';' #boolAssign    
                     | id=ID'=' value=mathExpression ';' #numberAssign
                     | pointAssignment               ';' #pointAssign
-                    | id=ID '=' funcCall=functionCall        ';' #functionCallAssign
+                    
                     ; 
 
 pointAssignment     :  endPointAssignment
@@ -173,6 +176,7 @@ toCommands: toCmd=toCommand chainedToCmds=toCommands
 
 curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmds=toCommands;
                 
+
 toCommand       : '.''to''(' id=ID ')'                      #toWithId
                 | '.''to''(' tuple=numberTuple ')'          #toWithNumberTuple
                 | '.''to''(' toPoint=startPointReference ')'  #toWithStartPointRef
@@ -218,7 +222,7 @@ parameterDeclarations   :  currentParamDcl=parameterDcl ',' paramDcls=parameterD
 parameterDcl: type=typeWord id=ID;      
                   
 functionCall            : id=ID '(' params=passedParams ')' 
-                        ;
+                        ; 
 
 
 

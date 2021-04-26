@@ -57,6 +57,8 @@ repeat.until(a>b)
         bool test14 = a < c;
 repeat.end
 }
+
+/*
 shape shapeB{
 shapeA;
 number a = 1;

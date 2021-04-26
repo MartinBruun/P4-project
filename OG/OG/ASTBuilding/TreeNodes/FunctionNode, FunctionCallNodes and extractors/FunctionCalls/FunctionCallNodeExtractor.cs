@@ -5,9 +5,9 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class FunctionCallNodeExtractor : OGBaseVisitor<FunctionCallNode>
+    public class FunctionCallNodeExtractor : AstBuilderErrorInheritor<FunctionCallNode>
     {
-        private ParameterNodeListBuilder _parameterNodeListBuilder = new ParameterNodeListBuilder();
+        private ParameterNodeListBuilder _parameterNodeListBuilder;
         
         public override FunctionCallNode VisitFunctionCall(OGParser.FunctionCallContext context)
         {
@@ -17,13 +17,24 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             {
                 IdNode id = new IdNode(context.id.Text);
                 parameterNodes = _parameterNodeListBuilder.VisitFunctionCall(context);
-
-                return new FunctionCallNode(id, parameterNodes, context.GetText());
+                 FunctionCallNode F = new FunctionCallNode(id, parameterNodes, context.GetText());
+                 F.Line =context.id.Line;
+                 F.Column =context.id.Column;
+                 return F;
             }
+            
+            SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column, "Something went wrong creating node from FunctionCallContext. " +
+                "Function call Id empty or null.")
+            {
+                IsFatal = true
+            });
+            return null;
 
-            throw new AstNodeCreationException(
-                "Something went wrong creating node from FunctionCallContext. " +
-                "Function call Id empty or null.");
+        }
+
+        public FunctionCallNodeExtractor(List<SemanticError> errs) : base(errs)
+        {
+            _parameterNodeListBuilder = new ParameterNodeListBuilder(errs);
         }
     }
 }

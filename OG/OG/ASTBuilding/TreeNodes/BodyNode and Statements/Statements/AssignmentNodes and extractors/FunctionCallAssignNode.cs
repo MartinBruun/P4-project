@@ -8,9 +8,9 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
     public class FunctionCallAssignNode : AssignmentNode, IFunctionCallNode, IFunctionCallAssignmentVisitable
  
     {
-        public FunctionCallAssignNode(IdNode id, List<ParameterNode> parameters) : base(id, AssignmentType.FunctionCallAssignment)
+        public FunctionCallAssignNode(IdNode id,IdNode funcName, List<ParameterNode> parameters) : base(id, AssignmentType.FunctionCallAssignment)
         {
-            FunctionName = id;
+            FunctionName = funcName;
             Parameters = parameters;
         }
 

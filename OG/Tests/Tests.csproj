@@ -18,4 +18,16 @@
       <ProjectReference Include="..\OG\OG.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Fixtures\Correct programs\SymbolTable\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Fixtures\Correct programs\SymbolTable\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Fixtures\Correct programs\SymbolTable\**" />
+    </ItemGroup>
+
 </Project>

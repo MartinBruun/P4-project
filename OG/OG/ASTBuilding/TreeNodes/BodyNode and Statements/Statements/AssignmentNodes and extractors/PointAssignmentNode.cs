@@ -16,7 +16,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
 
         public override string ToString()
         {
-            return AssignedValue.ToString() + Id.ToString();
+            return AssignedValue.ToString() + " " + Id?.ToString();
         }
 
         public override void Accept(IVisitor visitor)
@@ -24,7 +24,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             visitor.Visit(this);
 
         }
-
+        
         public void Accept(IPointReferenceAssignmentVisitor visitor)
         {
             visitor.Visit(this);

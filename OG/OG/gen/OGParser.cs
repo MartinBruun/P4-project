@@ -2253,33 +2253,6 @@ public partial class OGParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class BoolAssignContext : VariableAssignmentContext {
-		public IToken id;
-		public BoolExpressionContext value;
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Assign() { return GetToken(OGParser.Assign, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Terminator() { return GetToken(OGParser.Terminator, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(OGParser.ID, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public BoolExpressionContext boolExpression() {
-			return GetRuleContext<BoolExpressionContext>(0);
-		}
-		public BoolAssignContext(VariableAssignmentContext context) { CopyFrom(context); }
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void EnterRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.EnterBoolAssign(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override void ExitRule(IParseTreeListener listener) {
-			IOGListener typedListener = listener as IOGListener;
-			if (typedListener != null) typedListener.ExitBoolAssign(this);
-		}
-		[System.Diagnostics.DebuggerNonUserCode]
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitBoolAssign(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
 	public partial class FunctionCallAssignContext : VariableAssignmentContext {
 		public IToken id;
 		public FunctionCallContext funcCall;
@@ -2304,6 +2277,33 @@ public partial class OGParser : Parser {
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
 			if (typedVisitor != null) return typedVisitor.VisitFunctionCallAssign(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BoolAssignContext : VariableAssignmentContext {
+		public IToken id;
+		public BoolExpressionContext value;
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Assign() { return GetToken(OGParser.Assign, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Terminator() { return GetToken(OGParser.Terminator, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(OGParser.ID, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public BoolExpressionContext boolExpression() {
+			return GetRuleContext<BoolExpressionContext>(0);
+		}
+		public BoolAssignContext(VariableAssignmentContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			IOGListener typedListener = listener as IOGListener;
+			if (typedListener != null) typedListener.EnterBoolAssign(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			IOGListener typedListener = listener as IOGListener;
+			if (typedListener != null) typedListener.ExitBoolAssign(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IOGVisitor<TResult> typedVisitor = visitor as IOGVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBoolAssign(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -2381,53 +2381,53 @@ public partial class OGParser : Parser {
 				}
 				break;
 			case 2:
-				_localctx = new BoolAssignContext(_localctx);
+				_localctx = new FunctionCallAssignContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 297;
-				((BoolAssignContext)_localctx).id = Match(ID);
+				((FunctionCallAssignContext)_localctx).id = Match(ID);
 				State = 298;
 				Match(Assign);
 				State = 299;
-				((BoolAssignContext)_localctx).value = boolExpression(0);
+				((FunctionCallAssignContext)_localctx).funcCall = functionCall();
 				State = 300;
 				Match(Terminator);
 				}
 				break;
 			case 3:
-				_localctx = new NumberAssignContext(_localctx);
+				_localctx = new BoolAssignContext(_localctx);
 				EnterOuterAlt(_localctx, 3);
 				{
 				State = 302;
-				((NumberAssignContext)_localctx).id = Match(ID);
+				((BoolAssignContext)_localctx).id = Match(ID);
 				State = 303;
 				Match(Assign);
 				State = 304;
-				((NumberAssignContext)_localctx).value = mathExpression();
+				((BoolAssignContext)_localctx).value = boolExpression(0);
 				State = 305;
 				Match(Terminator);
 				}
 				break;
 			case 4:
-				_localctx = new PointAssignContext(_localctx);
+				_localctx = new NumberAssignContext(_localctx);
 				EnterOuterAlt(_localctx, 4);
 				{
 				State = 307;
-				pointAssignment();
+				((NumberAssignContext)_localctx).id = Match(ID);
 				State = 308;
+				Match(Assign);
+				State = 309;
+				((NumberAssignContext)_localctx).value = mathExpression();
+				State = 310;
 				Match(Terminator);
 				}
 				break;
 			case 5:
-				_localctx = new FunctionCallAssignContext(_localctx);
+				_localctx = new PointAssignContext(_localctx);
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 310;
-				((FunctionCallAssignContext)_localctx).id = Match(ID);
-				State = 311;
-				Match(Assign);
 				State = 312;
-				((FunctionCallAssignContext)_localctx).funcCall = functionCall();
+				pointAssignment();
 				State = 313;
 				Match(Terminator);
 				}
@@ -6064,19 +6064,19 @@ public partial class OGParser : Parser {
 		'\x128', '\x129', '\a', '(', '\x2', '\x2', '\x129', '\x12A', '\a', '\x36', 
 		'\x2', '\x2', '\x12A', '\x13E', '\a', '+', '\x2', '\x2', '\x12B', '\x12C', 
 		'\a', '\x36', '\x2', '\x2', '\x12C', '\x12D', '\a', '(', '\x2', '\x2', 
-		'\x12D', '\x12E', '\x5', 'J', '&', '\x2', '\x12E', '\x12F', '\a', '+', 
+		'\x12D', '\x12E', '\x5', 'l', '\x37', '\x2', '\x12E', '\x12F', '\a', '+', 
 		'\x2', '\x2', '\x12F', '\x13E', '\x3', '\x2', '\x2', '\x2', '\x130', '\x131', 
 		'\a', '\x36', '\x2', '\x2', '\x131', '\x132', '\a', '(', '\x2', '\x2', 
-		'\x132', '\x133', '\x5', '\x42', '\"', '\x2', '\x133', '\x134', '\a', 
-		'+', '\x2', '\x2', '\x134', '\x13E', '\x3', '\x2', '\x2', '\x2', '\x135', 
-		'\x136', '\x5', ':', '\x1E', '\x2', '\x136', '\x137', '\a', '+', '\x2', 
-		'\x2', '\x137', '\x13E', '\x3', '\x2', '\x2', '\x2', '\x138', '\x139', 
-		'\a', '\x36', '\x2', '\x2', '\x139', '\x13A', '\a', '(', '\x2', '\x2', 
-		'\x13A', '\x13B', '\x5', 'l', '\x37', '\x2', '\x13B', '\x13C', '\a', '+', 
-		'\x2', '\x2', '\x13C', '\x13E', '\x3', '\x2', '\x2', '\x2', '\x13D', '\x127', 
+		'\x132', '\x133', '\x5', 'J', '&', '\x2', '\x133', '\x134', '\a', '+', 
+		'\x2', '\x2', '\x134', '\x13E', '\x3', '\x2', '\x2', '\x2', '\x135', '\x136', 
+		'\a', '\x36', '\x2', '\x2', '\x136', '\x137', '\a', '(', '\x2', '\x2', 
+		'\x137', '\x138', '\x5', '\x42', '\"', '\x2', '\x138', '\x139', '\a', 
+		'+', '\x2', '\x2', '\x139', '\x13E', '\x3', '\x2', '\x2', '\x2', '\x13A', 
+		'\x13B', '\x5', ':', '\x1E', '\x2', '\x13B', '\x13C', '\a', '+', '\x2', 
+		'\x2', '\x13C', '\x13E', '\x3', '\x2', '\x2', '\x2', '\x13D', '\x127', 
 		'\x3', '\x2', '\x2', '\x2', '\x13D', '\x12B', '\x3', '\x2', '\x2', '\x2', 
 		'\x13D', '\x130', '\x3', '\x2', '\x2', '\x2', '\x13D', '\x135', '\x3', 
-		'\x2', '\x2', '\x2', '\x13D', '\x138', '\x3', '\x2', '\x2', '\x2', '\x13E', 
+		'\x2', '\x2', '\x2', '\x13D', '\x13A', '\x3', '\x2', '\x2', '\x2', '\x13E', 
 		'\x39', '\x3', '\x2', '\x2', '\x2', '\x13F', '\x145', '\x5', '>', ' ', 
 		'\x2', '\x140', '\x145', '\x5', '<', '\x1F', '\x2', '\x141', '\x142', 
 		'\a', '\x36', '\x2', '\x2', '\x142', '\x143', '\a', '(', '\x2', '\x2', 

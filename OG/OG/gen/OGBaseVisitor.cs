@@ -400,6 +400,17 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// <return>The visitor result.</return>
 	public virtual Result VisitIdAssign([NotNull] OGParser.IdAssignContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by the <c>boolAssign</c>
 	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
 	/// <para>
@@ -432,17 +443,6 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitPointAssign([NotNull] OGParser.PointAssignContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by the <c>functionCallAssign</c>
-	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// <para>

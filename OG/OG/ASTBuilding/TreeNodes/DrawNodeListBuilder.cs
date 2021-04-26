@@ -6,11 +6,10 @@ using static System.String;
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class DrawNodeListBuilder : OGBaseVisitor<List<DrawCommandNode>>
+    public class DrawNodeListBuilder : AstBuilderErrorInheritor<List<DrawCommandNode>>
     {
         private List<DrawCommandNode> DrawCommandNodes { get; set; } = new List<DrawCommandNode>();
-        private DrawCommandNodeExtractor _drawCommandNodeExtractor = new DrawCommandNodeExtractor();
-
+        private DrawCommandNodeExtractor _drawCommandNodeExtractor;
        
         public override List<DrawCommandNode> VisitDraw(OGParser.DrawContext context)
         {
@@ -18,6 +17,11 @@ namespace OG.ASTBuilding.TreeNodes
             DrawCommandNodes = VisitDrawCommands(context.shapesToDraw);
             
             return DrawCommandNodes;
+        }
+
+        public DrawNodeListBuilder(List<SemanticError> errs) : base(errs)
+        {
+            _drawCommandNodeExtractor = new DrawCommandNodeExtractor(errs);
         }
 
         public override List<DrawCommandNode> VisitDrawCommands(OGParser.DrawCommandsContext context)
@@ -76,12 +80,9 @@ namespace OG.ASTBuilding.TreeNodes
             }
             catch (InvalidCastException e)
             {
-                throw new AstNodeCreationException(e.Message);
+                SemanticErrors.Add(new SemanticError(context.Start.Line,context.Start.Column, e.Message));
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("\nEXCEPTION IN CREATE DRAW COMMAND NODE!!\n\n");
-            }
+          
 
             return null;
         }

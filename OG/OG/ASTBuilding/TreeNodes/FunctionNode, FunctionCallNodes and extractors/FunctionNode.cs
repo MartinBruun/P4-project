@@ -13,13 +13,16 @@ namespace OG.ASTBuilding.TreeNodes
         // public List<ParameterNode> Params { get; set; }
             
 
+        public ParameterNode Type { get; set; }
         public string ReturnType { get; set; }
         public BodyNode Body;
+        public List<ParameterTypeNode> Parameters { get; set; }
 
-        public FunctionNode(IdNode id, string returnType, BodyNode body)
+        public FunctionNode(IdNode id, string returnType, BodyNode body, List<ParameterTypeNode> parameters)
         {
             Id = id;
             ReturnType = returnType;
+            Parameters = parameters ?? new List<ParameterTypeNode>();
             Body = body;
         }
         public override string ToString()
@@ -39,5 +42,5 @@ namespace OG.ASTBuilding.TreeNodes
         }
     }
 
-    
+  
 }

@@ -5,8 +5,9 @@ draw {
 }
 
 function point Lengthen(point oldEndPoint, number factor) {
-    newEndpoint.x = oldEndpoint.x * factor;
-    newEndpoint.y = oldEndpoint.y * factor;
+    point newEndpoint = (0,0);
+     newEndpoint.x = oldEndpoint.x * factor;
+     newEndpoint.y = oldEndpoint.y * factor;
 
     return newEndpoint;
 }
@@ -21,7 +22,7 @@ function number AreaOfSquare(number sideLength) {
 
 shape Line {
     startpoint = (5,6);
-    endpoint = (6,7);
+    point endpoint = (6,7);
     
     endpoint = Lengthen(endpoint);
 }

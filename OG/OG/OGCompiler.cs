@@ -36,7 +36,9 @@ namespace OG
         {
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
-            
+            List<SemanticError> errors = new List<SemanticError>();
+            Dictionary<string, string> symbolTable = new Dictionary<string, string>();
+
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
@@ -48,10 +50,27 @@ namespace OG
             ProgramNode p = astContainer.AstTreeTopNode;
 
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
-            PrettyPrinter PP = new PrettyPrinter();
-            p.Accept(PP);
-            // TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
-            // p.Accept(TT);
+            p.Accept(ST);
+            errors.AddRange(ST.GetErrors());
+            TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
+            p.Accept(TT);
+            errors.AddRange(TT.GetErrors());
+            symbolTable = TT.GetSymbolTable();
+
+            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
+
+            foreach (var item in errors)
+            {
+                Console.Write("\n"+item + "\n");
+
+            }
+            
+            Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
+            foreach (var item in symbolTable)
+            {
+                Console.WriteLine(item);
+            }
+            
 
 
 
