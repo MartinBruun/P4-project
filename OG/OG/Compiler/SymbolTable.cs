@@ -25,7 +25,7 @@ namespace OG.AstVisiting.Visitors
             public string scopeName;
             public string type;
         }
-        public Dictionary<string, string> Elements = new Dictionary<string, string>();
+        public Dictionary<string, AstNode> Elements = new Dictionary<string,AstNode>();
 
         /// <summary>
         /// Skal kaldes når et  scope entres
@@ -75,12 +75,12 @@ namespace OG.AstVisiting.Visitors
             currentScopeName = stack.Peek();
         }
 
-        public void enterParameter()
+        public void increaseParameterCount()
         {
             parameterCount++;
         }
 
-        public void exitParameters()
+        public void resetParameterCount()
         {
             parameterCount = 0;
         }
@@ -91,11 +91,18 @@ namespace OG.AstVisiting.Visitors
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool Add(string id, string type)
+        public bool Add(string id, string type, AstNode node)
         {
+            Console.WriteLine($"pCount {parameterCount} adding {id} to symtbl, {node}");
             try
             {
-                Elements.Add(currentScopeName+"_"+id, type);
+                
+                node.CompileTimeType = type;
+                Elements.Add(currentScopeName+"_"+id, node);
+                if ( parameterCount != 0)
+                {
+                    Elements.Add(currentScopeName+"_"+$"Param{parameterCount}",node);
+                } 
                 return true;
             }
             catch (Exception e)
@@ -112,7 +119,7 @@ namespace OG.AstVisiting.Visitors
         /// <returns></returns>
         public string GetCurrentType()
         {
-            return Elements[stack.Peek()];
+            return Elements[stack.Peek()].CompileTimeType;
         }
         
         /// <summary>
@@ -134,12 +141,12 @@ namespace OG.AstVisiting.Visitors
         /// <exception cref="Exception"></exception>
         public string CheckDeclaredTypeOf(string id)
         {
-            string IdInScope = currentScopeName + "_" + id;
+            string IdInScope = parameterCount == 0 ? currentScopeName + "_" + id : currentScopeName+"_"+$"Param{parameterCount}" ;
             
                 try
                 {
-                    Console.Write($"\nChecking {currentScopeName + "_" + id}");
-                    var result = Elements[IdInScope];
+                    Console.Write($"\nChecking {IdInScope}");
+                    var result = Elements[IdInScope].CompileTimeType;
                     Console.WriteLine($": found {result}");
                     return result;
 
@@ -157,14 +164,52 @@ namespace OG.AstVisiting.Visitors
                     {
                         string name = stackCopy.Pop() + "_" + id;
                         Console.Write($"\n--nextScope {name}");
-                        var result = Elements[name];
+                        var result = Elements[name].CompileTimeType;
                         Console.WriteLine($": found {result}");
-                        return Elements[name];
+                        return result;
                     }
                     catch
                     {
                     }
                 }
+            //TODO: Lav en ordentlig exception type
+            // return "!Not Found!";
+            Console.Write($"\n--{id} has not been declared");
+            throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+        }
+        public AstNode GetElementById(string id)
+        {
+            string IdInScope = currentScopeName + "_" + id;
+            
+            try
+            {
+                Console.Write($"\nChecking {currentScopeName + "_" + id}");
+                var result = Elements[IdInScope];
+                Console.WriteLine($": found {result}");
+                return result;
+
+            }
+            catch { }
+
+                
+            Stack<string> stackCopy1 = new Stack<string>(stack.ToArray());
+            Stack<string> stackCopy = new Stack<string>(stackCopy1.ToArray());
+            // Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
+            //Alle containing scopes gennemløbes
+            while (stackCopy.Count > 0)
+            {
+                try
+                {
+                    string name = stackCopy.Pop() + "_" + id;
+                    Console.Write($"\n--nextScope {name}");
+                    var result = Elements[name];
+                    Console.WriteLine($": found {result}");
+                    return result;
+                }
+                catch
+                {
+                }
+            }
             //TODO: Lav en ordentlig exception type
             // return "!Not Found!";
             Console.Write($"\n--{id} has not been declared");
