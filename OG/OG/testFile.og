@@ -3,95 +3,12 @@ draw {shapeA;shapeB; c; }
 /*Functions*/
 
 
-function bool TestIdassign(number z,bool l){
-bool a= true
-number b = 1;
+function bool TestIdassign(point z, number q, bool mabool ){
+a =2;
 
-a=b;
-a = myfunc(3*3);
-return a;}
-
-/*
-function bool bools(number z,bool l){
-    number a = myfunc(3*3);
-    bool b = myfunc(3*3);
-    point c = myfunc(3*3);
-    number d = -10;
-    bool e = true;
-    point f = (a,b);
-    a = 4;
-    b = 6;
-    /*c = f;*/
-  /* 
-    bool test1 = a < b;
-    bool test2 = a > b;
-    bool test3 = a + b == 0;
-    number test4 = a - b == 20;
-    number test44 = a/b;
-    number BadDivision = a/test1;
-    bool test5 = a < p.y;
-    test1 = b > p.y && a - b > 3 || b-a == -20;
-    test4 = (7^2) + 45 - 34 + 2 * 4 / (a*b) < 49;
-    number test6 = 7^2^6^7^4^2 / 123 == 49;
-    bool test9 = 7^2 > 49;
-    test01 = 7^2 < 48;
-    test3 = a + b == 0;
-    test02 = a < b && a + b > 9;
-    test03 = a > b  || a + b < 10^2;
-    
-    return true;
-}
- 
- 
-function number myfunc(number a){
-    bool c = false;
-    number b =  q + b + c / d * b;
-    number d = b+c;
-    d=5;
-    return true /*(a,a)*/;
-} 
-
-/* 
-function void funA(number a){
-number q = 33;
-bool test3 = a + b == 0;
-number q = 33;
-}
-function void funB(){
-number q = 33;
-
-}
-/*Shapes*/
-/*
-shape shapeA{
-number a = 3;
-number b = 20;
-line.from(a*a*a*a*A*a, myfunc()).to(a.endPoint.x, 2*a.endPoint.y);
-repeat.until(a>b)
-    bool repeatPoint = true;
-    line.from(a,b).to(b,a).to(8,5);
-/*    curve.angle(30).from(a,a).to(b,b);*/
- /*   a = a * 2;
-    b= b + 2;
-repeat.end
+return 2;
 }
 
+function bool TestIdassign2(point i, number o, number p){
 
-shape shapeB{
-shapeA;
-bool mybool = false;
-bool a = true;
-number b = 2+a;
-repeat(4)
- repeat(2)
-    mystartpoint = (myXNumber, myYNumber);
-    point repeatPoint = (a,b);
-    line.from(a,b).to(b,a).to(8,5);
-/*    curve.angle(30).from(a,a).to(b,b);*/
- /*   a = a * 2;
-    b= b + 2;
-    bool stop = true || true;
-    repeat.end
-repeat.end
-}
 }

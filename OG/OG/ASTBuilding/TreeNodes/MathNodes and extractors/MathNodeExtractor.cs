@@ -20,8 +20,19 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         
         public override MathNode VisitSingleTermExpr(OGParser.SingleTermExprContext context)
         {
+
+            OGParser.TermContext termContext;
             
-            OGParser.TermContext termContext = context.child;
+            if (context == null)
+            {
+                return null;
+            }
+            else
+            {
+                termContext = context.child;
+            }
+            
+            
             return ExtractMathNode(termContext);
 
         }

@@ -24,6 +24,7 @@ namespace OG.AstVisiting
         public Object Visit(MathAssignmentNode node);
         public Object Visit(PointAssignmentNode node);
         public Object Visit(PropertyAssignmentNode node);
+        public Object Visit(ParameterTypeNode node);
         
         //
         public Object Visit(CommandNode node);
@@ -43,7 +44,7 @@ namespace OG.AstVisiting
         public Object Visit(NumberDeclarationNode node);
         public Object Visit(PointDeclarationNode node);
 
-        public Object visit(BoolExprIdNode node);
+        public Object Visit(BoolExprIdNode node);
         
         //
         public Object Visit(StatementNode node);

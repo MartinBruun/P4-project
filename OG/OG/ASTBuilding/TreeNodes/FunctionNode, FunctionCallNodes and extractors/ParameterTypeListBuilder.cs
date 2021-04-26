@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Channels;
 
 namespace OG.ASTBuilding.TreeNodes
 {
@@ -33,8 +34,14 @@ namespace OG.ASTBuilding.TreeNodes
             {
                 OGParser.SingleParamDclContext singleParams = (OGParser.SingleParamDclContext) c;
                 ParameterTypeNode paramNode = new ParameterTypeNodeExtractor(SemanticErrors).VisitSingleParamDcl(singleParams);
-                List<ParameterTypeNode> res = new List<ParameterTypeNode> {paramNode};
-                return res;
+                _typeNodes.Add(paramNode);
+                List<ParameterTypeNode> res = new List<ParameterTypeNode>
+                {
+                    paramNode
+                };
+
+                
+                return _typeNodes;
             }
             catch (InvalidCastException e)
             {}

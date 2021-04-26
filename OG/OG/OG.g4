@@ -175,6 +175,7 @@ toCommands: toCmd=toCommand chainedToCmds=toCommands
 
 curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmds=toCommands;
                 
+
 toCommand       : '.''to''(' id=ID ')'                      #toWithId
                 | '.''to''(' tuple=numberTuple ')'          #toWithNumberTuple
                 | '.''to''(' toPoint=startPointReference ')'  #toWithStartPointRef
@@ -220,7 +221,7 @@ parameterDeclarations   :  currentParamDcl=parameterDcl ',' paramDcls=parameterD
 parameterDcl: type=typeWord id=ID;      
                   
 functionCall            : id=ID '(' params=passedParams ')' 
-                        ;
+                        ; 
 
 
 

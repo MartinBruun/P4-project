@@ -26,7 +26,7 @@ namespace OG.ASTBuilding.TreeNodes
             ITerminalNode bWord = context.BoolDCLWord();
             ITerminalNode nWord = context.NumberDCLWord();
             ITerminalNode pWord = context.PointDCLWord();
-
+            
             if (bWord != null && !String.IsNullOrEmpty(bWord.Symbol.Text))
             {
                 return new TypedTextInformation(IOgTyped.OgType.Bool, bWord.Symbol.Line, bWord.Symbol.Column);

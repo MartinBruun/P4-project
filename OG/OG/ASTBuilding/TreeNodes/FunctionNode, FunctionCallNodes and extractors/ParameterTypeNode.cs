@@ -5,7 +5,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class ParameterTypeNode : AstNode, IParameterTypeNodeVisitable
+    public class ParameterTypeNode : AstNode
     {
         public IdNode IdNode { get; }
 
@@ -25,14 +25,12 @@ namespace OG.ASTBuilding.TreeNodes
 
         public ParameterTypeNodeExtractor.IOgTyped.OgType ParameterType { get; }
 
+
         public override void Accept(IVisitor visitor)
         {
-            throw new NotImplementedException();
-            visitor.visit(this);
+            visitor.Visit(this);
         }
     }
     
-    public interface IParameterTypeNodeVisitable
-    {
-    }
+    
 }
