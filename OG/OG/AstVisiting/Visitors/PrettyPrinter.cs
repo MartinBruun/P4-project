@@ -71,17 +71,29 @@ namespace OG.AstVisiting.Visitors
             Console.Write(node.ReturnType);
             node.Id.Accept(this);
             Console.Write("(");
-            // foreach (var param in node)
-            // {
-            //    
-            // }
+            foreach (var param in node.Parameters)
+            {
+               param.Accept(this);
+               if (node.Parameters.LastIndexOf(param) != node.Parameters.Count - 1)
+               {
+                   Console.Write(", ");
+               }
+              
+            }
             Console.Write(") {\n");
             node.Body.Accept(this);
             Console.WriteLine("}");
             
             return new object();
         }
-        
+
+        public object Visit(BoolExprIdNode node)
+        {
+            Console.Write(node.ToString());
+            return new object();
+
+        }
+
         public object Visit(StatementNode node)
         {
             node.Accept(this);
@@ -124,8 +136,15 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionCallAssignNode node)
         {
-            Console.Write("FUNCTION CALL ASSIGN NODE HERE");
             node.Id.Accept(this);
+            Console.Write(" = ");
+            node.FunctionName.Accept(this);
+            Console.Write("(");
+            foreach (var param in node.Parameters)
+            {
+                param.Expression.Accept(this);
+            }
+            Console.Write(")\n");
             return new object();
         }
 
@@ -156,6 +175,14 @@ namespace OG.AstVisiting.Visitors
         {
             Console.Write("PropertyAssignmentNode: ");
             Console.WriteLine(node.ToString());
+            return new object();
+        }
+
+        public object Visit(ParameterTypeNode node)
+        {
+            Console.Write(node.ParameterType.ToString() + " ");
+            node.IdNode.Accept(this);
+            
             return new object();
         }
 
@@ -294,6 +321,7 @@ namespace OG.AstVisiting.Visitors
         public object Visit(AndComparerNode node)
         {
             node.LHS.Accept(this);
+            Console.Write(" && ");
             node.RHS.Accept(this);
             return new object();
         }
@@ -318,19 +346,25 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(EqualsComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            Console.Write(" == ");
+            node.RHS.Accept(this);
             return new object();
         }
 
         public object Visit(GreaterThanComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            Console.Write(" > ");
+            node.RHS.Accept(this);
             return new object();
         }
 
         public object Visit(LessThanComparerNode node)
         {
-            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            Console.Write(" < ");
+            node.RHS.Accept(this);
             return new object();
         }
 
@@ -349,13 +383,13 @@ namespace OG.AstVisiting.Visitors
         public object Visit(OrComparerNode node)
         {
             node.LHS.Accept(this);
+            Console.Write(" II ");
             node.RHS.Accept(this);
             return new object();
         }
 
         public object Visit(BoolFunctionCallNode node)
         {
-            Console.Write("BoolFunctionCallNode: ");
             node.FunctionName.Accept(this);
             Console.Write("(");
             if (node.Parameters.Count != 0)
@@ -398,7 +432,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MathFunctionCallNode node)
         {
-            
             node.FunctionName.Accept(this);
             Console.Write("(");
             foreach (var param in node.Parameters)
@@ -411,7 +444,15 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ParameterNode node)
         {
-            node.Expression.Accept(this);
+            if (node.Expression != null)
+            {
+                node.Expression.Accept(this);
+            }
+            else
+            {
+                node.ParameterId.Accept(this);
+            }
+            
             return new object();
         }
 
@@ -461,8 +502,9 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MultiplicationNode node)
         {
-            Console.Write("MultiplicationNode: ");
-            Console.WriteLine(node.ToString());
+            node.LHS.Accept(this);
+            Console.Write("*");
+            node.RHS.Accept(this);
             return new object();
         }
 
