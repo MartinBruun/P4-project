@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class FromCommandNodeExtractor : OGBaseVisitor<PointReferenceNode>
+    public class FromCommandNodeExtractor : AstBuilderErrorInheritor<PointReferenceNode>
     {
         public PointReferenceNode ExtractFromCommandNode(OGParser.FromCommandContext context)
         {
@@ -39,20 +40,35 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             }
             catch (InvalidCastException)
             {
-                throw new AstNodeCreationException($"Node {context.GetText()} couldn't be created at FromCommandNodeExtractor.");
+                SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,$"Node {context.GetText()} couldn't be created at FromCommandNodeExtractor. Context conversion err.")
+                {
+                    IsFatal = true
+                });
+                return null;
             }
         }
 
         public override PointReferenceNode VisitFromWithId(OGParser.FromWithIdContext context)
         {
-            IdNode id = new IdNode(context.id.Text);
-            return new PointReferenceIdNode(context.GetText(),id);
+        try            
+            {
+                IdNode id = new IdNode(context.id.Text);
+                return new PointReferenceIdNode(context.GetText(),id);
+            } catch (InvalidCastException)
+            {
+                SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column, $"Node {context.GetText()} couldn't be created at FromCommandNodeExtractor.")
+                {
+                    IsFatal = true
+                });
+                return null;
+              
+            }
         }
 
         public override PointReferenceNode VisitFromWithNumberTuple(OGParser.FromWithNumberTupleContext context)
         {
-            MathNode firstNum = new MathNodeExtractor().ExtractMathNode(context.tuple.lhs);
-            MathNode secondNum = new MathNodeExtractor().ExtractMathNode(context.tuple.rhs);
+            MathNode firstNum = new MathNodeExtractor(SemanticErrors).ExtractMathNode(context.tuple.lhs);
+            MathNode secondNum = new MathNodeExtractor(SemanticErrors).ExtractMathNode(context.tuple.rhs);
             return new TuplePointNode(context.GetText(),firstNum, secondNum );
         }
 
@@ -66,6 +82,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         {
             IdNode shapeId = new IdNode(context.fromPoint.id.Text);
             return new ShapeEndPointNode(context.GetText(), shapeId);
+        }
+
+        public FromCommandNodeExtractor(List<SemanticError> errs) : base(errs)
+        {
         }
     }
 }

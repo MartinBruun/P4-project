@@ -1,6 +1,8 @@
-﻿namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
+﻿using OG.AstVisiting;
+
+namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
 {
-    public class WorkAreaSettingNode : MachineSettingNode
+    public class WorkAreaSettingNode : MachineSettingNode, IWorkAreaSettingNodeVisitable
     {
         public SizePropertyNode SizeProperty { get; set; }
         
@@ -17,6 +19,16 @@
         public override string ToString()
         {
             return "WorkAreaModifier with Properties:\n  " + SizeProperty.ToString();
+        }
+
+        public void Accept(IWorkAreaSettingNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+        
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);        
         }
     }
 }

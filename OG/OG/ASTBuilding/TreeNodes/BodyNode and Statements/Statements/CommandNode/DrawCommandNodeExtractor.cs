@@ -1,25 +1,41 @@
 ﻿using System;
+using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class DrawCommandNodeExtractor : OGBaseVisitor<DrawCommandNode>
+    public class DrawCommandNodeExtractor : AstBuilderErrorInheritor<DrawCommandNode>
+
     {
-        private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor = new PointReferenceNodeExtractor();
+        private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor;
+        public override DrawCommandNode VisitDrawCmd(OGParser.DrawCmdContext context)
+        {
+            return new DrawCommandNode(id: new IdNode(context.id.Text));
+        }
+
+
+        public DrawCommandNodeExtractor(List<SemanticError> errs) : base(errs)
+        {
+            _pointReferenceNodeExtractor = new PointReferenceNodeExtractor(errs);
+        }
 
         public override DrawCommandNode VisitDrawFromCmd(OGParser.DrawFromCmdContext context)
         {
-            
+
             if (context == null || !context.GetText().Contains("from"))
             {
-                throw new AstNodeCreationException("From node context does not contain the word from.");
+                SemanticErrors.Add(new SemanticError("Context was null or did not contain a from word.")
+                {
+                    IsFatal = true
+                });
+                return null;
             }
 
             Console.WriteLine("\tCreating drawCommand node for fromCommand...");
             IdNode id = new IdNode(context.id.Text);
             PointReferenceNode pointRef = _pointReferenceNodeExtractor.ExtractPointReferenceNode(context.fromCmd);
-            
+
             return new DrawCommandNode(id, pointRef);
         }
 
@@ -39,13 +55,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
                 return VisitDrawCmd(drawCmdContext);
             }
             catch (InvalidCastException)
-            {}
-            
+            {
+            }
+
             OGParser.DrawFromCmdContext drawFromContext = (OGParser.DrawFromCmdContext) context;
             return VisitDrawFromCmd(drawFromContext);
 
         }
     }
 
-   
+
 }

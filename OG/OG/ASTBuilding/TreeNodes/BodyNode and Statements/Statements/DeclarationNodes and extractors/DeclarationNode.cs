@@ -1,8 +1,9 @@
 ﻿using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors
 {
-    public class DeclarationNode : StatementNode
+    public abstract class DeclarationNode : StatementNode
     {
         public enum DeclarationType
         {
@@ -20,5 +21,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
             Id = id;
             AssignedExpression = startAssignedExpression;
         }
+    }
+
+    public interface IDeclarationNode
+    {
+        public IIdNode Id { get; set; }
+        public IExpressionNode AssignedExpression { get; set; }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    public class BoolAssignmentNode : AssignmentNode
+    public class BoolAssignmentNode : AssignmentNode, IBoolAssignmentVisitable
     {
         public BoolNode AssignedValue { get; set; }
 
@@ -11,5 +12,17 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         {
             AssignedValue = value;
         }
+
+        public void Accept(IBoolAssignmentVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
+
+   
 }

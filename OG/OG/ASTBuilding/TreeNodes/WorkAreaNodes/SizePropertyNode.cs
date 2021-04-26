@@ -1,11 +1,12 @@
-﻿using OG.ASTBuilding.MachineSettings;
+﻿// using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
 {
-    public class SizePropertyNode : WorkAreaSettingNode
+    public class SizePropertyNode : WorkAreaSettingNode, ISizePropertyNodeVisitable
     {
         public MathNode XMin { get; set; }
         public MathNode XMax { get; set; }
@@ -37,6 +38,16 @@ namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
         public override string ToString()
         {
             return $"SizeProperty with XMin={XMin}, XMax={XMax},YMin={YMin},YMax={YMax},ZMin={ZMin},ZMax={ZMax}";
+        }
+
+        public void Accept(ISizePropertyVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+        
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);        
         }
     }
 }

@@ -6,11 +6,28 @@ using OG.ASTBuilding;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting.Visitors;
 using OG.Compiler;
 
 namespace OG
 {
+
+    public abstract class ErrorInheritorVisitor : IErrorable
+    {
+        
+        public ErrorInheritorVisitor(List<SemanticError> errs)
+        {
+            SemanticErrors = errs;
+        }
+        public List<SemanticError> SemanticErrors { get; set; }
+    }     
+    
+    
+    
+    
     public class OGCompiler
     {
         public static Dictionary<IdNode, FunctionNode> GlobalFunctionDeclarations = new Dictionary<IdNode, FunctionNode>();
@@ -19,15 +36,44 @@ namespace OG
         {
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
+            List<SemanticError> errors = new List<SemanticError>();
+            Dictionary<string, string> symbolTable = new Dictionary<string, string>();
+
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
             
             
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
-                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("boolExpression"));
+                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("program"));
             
             ProgramNode p = astContainer.AstTreeTopNode;
+
+            CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
+            p.Accept(ST);
+            errors.AddRange(ST.GetErrors());
+            TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
+            p.Accept(TT);
+            errors.AddRange(TT.GetErrors());
+            symbolTable = TT.GetSymbolTable();
+
+            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
+
+            foreach (var item in errors)
+            {
+                Console.Write("\n"+item + "\n");
+
+            }
+            
+            Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
+            foreach (var item in symbolTable)
+            {
+                Console.WriteLine(item);
+            }
+            
+
+
+
 
 
             //ASTContainer<AstBuilderVisitor, ProgramNode> ast = new ASTContainer<AstBuilderVisitor, ProgramNode>(parCon.Parser);

@@ -6,4 +6,11 @@
         {
         }
     }
+
+    public interface ITerminalMathnode : IMathNode
+    {
+        
+    }
+    
+    
 }

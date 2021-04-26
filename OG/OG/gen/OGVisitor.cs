@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
+// Generated from /Users/saxjax/developer/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -45,47 +45,29 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitMachineSettings([NotNull] OGParser.MachineSettingsContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>machineModifiers</c>
-	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.machineMods"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitMachineModifiers([NotNull] OGParser.MachineModifiersContext context);
+	Result VisitMachineMods([NotNull] OGParser.MachineModsContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>endOfMachineModifiers</c>
-	/// labeled alternative in <see cref="OGParser.machineMods"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.workAreaMod"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitEndOfMachineModifiers([NotNull] OGParser.EndOfMachineModifiersContext context);
+	Result VisitWorkAreaMod([NotNull] OGParser.WorkAreaModContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>workAreaModifier</c>
-	/// labeled alternative in <see cref="OGParser.workAreaMod"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.workAreaModPrpts"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitWorkAreaModifier([NotNull] OGParser.WorkAreaModifierContext context);
+	Result VisitWorkAreaModPrpts([NotNull] OGParser.WorkAreaModPrptsContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>workAreaModifierProperties</c>
-	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.sizePrpt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitWorkAreaModifierProperties([NotNull] OGParser.WorkAreaModifierPropertiesContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>endOfWorkAreaModifierProperties</c>
-	/// labeled alternative in <see cref="OGParser.workAreaModPrpts"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitEndOfWorkAreaModifierProperties([NotNull] OGParser.EndOfWorkAreaModifierPropertiesContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>sizeProperty</c>
-	/// labeled alternative in <see cref="OGParser.sizePrpt"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitSizeProperty([NotNull] OGParser.SizePropertyContext context);
+	Result VisitSizePrpt([NotNull] OGParser.SizePrptContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.workAreaVars"/>.
 	/// </summary>
@@ -275,6 +257,13 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIdAssign([NotNull] OGParser.IdAssignContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>functionCallAssign</c>
+	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>boolAssign</c>
 	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
 	/// </summary>
@@ -295,13 +284,6 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitPointAssign([NotNull] OGParser.PointAssignContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>functionCallAssign</c>
-	/// labeled alternative in <see cref="OGParser.variableAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFunctionCallAssign([NotNull] OGParser.FunctionCallAssignContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.pointAssignment"/>.
 	/// </summary>
@@ -395,7 +377,7 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAtomXyValue([NotNull] OGParser.AtomXYValueContext context);
+	Result VisitAtomXYValue([NotNull] OGParser.AtomXYValueContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>atomId</c>
 	/// labeled alternative in <see cref="OGParser.atom"/>.

@@ -1,7 +1,7 @@
 grammar OG;
 
 
-program: settings=machineSettings drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls #prog
+program: settings=machineSettings drawFunction=draw functionsDeclarations=functionDcls shapeDeclarations=shapeDcls EOF #prog
        ;
 
 // Machine Settings
@@ -9,18 +9,18 @@ machineSettings  : 'Machine' machineModifications=machineMods ';'
              |                                                
              ;
 
-machineMods : '.' workAreaModifications=workAreaMod machineModifications=machineMods   #machineModifiers
-            |                                                                          #endOfMachineModifiers
+machineMods : '.' workAreaModifications=workAreaMod machineModifications=machineMods   
+            |                                                                          
             ;
 
-workAreaMod : 'WorkArea' workAreaModificationProperties=workAreaModPrpts #workAreaModifier
+workAreaMod : 'WorkArea' workAreaModificationProperties=workAreaModPrpts //#workAreaModifier
             ;
                  
-workAreaModPrpts : '.' sizeProperty=sizePrpt workAreaModificationProperties=workAreaModPrpts #workAreaModifierProperties
-                 |                                                                           #endOfWorkAreaModifierProperties
+workAreaModPrpts : '.' sizeProperty=sizePrpt workAreaModificationProperties=workAreaModPrpts //#workAreaModifierProperties
+                 |                                                                           //#endOfWorkAreaModifierProperties
                  ;
                            
-sizePrpt : 'size' '(' workAreaVariables=workAreaVars ')' #sizeProperty
+sizePrpt : 'size' '(' workAreaVariables=workAreaVars ')' //#sizeProperty
          ;
 
 workAreaVars : 'xmin' '=' xmin=mathExpression ',' 'xmax' '=' xmax=mathExpression ',' 'ymin' '=' ymin=mathExpression',' 'ymax' '=' ymax=mathExpression;
@@ -71,11 +71,13 @@ commands: cmd=command cmds=commands              #cmds
 declaration         : numberDcl=numberDeclaration';' #numberDcl
                     | pointDcl=pointDeclaration';'   #pointDcl
                     | boolDcl=booleanDeclaration';'  #boolDcl
+                    
                     ;
 booleanDeclaration  : 'bool'   id=ID   '=' value=boolExpression
                     ;
 numberDeclaration   : 'number' id=ID '=' value=mathExpression
                     ;
+                    
 pointDeclaration    : 'point'  id=ID '='  value=pointReference    #pointDclPointRefAssign
                     | 'point'  id=ID  '=' value=ID                #pointDclIdAssign
                     ;
@@ -97,10 +99,11 @@ propertyAssignment  : xyVal=coordinateXYValue '=' value=mathExpression';'
 
 
 variableAssignment  : id=ID'=' value=ID             ';' #idAssign
+                    | id=ID '=' funcCall=functionCall ';' #functionCallAssign
                     | id=ID'=' value=boolExpression ';' #boolAssign    
                     | id=ID'=' value=mathExpression ';' #numberAssign
                     | pointAssignment               ';' #pointAssign
-                    | id=ID '=' functionCall        ';' #functionCallAssign
+                    
                     ; 
 
 pointAssignment     :  endPointAssignment
@@ -173,6 +176,7 @@ toCommands: toCmd=toCommand chainedToCmds=toCommands
 
 curveCommand    : type='curve''.'modifier='withAngle' '('angle=mathExpression ')'  fromCmd=fromCommand toCmds=toCommands;
                 
+
 toCommand       : '.''to''(' id=ID ')'                      #toWithId
                 | '.''to''(' tuple=numberTuple ')'          #toWithNumberTuple
                 | '.''to''(' toPoint=startPointReference ')'  #toWithStartPointRef
@@ -218,7 +222,7 @@ parameterDeclarations   :  currentParamDcl=parameterDcl ',' paramDcls=parameterD
 parameterDcl: type=typeWord id=ID;      
                   
 functionCall            : id=ID '(' params=passedParams ')' 
-                        ;
+                        ; 
 
 
 

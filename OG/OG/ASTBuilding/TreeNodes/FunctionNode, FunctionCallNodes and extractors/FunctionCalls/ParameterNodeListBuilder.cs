@@ -3,63 +3,74 @@ using System.Collections.Generic;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class ParameterNodeListBuilder : OGBaseVisitor<List<ParameterNode>>
+    public class ParameterNodeListBuilder : AstBuilderErrorInheritor<List<ParameterNode>>
     {
-        private List<ParameterNode> Parameters { get; set; } = new List<ParameterNode>();
-        private readonly ParameterNodeExtractor _paramExtractor = new ParameterNodeExtractor();
+        private readonly ParameterNodeExtractor _paramExtractor;
+
+        public ParameterNodeListBuilder(List<SemanticError> errs): base(errs)
+        {
+            _paramExtractor = new ParameterNodeExtractor(errs);
+        }
+        
 
         public override List<ParameterNode> VisitFunctionCall(OGParser.FunctionCallContext context)
         {
             OGParser.PassedParamsContext parametersContext = context.@params;
-            Parameters.AddRange(BuildParameterNodeList(parametersContext));
-            return Parameters;
+            List<ParameterNode> parameters  = new List<ParameterNode>();
+            parameters.AddRange(BuildParameterNodeList(parametersContext));
+            return parameters;
         }
 
-        public List<ParameterNode> BuildParameterNodeList(OGParser.PassedParamsContext parameters)
+        public List<ParameterNode> BuildParameterNodeList(OGParser.PassedParamsContext context)
         {
-            
+            List<ParameterNode> parameters  = new List<ParameterNode>();
             try
             {
                 try
                 {
-                    OGParser.SingleParameterContext singleParam = (OGParser.SingleParameterContext) parameters;
-                    
-                    Parameters.Add(_paramExtractor.VisitSingleParameter(singleParam));
-                    return Parameters;
+                    OGParser.SingleParameterContext singleParam = (OGParser.SingleParameterContext) context;
+
+
+                    parameters.Add(_paramExtractor.VisitSingleParameter(singleParam));
+                    return parameters;
                 }
                 catch (InvalidCastException)
                 { }
 
                 try
                 {
-                    OGParser.MultiParametersContext multipleParams = (OGParser.MultiParametersContext) parameters;
+                    OGParser.MultiParametersContext multipleParams = (OGParser.MultiParametersContext) context;
                     return VisitMultiParameters(multipleParams);
                  
                 }
                 catch (InvalidCastException)
                 { }
 
-                OGParser.NoParameterContext noParams = (OGParser.NoParameterContext) parameters;
-                return new List<ParameterNode>();
+                OGParser.NoParameterContext noParams = (OGParser.NoParameterContext) context;
+                return parameters;
             }
             catch (InvalidCastException)
             {
-                throw new AstNodeCreationException(
+                SemanticErrors.Add(new SemanticError(context.Start.Line,context.Start.Column, 
                     "failed to typecast PassedParamsContext into OGParser.SingleParameterContext, " +
-                    "OGParser.MultiParametersContext and OGParser.MultiParametersContext");
+                    "OGParser.MultiParametersContext and OGParser.MultiParametersContext")
+                {
+                    IsFatal = true
+                });
+                return null;
             }
             
         }
 
         public override List<ParameterNode> VisitMultiParameters(OGParser.MultiParametersContext context)
         {
+            List<ParameterNode> parameters  = new List<ParameterNode>();
 
             OGParser.PassedParamContext current = context.firstParameter;
             if (current != null && !current.IsEmpty)
             {
-               
-               Parameters.Add(_paramExtractor.ExtractParameterNode(current));
-               return Parameters;
+               parameters.Add(_paramExtractor.ExtractParameterNode(current));
+               return parameters;
             }
 
             if (context.@params != null && !context.@params.IsEmpty)
@@ -68,7 +79,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
                 return BuildParameterNodeList(context.@params);
             }
             
-            return Parameters;
+            return parameters;
         }
         
     }

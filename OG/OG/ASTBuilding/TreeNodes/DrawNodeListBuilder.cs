@@ -6,22 +6,22 @@ using static System.String;
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class DrawNodeListBuilder : OGBaseVisitor<List<DrawCommandNode>>
+    public class DrawNodeListBuilder : AstBuilderErrorInheritor<List<DrawCommandNode>>
     {
         private List<DrawCommandNode> DrawCommandNodes { get; set; } = new List<DrawCommandNode>();
-        private DrawCommandNodeExtractor _drawCommandNodeExtractor = new DrawCommandNodeExtractor();
-
-        /// <summary>
-        /// TODO Create setting nodes
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
+        private DrawCommandNodeExtractor _drawCommandNodeExtractor;
+       
         public override List<DrawCommandNode> VisitDraw(OGParser.DrawContext context)
         {
 
             DrawCommandNodes = VisitDrawCommands(context.shapesToDraw);
             
             return DrawCommandNodes;
+        }
+
+        public DrawNodeListBuilder(List<SemanticError> errs) : base(errs)
+        {
+            _drawCommandNodeExtractor = new DrawCommandNodeExtractor(errs);
         }
 
         public override List<DrawCommandNode> VisitDrawCommands(OGParser.DrawCommandsContext context)
@@ -47,10 +47,10 @@ namespace OG.ASTBuilding.TreeNodes
         
         private DrawCommandNode ExtractDrawCommandNode(OGParser.DrawCommandContext context)
         {
-            try
+            try //to create a DrawCommand
             {
                 DrawCommandNode result = null;
-                try
+                try //to create a DrawFromCommand
                 {
                     OGParser.DrawFromCmdContext fromContext = (OGParser.DrawFromCmdContext) context;
                     if (!fromContext.IsEmpty)
@@ -80,12 +80,9 @@ namespace OG.ASTBuilding.TreeNodes
             }
             catch (InvalidCastException e)
             {
-                throw new AstNodeCreationException(e.Message);
+                SemanticErrors.Add(new SemanticError(context.Start.Line,context.Start.Column, e.Message));
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("\nEXCEPTION IN CREATE DRAW COMMAND NODE!!\n\n");
-            }
+          
 
             return null;
         }

@@ -1,4 +1,6 @@
-﻿namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
+﻿using OG.AstVisiting;
+
+namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 {
     public class BoolNode : ExpressionNode
     {
@@ -29,5 +31,16 @@
         {
             return "Type: " + BoolNodeType.ToString() + "\t Value: " + Value;
         }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
+        }
+    }
+
+    public interface IBoolNode : IExpressionNode
+    {
+
     }
 }

@@ -14,4 +14,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             To = toNodes;
         }
     }
+
+    public interface IMovementCommandNode
+    {
+        public IPointReferenceNode From { get; set; }
+        public List<IPointReferenceNode> To { get; set; }
+    }
 }

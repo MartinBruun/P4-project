@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using OG.ASTBuilding.MachineSettings;
+// using OG.ASTBuilding.MachineSettings;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
@@ -10,17 +10,19 @@ namespace OG.ASTBuilding
 {
     public class AstBuilder : TopNodeVisitor<ProgramNode>
     {
-        private readonly DrawNodeListBuilder _drawNodeListBuilder = new DrawNodeListBuilder();
-        private readonly FunctionNodeListBuilder _functionNodeListBuilder = new FunctionNodeListBuilder();
-        private readonly MachineSettingNodeExtractor _settingsNodeExtractor = new MachineSettingNodeExtractor();
-        private readonly ShapeNodeListBuilderExtractor _shapeNodeListBuilderExtractor = new ShapeNodeListBuilderExtractor();
+        private readonly DrawNodeListBuilder _drawNodeListBuilder;
+        private readonly FunctionNodeListBuilder _functionNodeListBuilder;
+        private readonly MachineSettingNodeExtractor _settingsNodeExtractor;
+        private readonly ShapeNodeListBuilderExtractor _shapeNodeListBuilderExtractor;
 
         public AstBuilder() : base("program")
         {
-            
+            _shapeNodeListBuilderExtractor = new ShapeNodeListBuilderExtractor(SemanticErrors);
+            _drawNodeListBuilder = new DrawNodeListBuilder(SemanticErrors);
+            _functionNodeListBuilder= new FunctionNodeListBuilder(SemanticErrors);
+            _settingsNodeExtractor = new MachineSettingNodeExtractor(SemanticErrors);
         }
-
-
+        
         public override ProgramNode VisitProg(OGParser.ProgContext context)
         {
             MachineSettingNode machineSettingNode = null;
@@ -33,7 +35,7 @@ namespace OG.ASTBuilding
             if (context.settings != null)
             {
                 Console.WriteLine("Visiting machine settings...");
-                machineSettingNode = _settingsNodeExtractor.VisitProg(context);
+                machineSettingNode = _settingsNodeExtractor.VisitMachineSettings(context.settings);
                 Console.WriteLine(machineSettingNode);
             }
 

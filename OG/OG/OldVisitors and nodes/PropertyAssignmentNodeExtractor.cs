@@ -9,6 +9,7 @@ using CoordinateXyValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.Coor
 
 namespace OG.ASTBuilding.Visitors
 {
+    /*
     public class PropertyAssignmentNodeExtractor : OGBaseVisitor<AssignmentNode>
     {
         
@@ -20,4 +21,5 @@ namespace OG.ASTBuilding.Visitors
             return new PropertyAssignmentNode(xyValue, value);
         }
     }
+    */
 }

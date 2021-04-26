@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
@@ -7,16 +8,17 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class ParameterNodeExtractor : OGBaseVisitor<ParameterNode>
+    public class ParameterNodeExtractor : AstBuilderErrorInheritor<ParameterNode>
     {
         private BoolNodeExtractor _boolNodeExtractor;
         private MathNodeExtractor _mathNodeExtractor;
         private FunctionCallNodeExtractor _functionCallNodeNodeExtractor;
 
-        public ParameterNodeExtractor()
+        public ParameterNodeExtractor(List<SemanticError> errs ) :base (errs)
         {
             _mathNodeExtractor = null;
         }
+        
 
         public override ParameterNode VisitSingleParameter(OGParser.SingleParameterContext context)
         {
@@ -47,7 +49,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             } 
             if (boolExpressionContext != null && !boolExpressionContext.IsEmpty)
             {
-                _boolNodeExtractor = new BoolNodeExtractor();
+                _boolNodeExtractor = new BoolNodeExtractor(SemanticErrors);
                 BoolNode boolRes = _boolNodeExtractor.ExtractBoolNode(boolExpressionContext);
 
                 return new ParameterNode(boolRes, ParameterNode.ParameterType.BoolExpression);
@@ -56,14 +58,14 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             if (mathExpressionContext != null && !mathExpressionContext.IsEmpty)
             {
 
-                _mathNodeExtractor = new MathNodeExtractor();
+                _mathNodeExtractor = new MathNodeExtractor(SemanticErrors);
                 MathNode mathRes = _mathNodeExtractor.ExtractMathNode(mathExpressionContext);
                 return new ParameterNode(mathRes, ParameterNode.ParameterType.MathExpressionNode);
             }
 
             if (functionExpressionContext != null && !functionExpressionContext.IsEmpty)
             {
-                _functionCallNodeNodeExtractor = new FunctionCallNodeExtractor();
+                _functionCallNodeNodeExtractor = new FunctionCallNodeExtractor(SemanticErrors);
                 FunctionCallNode functionCallNode = _functionCallNodeNodeExtractor.VisitFunctionCall(functionExpressionContext);
                 
                 return new FunctionCallParameterNode(functionCallNode);
@@ -125,7 +127,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         {
             
             OGParser.FunctionCallContext functionCallContext = funcCallContext.funcCall;
-            _functionCallNodeNodeExtractor = new FunctionCallNodeExtractor();
+            _functionCallNodeNodeExtractor = new FunctionCallNodeExtractor(SemanticErrors);
             FunctionCallNode funcCallNode = _functionCallNodeNodeExtractor.VisitFunctionCall(functionCallContext);
             return new FunctionCallParameterNode(funcCallNode);
         }
@@ -134,14 +136,14 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         public override ParameterNode VisitPassedStartPointReference(OGParser.PassedStartPointReferenceContext context)
         {
             OGParser.StartPointReferenceContext startPRefContext = context.startpointRef;
-            PointReferenceNode pointRef = new PointReferenceNodeExtractor().ExtractPointReferenceNode(startPRefContext);
+            PointReferenceNode pointRef = new PointReferenceNodeExtractor(SemanticErrors).ExtractPointReferenceNode(startPRefContext);
             return new ParameterNode(new IdNode(context.startpointRef.id.Text), pointRef);
         }
 
         public override ParameterNode VisitPassedEndPointReference(OGParser.PassedEndPointReferenceContext context)
         {
             OGParser.EndPointReferenceContext endpointContext = context.endpointRef;
-            PointReferenceNode pointRef = new PointReferenceNodeExtractor().ExtractPointReferenceNode(endpointContext);
+            PointReferenceNode pointRef = new PointReferenceNodeExtractor(SemanticErrors).ExtractPointReferenceNode(endpointContext);
             return new ParameterNode(new IdNode(context.endpointRef.id.Text), pointRef);
         }
     }
