@@ -53,6 +53,9 @@ namespace OG.AstVisiting.Visitors
         
         
         //Visitors
+        
+        //TODO //ENTER--> Exit SCOPE
+        //ENTER--> Exit SCOPE
         public object Visit(ProgramNode node)
         {   S.enterScope("Global"); 
             Console.WriteLine("\n\n--- TypeChecking ---");
@@ -85,7 +88,9 @@ namespace OG.AstVisiting.Visitors
             }
             return new object();
         }
-
+        
+        //TODO //ENTER--> Exit SCOPE
+        //ENTER--> Exit SCOPE
         public object Visit(FunctionNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -97,6 +102,8 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
         
+        //TODO //ENTER--> Exit SCOPE
+        //ENTER--> Exit SCOPE
         public object Visit(ShapeNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -109,6 +116,8 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
         
+        
+        //Todo: ENTER REPEATSCOPE
         public object Visit(NumberIterationNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -120,6 +129,7 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
+        //Todo: ENTER REPEATSCOPE
         public object Visit(UntilFunctionCallNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -132,6 +142,7 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
+        //Todo: ENTER REPEATSCOPE
         public object Visit(UntilNode node)
         { 
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -255,6 +266,8 @@ namespace OG.AstVisiting.Visitors
             node.AssignedValue.Accept(this);
             return new object();
         }
+
+        //Todo: RESET PARAMCOUNT
 
         public object Visit(FunctionCallAssignNode node)
         {
@@ -569,6 +582,7 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
+        //Todo: RESET PARAMCOUNT 
         public object Visit(FunctionCallNode node)
         {
             // Console.Write($"VisitFunctionCallNode  Scope {S.GetCurrentScope()} | ");
@@ -591,7 +605,7 @@ namespace OG.AstVisiting.Visitors
             S.resetParameterCount();
             return new object();
         }
-//TODO: måske anvendes denne ikke???
+        //Todo: INCREASE PARAMCOUNT 
         public object Visit(FunctionCallParameterNode node)
         {
             S.increaseParameterCount();
@@ -609,6 +623,7 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
+        //Todo: RESET PARAMCOUNT 
         public object Visit(MathFunctionCallNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
