@@ -72,6 +72,7 @@ namespace OG.CodeGeneration
 
             foreach (PointReferenceNode pointReferenceNode in node.To)
             {
+                Console.WriteLine(pointReferenceNode.ToString());
                 pointReferenceNode.Accept(ToPointGCodeCreater);
                 ToCommands.Add(ToPointGCodeCreater.ResultCommand);
             }
@@ -183,8 +184,8 @@ namespace OG.CodeGeneration
             double xVal = EvaluateMathString(node.XValue.Value);
             double yVal = EvaluateMathString(node.YValue.Value);
 
-            string formattedX = xVal.ToString(FormatStrings.DoubleFixedPoint);
-            string formattedY = yVal.ToString(FormatStrings.DoubleFixedPoint);
+            string formattedX = xVal.ToString(FormatStrings.DoubleFixedPoint).Replace(',','.');
+            string formattedY = yVal.ToString(FormatStrings.DoubleFixedPoint).Replace(',','.');
             yVal = double.Parse(formattedY);
             xVal = double.Parse(formattedX);
 

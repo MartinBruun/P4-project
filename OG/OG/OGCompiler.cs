@@ -39,7 +39,7 @@ namespace OG
         private static async Task Main(string[] args)
         {
             
-            double x1 = -0.000001, x2 = -0.000001, y1 = 999999.9999, y2 = 9999999.9999;
+            double x1 = -0.000001, x2 = -1, y1 = 2.9999, y2 = 9999999.9999;
             NumberNode x1Val = new NumberNode(x1);
             NumberNode y1Val = new NumberNode(y2);
             
