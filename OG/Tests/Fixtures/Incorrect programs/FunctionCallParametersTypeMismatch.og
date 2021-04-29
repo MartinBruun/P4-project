@@ -11,27 +11,5 @@ function void testParameters(){
     point po = (2,2);
     bool a = 2>3;
     a=ParamFunc(true, po, 1 );
-    a = P(1,a,1);
-    a = P(1,1,a);
-    a = P(a,1,1);
-    a = P(1,a,a);
-    a = P(a,1,a);
-    a = P(a,a,1);
-    
-
-
-
-
-    a = P(a,1,c);
-     a = P(a,b,1);
-
-
-    a=P(1,2,3);
-    a=P(true,true,true);
-
-
 }
 
-function bool P(number a, number b, number c){
-return false;
-}

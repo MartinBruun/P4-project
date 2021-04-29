@@ -23,15 +23,15 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             {
                 if (parameterNode == null)
                 {
-                    Console.WriteLine("param is NULL!!!!!!");
+                    //Console.WriteLine("param is NULL!!!!!!");
                 }
                 else
                 {
-                    Console.WriteLine("Found type: " + parameterNode.ParamType);
+                    //Console.WriteLine("Found type: " + parameterNode.ParamType);
                 }
             }
 
-            Console.WriteLine("END OF FOREACH 123\n");
+            //Console.WriteLine("END OF FOREACH 123\n");
             
             return parameters;
         }
@@ -40,46 +40,50 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         {   
             
             List<ParameterNode> parameters  = new List<ParameterNode>();
-            try
+            if (context.ChildCount > 0)
             {
                 try
                 {
-                    OGParser.MultiParametersContext multipleParams = (OGParser.MultiParametersContext) context;
-                    List<ParameterNode> x = VisitMultiParameters(multipleParams);
-                   
-                    parameters.AddRange(x);
+                    try
+                    {
+                        OGParser.MultiParametersContext multipleParams = (OGParser.MultiParametersContext) context;
+                        List<ParameterNode> x = VisitMultiParameters(multipleParams);
+
+                        parameters.AddRange(x);
+                        return parameters;
+                    }
+                    catch (InvalidCastException)
+                    {
+                    }
+
+
+                    OGParser.SingleParameterContext singleParam = (OGParser.SingleParameterContext) context;
+                    ParameterNode result = _paramExtractor.VisitSingleParameter(singleParam);
+                    //Console.WriteLine(result.Expression?.Value);
+                    parameters.Add(result);
                     return parameters;
+
                 }
-                catch (InvalidCastException)
-                { }
-                
-             
-                OGParser.SingleParameterContext singleParam = (OGParser.SingleParameterContext) context;
-                ParameterNode result = _paramExtractor.VisitSingleParameter(singleParam);
-                Console.WriteLine(result.Expression.Value);
-                parameters.Add(result);
-                return parameters;
-
-
-            }
-            catch (Exception e)
-            {
-                
-    
-                SemanticErrors.Add(new SemanticError(context.Start.Line,context.Start.Column, 
-                    "failed to typecast PassedParamsContext into OGParser.SingleParameterContext, " +
-                    "OGParser.MultiParametersContext and OGParser.MultiParametersContext")
+                catch (Exception e)
                 {
-                    IsFatal = true
-                });
-                return null;
+
+
+                    SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,
+                        "failed to typecast PassedParamsContext into OGParser.SingleParameterContext, " +
+                        "OGParser.MultiParametersContext and OGParser.MultiParametersContext")
+                    {
+                        IsFatal = true
+                    });
+                    return null;
+                }
+
+                //Console.WriteLine();
+                foreach (ParameterNode param in parameters)
+                {
+                    //Console.Write("Parameters are: " + param.Expression.Value);
+                }
             }
 
-            Console.WriteLine();
-            foreach (ParameterNode param in parameters)
-            {
-                Console.Write("Parameters are: " + param.Expression.Value);
-            }
             return parameters;
             
         }

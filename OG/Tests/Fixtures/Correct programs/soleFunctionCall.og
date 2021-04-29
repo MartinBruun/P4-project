@@ -3,5 +3,5 @@ draw {
 }
 /*Det skal være muligt at kalde en funktion*/
 function void funcA(){
-somefunction();
+/*somefunction();*/ /*ikke tilladt*/
 }
