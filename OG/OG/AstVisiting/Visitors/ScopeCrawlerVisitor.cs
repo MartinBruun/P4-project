@@ -50,7 +50,7 @@ namespace OG.AstVisiting.Visitors
         }
         
         
-        
+        //TODO NOTE
         
         public object Visit(ProgramNode node)
         {
@@ -80,7 +80,7 @@ Console.WriteLine(S.GetCurrentScope());
         }
         
         
-        
+        //TODO NOTE
         public object Visit(FunctionNode node)
         {
             
@@ -91,6 +91,8 @@ Console.WriteLine(S.GetCurrentScope());
             return new object();
         }
         
+        
+        //TODO NOTE
         public object Visit(ShapeNode node)
         {
             S.enterScope(node.Id.Value);
@@ -102,7 +104,7 @@ Console.WriteLine(S.GetCurrentScope());
         }
         
         
-        
+        //TODO NOTE
         public object Visit(NumberIterationNode node)
         {
             S.enterRepeatScope();
@@ -112,7 +114,7 @@ Console.WriteLine(S.GetCurrentScope());
             return new object();
         }
 
-        
+        //TODO NOTE
         public object Visit(UntilFunctionCallNode node)
         {
             
@@ -120,11 +122,11 @@ Console.WriteLine(S.GetCurrentScope());
             node.Predicate.Accept(this);
             node.Body.Accept(this);
             S.exitRepeatScope();
-Console.WriteLine(S.GetCurrentScope());
+            Console.WriteLine(S.GetCurrentScope());
             return new object();
         }
 
-        
+        //TODO NOTE
         public object Visit(UntilNode node)
         { 
             S.enterRepeatScope();
@@ -132,9 +134,68 @@ Console.WriteLine(S.GetCurrentScope());
             node.Body.Accept(this);
             S.exitRepeatScope();
             
-Console.WriteLine(S.GetCurrentScope());
+            Console.WriteLine(S.GetCurrentScope());
             return new object();
         }
+        
+        //TODO NOTE
+        public object Visit(FunctionCallNode node)
+        {
+            
+            for (int i = 0 ; i< node.Parameters.Count ; i++)
+            {
+                
+                node.Parameters[i].Accept(this);
+            }
+            S.resetParameterCount();
+            Console.WriteLine(S.GetCurrentScope());
+            return new object();
+        }
+         
+        //TODO NOTE
+        public object Visit(FunctionCallParameterNode node)
+        {
+            S.increaseParameterCount();
+            
+            Console.WriteLine(S.GetCurrentScope());
+            return new object();
+        }
+        
+        //TODO NOTE
+        public object Visit(FunctionCallAssignNode node)
+        {
+            for (int i = 0 ; i< node.Parameters.Count ; i++)
+            {
+                    
+                node.Parameters[i].Accept(this);
+                      
+            }
+            S.resetParameterCount();
+               
+            Console.WriteLine(S.GetCurrentScope());
+            return new object();
+        }
+        
+        
+        //TODO NOTE
+        public object Visit(MathFunctionCallNode node)
+        {
+            
+            for (int i = 0 ; i< node.Parameters.Count ; i++)
+            {
+                node.Parameters[i].Accept(this);
+            }
+            S.resetParameterCount();
+            Console.WriteLine(S.GetCurrentScope());
+            return new object();
+        }
+        
+        
+        
+        
+        
+        
+        
         
         public object Visit(BodyNode node)
         {
@@ -217,20 +278,7 @@ Console.WriteLine(S.GetCurrentScope());
         }
 
         
-
-        public object Visit(FunctionCallAssignNode node)
-        {
-                for (int i = 0 ; i< node.Parameters.Count ; i++)
-                {
-                    
-                    node.Parameters[i].Accept(this);
-                      
-                }
-                S.resetParameterCount();
-               
-Console.WriteLine(S.GetCurrentScope());
-            return new object();
-        }
+        
 
         public object Visit(IdAssignNode node)
         {
@@ -403,29 +451,7 @@ Console.WriteLine(S.GetCurrentScope());
         }
 
          
-        public object Visit(FunctionCallNode node)
-        {
-            
-            for (int i = 0 ; i< node.Parameters.Count ; i++)
-            {
-                
-                node.Parameters[i].Accept(this);
-            }
-            S.resetParameterCount();
-Console.WriteLine(S.GetCurrentScope());
-            return new object();
-        }
-         
-        public object Visit(FunctionCallParameterNode node)
-        {
-            S.increaseParameterCount();
-            
-            
-            
-            
-Console.WriteLine(S.GetCurrentScope());
-            return new object();
-        }
+      
 
         public object Visit(IFunctionCallNode node)
         {
@@ -436,17 +462,7 @@ Console.WriteLine(S.GetCurrentScope());
         }
 
          
-        public object Visit(MathFunctionCallNode node)
-        {
-            
-            for (int i = 0 ; i< node.Parameters.Count ; i++)
-            {
-                node.Parameters[i].Accept(this);
-            }
-            S.resetParameterCount();
-Console.WriteLine(S.GetCurrentScope());
-            return new object();
-        }
+       
 
         public object Visit(ParameterNode node)
         {
