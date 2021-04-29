@@ -18,46 +18,54 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             OGParser.PassedParamsContext parametersContext = context.@params;
             List<ParameterNode> parameters  = new List<ParameterNode>();
             parameters.AddRange(BuildParameterNodeList(parametersContext));
+            
+            foreach (ParameterNode parameterNode in parameters)
+            {
+                if (parameterNode == null)
+                {
+                    Console.WriteLine("param is NULL!!!!!!");
+                }
+                else
+                {
+                    Console.WriteLine("Found type: " + parameterNode.ParamType);
+                }
+            }
+
+            Console.WriteLine("END OF FOREACH 123\n");
+            
             return parameters;
         }
 
         public List<ParameterNode> BuildParameterNodeList(OGParser.PassedParamsContext context)
         {   
-
+            
             List<ParameterNode> parameters  = new List<ParameterNode>();
             try
             {
-                
-
                 try
                 {
                     OGParser.MultiParametersContext multipleParams = (OGParser.MultiParametersContext) context;
-
-                    parameters.AddRange(VisitMultiParameters(multipleParams));
-                    
+                    List<ParameterNode> x = VisitMultiParameters(multipleParams);
+                   
+                    parameters.AddRange(x);
+                    return parameters;
                 }
                 catch (InvalidCastException)
                 { }
                 
-                try
-                {
-                    OGParser.SingleParameterContext singleParam = (OGParser.SingleParameterContext) context;
-                    Console.WriteLine("single param " + singleParam);
-
-                    parameters.Add(_paramExtractor.VisitSingleParameter(singleParam));
-                    
-                    // return parameters;
-                }
-                catch (InvalidCastException)
-                { }
-
-                OGParser.NoParameterContext noParams = (OGParser.NoParameterContext) context;
-                
+             
+                OGParser.SingleParameterContext singleParam = (OGParser.SingleParameterContext) context;
+                ParameterNode result = _paramExtractor.VisitSingleParameter(singleParam);
+                Console.WriteLine(result.Expression.Value);
+                parameters.Add(result);
                 return parameters;
-            }
-            catch (Exception)
-            {
 
+
+            }
+            catch (Exception e)
+            {
+                
+    
                 SemanticErrors.Add(new SemanticError(context.Start.Line,context.Start.Column, 
                     "failed to typecast PassedParamsContext into OGParser.SingleParameterContext, " +
                     "OGParser.MultiParametersContext and OGParser.MultiParametersContext")
@@ -66,7 +74,12 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
                 });
                 return null;
             }
-            
+
+            Console.WriteLine();
+            foreach (ParameterNode param in parameters)
+            {
+                Console.Write("Parameters are: " + param.Expression.Value);
+            }
             return parameters;
             
         }
@@ -83,24 +96,20 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
         public override List<ParameterNode> VisitMultiParameters(OGParser.MultiParametersContext context)
         {
-            Console.WriteLine("!!!!visitMulti : " + context.GetText());
             List<ParameterNode> parameters = new List<ParameterNode>();
             OGParser.PassedParamContext current = context.firstParameter;
+            OGParser.PassedParamsContext nextParams = context.@params;
             
             
-            
-        if (current != null && !current.IsEmpty)
+            if (current != null && !current.IsEmpty)
             {
-                Console.WriteLine("jeg finder denne: " + current.GetText());
                 parameters.Add(_paramExtractor.ExtractParameterNode(current));
-               
             }
 
             if (context.passedParams() != null )
-            {                
-                
-                Console.WriteLine("jeg Build : "+context.GetText() );
-                return BuildParameterNodeList(context.@params);
+            {
+                OGParser.PassedParamsContext x = context.passedParams();
+                parameters.AddRange(BuildParameterNodeList(context.@params));
             }
             
             return parameters;

@@ -99,18 +99,18 @@ namespace Tests
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             p.Accept(TT);
             
-            var symboltable = TT.GetSymbolTable();
-            var errors = TT.GetErrors();
+            Dictionary<string, AstNode> symboltable = TT.GetSymbolTable();
+            List<SemanticError> errors = TT.GetErrors();
             
             
             Console.WriteLine("\n---Type mismatch ERRORS---");
-            foreach (var item in errors)
+            foreach (SemanticError item in errors)
             {
                 Console.WriteLine(item);
             }
             
             Console.WriteLine("\n-----Contents of symboltable-----");
-            foreach (var item in symboltable)
+            foreach (KeyValuePair<string, AstNode> item in symboltable)
             {
                 Console.WriteLine(item.Key + ":" + item.Value);
             }
