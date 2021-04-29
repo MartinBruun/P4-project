@@ -271,13 +271,17 @@ namespace OG.AstVisiting.Visitors
                 {
                     errors.Add(new SemanticError(node, $"visitFunctionCallAssignment:{node.Id.Value}:{node.Id.CompileTimeType} does not match type of function {node.FunctionName.Value}:{node.FunctionName.CompileTimeType}"));
                 }
-                Console.WriteLine($"testing param count: {node.Parameters.Count}{node.Parameters[0].ToString()}");
+                //Console.WriteLine($"testing param count: {node.Parameters.Count}{node.Parameters[0].ToString()}");
                 var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
                 for (int i = 0 ; i< node.Parameters.Count ; i++)
                 {
                     Console.WriteLine("testing param");
                     node.Parameters[i].Accept(this);
-                    Console.WriteLine(declaredNode.Parameters[i].CompileTimeType == node.Parameters[i].CompileTimeType);
+                    if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
+                    {
+                        errors.Add(new SemanticError(node.Parameters[i],
+                            $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
+                    }
                    
                 }
                 S.resetParameterCount();
