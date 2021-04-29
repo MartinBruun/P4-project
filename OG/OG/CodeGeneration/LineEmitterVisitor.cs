@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using OG.ASTBuilding.MathExpression;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
@@ -10,11 +11,12 @@ using OG.AstVisiting;
 
 namespace OG.CodeGeneration
 {
-    public class LineEmitterNotifierVisitor : ILineCommandNodeVisitor, IGCodeStringEmitterNotifier
+    public class LineEmitterVisitor : ILineCommandNodeVisitor, IGCodeStringEmitterNotifier
     {
         
         private GCodeLinearMovementCommandCreator GCodeLineCreator { get; } = new GCodeLinearMovementCommandCreator();
         private GCodeArithmeticCreator GCodeMathCommandCreator { get; } = new GCodeArithmeticCreator();
+        public double ToolHeight { get; set; } = 100;
         
         public event CodeGenerationNotification CodeGenerationNotification;
         public ICollection<IGCodeCommand> GCodeCommands { get; set; }
@@ -38,15 +40,12 @@ namespace OG.CodeGeneration
         /// <summary>
         /// TODO - Emitter skal bruge table til at slå op efter ID og values
         /// </summary>
-        public LineEmitterNotifierVisitor()
+        public LineEmitterVisitor()
         {
             
         }
 
-        public void Visit(IdNode node)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void Visit(PointFunctionCallNode node)
         {
@@ -58,10 +57,8 @@ namespace OG.CodeGeneration
             throw new NotImplementedException();
         }
 
-        public void Visit(IPointReferenceNode node)
-        {
-            throw new NotImplementedException();
-        }
+
+
 
         public void Visit(ShapeEndPointNode node)
         {
@@ -75,12 +72,55 @@ namespace OG.CodeGeneration
 
         public void Visit(TuplePointNode node)
         {
-            MathNode x = node.XValue;
+            double xVal = EvaluateMathString(node.XValue.Value);
+            double yVal = EvaluateMathString(node.YValue.Value);
+            
+            GCodeCommands.Add(new GCodeCommand($"G01 X{xVal} Y{yVal}"));
+            
         }
 
         public void Visit(LineCommandNode node)
         {
-            //TODO We need to end up with just two booleans or at least mathematics operations
+            node.From.Accept(this);
+
+            foreach (PointReferenceNode toNode in node.To)
+            {
+                toNode.Accept(this);
+            }
         }
+
+        private GCodeCommand SafeMoveto(double fromXValue, double fromYValue)
+        {
+            return MoveUp() + MoveTo(fromXValue, fromYValue) + MoveDown();
+        }
+        
+        private GCodeCommand MoveTo(double xValue, double yValue)
+        {
+            return new GCodeCommand($"G1 X{xValue} Y{yValue} Z{ToolHeight} \n");
+        }
+
+        public GCodeCommand MoveUp()
+        {
+            return new GCodeCommand($"G0 Z{ToolHeight + 5} \n" );
+        }
+
+        public GCodeCommand MoveDown()
+        {
+            return new GCodeCommand($"G0 Z{ToolHeight - 5} \n" );
+        }
+
+        
+        
+                   
+        private  double EvaluateMathString(string expression) 
+         {
+            DataTable loDataTable = new DataTable();
+            DataColumn loDataColumn = new DataColumn("Eval", typeof (double), expression);
+            loDataTable.Columns.Add(loDataColumn);
+            loDataTable.Rows.Add(0);
+            return (double) (loDataTable.Rows[0]["Eval"]);
+        }
+
+      
     }
 }

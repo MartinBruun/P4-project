@@ -8,6 +8,11 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         public ShapeStartPointNode(string pointText, IdNode shapeName) : base(pointText,  shapeName, PointReferenceNodeType.ShapeStartPointNode)
         {
         }
+        
+        public override void Accept(ILineCommandNodeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
 
         public void Accept(IPointReferenceNodeVisitor visitor)
         {

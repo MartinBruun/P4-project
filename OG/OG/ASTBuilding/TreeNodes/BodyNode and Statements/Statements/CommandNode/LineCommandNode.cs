@@ -4,16 +4,13 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class LineCommandNode : MovementCommandNode, ILineCommandNodeVisitable
+    public class LineCommandNode : MovementCommandNode
     {
         public LineCommandNode(PointReferenceNode fromPosition, List<PointReferenceNode> toPosition): base(fromPosition, toPosition)
         {
         }
 
-        public void Accept(ILineCommandNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+  
 
         public override void Accept(IVisitor visitor)
         {

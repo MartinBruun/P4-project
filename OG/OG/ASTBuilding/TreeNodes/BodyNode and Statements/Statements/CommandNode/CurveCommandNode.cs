@@ -5,7 +5,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class CurveCommandNode : MovementCommandNode, ICurveCommandNodeVisitable
+    public class CurveCommandNode : MovementCommandNode
     {
         public MathNode Angle;
 
@@ -15,11 +15,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             Angle = angleExpression;
         }
 
-        public void Accept(ICurveCommandVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
+      
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
@@ -27,8 +23,5 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         }
     }
 
-    public interface ICurveCommandNodeVisitable
-    {
-        public void Accept(ICurveCommandVisitor visitor);
-    }
+    
 }

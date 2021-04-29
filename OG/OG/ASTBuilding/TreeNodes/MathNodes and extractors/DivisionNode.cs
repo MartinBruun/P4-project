@@ -10,10 +10,7 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         {
         }
 
-        public void Accept(IMathNodeVisitor visitor)
-        {
-             visitor.Visit(this);   
-        }
+
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);        

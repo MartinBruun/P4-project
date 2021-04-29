@@ -5,19 +5,13 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
-    public class MathAssignmentNode : AssignmentNode, IMathAssignmentVisitable
+    public class MathAssignmentNode : AssignmentNode
     {
         public MathNode AssignedValue { get; set; }
 
         public MathAssignmentNode(IdNode id, MathNode value) : base(id, AssignmentType.VariableAssignmentNode)
         {
             AssignedValue = value;
-        }
-        
-
-        public void Accept(IMathAssignmentVisitor visitor)
-        {
-            visitor.Visit(this);
         }
 
         public override void Accept(IVisitor visitor)

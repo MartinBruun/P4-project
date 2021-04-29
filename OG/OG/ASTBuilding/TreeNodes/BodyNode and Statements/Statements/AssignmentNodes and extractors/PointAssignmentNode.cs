@@ -5,7 +5,7 @@ using OG.AstVisiting;
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
 
-    public class PointAssignmentNode : AssignmentNode, IPointAssignmentVisitable
+    public class PointAssignmentNode : AssignmentNode
     { 
         public PointReferenceNode AssignedValue { get; set; }
 
@@ -23,11 +23,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         {
             visitor.Visit(this);
 
-        }
-        
-        public void Accept(IPointReferenceAssignmentVisitor visitor)
-        {
-            visitor.Visit(this);
         }
     }
     

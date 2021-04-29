@@ -23,9 +23,5 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
         }
     }
 
-    public interface IDeclarationNode
-    {
-        public IIdNode Id { get; set; }
-        public IExpressionNode AssignedExpression { get; set; }
-    }
+   
 }
