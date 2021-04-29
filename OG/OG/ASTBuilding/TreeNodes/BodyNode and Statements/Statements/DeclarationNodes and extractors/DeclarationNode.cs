@@ -15,7 +15,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
         public ExpressionNode AssignedExpression { get; set; }
         public DeclarationType DeclaredType { get; set; }
 
-        public DeclarationNode(IdNode id, ExpressionNode startAssignedExpression, DeclarationType type)
+        public DeclarationNode(IdNode id, ExpressionNode startAssignedExpression, DeclarationType type) :base(StatementType.DeclarationNode)
         {
             DeclaredType = type;
             Id = id;

@@ -9,13 +9,13 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         public IdNode Id;
         public PointReferenceNode From;
 
-        public DrawCommandNode(IdNode id, PointReferenceNode from)
+        public DrawCommandNode(IdNode id, PointReferenceNode from):this(id)
         {
-            Id = id;
+
             From = from;
         }
 
-        public DrawCommandNode(IdNode id)
+        public DrawCommandNode(IdNode id):base(CommandType.DrawCommandNode)
         {
             Id = id;
             From = null;

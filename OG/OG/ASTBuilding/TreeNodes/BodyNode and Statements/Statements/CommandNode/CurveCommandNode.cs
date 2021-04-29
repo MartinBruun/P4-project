@@ -2,6 +2,7 @@
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.AstVisiting;
+using OG.CodeGeneration;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
@@ -10,7 +11,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         public MathNode Angle;
 
         public CurveCommandNode(PointReferenceNode fromPosition, List<PointReferenceNode> toPosition, MathNode angleExpression)
-            :base(fromPosition, toPosition)
+            :base(fromPosition, toPosition, MovementType.Curve)
         {
             Angle = angleExpression;
         }
@@ -21,6 +22,8 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             visitor.Visit(this);
 
         }
+
+       
     }
 
     

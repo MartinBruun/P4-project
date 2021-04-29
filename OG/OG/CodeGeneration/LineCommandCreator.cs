@@ -24,19 +24,19 @@ namespace OG.CodeGeneration
         /// <returns></returns>
        
 
-        private GCodeCommand MoveTo(double xValue, double yValue)
+        private GCodeCommandTextContainer MoveTo(double xValue, double yValue)
         {
-            return new GCodeCommand($"G1 X{xValue} Y{yValue} Z{ToolHeight} \n");
+            return new GCodeCommandTextContainer($"G1 X{xValue} Y{yValue} Z{ToolHeight} \n");
         }
 
-        public GCodeCommand MoveUp()
+        public GCodeCommandTextContainer MoveUp()
         {
-            return new GCodeCommand($"G0 Z{ToolHeight + 5} \n" );
+            return new GCodeCommandTextContainer($"G0 Z{ToolHeight + 5} \n" );
         }
 
-        public GCodeCommand MoveDown()
+        public GCodeCommandTextContainer MoveDown()
         {
-            return new GCodeCommand($"G0 Z{ToolHeight - 5} \n" );
+            return new GCodeCommandTextContainer($"G0 Z{ToolHeight - 5} \n" );
         }
 
 
@@ -44,14 +44,14 @@ namespace OG.CodeGeneration
         /// TODO
         /// </summary>
         /// <returns></returns>
-        public GCodeCommand CreateCommand()
+        public GCodeCommandTextContainer CreateCommand()
         {
-            GCodeCommand x = SafeMoveto(FromXValue, FromYValue);
+            GCodeCommandTextContainer x = SafeMoveto(FromXValue, FromYValue);
             throw new NotImplementedException();
             return null;
         }
 
-        private GCodeCommand SafeMoveto(in double fromXValue, in double fromYValue)
+        private GCodeCommandTextContainer SafeMoveto(in double fromXValue, in double fromYValue)
         {
             return MoveUp() + MoveTo(fromXValue, fromYValue) + MoveDown();
         }
