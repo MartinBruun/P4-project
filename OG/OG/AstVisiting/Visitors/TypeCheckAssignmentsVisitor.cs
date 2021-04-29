@@ -271,10 +271,14 @@ namespace OG.AstVisiting.Visitors
                 {
                     errors.Add(new SemanticError(node, $"visitFunctionCallAssignment:{node.Id.Value}:{node.Id.CompileTimeType} does not match type of function {node.FunctionName.Value}:{node.FunctionName.CompileTimeType}"));
                 }
-
-                foreach (var p in node.Parameters)
+                Console.WriteLine($"testing param count: {node.Parameters.Count}{node.Parameters[0].ToString()}");
+                var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
+                for (int i = 0 ; i< node.Parameters.Count ; i++)
                 {
-                    p.Accept(this);
+                    Console.WriteLine("testing param");
+                    node.Parameters[i].Accept(this);
+                    Console.WriteLine(declaredNode.Parameters[i].CompileTimeType == node.Parameters[i].CompileTimeType);
+                   
                 }
                 S.resetParameterCount();
                 
@@ -522,8 +526,8 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(BoolFunctionCallNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            Console.Write($"Scope {S.GetCurrentScope()} | ");
+            Console.WriteLine(node.ToString());
             try
             {
                 if (S.CheckDeclaredTypeOf(node.FunctionName.Value)!= "bool")
@@ -539,8 +543,8 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionCallNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+            Console.Write($"Scope {S.GetCurrentScope()} | ");
+            Console.WriteLine(node.ToString()); 
 
             return new object();
         }
