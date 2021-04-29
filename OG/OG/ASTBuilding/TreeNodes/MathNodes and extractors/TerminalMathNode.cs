@@ -7,10 +7,6 @@
         }
     }
 
-    public interface ITerminalMathnode : IMathNode
-    {
-        
-    }
     
     
 }

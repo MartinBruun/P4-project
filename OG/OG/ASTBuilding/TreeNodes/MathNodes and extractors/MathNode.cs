@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
+using OG.CodeGeneration;
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
-    public abstract class MathNode : ExpressionNode
+    public abstract class MathNode : ExpressionNode, IMathVisitable
     {
-        
-       
         public enum MathType
         {
             GenericInfixNode,
@@ -31,14 +30,17 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         {
             return "Type: " + MathNodeType.ToString() + "\t Value: " + Value;
         }
-
-    
+        
+        public abstract void Accept(CodeGeneration.IMathNodeVisitor visitor);
+        
+      
     }
 
-    public interface IMathNode : IExpressionNode
+
+
+    
+    public interface IMathVisitable
     {
-       
+        public abstract void Accept(CodeGeneration.IMathNodeVisitor visitor);
     }
-    
-
 }

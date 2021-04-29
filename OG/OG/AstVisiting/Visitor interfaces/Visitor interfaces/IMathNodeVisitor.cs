@@ -4,7 +4,7 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.AstVisiting
 {
-    public interface IMathNodeVisitor : IIdNodeVisitor, IMathFuncCallVisitor
+    public interface IMathNodeVisitor 
     {
         public void Visit(AdditionNode node);
         public void Visit(SubtractionNode node);
