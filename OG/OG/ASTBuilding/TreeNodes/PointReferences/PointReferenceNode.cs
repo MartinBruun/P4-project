@@ -29,7 +29,7 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
             PointReferenceType = pointRefNodeType;
         }
 
-        public abstract void Accept(ILineCommandNodeVisitor visitor);
+        public abstract void Accept(IPointReferenceNodeVisitor visitor);
 
 
      

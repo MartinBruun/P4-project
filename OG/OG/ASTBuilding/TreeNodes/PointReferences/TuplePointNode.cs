@@ -15,7 +15,7 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
             XValue = xValue;
         }
 
-        public override void Accept(ILineCommandNodeVisitor visitor)
+        public override void Accept(IPointReferenceNodeVisitor visitor)
         {
             visitor.Visit(this);
         }

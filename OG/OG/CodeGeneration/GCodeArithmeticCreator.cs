@@ -13,8 +13,8 @@ namespace OG.CodeGeneration
         private bool IsLhs = true;
         private string _secondVariable = string.Empty;
         private string _thirdVariable = string.Empty;
-        private GCodeCommandTextContainer _lhsCommandTextContainer;
-        private GCodeCommandTextContainer _rhsCommandTextContainer;
+        private GCodeCommandText _lhsCommandText;
+        private GCodeCommandText _rhsCommandText;
             
             
         public ICollection<IGCodeCommand> GCodeCommands { get; set; }
@@ -39,11 +39,11 @@ namespace OG.CodeGeneration
         {
             if (IsLhs)
             {
-                _lhsCommandTextContainer += new GCodeCommandTextContainer(node.NumberValue.ToString());
+                _lhsCommandText += new GCodeCommandText(node.NumberValue.ToString());
             }
             else
             {
-                _rhsCommandTextContainer += new GCodeCommandTextContainer(node.NumberValue.ToString() + "\n");
+                _rhsCommandText += new GCodeCommandText(node.NumberValue.ToString() + "\n");
             }
             IsLhs = !IsLhs;
 
@@ -54,7 +54,7 @@ namespace OG.CodeGeneration
 
         public object Visit(DivisionNode node)
         {
-            GCodeCommandTextContainer res = new GCodeCommandTextContainer("#1 =");
+            GCodeCommandText res = new GCodeCommandText("#1 =");
             node.LHS.Accept(this);
             node.RHS.Accept(this);
 
@@ -65,8 +65,8 @@ namespace OG.CodeGeneration
             
             
             
-            _lhsCommandTextContainer = null;
-            _rhsCommandTextContainer = null;
+            _lhsCommandText = null;
+            _rhsCommandText = null;
             GCodeCommands.Add(res);
             return null;
         }
@@ -74,15 +74,15 @@ namespace OG.CodeGeneration
         public object Visit(InfixMathNode node)
         {
             throw new NotImplementedException();
-            _lhsCommandTextContainer = null;
-            _rhsCommandTextContainer = null;
+            _lhsCommandText = null;
+            _rhsCommandText = null;
         }
 
         public object Visit(MathIdNode node)
         {
             throw new NotImplementedException();
-            _lhsCommandTextContainer = null;
-            _rhsCommandTextContainer = null;
+            _lhsCommandText = null;
+            _rhsCommandText = null;
         }
 
 
@@ -90,23 +90,23 @@ namespace OG.CodeGeneration
         public object Visit(MultiplicationNode node)
         {
             throw new NotImplementedException();
-            _lhsCommandTextContainer = null;
-            _rhsCommandTextContainer = null;
+            _lhsCommandText = null;
+            _rhsCommandText = null;
         }
 
         public object Visit(PowerNode node)
         {
             throw new NotImplementedException();
-            _lhsCommandTextContainer = null;
-            _rhsCommandTextContainer = null;
+            _lhsCommandText = null;
+            _rhsCommandText = null;
         }
 
         public object Visit(SubtractionNode node)
         {
             
             throw new NotImplementedException();
-            _lhsCommandTextContainer = null;
-            _rhsCommandTextContainer = null;
+            _lhsCommandText = null;
+            _rhsCommandText = null;
         }
 
         public object Visit(MathFunctionCallNode node)

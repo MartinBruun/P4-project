@@ -6,7 +6,6 @@ namespace OG.AstVisiting
     {
         public void Visit(PointReferenceIdNode node);
 
-
         public void Visit(ShapeEndPointNode node);
         public void Visit(ShapeStartPointNode node);
         public void Visit(TuplePointNode node);

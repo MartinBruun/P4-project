@@ -5,6 +5,6 @@ namespace OG.CodeGeneration
     public interface IGCodeStringEmitterNotifier : ICodeGenerationNotifier, IGCodeStringEmitter
     {
         
-        public ICollection<IGCodeCommand> GCodeCommands{get; set; }
+        public ICollection<IGCodeCommand> ToCommands{get; set; }
     }
 }

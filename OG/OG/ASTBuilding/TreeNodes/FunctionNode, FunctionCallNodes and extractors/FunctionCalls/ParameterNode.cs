@@ -13,9 +13,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             FunctionCall,
             BoolExpression,
             MathExpressionNode,
-            EndpointRef,
-            StartPointRef,
-            
+            PointReference,
         }
 
         public ParameterType ParamType { get; set; }
