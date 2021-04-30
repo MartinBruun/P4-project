@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
@@ -43,26 +44,38 @@ namespace Tests
         [TestCase(99999, 99999, 0,0)]
         [TestCase(99999, 99999, 0,0)]
         [TestCase(0, 0, 0,0)]
+        [TestCase(1, 1, 1,1)]
+        [TestCase(-1, -1, -1,-1)]
 
-        public async Task Point_Tuples_Should_Give_Equivalent_XY_Value_SingleTo(double x1, double y1, double x2, double y2)
+        public void Point_Tuples_Should_Give_Equivalent_XY_Value_SingleTo(double x1, double y1, double x2, double y2)
         {
             NumberNode x1Val = new NumberNode(x1);
             NumberNode y1Val = new NumberNode(y2);
             
             NumberNode x2Val = new NumberNode(x2);
             NumberNode y2Val = new NumberNode(y2);
-            List<PointReferenceNode> ToCommands = new List<PointReferenceNode>();
-            ToCommands.Add(new TuplePointNode("", x2Val, y2Val));
+            List<PointReferenceNode> toCommands = new List<PointReferenceNode>();
+            toCommands.Add(new TuplePointNode("", x2Val, y2Val));
+            List<string> result = new List<string>();
+
+            Assert.DoesNotThrow(() =>
+            {
+                LineEmitterVisitor emitter = new LineEmitterVisitor(null, new List<SemanticError>());
+                LineCommandNode lineCommand = new LineCommandNode(new TuplePointNode("", x1Val, y1Val), toCommands);
+
+                lineCommand.Accept(emitter);
+                result = emitter.Emit().Split('\n').ToList();
+            });
 
             
-            LineEmitterVisitor emitter = new LineEmitterVisitor(null, new List<SemanticError>());
-            LineCommandNode lineCommand = new LineCommandNode(new TuplePointNode("",x1Val, y1Val), ToCommands);
+            result.RemoveAll(string.IsNullOrWhiteSpace);
+            //Regex matching a G01 command without Z coordinate
+            Regex regex = new Regex(@"^G01 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+$");
             
-            lineCommand.Accept(emitter);
-            emitter.CodeGenerationNotification += (Console.WriteLine);
-            
-            
-            await File.WriteAllTextAsync("WriteText.txt", emitter.Emit());
+            result.ForEach(str =>
+            {
+                Assert.IsTrue(regex.IsMatch(str));
+            });
 
         }
     }
