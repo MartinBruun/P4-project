@@ -34,6 +34,7 @@ namespace OG.CodeGeneration
         /// <returns></returns>
         public string Emit()
         {
+            
             string result = FromPointContainer.ResultCommand.CreateGCodeTextCommand();
             foreach (IGCodeCommand command in ToCommands)
             {
@@ -68,8 +69,6 @@ namespace OG.CodeGeneration
         {
             
             node.From.Accept(FromPointContainer);
-            
-
             foreach (PointReferenceNode pointReferenceNode in node.To)
             {
                 Console.WriteLine(pointReferenceNode.ToString());
@@ -78,8 +77,6 @@ namespace OG.CodeGeneration
             }
         }
     } 
-   
-    
     
     public  class PointReferenceGCodeTextEmitter : CodeEmitterErrorInheritor, IPointReferenceNodeVisitor
     {
@@ -100,13 +97,6 @@ namespace OG.CodeGeneration
         {
             IEnumerable<ParameterNode> parameters = node.Parameters;
             BodyNode body = node.Body;
-            
-            
-            
-            
-            
-            
-            
         }
 
         /// <summary>
@@ -133,6 +123,7 @@ namespace OG.CodeGeneration
         public void Visit(ShapeEndPointNode node)
         {
             throw new NotImplementedException();
+            //This is actually how we can find a shape end point
             ShapeNode shape;
             List<StatementNode> statements = shape.Body.StatementNodes;
             statements.Reverse();
@@ -189,14 +180,9 @@ namespace OG.CodeGeneration
             yVal = double.Parse(formattedY);
             xVal = double.Parse(formattedX);
 
-            
-            
-            
             ResultCommand = new GCodeCommandText($"G01 X{formattedX} Y{formattedY}\n");
         }
-        
-        
-        
+
         protected double EvaluateMathString(string expression) 
         {
             return Eval.Execute<double>(expression);
@@ -204,16 +190,6 @@ namespace OG.CodeGeneration
         
     }
 
-    public abstract class CodeEmitterErrorInheritor : ISemanticErrorable
-    {
-        public CodeEmitterErrorInheritor(List<SemanticError> errs)
-        {
-            SemanticErrors = errs;
-        }
-        public List<SemanticError> SemanticErrors { get; set; }
-        public string TopNode { get; set; }
-    }
-    
     /// <summary>
     /// Used to decide double precision formatting
     /// </summary>
