@@ -46,6 +46,8 @@ namespace Tests
         [TestCase("MultibleRepeatLoopsInShape.og", "testing Repeat loops in shape")]
         [TestCase("NestedRepeatLoopsInFunction.og", "testing nested Repeat loops in function")]
         [TestCase("NestedRepeatLoopsInShape.og", "testing nested Repeat loops in shape")]
+        [TestCase("DrawCurves.og", "Draw curves")]
+
 
         
         public void Test_Fixtures_ShouldNotFindAnyDoubleDeclarations(string fileName, string description)

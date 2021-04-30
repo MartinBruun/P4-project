@@ -42,6 +42,8 @@ namespace Tests
         [TestCase("functionCallAsAssignment.og", "Testing assigning a function call to an ID")]
         [TestCase("soleFunctionCall.og", "Testing a single function call")]
         [TestCase("funcCallAssignmentWithParams.og", "Testing a function call to an ID with params")]
+        [TestCase("DrawCurves.og", "Draw curves")]
+
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
             OGParser parser = CreateParser(fileName, "Correct programs/");

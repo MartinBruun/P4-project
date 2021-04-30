@@ -46,6 +46,8 @@ namespace Tests
         [TestCase("NestedRepeatLoopsInFunction.og", "testing nested Repeat loops in function")]
         [TestCase("NestedRepeatLoopsInShape.og", "testing nested Repeat loops in shape")]
         [TestCase("FunctionCallParameters.og", "testing that a function can take id as params")]
+        [TestCase("DrawCurves.og", "Draw curves")]
+
 
 
         
