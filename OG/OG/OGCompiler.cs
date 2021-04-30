@@ -73,8 +73,7 @@ namespace OG
                 Console.WriteLine(item);
             }
 
-            ScopeCrawlerVisitor SC = new ScopeCrawlerVisitor(symbolTable);
-            p.Accept(SC);
+            
 
 
             // errors.AddRange(ST.GetErrors());
