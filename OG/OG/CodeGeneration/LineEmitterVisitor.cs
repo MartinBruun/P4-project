@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using OG.ASTBuilding;
 using OG.ASTBuilding.MathExpression;
+using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements;
@@ -78,10 +79,11 @@ namespace OG.CodeGeneration
         }
     } 
     
-    public  class PointReferenceGCodeTextEmitter : CodeEmitterErrorInheritor, IPointReferenceNodeVisitor
+    public class PointReferenceGCodeTextEmitter : CodeEmitterErrorInheritor, IPointReferenceNodeVisitor
     {
         protected SymbolTable _symbolTable;
         public IGCodeCommand ResultCommand { get; protected set; }
+
 
         public PointReferenceGCodeTextEmitter(SymbolTable table, List<SemanticError> errs):base(errs)
         {
@@ -170,7 +172,7 @@ namespace OG.CodeGeneration
 
      
 
-        public void Visit(TuplePointNode node)
+        public virtual void Visit(TuplePointNode node)
         {
             double xVal = EvaluateMathString(node.XValue.Value);
             double yVal = EvaluateMathString(node.YValue.Value);
@@ -179,6 +181,8 @@ namespace OG.CodeGeneration
             string formattedY = yVal.ToString(FormatStrings.DoubleFixedPoint).Replace(',','.');
             yVal = double.Parse(formattedY);
             xVal = double.Parse(formattedX);
+
+            
 
             ResultCommand = new GCodeCommandText($"G01 X{formattedX} Y{formattedY}\n");
         }
