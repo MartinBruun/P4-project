@@ -44,6 +44,7 @@ namespace Tests
         [TestCase("funcCallAssignmentWithParams.og", "Testing a function call to an ID with params")]
         [TestCase("DrawCurves.og", "Draw curves")]
 
+
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
             OGParser parser = CreateParser(fileName, "Correct programs/");
@@ -54,15 +55,27 @@ namespace Tests
             }, description);
         }
         
-        [TestCase("nested_shape.og", "Testing that nested shapes are not valid")]
-        public void Test_Fixtures_ShouldRaiseSyntaxExceptions(string fileName, string description)
+        [TestCase("nested_shape.og", true,"Testing that nested shapes are not valid")]        
+        [TestCase("boolToNumber.og", false,"Check Boolian stuff should not fail")]
+
+        public void Test_Fixtures_ShouldRaiseSyntaxExceptions(string fileName,bool shouldFail, string description)
         {
             OGParser parser = CreateParser(fileName, "Incorrect programs/");
 
-            Assert.Throws<SyntaxException>(() =>
+            if (shouldFail)
             {
-                IParseTree tree = parser.program();
-            }, description);
+                Assert.Throws<SyntaxException>(() =>
+                {
+                    IParseTree tree = parser.program();
+                }, description);
+            }
+            else
+            {
+                Assert.DoesNotThrow(() =>
+                {
+                    IParseTree tree = parser.program();
+                }, description);
+            }
         }
     }
 }
