@@ -15,15 +15,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
 
         public AssignmentType AssignType { get; set; }
         public IdNode Id { get; set; }
-        public AssignmentNode(IdNode id, AssignmentType assignmentType)
+        public AssignmentNode(IdNode id, AssignmentType assignmentType):base(StatementType.AssignmentNode)
         {
             this.AssignType = assignmentType;
             this.Id = id;
         }
     }
-
-    public interface IAssignmentNode //: IStatementNodeVisitable
-    {
-        public IIdNode Id { get; set; }
-    }
+    
 }

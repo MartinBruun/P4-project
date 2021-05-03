@@ -2,5 +2,19 @@
 {
     public abstract class CommandNode : StatementNode
     {
+        public enum CommandType
+        {
+            MovementNode,
+            DrawCommandNode,
+            IterationNode
+
+
+        }
+
+        public CommandType TypeOfCommand { get;}
+        public CommandNode(CommandType type):base(StatementType.CommandNode)
+        {
+            TypeOfCommand = type;
+        }
     }
 }

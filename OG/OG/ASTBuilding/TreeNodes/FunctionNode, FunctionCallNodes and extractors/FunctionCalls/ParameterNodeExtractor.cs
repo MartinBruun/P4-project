@@ -35,8 +35,8 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             OGParser.BoolExpressionContext boolExpressionContext = context.expr.boolExpression();
             OGParser.MathExpressionContext mathExpressionContext = context.expr.mathExpression();
             OGParser.FunctionCallContext functionExpressionContext = context.expr.functionCall();
-            
-            
+
+
             if (
                 (exprContext != null && !exprContext.IsEmpty 
                                      && exprContext.id != null 

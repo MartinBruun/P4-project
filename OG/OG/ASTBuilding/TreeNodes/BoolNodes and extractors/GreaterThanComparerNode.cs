@@ -3,7 +3,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 {
-    public class GreaterThanComparerNode : MathComparerNode, IBoolNodeVisitable
+    public class GreaterThanComparerNode : MathComparerNode
     {
         public GreaterThanComparerNode(MathNode LHS, MathNode RHS, string value )
             :base(RHS,LHS,value, BoolType.GreaterThanNode)
@@ -11,9 +11,6 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
             
         }
 
-        public void Accept(IBoolNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+        
     }
 }

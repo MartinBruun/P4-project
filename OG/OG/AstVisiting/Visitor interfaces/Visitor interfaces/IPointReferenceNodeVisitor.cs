@@ -2,10 +2,9 @@
 
 namespace OG.AstVisiting
 {
-    public interface IPointReferenceNodeVisitor: IIdNodeVisitor, IPointFuncCallVisitor
+    public interface IPointReferenceNodeVisitor: IPointFuncCallVisitor
     {
         public void Visit(PointReferenceIdNode node);
-        public void Visit(IPointReferenceNode node);
 
         public void Visit(ShapeEndPointNode node);
         public void Visit(ShapeStartPointNode node);

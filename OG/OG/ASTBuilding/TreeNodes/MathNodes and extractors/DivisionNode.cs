@@ -2,7 +2,7 @@
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
-    public class DivisionNode : InfixMathNode, IMathNodeVisitable
+    public class DivisionNode : InfixMathNode
     {
         
 
@@ -10,13 +10,15 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         {
         }
 
-        public void Accept(IMathNodeVisitor visitor)
-        {
-             visitor.Visit(this);   
-        }
+
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);        
+        }
+        
+        public override void Accept(CodeGeneration.IMathNodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

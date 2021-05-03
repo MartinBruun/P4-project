@@ -3,16 +3,12 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.TerminalNodes
 {
-    public class TrueNode : BoolTerminalNode, IBoolNodeVisitable
+    public class TrueNode : BoolTerminalNode
     {
         public TrueNode(string value) : base(value, BoolType.TrueNode)
         {
         }
-
-        public void Accept(IBoolNodeVisitor visitor)
-        {
-                visitor.Visit(this);
-        }
+        
         
         public override void Accept(IVisitor visitor)
         {
