@@ -1,0 +1,4 @@
+function bool bools(number c, number f){
+b = somefunction();
+return true;
+}
