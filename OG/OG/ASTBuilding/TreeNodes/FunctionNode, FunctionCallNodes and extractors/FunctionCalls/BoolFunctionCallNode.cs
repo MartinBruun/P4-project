@@ -5,7 +5,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class BoolFunctionCallNode : BoolTerminalNode, IFunctionCallNode, IBoolNodeVisitable
+    public class BoolFunctionCallNode : BoolTerminalNode, IFunctionCallNode
     {
         public BoolFunctionCallNode(string value, IdNode id, List<ParameterNode> parameters) : base(value, BoolType.FunctionCallNode)
         {
@@ -15,10 +15,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
-        public void Accept(IBoolNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+       
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);

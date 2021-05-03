@@ -3,7 +3,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class UntilFunctionCallNode : IterationNode, IUntilFunctionCallVisitable
+    public class UntilFunctionCallNode : IterationNode
     {
         public FunctionCallNode Predicate;
 
@@ -13,11 +13,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         }
         
 
-        public void Accept(IUntilNodeVisitorBundleBundle visitorBundleBundle)
-        {
-            visitorBundleBundle.Visit(this);
-            
-        }
 
         public override void Accept(IVisitor visitor)
         {
