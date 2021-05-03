@@ -4,7 +4,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class ParameterNode : AstNode, IParameterNodeVisitable
+    public class ParameterNode : AstNode
     {
         public enum ParameterType
         {
@@ -13,9 +13,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             FunctionCall,
             BoolExpression,
             MathExpressionNode,
-            EndpointRef,
-            StartPointRef,
-            
+            PointReference,
         }
 
         public ParameterType ParamType { get; set; }
@@ -78,12 +76,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
             return "Parameter does not contain id: " + ParamType.ToString();
         }
-
-        public void Accept(IParameterNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-
-        }
+        
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);

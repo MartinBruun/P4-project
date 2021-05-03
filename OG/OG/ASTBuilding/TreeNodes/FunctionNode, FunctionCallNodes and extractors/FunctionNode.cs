@@ -7,7 +7,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class FunctionNode : AstNode, IFunctionNodeVisitable
+    public class FunctionNode : AstNode
     {
         public IdNode Id { get; set; }
         // public List<ParameterNode> Params { get; set; }
@@ -29,11 +29,7 @@ namespace OG.ASTBuilding.TreeNodes
         {
             return "FunctionNode with ID: " + Id.ToString();
         }
-
-        public void Accept(IFunctionNodeVisitorBundle visitorBundleBundleBundleBundle)
-        {
-            visitorBundleBundleBundleBundle.Visit(this);
-        }
+        
         
         public override void Accept(IVisitor visitor)
         {

@@ -6,7 +6,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class ShapeNode : AstNode, IShapeNodeVisitable
+    public class ShapeNode : AstNode
     {
         public IdNode Id { get; set; }
         public BodyNode Body;
@@ -21,11 +21,6 @@ namespace OG.ASTBuilding.TreeNodes
             return "ShapeDeclarationNode with ID: " + Id;
         }
 
-      
-        public void Accept(IShapeNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
         
         public override void Accept(IVisitor visitor)
         {

@@ -1,22 +1,26 @@
 ﻿using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.AstVisiting;
+using IMathNodeVisitor = OG.CodeGeneration.IMathNodeVisitor;
 
 namespace OG.ASTBuilding.Terminals
 {
-    public class CoordinateXyValueNode : TerminalMathNode, ICoordinateXyVisitable
+    public class CoordinateXyValueNode : TerminalMathNode
     {
         public CoordinateXyValueNode(string value, MathType mathNodeTypeOf) : base(value, mathNodeTypeOf)
         {
         }
 
-        public void Accept(ICoordinateXyVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+    
         
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);        
+        }
+
+
+        public override void Accept(IMathNodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

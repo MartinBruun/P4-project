@@ -4,7 +4,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 {
-    public class CoordinateXyValueNode : AstNode, ICoordinateXyVisitable
+    public class CoordinateXyValueNode : AstNode
     {
         public IdNode Id { get; set; }
         public string Property { get; set; }
@@ -22,10 +22,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors
 
         }
 
-        public void Accept(ICoordinateXyVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+
         
         public override void Accept(IVisitor visitor)
         {

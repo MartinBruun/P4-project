@@ -14,6 +14,8 @@ namespace OG.ASTBuilding.TreeNodes
 
         public abstract void Accept(IVisitor visitor);
 
+
+
         public AstNode()
         {
             

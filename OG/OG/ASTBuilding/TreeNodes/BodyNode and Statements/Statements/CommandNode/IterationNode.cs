@@ -4,7 +4,7 @@
     {
         public BodyNode Body;
 
-        public IterationNode(BodyNode body)
+        public IterationNode(BodyNode body):base(CommandType.IterationNode)
         {
             Body = body;
         }

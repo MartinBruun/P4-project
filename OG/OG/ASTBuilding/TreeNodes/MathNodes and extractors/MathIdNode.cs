@@ -3,7 +3,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
-    public class MathIdNode : TerminalMathNode, IMathNodeVisitable
+    public class MathIdNode : TerminalMathNode
     {
         public IdNode AssignedValueId { get; set; }
 
@@ -12,13 +12,13 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             this.AssignedValueId = assignedValueId;
         }
 
-        public void Accept(IMathNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);        
+        }
+        public override void Accept(CodeGeneration.IMathNodeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
       

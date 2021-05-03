@@ -16,11 +16,7 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         //     visitor.Visit(this);
         // }
 
-        public void Accept(IBoolNodeVisitor visitor)
-        {
-            throw new System.NotImplementedException();
-        }
-
+   
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
