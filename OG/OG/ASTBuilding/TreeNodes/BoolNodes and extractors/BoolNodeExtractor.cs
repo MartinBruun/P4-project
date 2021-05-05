@@ -91,7 +91,7 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
                 try
                 {
                     OGParser.BoolExprIDContext idBoolContext = (OGParser.BoolExprIDContext) context;
-                    VisitBoolExprID(idBoolContext);
+                    return VisitBoolExprID(idBoolContext);
 
                 }
                 catch (InvalidCastException )
