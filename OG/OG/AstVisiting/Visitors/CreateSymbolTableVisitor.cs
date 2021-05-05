@@ -37,7 +37,7 @@ namespace OG.AstVisiting.Visitors
         }
         
         //Mark: Getters
-        public Dictionary<string, string> GetSymbolTable()
+        public Dictionary<string, AstNode> GetSymbolTable()
         {
             return S.Elements;
         }
@@ -58,9 +58,9 @@ namespace OG.AstVisiting.Visitors
                 // ProgramStartElementNaming();
                 foreach (var item in node.FunctionDcls)
                     {
-                        if (!S.Add(item.Id.Value, item.ReturnType))
+                        if (!S.Add(item.Id.Value, item.ReturnType, item))
                         {
-                            errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+ item.Id.Value} Already exists in SymbolTable"));
+                            errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+ item.Id.Value} Already exists in SymbolTable visitProgram"));
                         }
                         item.Accept(this);
                         // ProgramFunctionListElementNaming(item);
@@ -68,9 +68,9 @@ namespace OG.AstVisiting.Visitors
                 
                     foreach (var item in node.ShapeDcls)
                     {
-                        if (!S.Add(item.Id.Value, "shape"))
+                        if (!S.Add(item.Id.Value, "shape",item))
                         {
-                            errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+item.Id.Value} Already exists in SymbolTable"));
+                            errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+item.Id.Value} Already exists in SymbolTable visitProgram"));
                         }
                         // ProgramShapeListElementNaming(item);
                         item.Accept(this);
@@ -100,6 +100,7 @@ namespace OG.AstVisiting.Visitors
             }
             node.Body.Accept(this);
             S.exitScope(node.Id.Value);
+            S.resetParameterCount();
             return new object();
         }
         
@@ -169,9 +170,9 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
 
-            if (!S.Add(node.Id.Value, node.DeclaredType.ToString()))
+            if (!S.Add(node.Id.Value, node.DeclaredType.ToString(),node))
             {
-                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable VisitDeclaration"));
             }
             node.Accept(this);
             // Console.Write("ADeclarationN\n");
@@ -184,9 +185,9 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             // Console.WriteLine(node.ToString());
 
-            if (!S.Add(node.Id.Value, "bool"))
+            if (!S.Add(node.Id.Value, "bool",node))
             {
-                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable VisitBooldeclaration"));
             }
             
             return new object();
@@ -199,9 +200,9 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
 
-            if (!S.Add(node.Id.Value, "number"))
+            if (!S.Add(node.Id.Value, "number",node))
             {
-                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable VisitNumberDeclarationNode"));
             }
             // Console.Write("NumberN\n"); 
             return new object();
@@ -212,9 +213,9 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
 
-            if (!S.Add(node.Id.Value, "point"))
+            if (!S.Add(node.Id.Value, "point",node))
             {
-                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable VisitPointDeclarationNode"));
             }
            
 
@@ -311,10 +312,10 @@ namespace OG.AstVisiting.Visitors
                     break;
             }
 
-            
-            if (!(S.Add(node.IdNode.Value, type)))
+            S.increaseParameterCount();
+            if (!(S.Add(node.IdNode.Value, type,node)))
             {
-                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.IdNode.Value} Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.IdNode.Value} Already exists in SymbolTable VistiParameterTypeNode"));
             }
             
             return new object();
@@ -460,12 +461,13 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
             node.FunctionCallNode.Accept(this);
+            
             return new object();
         }
 
         public object Visit(IFunctionCallNode node)
         {
-            //TODO: overvej om vi skal kalde params og id her !! UD den bruges vist ikke
+            //TODO: !! UD den bruges vist ikke
 
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
@@ -485,9 +487,9 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             //TODO: BEMÆRK AT TYPEN ER SAT TIL PARAM!!!!!!DET SKAL ÆNDRES
-            if (!(S.Add(node.ParameterId.Value, "param")))
+            if (!(S.Add(node.ParameterId.Value, "param",node)))
             {
-                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.ParameterId.Value} Already exists in SymbolTable"));
+                errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.ParameterId.Value} Already exists in SymbolTable VisitParameterNode"));
             }
             //TODO: det er ike sikkert at denne del behøves
             node.ParameterId.Accept(this);

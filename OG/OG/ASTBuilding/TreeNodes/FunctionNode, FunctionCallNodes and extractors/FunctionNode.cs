@@ -10,6 +10,8 @@ namespace OG.ASTBuilding.TreeNodes
     public class FunctionNode : AstNode
     {
         public IdNode Id { get; set; }
+        // public List<ParameterNode> Params { get; set; }
+            
 
         public ParameterNode Type { get; set; }
         public string ReturnType { get; set; }
