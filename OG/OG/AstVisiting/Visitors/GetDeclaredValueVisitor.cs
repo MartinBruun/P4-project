@@ -215,8 +215,8 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             try
             {
-                node.DeclaredValue = S.GetElementById(node.Id.Value);
-                Console.WriteLine("Retrieved Node:", node.DeclaredValue);
+                node.Id.DeclaredValue = S.GetElementById(node.Id.Value);
+                Console.WriteLine("Retrieved Node:", node.Id.DeclaredValue);
 
             }catch
             {

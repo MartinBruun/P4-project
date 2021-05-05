@@ -61,7 +61,7 @@ namespace Tests
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             p.Accept(TT);
             GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
-            
+            p.Accept(GV);
             var symboltable = GV.GetSymbolTable();
             var errors = GV.GetErrors();
 
