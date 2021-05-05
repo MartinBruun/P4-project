@@ -94,7 +94,7 @@ namespace OG.Compiler
 
         public NumberNode Visit(CoordinateXyValueNode node)
         {
-            throw new NotImplementedException("Cannot get XY values yet");
+            SemanticErrors.Add(new SemanticError(node, "Coordinate XY value is not yet supported."));
             return new NumberNode(2);
         }
     }
