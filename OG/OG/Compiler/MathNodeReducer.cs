@@ -19,7 +19,7 @@ using OG.CodeGeneration;
 
 namespace OG.Compiler
 {
-    public class MathNodeReducer : ISemanticErrorable, IMathNodeVisitor
+    public class MathNodeReducer : ISemanticErrorable, IMathNodeReducer
     {
         private SymbolTable _symbolTable;
         public double Result { get; set; }
@@ -98,5 +98,10 @@ namespace OG.Compiler
             SemanticErrors.Add(new SemanticError(node, "Coordinate XY value is not yet supported."){IsFatal = true});
             return null;
         }
+    }
+
+    public interface IMathNodeReducer : IMathNodeVisitor
+    {
+        public NumberNode ReduceToNumberNode(MathNode node);
     }
 }
