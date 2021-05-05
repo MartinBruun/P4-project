@@ -2,7 +2,7 @@
 
 namespace OG.ASTBuilding.TreeNodes.TerminalNodes
 {
-    public class IdNode : AstNode, IIdVisitable
+    public class IdNode : AstNode
     {
         public string Value { get; set; }
 
@@ -14,11 +14,7 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
         {
             return Value;
         }
-
-        public void Accept(IIdNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+        
         
         public override void Accept(IVisitor visitor)
         {

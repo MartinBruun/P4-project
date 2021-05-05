@@ -5,14 +5,20 @@ draw
   
 }
 function bool boolFuncA (point a, point b) {
-	repeat.until (boolFuncA(a,D.startPoint)) 
+	point start = (2,2);
+	repeat.until (boolFuncA(a,start)) 
        point a = (3,3);
+       D;
     repeat.end
-    repeat.until (boolFuncA(a,D.startPoint)) 
+    repeat.until (boolFuncA(a,start)) 
         point a = (3,3);
     repeat.end
     
 	return dist(a, b) < 6.6;
+}
+
+shape D{
+    point start=(2,2);
 }
 
 

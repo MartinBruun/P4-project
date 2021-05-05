@@ -3,7 +3,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.PointReferences
 {
-    public class PointReferenceIdNode : PointReferenceNode, IPointReferenceVisitable
+    public class PointReferenceIdNode : PointReferenceNode
     {
         /// <summary>
         /// The value the variable is assigned to.
@@ -15,10 +15,9 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
             AssignedValue = assignedValue;
         }
 
-        public void Accept(IPointReferenceNodeVisitor visitor)
+        public override void Accept(IPointReferenceNodeVisitor visitor)
         {
             visitor.Visit(this);
-
         }
         
         public override void Accept(IVisitor visitor)

@@ -54,19 +54,24 @@ namespace OG.ASTBuilding.TreeNodes
                 if (returnFunction.paramDcls != null && !returnFunction.paramDcls.IsEmpty)
                 {
                     Console.WriteLine("----------- TEST PRINTING ----------");
-                    Console.WriteLine(returnFunction.paramDcls.children.Count);
-                    foreach (var param in returnFunction.parameterDeclarations().children)
+                    // Console.WriteLine(returnFunction.paramDcls?.children.Count );
+                    if (returnFunction.paramDcls.ChildCount > 0)
                     {
-                        string parameter = param.GetText();
-                        if (parameter != ",")
+                        foreach (var param in returnFunction.paramDcls.children)
                         {
-                            Console.WriteLine("parameter: " + parameter);
-                            string paramType = parameter.Substring(0, parameter.Length - 1);
-                            Console.WriteLine("parameter type: " + paramType);
-                            string paramID = parameter[parameter.Length - 1].ToString();
-                            Console.WriteLine("parameter id: " + paramID);
+                            string parameter = param.GetText();
+                            if (parameter != ",")
+                            {
+                                Console.WriteLine("parameter: " + parameter);
+                                string paramType = parameter.Substring(0, parameter.Length - 1);
+                                Console.WriteLine("parameter type: " + paramType);
+                                string paramID = parameter[parameter.Length - 1].ToString();
+                                Console.WriteLine("parameter id: " + paramID);
+                                Console.WriteLine("return : " + returnFunction.returnStatement().GetText());
+
+                            }
+
                         }
-                        
                     }
                 }
                    

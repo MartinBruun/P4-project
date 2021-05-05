@@ -4,7 +4,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class DrawNode : AstNode, IDrawNodeVisitable
+    public class DrawNode : AstNode
     {
         public List<DrawCommandNode> drawCommands;
 
@@ -18,10 +18,7 @@ namespace OG.ASTBuilding.TreeNodes
             drawCommands = new List<DrawCommandNode>();
         }
 
-        public void Accept(IDrawNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+    
         
         public override void Accept(IVisitor visitor)
         {

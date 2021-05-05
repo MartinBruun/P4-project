@@ -78,7 +78,7 @@ namespace Tests
         }
         
        
-        [TestCase("FunctionDeclParameters.og",4, "testing that two parameters are discovered and stored in symboltable")]
+        [TestCase("FunctionDeclParameters.og",7, "testing that two parameters are discovered and stored in symboltable")]
         
         public void Test_Fixtures_ShouldCreateElementsInSymbolTable(string fileName,int elementCount, string description)
         {

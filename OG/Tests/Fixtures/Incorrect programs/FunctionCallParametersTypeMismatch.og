@@ -1,0 +1,15 @@
+Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
+draw { }
+/*Functions*/
+
+
+function bool ParamFunc(number n,bool b,point p){
+return b;
+}
+
+function void testParameters(){
+    point po = (2,2);
+    bool a = 2>3;
+    a=ParamFunc(true, po, 1 );
+}
+

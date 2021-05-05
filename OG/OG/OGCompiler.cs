@@ -1,39 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+
+using System.Text.RegularExpressions;
+
+using System.Threading.Tasks;
 using Antlr4.Runtime;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
 using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting.Visitors;
+using OG.CodeGeneration;
 using OG.Compiler;
 
 namespace OG
 {
-
-    public abstract class ErrorInheritorVisitor : IErrorable
-    {
-        
-        public ErrorInheritorVisitor(List<SemanticError> errs)
-        {
-            SemanticErrors = errs;
-        }
-        public List<SemanticError> SemanticErrors { get; set; }
-    }     
-    
-    
-    
     
     public class OGCompiler
     {
-        public static Dictionary<IdNode, FunctionNode> GlobalFunctionDeclarations = new Dictionary<IdNode, FunctionNode>();
         public static readonly Dictionary<IdNode, ShapeNode>    GlobalShapeDeclarations    = new Dictionary<IdNode, ShapeNode>();
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
+            
+          
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
             List<SemanticError> errors = new List<SemanticError>();
@@ -51,6 +46,28 @@ namespace OG
 
             PrettyPrinter PP = new PrettyPrinter();
             p.Accept(PP);
+            CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
+            p.Accept(ST);
+            errors.AddRange(ST.GetErrors());
+            TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
+            p.Accept(TT);
+            errors.AddRange(TT.GetErrors());
+            symbolTable = TT.GetSymbolTable();
+
+            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
+
+            foreach (var item in errors)
+            {
+                Console.Write("\n"+item + "\n");
+
+            }
+            
+            Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
+            foreach (var item in symbolTable)
+            {
+                Console.WriteLine(item);
+            }
+            
             // errors.AddRange(ST.GetErrors());
             // TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             // p.Accept(TT);
@@ -74,9 +91,9 @@ namespace OG
 
 
 
-            
 
-           
+
+
             //De resterende items bør udelukkende være dependant på opdaterede AST'er.
             /*
             TypeChecker<ProgramNode, ASTBuilderVisitor> typeChecker        = new TypeChecker<ProgramNode,ASTBuilderVisitor>(parCon.OGParser);

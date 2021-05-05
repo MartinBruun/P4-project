@@ -5,8 +5,8 @@ draw
    A;
    B;
 }
-function bool boolFuncA () {
-	return dist(a, b) < 6.6;
+function bool boolFuncA() {
+	return false;/*dist(a, b) < 6.6;*/
 }
 /*error*/
 function bool boolFuncA () {

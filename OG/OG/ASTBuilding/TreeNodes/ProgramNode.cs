@@ -6,7 +6,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes
 {
-    public class ProgramNode : AstStartNode, IProgramNodeVisitable
+    public class ProgramNode : AstStartNode
      {
          public List<MachineSettingNode> MachineSettingNodes { get; set; }
          public DrawNode drawNode;
@@ -35,11 +35,7 @@ namespace OG.ASTBuilding.TreeNodes
              
          }
 
-         public void Accept(IProgramVisitor visitor)
-         {
-             visitor.Visit(this);
-         }
-         
+       
          public override void Accept(IVisitor visitor)
          {
              visitor.Visit(this);        

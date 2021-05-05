@@ -35,8 +35,8 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             OGParser.BoolExpressionContext boolExpressionContext = context.expr.boolExpression();
             OGParser.MathExpressionContext mathExpressionContext = context.expr.mathExpression();
             OGParser.FunctionCallContext functionExpressionContext = context.expr.functionCall();
-            
-            
+
+
             if (
                 (exprContext != null && !exprContext.IsEmpty 
                                      && exprContext.id != null 
@@ -88,7 +88,6 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             try
             {
                 OGParser.PassedDirectValueContext expressionValue = (OGParser.PassedDirectValueContext) context;
-               
                 return ExtractParameterNode(expressionValue);
             }
             catch (InvalidCastException )
