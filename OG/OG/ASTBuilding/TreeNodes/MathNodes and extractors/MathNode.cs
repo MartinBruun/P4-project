@@ -21,6 +21,7 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         }
         public MathType MathNodeType { get; set; }
 
+
         public MathNode(string value, MathType mathNodeTypeOf):base(value, ExpressionType.MathExpression)
         {
             MathNodeType = mathNodeTypeOf;
