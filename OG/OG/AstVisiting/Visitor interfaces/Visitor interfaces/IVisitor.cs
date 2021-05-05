@@ -76,7 +76,7 @@ namespace OG.AstVisiting
         public Object Visit(IFunctionNode node);
         
         //Math
-        
+
         public Object Visit(AdditionNode node);
         public Object Visit(DivisionNode node);
         public Object Visit(InfixMathNode node);
@@ -85,7 +85,7 @@ namespace OG.AstVisiting
         public Object Visit(PowerNode node);
         public Object Visit(SubtractionNode node);
         public Object Visit(TerminalMathNode node);
-         
+
         
         //Point
         public Object Visit(PointFunctionCallNode node);

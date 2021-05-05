@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+
 using System.Text.RegularExpressions;
+
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using OG.ASTBuilding;
@@ -26,15 +28,11 @@ namespace OG
         private static async Task Main(string[] args)
         {
             
-            
-
-
-            
-            
+          
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
             List<SemanticError> errors = new List<SemanticError>();
-            Dictionary<string, string> symbolTable = new Dictionary<string, string>();
+            Dictionary<string, AstNode> symbolTable = new Dictionary<string, AstNode>();
 
             string sourceFile      = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon  = new LexerContainer(sourceFile);
@@ -46,46 +44,34 @@ namespace OG
             
             ProgramNode p = astContainer.AstTreeTopNode;
 
-            CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
-            p.Accept(ST);
-            errors.AddRange(ST.GetErrors());
-            TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
-            p.Accept(TT);
-            errors.AddRange(TT.GetErrors());
-            symbolTable = TT.GetSymbolTable();
+            PrettyPrinter PP = new PrettyPrinter();
+            p.Accept(PP);
+            // errors.AddRange(ST.GetErrors());
+            // TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
+            // p.Accept(TT);
+            // errors.AddRange(TT.GetErrors());
+            // symbolTable = TT.GetSymbolTable();
+            //
+            // Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
+            //
+            // foreach (var item in errors)
+            // {
+            //     Console.Write("\n"+item + "\n");
+            //
+            // }
+            //
+            // Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
+            // foreach (var item in symbolTable)
+            // {
+            //     Console.WriteLine(item);
+            // }
+            //
 
-            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
 
-            foreach (var item in errors)
-            {
-                Console.Write("\n"+item + "\n");
 
-            }
             
-            Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
-            foreach (var item in symbolTable)
-            {
-                Console.WriteLine(item);
-            }
-            
 
-
-
-
-
-            //ASTContainer<AstBuilderVisitor, ProgramNode> ast = new ASTContainer<AstBuilderVisitor, ProgramNode>(parCon.Parser);
-
-
-            /*
-             
-            ASTContainer<AstBuilder, ProgramNode> astContainer =
-                new ASTContainer<AstBuilder, ProgramNode>(parCon.OGParser);
-
-            ProgramNode ast = astContainer.AST;
-
-            SemanticAnalyserContainer semanticAnalyserContainer = new SemanticAnalyserContainer(ast);
-            
-            */
+           
             //De resterende items bør udelukkende være dependant på opdaterede AST'er.
             /*
             TypeChecker<ProgramNode, ASTBuilderVisitor> typeChecker        = new TypeChecker<ProgramNode,ASTBuilderVisitor>(parCon.OGParser);

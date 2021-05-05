@@ -11,7 +11,9 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 
         public MathAssignmentNode(IdNode id, MathNode value) : base(id, AssignmentType.VariableAssignmentNode)
         {
+
             AssignedValue = value;
+
         }
 
         public override void Accept(IVisitor visitor)
