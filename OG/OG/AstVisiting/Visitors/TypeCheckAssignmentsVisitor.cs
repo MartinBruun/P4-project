@@ -939,7 +939,8 @@ namespace OG.AstVisiting.Visitors
             try
             {
                 node.CompileTimeType = S.CheckDeclaredTypeOf(node.Value);
-                 // Console.WriteLine("set CompiletimeType on IDNode");
+                node.DeclaredValue = S.GetElementById(node.Value);
+                // Console.WriteLine("set CompiletimeType on IDNode");
             }
             catch
             {

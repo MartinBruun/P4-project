@@ -143,6 +143,11 @@ namespace OG.AstVisiting.Visitors
         {
             return GetCurrentScope() + $"_{id}";
         }
+        
+        
+        
+        
+        
         /// <summary>
         /// Checker typen på et declareret id, hvis id'et ikke findes i current scope
         /// så kigges i containing scopes.
@@ -189,6 +194,47 @@ namespace OG.AstVisiting.Visitors
             Console.Write($"\n--{id} has not been declared");
             throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
         }
+        
+        public string GetScopeAddressFor(string id)
+        {
+            string IdInScope = parameterCount == 0 ? currentScopeName + "_" + id : currentScopeName+"_"+$"Param{parameterCount}" ;
+            
+            try
+            {
+                Console.Write($"\nChecking {IdInScope}");
+                var result = Elements[IdInScope].CompileTimeType;
+                Console.WriteLine($": found {IdInScope}");
+                return IdInScope;
+
+            }
+            catch { }
+
+                
+            Stack<string> stackCopy1 = new Stack<string>(stack.ToArray());
+            Stack<string> stackCopy = new Stack<string>(stackCopy1.ToArray());
+            // Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
+            //Alle containing scopes gennemløbes
+            while (stackCopy.Count > 0)
+            {
+                try
+                {
+                    string name = stackCopy.Pop() + "_" + id;
+                    Console.Write($"\n--nextScope {name}");
+                    var result = Elements[name].CompileTimeType;
+                    Console.WriteLine($": found {name}");
+                    return name;
+                }
+                catch
+                {
+                }
+            }
+            //TODO: Lav en ordentlig exception type
+            // return "!Not Found!";
+            Console.Write($"\n--{id} has not been declared");
+            throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+        }
+        
+        
         public AstNode GetElementById(string id)
         {
             string IdInScope = currentScopeName + "_" + id;

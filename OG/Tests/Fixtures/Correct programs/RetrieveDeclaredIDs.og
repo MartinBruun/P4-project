@@ -8,6 +8,8 @@ draw
 function bool BoolFuncA(){
  bool BoolA = true;
  bool BoolB = BoolA;
+ BoolA = false;
+ 
  return BoolA;  
 }
 

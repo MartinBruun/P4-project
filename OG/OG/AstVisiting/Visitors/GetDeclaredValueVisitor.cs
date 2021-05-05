@@ -58,7 +58,7 @@ namespace OG.AstVisiting.Visitors
         //ENTER--> Exit SCOPE
         public object Visit(ProgramNode node)
         {   S.enterScope("Global"); 
-            Console.WriteLine("\n\n--- TypeChecking ---");
+            Console.WriteLine("\n\n--- Retrieving Declared values ---");
 
             foreach (var item in node.MachineSettingNodes)
             {
@@ -164,6 +164,7 @@ namespace OG.AstVisiting.Visitors
             foreach (var item in node.StatementNodes)
             {
                 item.Accept(this);
+                
             }
             return new object();
         }
@@ -181,11 +182,12 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            node.AssignedExpression.Accept(this);
+             node.AssignedExpression.Accept(this);
             // if (!(node.AssignedExpression.CompileTimeType == "bool"))
             // {
             //     errors.Add(new SemanticError(node , $"VisitBoolDeclNode: {node.Id.Value} Assignment does not match declared type!"));
             // }
+            
             return new object();
         }
 
@@ -213,17 +215,9 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            try
-            {
-                node.Id.DeclaredValue = S.GetElementById(node.Id.Value);
-                Console.WriteLine("Retrieved Node:", node.Id.DeclaredValue);
-
-            }catch
-            {
-                errors.Add(new SemanticError(node, $"visitBoolExprNode: {node.Id.Value} Could not be retrieved from scope: {S.GetCurrentScope()}"));
-            }
-
-            return new object();
+            node.Id.Accept(this);//DeclaredValue = S.GetElementById(node.Id.Value));
+                //node.Id.DeclaredValue.Accept(this);
+                return new object();
 
         }
 
@@ -263,6 +257,7 @@ namespace OG.AstVisiting.Visitors
             //     errors.Add(new SemanticError(node, $"visitBoolAssignNode:{node.Id.Value}  has not been declared : Undeclared"));
             // }
             node.AssignedValue.Accept(this);
+            
             return new object();
         }
 
@@ -935,16 +930,9 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            try
-            {
-                node.CompileTimeType = S.CheckDeclaredTypeOf(node.Value);
-                 // Console.WriteLine("set CompiletimeType on IDNode");
-            }
-            catch
-            {
-                node.CompileTimeType = "!Not Found!";
-                errors.Add(new SemanticError(node, $"VisitIdNode: {node.Value} has not been declared"));
-            }
+           
+            node.DeclaredValue = S.GetElementById(node.Value);
+            Console.WriteLine("#####This is stored: "+ node.DeclaredValue);
 
             return new object();
         }
