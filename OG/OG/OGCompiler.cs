@@ -46,6 +46,28 @@ namespace OG
 
             PrettyPrinter PP = new PrettyPrinter();
             p.Accept(PP);
+            CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
+            p.Accept(ST);
+            errors.AddRange(ST.GetErrors());
+            TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
+            p.Accept(TT);
+            errors.AddRange(TT.GetErrors());
+            symbolTable = TT.GetSymbolTable();
+
+            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
+
+            foreach (var item in errors)
+            {
+                Console.Write("\n"+item + "\n");
+
+            }
+            
+            Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
+            foreach (var item in symbolTable)
+            {
+                Console.WriteLine(item);
+            }
+            
             // errors.AddRange(ST.GetErrors());
             // TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             // p.Accept(TT);
@@ -69,9 +91,9 @@ namespace OG
 
 
 
-            
 
-           
+
+
             //De resterende items bør udelukkende være dependant på opdaterede AST'er.
             /*
             TypeChecker<ProgramNode, ASTBuilderVisitor> typeChecker        = new TypeChecker<ProgramNode,ASTBuilderVisitor>(parCon.OGParser);

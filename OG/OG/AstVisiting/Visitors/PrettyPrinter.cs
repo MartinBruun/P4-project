@@ -19,7 +19,7 @@ namespace OG.AstVisiting.Visitors
     {
     
         public object Visit(ProgramNode node)
-        {
+        { Console.WriteLine("\n---PrettyPrinting program---");
             foreach (var setting in node.MachineSettingNodes)
             {
                 setting.Accept(this);

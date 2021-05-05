@@ -54,8 +54,8 @@ namespace OG.ASTBuilding.TreeNodes
                 if (returnFunction.paramDcls != null && !returnFunction.paramDcls.IsEmpty)
                 {
                     Console.WriteLine("----------- TEST PRINTING ----------");
-                    Console.WriteLine(returnFunction.paramDcls.children.Count);
-                    foreach (var param in returnFunction.parameterDeclarations().children)
+                    // Console.WriteLine(returnFunction.paramDcls?.children.Count );
+                    foreach (var param in returnFunction.paramDcls.children)
                     {
                         string parameter = param.GetText();
                         if (parameter != ",")
