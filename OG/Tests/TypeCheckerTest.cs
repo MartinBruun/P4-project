@@ -45,6 +45,8 @@ namespace Tests
         [TestCase("MultibleRepeatLoopsInShape.og", "testing Repeat loops in shape")]
         [TestCase("NestedRepeatLoopsInFunction.og", "testing nested Repeat loops in function")]
         [TestCase("NestedRepeatLoopsInShape.og", "testing nested Repeat loops in shape")]
+        [TestCase("FunctionCallParameters.og", "testing that a function can take id as params")]
+
 
         
         public void Test_Fixtures_ShouldNotFindAnyTypeMismatches(string fileName, string description)
@@ -81,10 +83,10 @@ namespace Tests
         // [TestCase("ShapeDoubleDeclarations.og",2, "testing that two shapes of the same name are discovered")]
         // [TestCase("FunctionDoubleDeclarations.og",1, "testing that two Functions of the same name are discovered")]
         // [TestCase("VariableDoubleDeclarations.og",6, "testing that two Variables of the same name are discovered")]
-        [TestCase("boolToNumber.og",6, "testing that a boolian can not be assigned to a number variable")]
+        [TestCase("boolToNumber.og",4, "testing that a boolian can not be assigned to a number variable")]
         [TestCase("FunctionCallAssignTypeMisMatch.og",2, "testing that a boolian function can not be assigned to a number variable and numberFunction to a boolian variable")]
         [TestCase("UndeclaredEndPointRefference.og",2, "testing that a value  can not be assigned to a xy value on an undeclared pointrefference")]
-        [TestCase("FunctionCallParameters.og",2, "testing that parameters can be found in symboltable")]
+        [TestCase("FunctionCallParametersTypeMismatch.og",3, "testing that parameters can be found in symboltable and match type")]
 
         public void Test_Fixtures_ShouldFindTypeMismatch(string fileName,int errorCount, string description)
         {
@@ -99,18 +101,18 @@ namespace Tests
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             p.Accept(TT);
             
-            var symboltable = TT.GetSymbolTable();
-            var errors = TT.GetErrors();
+            Dictionary<string, AstNode> symboltable = TT.GetSymbolTable();
+            List<SemanticError> errors = TT.GetErrors();
             
             
             Console.WriteLine("\n---Type mismatch ERRORS---");
-            foreach (var item in errors)
+            foreach (SemanticError item in errors)
             {
                 Console.WriteLine(item);
             }
             
             Console.WriteLine("\n-----Contents of symboltable-----");
-            foreach (var item in symboltable)
+            foreach (KeyValuePair<string, AstNode> item in symboltable)
             {
                 Console.WriteLine(item.Key + ":" + item.Value);
             }

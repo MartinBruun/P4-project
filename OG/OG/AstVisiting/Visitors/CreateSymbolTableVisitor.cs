@@ -53,7 +53,7 @@ namespace OG.AstVisiting.Visitors
         //Visitors
         public object Visit(ProgramNode node)
         {   S.enterScope("Global");
-             Console.WriteLine("\n---Creating SymbolTable---");
+             Console.WriteLine("\n\n---Creating SymbolTable---");
                             
                 // ProgramStartElementNaming();
                 foreach (var item in node.FunctionDcls)
@@ -218,8 +218,6 @@ namespace OG.AstVisiting.Visitors
             {
                 errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable VisitPointDeclarationNode"));
             }
-           
-
             return new object();
         }
 
@@ -281,15 +279,17 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointAssignmentNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+            Console.Write($"Scope {S.GetCurrentScope()} | ");
+            Console.WriteLine(node.ToString()); 
+            // node.AssignedValue.
             return new object();
         }
 
         public object Visit(PropertyAssignmentNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+            // Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
             return new object();
         }
 

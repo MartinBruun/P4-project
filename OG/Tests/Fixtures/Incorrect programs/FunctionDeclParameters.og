@@ -1,0 +1,9 @@
+Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
+draw { }
+/*Functions*/
+
+/*der oprettes 1 funktions id, og 2 af hver af params, (id og param#) så i alt 7 elementer i symboltable*/
+function bool TestIdassign(number n,bool b,point p){
+return b;
+}
+
