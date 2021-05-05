@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+
 using System.Text.RegularExpressions;
+
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using OG.ASTBuilding;
@@ -26,11 +28,7 @@ namespace OG
         private static async Task Main(string[] args)
         {
             
-            
-
-
-            
-            
+          
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
             List<SemanticError> errors = new List<SemanticError>();
