@@ -6,5 +6,5 @@ draw {
 }
 
 shape someShape {
-    curve.angle(30).from(2,2).to(4,4);
+    curve.withAngle(30).from(2,2).to(4,4);
 }
