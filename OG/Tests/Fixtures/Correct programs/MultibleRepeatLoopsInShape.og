@@ -5,16 +5,23 @@ draw
    ShapeA;
   
 }
+function bool boolFuncA (point a, point b) {return true;}
+
 shape ShapeA  {
-	repeat.until (boolFuncA(a,D.startPoint)) 
+point start = (2,2);
+	repeat.until (boolFuncA(a,start)) 
        point a = (3,3);
     repeat.end
     
-    repeat.until (boolFuncA(a,D.startPoint)) 
+    repeat.until (boolFuncA(a,start)) 
         point a = (3,3);
     repeat.end
     
 }
+
+
+
+
 
 
 

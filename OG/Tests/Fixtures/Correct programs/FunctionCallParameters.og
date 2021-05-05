@@ -7,7 +7,17 @@ function bool ParamFunc(number n,bool b,point p){
 return b;
 }
 
-function testParameters(){
+function void testParameters(number a){
     point po = (2,2);
-    ParamFunc(1,true,po);
+    bool b = ParamFunc(1,true,po);
+    a = P(1,a,1);
+    a = P(1,1,a);
+    a = P(a,1,1);
+    a = P(1,a,a);
+    a = P(a,1,a);
+    a = P(a,a,1);
+}
+
+function number P(number n1, number n2, number n3){
+    return n1+n2+n3;
 }
