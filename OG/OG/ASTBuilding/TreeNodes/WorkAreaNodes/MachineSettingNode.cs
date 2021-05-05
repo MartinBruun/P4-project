@@ -8,9 +8,9 @@ namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
 
      
         
-        public override void Accept(IVisitor visitor)
-        {
-            visitor.Visit(this);        
-        }
+        // public override void Accept(IVisitor visitor)
+        // {
+        //     visitor.Visit(this);        
+        // }
     }
 }
