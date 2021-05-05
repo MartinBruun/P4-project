@@ -24,6 +24,6 @@ shape Line {
     startpoint = (5,6);
     point endpoint = (6,7);
     
-    endpoint = Lengthen(endpoint);
+    endpoint = Lengthen(endpoint);/*BEMÆRK DENNE*/
 }
 

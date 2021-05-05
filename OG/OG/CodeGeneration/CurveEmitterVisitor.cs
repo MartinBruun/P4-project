@@ -66,7 +66,6 @@ namespace OG.CodeGeneration
         /// <returns>Empty Object</returns>
         public object Visit(CurveCommandNode node)
         {
-
             if (node?.To?.Count > 1)
             {
                 SemanticErrors.Add(new SemanticError(node.Line, node .Column, "OG does not support to chaining in Curve commands."){IsFatal = false});

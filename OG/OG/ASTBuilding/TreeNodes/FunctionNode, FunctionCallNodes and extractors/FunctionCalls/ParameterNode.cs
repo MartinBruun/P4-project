@@ -49,6 +49,12 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             ParamType = ParameterType.Id;
             ParameterId = id;
         }
+        public ParameterNode()
+        {
+            Expression = null;
+            ParamType = ParameterType.NotAssignedType;
+            ParameterId = new IdNode("");
+        }
 
         public ParameterNode(IdNode id, PointReferenceNode startPoint)
         {

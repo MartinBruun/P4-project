@@ -88,7 +88,6 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             try
             {
                 OGParser.PassedDirectValueContext expressionValue = (OGParser.PassedDirectValueContext) context;
-               
                 return ExtractParameterNode(expressionValue);
             }
             catch (InvalidCastException )

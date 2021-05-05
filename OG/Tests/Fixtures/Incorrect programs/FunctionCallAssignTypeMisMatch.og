@@ -20,6 +20,6 @@ function number myNumfunc(number n){
 return n;
 }
 
-function number myBoolfunc(bool b){
+function bool myBoolfunc(bool b){
 return b;
 }

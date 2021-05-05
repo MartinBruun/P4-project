@@ -19,7 +19,7 @@ namespace OG.AstVisiting.Visitors
     {
     
         public object Visit(ProgramNode node)
-        {
+        { Console.WriteLine("\n\n---PrettyPrinting program---");
             foreach (var setting in node.MachineSettingNodes)
             {
                 setting.Accept(this);
@@ -142,7 +142,7 @@ namespace OG.AstVisiting.Visitors
             Console.Write("(");
             foreach (var param in node.Parameters)
             {
-                param.Expression.Accept(this);
+                param.Expression?.Accept(this);
             }
             Console.Write(")\n");
             return new object();

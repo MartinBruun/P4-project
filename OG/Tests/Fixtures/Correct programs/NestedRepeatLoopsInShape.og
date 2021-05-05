@@ -2,14 +2,17 @@ Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
 
 draw 
 {
-   ShapeA;
-   
+   ShapeA;  
 }
+
+function bool boolFuncA (point a, point b) {return true;}
+
 shape ShapeA  {
-	repeat.until (boolFuncA(a,D.startPoint)) 
+    point start = (2,2);
+	repeat.until (boolFuncA(a,start)) 
            point a = (3,3);
            
-           repeat.until (boolFuncA(a,D.startPoint)) 
+           repeat.until (boolFuncA(a,start)) 
                    point a = (3,3);
                repeat.end
         repeat.end
