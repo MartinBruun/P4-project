@@ -89,14 +89,14 @@ namespace OG.Compiler
 
         public NumberNode Visit(MathFunctionCallNode node)
         {
-            SemanticErrors.Add(new SemanticError(node, "Function calls is not yet supported."));
-            throw new NotImplementedException();
+            SemanticErrors.Add(new SemanticError(node, "Function calls is not yet supported."){IsFatal = true});
+            return null;
         }
 
         public NumberNode Visit(CoordinateXyValueNode node)
         {
-            SemanticErrors.Add(new SemanticError(node, "Coordinate XY value is not yet supported."));
-            return new NumberNode(2);
+            SemanticErrors.Add(new SemanticError(node, "Coordinate XY value is not yet supported."){IsFatal = true});
+            return null;
         }
     }
 }
