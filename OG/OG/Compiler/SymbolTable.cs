@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.AstVisiting.Visitors
 {
@@ -177,6 +178,13 @@ namespace OG.AstVisiting.Visitors
             Console.Write($"\n--{id} has not been declared");
             throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
         }
+
+        public AstNode GetElementById(IdNode node)
+        {
+            return GetElementById(node.Value);
+        }
+        
+        
         public AstNode GetElementById(string id)
         {
             string IdInScope = currentScopeName + "_" + id;

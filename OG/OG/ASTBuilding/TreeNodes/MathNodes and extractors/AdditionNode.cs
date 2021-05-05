@@ -1,4 +1,5 @@
-﻿using OG.AstVisiting;
+﻿using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
@@ -15,9 +16,9 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             visitor.Visit(this);        
         }
         
-        public override void Accept(CodeGeneration.IMathNodeVisitor visitor)
+        public override  NumberNode Accept(CodeGeneration.IMathNodeVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }

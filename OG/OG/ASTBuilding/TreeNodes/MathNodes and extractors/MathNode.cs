@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.CodeGeneration;
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
@@ -18,7 +19,7 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             CoordinateXyValueNode,
             IdValueNode
         }
-
+        public AstNode Parent{get;set;}
         public MathType MathNodeType { get; set; }
 
         public MathNode(string value, MathType mathNodeTypeOf):base(value, ExpressionType.MathExpression)
@@ -31,7 +32,7 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             return "Type: " + MathNodeType.ToString() + "\t Value: " + Value;
         }
         
-        public abstract void Accept(CodeGeneration.IMathNodeVisitor visitor);
+        public abstract  NumberNode Accept(CodeGeneration.IMathNodeVisitor visitor);
         
       
     }
@@ -41,6 +42,6 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
     
     public interface IMathVisitable
     {
-        public abstract void Accept(CodeGeneration.IMathNodeVisitor visitor);
+        public abstract NumberNode Accept(CodeGeneration.IMathNodeVisitor visitor);
     }
 }

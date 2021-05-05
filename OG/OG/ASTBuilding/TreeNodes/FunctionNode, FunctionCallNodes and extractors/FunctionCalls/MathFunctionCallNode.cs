@@ -23,9 +23,9 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
         }
         
-        public override void Accept(CodeGeneration.IMathNodeVisitor visitor)
+        public override NumberNode Accept(CodeGeneration.IMathNodeVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }
