@@ -1,0 +1,13 @@
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw 
+{
+   
+}
+
+function bool BoolFuncA(){
+ bool BoolA = true;
+ bool BoolB = BoolA;
+ return BoolA;  
+}
+

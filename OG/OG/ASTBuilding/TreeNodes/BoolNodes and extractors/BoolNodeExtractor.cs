@@ -182,7 +182,8 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 
         public override BoolNode VisitBoolExprID(OGParser.BoolExprIDContext context)
         {
-            return new BoolExprIdNode(context.GetText(),new IdNode(context.id.Text),BoolNode.BoolType.IdValueNode);
+            IdNode Id = new IdNode(context.id.Text);
+            return new BoolExprIdNode(context.GetText(),Id,BoolNode.BoolType.IdValueNode);
         }
     }
 }

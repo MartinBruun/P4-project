@@ -5,6 +5,8 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
     public class IdNode : AstNode
     {
         public string Value { get; set; }
+        public string SymboltableAddress { get; set; }
+        public AstNode DeclaredValue { get; set; }
 
         public IdNode(string value)
         {

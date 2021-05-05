@@ -67,7 +67,10 @@ namespace OG
             {
                 Console.WriteLine(item);
             }
+
             
+
+
             // errors.AddRange(ST.GetErrors());
             // TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             // p.Accept(TT);
