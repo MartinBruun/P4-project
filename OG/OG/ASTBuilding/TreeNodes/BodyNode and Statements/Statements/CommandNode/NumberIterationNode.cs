@@ -3,7 +3,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class NumberIterationNode : IterationNode, INumberIterationVisitable
+    public class NumberIterationNode : IterationNode
     {
         public MathNode Iterations;
         
@@ -13,10 +13,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             Iterations = numberOfIterations;
         }
 
-        public void Accept(INumberIterationNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+    
 
         public override void Accept(IVisitor visitor)
         {
@@ -25,8 +22,5 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         }
     }
 
-    public interface INumberIterationVisitable
-    {
-        public void Accept(INumberIterationNodeVisitor visitor);
-    }
+  
 }

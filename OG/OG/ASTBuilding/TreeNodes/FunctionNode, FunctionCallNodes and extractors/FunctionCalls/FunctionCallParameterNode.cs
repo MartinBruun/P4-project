@@ -4,7 +4,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
-    public class FunctionCallParameterNode : ParameterNode, IParameterNodeVisitable
+    public class FunctionCallParameterNode : ParameterNode
     {
         public readonly FunctionCallNode FunctionCallNode;
         
@@ -15,11 +15,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         }
 
 
-        public void Accept(IParameterNodeVisitor visitor)
-        {
-            visitor.Visit(this);
-
-        }
+      
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);

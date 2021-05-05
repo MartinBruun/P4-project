@@ -4,7 +4,7 @@ using CoordinateXyValueNode = OG.ASTBuilding.TreeNodes.BodyNodesAndVisitors.Coor
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors
 {
-    public class PropertyAssignmentNode : AssignmentNode, IPropertyAssignmentVisitable
+    public class PropertyAssignmentNode : AssignmentNode
     {
         public MathNode assignedValue { get; set; }
         public CoordinateXyValueNode coordinateValueNode { get; set; }
@@ -15,11 +15,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             this.coordinateValueNode = xyValue;
         }
 
-        public void Accept(IPropertyAssignmentVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
+        
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);

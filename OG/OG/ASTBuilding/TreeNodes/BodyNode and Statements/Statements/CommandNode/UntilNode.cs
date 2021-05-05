@@ -3,7 +3,7 @@ using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
-    public class UntilNode : IterationNode, IUntilNodeVisitable
+    public class UntilNode : IterationNode
     {
         public BoolNode Predicate;
 
@@ -12,11 +12,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             Predicate = condition;
         }
 
-        public void Accept(IUntilNodeVisitorBundleBundle visitorBundleBundle)
-        {
-            visitorBundleBundle.Visit(this);
-        }
-
+        
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);

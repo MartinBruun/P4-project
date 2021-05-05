@@ -12,6 +12,7 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
+using OG.CodeGeneration;
 
 namespace OG.AstVisiting
 {
@@ -75,6 +76,7 @@ namespace OG.AstVisiting
         public Object Visit(IFunctionNode node);
         
         //Math
+        /*
         public Object Visit(AdditionNode node);
         public Object Visit(DivisionNode node);
         public Object Visit(InfixMathNode node);
@@ -84,6 +86,7 @@ namespace OG.AstVisiting
         public Object Visit(PowerNode node);
         public Object Visit(SubtractionNode node);
         public Object Visit(TerminalMathNode node);
+         */
         
         //Point
         public Object Visit(PointFunctionCallNode node);

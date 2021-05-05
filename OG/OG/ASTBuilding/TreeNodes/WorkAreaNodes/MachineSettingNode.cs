@@ -2,14 +2,11 @@
 
 namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
 {
-    public abstract class MachineSettingNode : AstNode, IMachineSettingVisitable
+    public abstract class MachineSettingNode : AstNode
     {
         // public WorkAreaSettingNode workAreaSettings { get; set; }
 
-        public void Accept(IMachineSettingVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+     
         
         public override void Accept(IVisitor visitor)
         {
