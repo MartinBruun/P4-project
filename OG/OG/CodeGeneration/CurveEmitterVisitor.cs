@@ -48,6 +48,7 @@ namespace OG.CodeGeneration
                 
         public string Emit()
         {
+            Console.WriteLine(ResultCommand.CreateGCodeTextCommand());
             return ResultCommand.CreateGCodeTextCommand().Replace(',', '.');
         }
         
@@ -107,10 +108,12 @@ namespace OG.CodeGeneration
                 return null;
             }
 
-
             double radius = (Math.Sqrt(Math.Pow((from.Item1 - to.Item1), 2) + Math.Pow(from.Item2 - to.Item2,2))/2) //Pythagoras and distance
                             / (Math.Cos(90 * Math.PI / 180) - (Math.Abs(angle) * Math.PI / 180));
 
+            Console.WriteLine("Radius: " + radius);
+            Console.WriteLine("ANGLE: " + angle);
+            Console.WriteLine("From:" + from.Item1   + "    "  + from.Item2);
             ResultCommand = fromCommand + new GCodeCommandText(curveCommandWord + " " + $" X{to.Item1} Y{to.Item2} R{radius}");
             return new object();
         }

@@ -15,7 +15,7 @@ using OG.Compiler;
 
 namespace Tests
 {
-    public class CodeGenerationTest
+    public class LineCodeGenerationTest
     {
         private static Regex G01Regex { get; } = new Regex(@"^G01 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+$");
 
