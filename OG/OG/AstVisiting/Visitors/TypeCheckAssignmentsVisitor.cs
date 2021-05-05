@@ -940,6 +940,7 @@ namespace OG.AstVisiting.Visitors
             {
                 node.CompileTimeType = S.CheckDeclaredTypeOf(node.Value);
                 node.DeclaredValue = S.GetElementById(node.Value);
+                node.SymboltableAddress = S.GetSymboltableAddressFor(node.Value);
                 // Console.WriteLine("set CompiletimeType on IDNode");
             }
             catch

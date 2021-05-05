@@ -931,8 +931,9 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
            
-            node.DeclaredValue = S.GetElementById(node.Value);
-            Console.WriteLine("#####This is stored: "+ node.DeclaredValue);
+            node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
+            
+            Console.WriteLine("#####This is stored: "+ node.DeclaredValue+node.SymboltableAddress);
 
             return new object();
         }
