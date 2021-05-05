@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+
+using System.Text.RegularExpressions;
+
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using OG.ASTBuilding;
@@ -18,50 +21,14 @@ using OG.Compiler;
 
 namespace OG
 {
-
-    public abstract class ErrorInheritorVisitor : IErrorable
-    {
-        
-        public ErrorInheritorVisitor(List<SemanticError> errs)
-        {
-            SemanticErrors = errs;
-        }
-        public List<SemanticError> SemanticErrors { get; set; }
-    }     
-    
-    
-    
     
     public class OGCompiler
     {
-        public static Dictionary<IdNode, FunctionNode> GlobalFunctionDeclarations = new Dictionary<IdNode, FunctionNode>();
         public static readonly Dictionary<IdNode, ShapeNode>    GlobalShapeDeclarations    = new Dictionary<IdNode, ShapeNode>();
         private static async Task Main(string[] args)
         {
             
-            double x1 = -0.000001, x2 = -1, y1 = 2.9999, y2 = 9999999.9999;
-            NumberNode x1Val = new NumberNode(x1);
-            NumberNode y1Val = new NumberNode(y2);
-            
-            NumberNode x2Val = new NumberNode(x2);
-            NumberNode y2Val = new NumberNode(y2);
-            List<PointReferenceNode> ToCommands = new List<PointReferenceNode>();
-
-            LineEmitterVisitor emitter = new LineEmitterVisitor(null, new List<SemanticError>());
-            
-            ToCommands.Add(new TuplePointNode("", x2Val, y2Val));
-            
-            
-            LineCommandNode lineCommand = new LineCommandNode(new TuplePointNode("",x1Val, y1Val), ToCommands);
-            lineCommand.Accept(emitter);
-            emitter.CodeGenerationNotification += (Console.WriteLine);
-            
-            
-            await File.WriteAllTextAsync("../../WriteText.txt", emitter.Emit());
-
-
-            
-            
+          
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
             
             List<SemanticError> errors = new List<SemanticError>();
