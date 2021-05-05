@@ -30,6 +30,8 @@ namespace OG.ASTBuilding
         {
             Msg = msg;
             Node = node;
+            Line = node.Line;
+            Column = node.Column;
         }
 
         public SemanticError(string msg)
@@ -41,5 +43,6 @@ namespace OG.ASTBuilding
         {
             return $"{Msg}\nLine: {Node.Line} Column: {Node.Column} at:\n--> {Context}";
         }
+        
     }
 }

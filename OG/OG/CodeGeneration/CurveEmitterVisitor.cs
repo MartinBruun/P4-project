@@ -48,7 +48,6 @@ namespace OG.CodeGeneration
                 
         public string Emit()
         {
-            Console.WriteLine(ResultCommand.CreateGCodeTextCommand());
             return ResultCommand.CreateGCodeTextCommand().Replace(',', '.');
         }
         
@@ -80,16 +79,18 @@ namespace OG.CodeGeneration
             GCodeCommandText fromCommand = new GCodeCommandText($"G01 X{from.Item1} Y{from.Item2}\n");
             
             Tuple<double, double> to = ToPointGCodeCreater.LastCalculatedCoordinateVals;
-            double angle = angleCont.Result * (Math.PI / 180);
+            double angle = angleCont.Result;
             string curveCommandWord = "";
 
             //Check for valid angle
             if (angle < 90 && angle > -90)
             {
+                
                 //If angle is 0 then it is a line.
                 if (angle == 0)
                 {
                     ResultCommand = new GCodeCommandText(fromCommand.CommandText + $"G01 X{from.Item1} Y{from.Item2}\n G01 X{to.Item1} Y{to.Item2}");
+                    SemanticErrors.Add(new SemanticError(node, "WARNING: Curve command with angle 0. Use line command instead!"));
                     return new object();
                 }
 
@@ -107,14 +108,13 @@ namespace OG.CodeGeneration
                 SemanticErrors.Add(new SemanticError(node.Line, node.Column, "Angle is more than 90 degrees or less than -90 degrees."){IsFatal = true});
                 return null;
             }
+            
+            angle*= (Math.PI / 180);
 
             double radius = (Math.Sqrt(Math.Pow((from.Item1 - to.Item1), 2) + Math.Pow(from.Item2 - to.Item2,2))/2) //Pythagoras and distance
                             / (Math.Cos(90 * Math.PI / 180) - (Math.Abs(angle) * Math.PI / 180));
 
-            Console.WriteLine("Radius: " + radius);
-            Console.WriteLine("ANGLE: " + angle);
-            Console.WriteLine("From:" + from.Item1   + "    "  + from.Item2);
-            ResultCommand = fromCommand + new GCodeCommandText(curveCommandWord + " " + $" X{to.Item1} Y{to.Item2} R{radius}");
+            ResultCommand = fromCommand + new GCodeCommandText(curveCommandWord + " " + $"X{to.Item1} Y{to.Item2} R{radius.ToString().Replace(',', '.')}");
             return new object();
         }
         
@@ -863,26 +863,124 @@ namespace OG.CodeGeneration
      
     }
 
-    internal class PointReferenceCoordinateTracker : PointReferenceGCodeTextEmitter
+    internal class PointReferenceCoordinateTracker : CodeEmitterErrorInheritor, IPointReferenceNodeVisitor
     {
+        protected SymbolTable _symbolTable;
+        public IGCodeCommand ResultCommand { get; protected set; }
         
-        public Tuple<double, double> LastCalculatedCoordinateVals;
-        
-        public PointReferenceCoordinateTracker(SymbolTable table, List<SemanticError> errs) : base(table, errs)
+        public Tuple<double, double> LastCalculatedCoordinateVals { get; private set; }
+
+
+        public PointReferenceCoordinateTracker(SymbolTable table, List<SemanticError> errs):base(errs)
         {
+            _symbolTable = table;
+        }
+        
+        /// <summary>
+        /// TODO: Create function call visitor that evaluates function calls.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void Visit(PointFunctionCallNode node)
+        {
+            IEnumerable<ParameterNode> parameters = node.Parameters;
+            BodyNode body = node.Body;
         }
 
-        public override void Visit(TuplePointNode node)
+        /// <summary>
+        /// TODO: Somehow create a point from an ID node
+        /// </summary>
+        /// <param name="node"></param>
+        public void Visit(PointReferenceIdNode node)
+        {
+            
+            //if id is reference to another id, what then?
+            //if id is a tuple what then?
+            //if id is function call what then?
+            
+            /*
+             * if (node.isTuple){
+             *   string[] pair = node.text.remove( '(', ') ).split(.);
+             *   what if those strings are function calls??? FÅRK 
+             * }
+             *
+             */
+        }
+
+        
+        public void Visit(ShapeEndPointNode node)
+        {
+            throw new NotImplementedException();
+            //This is actually how we can find a shape end point
+            ShapeNode shape;
+            List<StatementNode> statements = shape.Body.StatementNodes;
+            statements.Reverse();
+            foreach (StatementNode statement in statements.Where(statement => statement.Type == StatementNode.StatementType.CommandNode))
+            {
+                try
+                {
+                    CommandNode command = (CommandNode) statement;
+                    if (command.TypeOfCommand == CommandNode.CommandType.MovementNode)
+                    {
+                        MovementCommandNode c = (MovementCommandNode) command;
+                        c.To.Last().Accept(this);
+                    }
+                }
+                catch (InvalidCastException e)
+                {
+                    continue;
+                }
+            }
+        }
+
+        public void Visit(ShapeStartPointNode node)
+        {
+            throw new NotImplementedException();
+            ShapeNode shape; //= _symbolTable.getShape(node.shapename.text).getnode;
+            List<StatementNode> statements = shape.Body.StatementNodes;
+            foreach (StatementNode statement in statements.Where(statement => statement.Type == StatementNode.StatementType.CommandNode))
+            {
+                try
+                {
+                    CommandNode command = (CommandNode) statement;
+                    if (command.TypeOfCommand == CommandNode.CommandType.MovementNode)
+                    {
+                        MovementCommandNode movement = (MovementCommandNode) command;
+                        movement.To.First().Accept(this);
+                    }
+                }
+                catch (InvalidCastException e)
+                {
+                    continue;
+                }
+            }
+        }
+
+     
+
+        public void Visit(TuplePointNode node)
         {
             double xVal = EvaluateMathString(node.XValue.Value);
             double yVal = EvaluateMathString(node.YValue.Value);
+
+            LastCalculatedCoordinateVals = new Tuple<double, double>(xVal, yVal);
 
             string formattedX = xVal.ToString(FormatStrings.DoubleFixedPoint).Replace(',','.');
             string formattedY = yVal.ToString(FormatStrings.DoubleFixedPoint).Replace(',','.');
             yVal = double.Parse(formattedY);
             xVal = double.Parse(formattedX);
-            LastCalculatedCoordinateVals = new Tuple<double, double>(yVal, xVal);
+
+            
+
+            ResultCommand = new GCodeCommandText($"G01 X{formattedX} Y{formattedY}\n");
         }
+
+        protected double EvaluateMathString(string expression) 
+        {
+            return Eval.Execute<double>(expression);
+        }
+        
+       
         
     }
 
