@@ -89,6 +89,7 @@ namespace OG.Compiler
 
         public NumberNode Visit(MathFunctionCallNode node)
         {
+            SemanticErrors.Add(new SemanticError(node, "Function calls is not yet supported."));
             throw new NotImplementedException();
         }
 
