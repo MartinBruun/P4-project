@@ -58,17 +58,26 @@ namespace OG.AstVisiting.Visitors
                 // ProgramStartElementNaming();
                 foreach (var item in node.FunctionDcls)
                     {
-                        if (!S.Add(item.Id.Value, item.ReturnType, item))
+                        if (S.Add(item.Id.Value, item.ReturnType, item))
+                        {
+                            item.Id.SymboltableAddress = S.GetSymboltableAddressInCurrentScope(item.Id.Value);
+                        }
+                        else
                         {
                             errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+ item.Id.Value} Already exists in SymbolTable visitProgram"));
                         }
+                        
                         item.Accept(this);
                         // ProgramFunctionListElementNaming(item);
                     }
                 
                     foreach (var item in node.ShapeDcls)
                     {
-                        if (!S.Add(item.Id.Value, "shape",item))
+                        if (S.Add(item.Id.Value, "shape",item))
+                        {
+                            item.Id.SymboltableAddress = S.GetSymboltableAddressInCurrentScope(item.Id.Value);
+                        }
+                        else
                         {
                             errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+item.Id.Value} Already exists in SymbolTable visitProgram"));
                         }

@@ -138,7 +138,11 @@ namespace OG.AstVisiting.Visitors
         {
             return stack.Peek();
         }
-        
+
+        public string GetSymboltableAddressInCurrentScope(string id)
+        {
+            return GetCurrentScope() + $"_{id}";
+        }
         /// <summary>
         /// Checker typen på et declareret id, hvis id'et ikke findes i current scope
         /// så kigges i containing scopes.
