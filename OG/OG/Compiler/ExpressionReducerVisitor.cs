@@ -20,7 +20,7 @@ using OG.CodeGeneration;
 
 namespace OG.Compiler
 {
-    public class MathNodeReducerVisitor : IVisitor, ISemanticErrorable
+    public class ExpressionReducerVisitor : IVisitor, ISemanticErrorable
     {
         private SymbolTable _symbolTable;
         public List<SemanticError> SemanticErrors { get; set; }
@@ -28,12 +28,12 @@ namespace OG.Compiler
 
         private readonly IMathNodeReducer _mathNodeReducer;
 
-        public MathNodeReducerVisitor(SymbolTable symTab, List<SemanticError> errs)
+
+        public ExpressionReducerVisitor(SymbolTable symTab, List<SemanticError> errs)
         {
             SemanticErrors = errs;
             _symbolTable = symTab;
             _mathNodeReducer = new MathNodeReducer(symTab, errs);
-
         }
         
         public object Visit(BoolAssignmentNode node)
@@ -43,6 +43,7 @@ namespace OG.Compiler
 
         public object Visit(FunctionCallAssignNode node)
         {
+            
             throw new System.NotImplementedException();
         }
 
@@ -129,8 +130,8 @@ namespace OG.Compiler
         {
             //Number declarations' expressions are always math.
             // Caught in parser and type checking.
-            MathNode mathn = (MathNode) node.AssignedExpression;
-            NumberNode res = mathn.Accept(_mathNodeReducer);
+            MathNode mathNode = (MathNode) node.AssignedExpression;
+            NumberNode res = mathNode.Accept(_mathNodeReducer);
             node.AssignedExpression = res;
             return new object();
         }
@@ -152,7 +153,12 @@ namespace OG.Compiler
         /// <returns></returns>
         public object Visit(BodyNode node)
         {
-            throw new NotImplementedException();
+            foreach (StatementNode nodeStatementNode in node.StatementNodes)
+            {
+                nodeStatementNode.Accept(this);
+            }
+
+            return node;
         }
 
         public object Visit(AndComparerNode node)
@@ -360,14 +366,18 @@ namespace OG.Compiler
 
         public object Visit(ProgramNode node)
         {
-            
+            foreach (ShapeNode nodeShapeDcl in node.ShapeDcls)
+            {
+                nodeShapeDcl.Accept(this);
+            }
 
-            return new object();
+            return node;
         }
 
         public object Visit(ShapeNode node)
         {
-            throw new System.NotImplementedException();
+            node.Body.Accept(this);
+            return node;
         }
 
         public object Visit(CoordinateXyValueNode node)
