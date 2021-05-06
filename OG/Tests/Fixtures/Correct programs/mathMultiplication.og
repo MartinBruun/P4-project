@@ -21,7 +21,7 @@ function number AreaOfSquare(number sideLength) {
 }
 
 shape Line {
-    startpoint = (5,6);
+    point startpoint = (5,6);
     point endpoint = (6,7);
     
     endpoint = Lengthen(endpoint);/*BEMÆRK DENNE*/

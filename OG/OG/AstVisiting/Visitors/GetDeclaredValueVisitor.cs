@@ -182,6 +182,7 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
+            node.Id.DeclaredValue = S.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
              node.AssignedExpression.Accept(this);
             // if (!(node.AssignedExpression.CompileTimeType == "bool"))
             // {
@@ -217,6 +218,7 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             node.Id.Accept(this);//DeclaredValue = S.GetElementById(node.Id.Value));
                 //node.Id.DeclaredValue.Accept(this);
+                
                 return new object();
 
         }
@@ -256,6 +258,7 @@ namespace OG.AstVisiting.Visitors
             // {
             //     errors.Add(new SemanticError(node, $"visitBoolAssignNode:{node.Id.Value}  has not been declared : Undeclared"));
             // }
+            
             node.AssignedValue.Accept(this);
             
             return new object();
@@ -933,7 +936,7 @@ namespace OG.AstVisiting.Visitors
            
             node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
             
-            Console.WriteLine("#####This is stored: "+ node.DeclaredValue+node.SymboltableAddress);
+            Console.WriteLine("\n#####This is stored: "+ node.DeclaredValue+node.SymboltableAddress);
 
             return new object();
         }

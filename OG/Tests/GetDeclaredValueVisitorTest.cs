@@ -62,37 +62,39 @@ namespace Tests
             p.Accept(TT);
             GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
             p.Accept(GV);
-            var symboltable = GV.GetSymbolTable();
+            PrintsymboltableAddress PA = new PrintsymboltableAddress(GV.GetSymbolTable());
+            p.Accept(PA);
+            // var symboltable = GV.GetSymbolTable();
             var errors = GV.GetErrors();
-
-            #region ErrorPrinter
-            Console.WriteLine("\n--- Symboltable Errors---");
-            foreach (var item in ST.GetErrors())
-            {
-                Console.WriteLine(item);
-            }
-            
-            Console.WriteLine("\n--- TypeChecker Errors---");
-            foreach (var item in TT.GetErrors())
-            {
-                Console.WriteLine(item);
-            }
-            
-            Console.WriteLine("\n--- GetDeclared Values Errors---");
-            
-            foreach (var item in GV.GetErrors())
-            {
-                Console.WriteLine(item);
-            }
-            #endregion
-
-            #region SymboltablePrinter
-            Console.WriteLine("\n-----Contents of symboltable-----");
-            foreach (var item in symboltable)
-            {
-                Console.WriteLine(item.Key + ":" + item.Value);
-            }
-            #endregion
+            //
+            // #region ErrorPrinter
+            // Console.WriteLine("\n--- Symboltable Errors---");
+            // foreach (var item in ST.GetErrors())
+            // {
+            //     Console.WriteLine(item);
+            // }
+            //
+            // Console.WriteLine("\n--- TypeChecker Errors---");
+            // foreach (var item in TT.GetErrors())
+            // {
+            //     Console.WriteLine(item);
+            // }
+            //
+            // Console.WriteLine("\n--- GetDeclared Values Errors---");
+            //
+            // foreach (var item in GV.GetErrors())
+            // {
+            //     Console.WriteLine(item);
+            // }
+            // #endregion
+            //
+            // #region SymboltablePrinter
+            // Console.WriteLine("\n-----Contents of symboltable-----");
+            // foreach (var item in symboltable)
+            // {
+            //     Console.WriteLine(item.Key + ":" + item.Value);
+            // }
+            // #endregion
 
             Assert.AreEqual(0,errors.Count,
              description);

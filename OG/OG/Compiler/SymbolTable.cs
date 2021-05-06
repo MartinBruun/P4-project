@@ -189,7 +189,8 @@ namespace OG.AstVisiting.Visitors
             //TODO: Lav en ordentlig exception type
             // return "!Not Found!";
             Console.Write($"\n--{id} has not been declared");
-            throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+           // throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+           return null;
         }
         
         
@@ -227,7 +228,8 @@ namespace OG.AstVisiting.Visitors
             //TODO: Lav en ordentlig exception type
             // return "!Not Found!";
             Console.Write($"\n--{id} has not been declared");
-            throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+            //throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+            return null;
         }
         
         public string GetSymboltableAddressFor(string id)
@@ -263,7 +265,8 @@ namespace OG.AstVisiting.Visitors
             //TODO: Lav en ordentlig exception type
             // return "!Not Found!";
             Console.Write($"\n--{id} has not been declared");
-            throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+            //throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+            return null;
         }
 
         public AstNode GetElementBySymbolTableAddress(string address)

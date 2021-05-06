@@ -86,6 +86,9 @@ namespace OG.AstVisiting.Visitors
             {
                 // Console.WriteLine(item);
             }
+            
+            PrintsymboltableAddress PA = new PrintsymboltableAddress(S.Elements);
+            node.Accept(PA);
             return new object();
         }
         
@@ -97,6 +100,10 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString()); 
 
             S.enterScope(node.Id.Value);
+            foreach (var item in node.Parameters)
+            {
+                item.Accept(this);
+            }
             node.Body.Accept(this);
             S.exitScope(node.Id.Value);
             return new object();
@@ -173,6 +180,7 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
+            
             node.Accept(this);
             return new object();
         }
@@ -181,6 +189,7 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
+            node.Id.Accept(this);//SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value));
             node.AssignedExpression.Accept(this);
             // if (!(node.AssignedExpression.CompileTimeType == "bool"))
             // {
@@ -196,6 +205,7 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             // Console.Write("NumberN\n");
+            node.Id.Accept(this);//SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedExpression.Accept(this);
             return new object();
         }
@@ -204,6 +214,7 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
+            node.Id.Accept(this); //= S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedExpression.Accept(this);
             return new object();
         }
@@ -213,30 +224,26 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            try
-            {
-                if (!(S.CheckDeclaredTypeOf(node.Id.Value) == "bool"))
+           
+                node.Id.Accept(this);
+                
+                if (node.Id.CompileTimeType != "bool")
                 {
                     errors.Add(new SemanticError(node, $"visitBoolExprNode: {node.Id.Value} is not declared as bool: Typemismatch!"));
                 }
-            }catch
-            {
-                errors.Add(new SemanticError(node, $"visitBoolExprNode: {node.Id.Value} Has not been declared: Undeclared"));
-            }
-
-            return new object();
-
-        }
-
-        public object Visit(StatementNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-
-            node.Accept(this);
-            // Console.Write("StatementN\n");
+                
             return new object();
         }
+
+        // public object Visit(StatementNode node)
+        // {
+        //     // Console.Write($"Scope {S.GetCurrentScope()} | ");
+        //     // Console.WriteLine(node.ToString());
+        //
+        //     node.Accept(this);
+        //     // Console.Write("StatementN\n");
+        //     return new object();
+        // }
         
         
        //Unused Visitors
@@ -263,6 +270,7 @@ namespace OG.AstVisiting.Visitors
             // {
             //     errors.Add(new SemanticError(node, $"visitBoolAssignNode:{node.Id.Value}  has not been declared : Undeclared"));
             // }
+            node.Id.SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedValue.Accept(this);
             return new object();
         }
@@ -296,16 +304,7 @@ namespace OG.AstVisiting.Visitors
                    
                 }
                 S.resetParameterCount();
-                
-            // }
-            // catch
-            // {
-            //     node.CompileTimeType = "!Not Found!";
-            //     errors.Add(new SemanticError(node, $"VisitIdNode: {node} has not been declared"));
-            // }
-            
-            
-            return new object();
+                return new object();
         }
 
         public object Visit(IdAssignNode node)
@@ -330,6 +329,9 @@ namespace OG.AstVisiting.Visitors
             {
                 errors.Add(new SemanticError(node, $"VisitIDAssignNode:{node.Id.Value} or AssignedValue has not been declared "));
             }
+
+            node.Id.SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value);
+            node.AssignedValue.SymboltableAddress = S.GetSymboltableAddressFor(node.AssignedValue.Value);
             //node.AssignedValue.Accept(this);
             return new object();
         }
@@ -350,6 +352,7 @@ namespace OG.AstVisiting.Visitors
             // {
             //     errors.Add(new SemanticError(node, $"visitMathAssignmentNode:{node.Id.Value}  has not been declared "));
             // }
+            node.Id.SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedValue.Accept(this);
            
             return new object();
@@ -370,6 +373,7 @@ namespace OG.AstVisiting.Visitors
             // {
             //     errors.Add(new SemanticError(node, $"VisitIDAssignNode:{node.Id.Value} or {node.AssignedValue.Value} has not been declared "));
             // }
+            node.Id.Accept(this);// = S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedValue.Accept(this);
             return new object();
         }
@@ -382,36 +386,21 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine("propertyAssignment: "+ node.coordinateValueNode.Property);
             // Console.WriteLine("propertyAssignment: "+ node.assignedValue);
            
-            node.coordinateValueNode.Id.Accept(this);
-            node.coordinateValueNode.CompileTimeType = node.coordinateValueNode.Id.CompileTimeType;
-            try
-            {
-                var declaredNode = S.GetElementById(node.coordinateValueNode.Id.Value);
-                if (declaredNode.CompileTimeType != "point")
-                {
-                    errors.Add(new SemanticError(node,
-                        $"VisitPropertyAssignmentNode: {node.Id.Value} is not of type point : Typemismatch! "));
-                }
-            }
-            catch
-            {
-               // errors.Add(new SemanticError(node, $"VisitPropertyAssignmentNode: {node.coordinateValueNode.Id.Value} has not been declared "));
-            }
-
+            node.Id.Accept(this);
+            
             node.assignedValue.Accept(this);
             if (node.assignedValue.CompileTimeType != "number")
             {
                 errors.Add(new SemanticError(node, $"VisitPropertyAssignmentNode: {node.assignedValue.Value} is not of type number : Typemismatch! "));
             }
-
+            
             return new object();
         }
 
         public object Visit(ParameterTypeNode node)
         {
-            // Console.WriteLine("PARAMETER Type Node!!!"+node.ToString());
+            node.IdNode.Accept(this);
             return new object();
-
         }
 
         public object Visit(CommandNode node)
@@ -732,7 +721,8 @@ namespace OG.AstVisiting.Visitors
 
             try
             {
-                if (S.CheckDeclaredTypeOf(node.AssignedValueId.Value) != "number")
+                node.AssignedValueId.Accept(this);
+                if (node.AssignedValueId.CompileTimeType != "number")
                 {
                     errors.Add(new SemanticError(node, $"VisitMathIdNode:  {node.AssignedValueId.Value} is not a number: TypeMismatch"));
                 }
@@ -847,20 +837,23 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             try
             {
-                if (S.CheckDeclaredTypeOf(node.AssignedValue.Value) != "point")
-                {
-                    errors.Add(new SemanticError(node, $"VisitPointReferenceIdNode: {node.AssignedValue.Value} is not a pointRefference : TypeMismatch"));
-                }
-                else
+                node.AssignedValue.Accept(this);
+                if (node.AssignedValue.CompileTimeType == "point")
                 {
                     node.CompileTimeType = "point";
                 }
+                else
+                {
+                    errors.Add(new SemanticError(node, $"VisitPointReferenceIdNode: {node.AssignedValue.Value} is not a pointRefference : TypeMismatch"));
+                }
+                
+                
             }
             catch 
             {
                 errors.Add(new SemanticError(node, $"VisitPointReferenceIdNode: {node.AssignedValue.Value} Has not been declared: Undeclared"));
             }
-            
+
             return new object();
         }
 
@@ -936,14 +929,12 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            try
-            {
+            
                 node.CompileTimeType = S.CheckDeclaredTypeOf(node.Value);
                 node.DeclaredValue = S.GetElementById(node.Value);
                 node.SymboltableAddress = S.GetSymboltableAddressFor(node.Value);
-                // Console.WriteLine("set CompiletimeType on IDNode");
-            }
-            catch
+                Console.WriteLine("set CompiletimeType on IDNode");
+            if (node.SymboltableAddress == null)
             {
                 node.CompileTimeType = "!Not Found!";
                 errors.Add(new SemanticError(node, $"VisitIdNode: {node.Value} has not been declared"));
