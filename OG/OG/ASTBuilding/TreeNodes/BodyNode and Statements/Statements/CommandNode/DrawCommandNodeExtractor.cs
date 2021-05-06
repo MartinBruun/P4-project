@@ -11,7 +11,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         private readonly PointReferenceNodeExtractor _pointReferenceNodeExtractor;
         public override DrawCommandNode VisitDrawCmd(OGParser.DrawCmdContext context)
         {
-            return new DrawCommandNode(id: new IdNode(context.id.Text));
+            return new DrawCommandNode(id: new IdNode(context.id.Text)) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
 
@@ -36,7 +39,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             IdNode id = new IdNode(context.id.Text);
             PointReferenceNode pointRef = _pointReferenceNodeExtractor.ExtractPointReferenceNode(context.fromCmd);
 
-            return new DrawCommandNode(id, pointRef);
+            return new DrawCommandNode(id, pointRef) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override DrawCommandNode VisitStmt(OGParser.StmtContext context)
