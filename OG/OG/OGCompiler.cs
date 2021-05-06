@@ -52,6 +52,14 @@ namespace OG
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             p.Accept(TT);
             errors.AddRange(TT.GetErrors());
+
+            GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
+            p.Accept(GV);
+            errors.AddRange(GV.GetErrors());
+            
+            PrintsymboltableAddress PA = new PrintsymboltableAddress(GV.GetSymbolTable());
+            p.Accept(PA);
+            // var symboltable = GV.GetSymbolTable();
             symbolTable = TT.GetSymbolTable();
 
             Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");

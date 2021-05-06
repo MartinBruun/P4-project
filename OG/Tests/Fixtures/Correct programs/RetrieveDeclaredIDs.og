@@ -9,10 +9,19 @@ function number BoolFuncA(){
  bool BoolA = true;
  number NumberA = 99;
  point PointA = (8,8);
+ /*point PointB = (4,7);*/
+
  bool BoolB = BoolA;
- number NumberB = NumberA;
- point PointB = PointA;
- 
- return BoolA;  
+ /*number NumberB = NumberA;
+ NumberA = NumberFuncA(2,2);
+ PointB.y = 3;
+ PointB.x = NumberA;*/
+ BoolB;
+ return BoolB;  
 }
+/*
+function number NumberFuncA(number a,number b){
+number result = a+b;
+return result;
+}*/
 

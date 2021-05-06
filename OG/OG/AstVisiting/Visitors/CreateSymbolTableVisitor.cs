@@ -179,8 +179,8 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-
-            if (!S.Add(node.Id.Value, node.DeclaredType.ToString(),node))
+            node.Id.DeclaredValue = node.AssignedExpression;
+            if (!S.Add(node.Id.Value, node.DeclaredType.ToString(),node.Id))
             {
                 errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.Id.Value} Already exists in SymbolTable VisitDeclaration"));
             }

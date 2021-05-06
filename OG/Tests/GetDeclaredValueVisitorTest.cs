@@ -65,7 +65,7 @@ namespace Tests
             PrintsymboltableAddress PA = new PrintsymboltableAddress(GV.GetSymbolTable());
             p.Accept(PA);
             // var symboltable = GV.GetSymbolTable();
-            var errors = GV.GetErrors();
+            var errors = TT.GetErrors();
             //
             // #region ErrorPrinter
             // Console.WriteLine("\n--- Symboltable Errors---");

@@ -121,6 +121,19 @@ namespace OG.AstVisiting.Visitors
            
         }
 
+        public bool Add(string symbolTableAddress, AstNode node)
+        {
+            try
+            {
+                Elements[symbolTableAddress] = node;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         
         /// <summary>
         /// Returnerer typen på det sidst tilføjede ID

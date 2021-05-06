@@ -15,6 +15,7 @@ namespace OG.ASTBuilding.TreeNodes
 
         public ParameterNode Type { get; set; }
         public string ReturnType { get; set; }
+        public AstNode ReturnValue { get; set; }
         public BodyNode Body;
         public List<ParameterTypeNode> Parameters { get; set; }
 

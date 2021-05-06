@@ -6,6 +6,13 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
     {
         public string Value { get; set; }
         public string SymboltableAddress { get; set; }
+        public string PointingAt
+        {
+            get { return _pointingAt == null ? SymboltableAddress : _pointingAt; }
+            set { _pointingAt = value; }
+        }
+
+        private string _pointingAt = null;
         public AstNode DeclaredValue { get; set; }
 
         public IdNode(string value)

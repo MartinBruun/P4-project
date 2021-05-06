@@ -58,7 +58,7 @@ namespace OG.AstVisiting.Visitors
         //ENTER--> Exit SCOPE
         public object Visit(ProgramNode node)
         {   S.enterScope("Global"); 
-            Console.WriteLine("\n\n--- TypeChecking ---");
+            Console.WriteLine("\n\n--- TypeChecking ---\n\n");
 
             foreach (var item in node.MachineSettingNodes)
             {
@@ -87,8 +87,7 @@ namespace OG.AstVisiting.Visitors
                 // Console.WriteLine(item);
             }
             
-            PrintsymboltableAddress PA = new PrintsymboltableAddress(S.Elements);
-            node.Accept(PA);
+            
             return new object();
         }
         
@@ -281,27 +280,24 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"\n!!!!!FunctionCallAssignment Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine($"id:{node.Id.Value}--FuncName: {node.FunctionName.Value}");
-           
-                node.Id.Accept(this);
-                // Console.WriteLine($" CompiletimeType:"+node.Id.CompileTimeType);
-                node.FunctionName.Accept(this);
-                // Console.WriteLine($" CompiletimeType:"+node.Id.CompileTimeType);
+
+            node.Id.Accept(this);
+            node.FunctionName.Accept(this);
 
                 if (node.Id.CompileTimeType != node.FunctionName.CompileTimeType)
                 {
                     errors.Add(new SemanticError(node, $"visitFunctionCallAssignment:{node.Id.Value}:{node.Id.CompileTimeType} does not match type of function {node.FunctionName.Value}:{node.FunctionName.CompileTimeType}"));
                 }
-                var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
+
+                var declaredNode = (FunctionNode) node.FunctionName.DeclaredValue;// S.GetElementById(node.FunctionName.Value);
                 for (int i = 0 ; i< node.Parameters.Count ; i++)
                 {
-                    // Console.WriteLine("testing param");
                     node.Parameters[i].Accept(this);
                     if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                     {
                         errors.Add(new SemanticError(node.Parameters[i],
                             $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
                     }
-                   
                 }
                 S.resetParameterCount();
                 return new object();
@@ -558,16 +554,13 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            try
-            {
-                if (S.CheckDeclaredTypeOf(node.FunctionName.Value)!= "bool")
+            
+                node.FunctionName.Accept(this);
+                if (node.FunctionName.CompileTimeType != "bool")
                 {
                     errors.Add(new SemanticError(node, $"VisitBoolFunctionCallNode: {node.FunctionName.Value} is not of type bool : Typemismatch! "));
                 }
-            }catch
-            {
-                errors.Add(new SemanticError(node, $"VisitBoolFunctionCallNode: {node.FunctionName.Value} has not been declared "));
-            }
+           
             return new object();
         }
 
@@ -579,12 +572,13 @@ namespace OG.AstVisiting.Visitors
             node.FunctionName.Accept(this);
             
             //Checking parameters
+            //TODO: her kan FunctionName.Declared...anvendes
             var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
                 // Console.WriteLine("testing param");
                 node.Parameters[i].Accept(this);
-                if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
+                if (node.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
                     errors.Add(new SemanticError(node.Parameters[i],
                         $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
@@ -719,8 +713,7 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
 
-            try
-            {
+            
                 node.AssignedValueId.Accept(this);
                 if (node.AssignedValueId.CompileTimeType != "number")
                 {
@@ -730,12 +723,7 @@ namespace OG.AstVisiting.Visitors
                 {
                     node.CompileTimeType = "number";
                 }
-            }
-            catch 
-            {
-                errors.Add(new SemanticError(node, $"VisitMathIdNode:{node.Value} with value {node.AssignedValueId.Value} Has not been declared: Undeclared"));
-            }
-
+                
             return "number";
         }
 
@@ -835,9 +823,8 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            try
-            {
-                node.AssignedValue.Accept(this);
+            
+            node.AssignedValue.Accept(this);
                 if (node.AssignedValue.CompileTimeType == "point")
                 {
                     node.CompileTimeType = "point";
@@ -847,13 +834,6 @@ namespace OG.AstVisiting.Visitors
                     errors.Add(new SemanticError(node, $"VisitPointReferenceIdNode: {node.AssignedValue.Value} is not a pointRefference : TypeMismatch"));
                 }
                 
-                
-            }
-            catch 
-            {
-                errors.Add(new SemanticError(node, $"VisitPointReferenceIdNode: {node.AssignedValue.Value} Has not been declared: Undeclared"));
-            }
-
             return new object();
         }
 

@@ -17,7 +17,7 @@ namespace OG.ASTBuilding.TreeNodes
             PointReference
             
         }
-
+        
         public ExpressionType ExprType;
         public string Value;
 
