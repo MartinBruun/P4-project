@@ -46,6 +46,8 @@ namespace Tests
         [TestCase("MultibleRepeatLoopsInShape.og", "testing Repeat loops in shape")]
         [TestCase("NestedRepeatLoopsInFunction.og", "testing nested Repeat loops in function")]
         [TestCase("NestedRepeatLoopsInShape.og", "testing nested Repeat loops in shape")]
+        [TestCase("DrawCurves.og", "Draw curves")]
+
 
         
         public void Test_Fixtures_ShouldNotFindAnyDoubleDeclarations(string fileName, string description)
@@ -78,11 +80,15 @@ namespace Tests
         }
         
        
-        [TestCase("FunctionDeclParameters.og",7, "testing that two parameters are discovered and stored in symboltable")]
-        
+        [TestCase("Correct programs/FunctionDeclParameters.og",7, "testing that two parameters are discovered and stored in symboltable")]
+        [TestCase("Incorrect programs/boolToNumber.og", 8,"Check Boolian stuff should not fail")]
+        [TestCase("Incorrect programs/FunctionCallAssignTypeMisMatch.og",13, "testing that this can be created in symboltable: a boolian function can not be assigned to a number variable and numberFunction to a boolian variable")]
+        [TestCase("Incorrect programs/UndeclaredEndPointRefference.og",5, "testing that this can be created in symboltable:a value  can not be assigned to a xy value on an undeclared pointrefference")]
+
+
         public void Test_Fixtures_ShouldCreateElementsInSymbolTable(string fileName,int elementCount, string description)
         {
-            OGParser parser = CreateParser(fileName, "Correct programs/");
+            OGParser parser = CreateParser(fileName, "");
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parser, new AstBuilder("program"));
 

@@ -22,7 +22,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
                 FunctionCallNode F = new FunctionCallNode(id, parameterNodes, context.GetText());
                  F.Line =context.id.Line;
                  F.Column =context.id.Column;
-                 return F;
+                 return F; 
             }
             
             SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column, "Something went wrong creating node from FunctionCallContext. " +

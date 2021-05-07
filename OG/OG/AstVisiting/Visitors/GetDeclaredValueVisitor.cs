@@ -17,14 +17,14 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 
 namespace OG.AstVisiting.Visitors
 {
-    public class TypeCheckAssignmentsVisitor:IVisitor
+    public class GetDeclaredValueVisitor:IVisitor
     {
+        
         private SymbolTable S = new SymbolTable();
         private List<SemanticError> errors = new List<SemanticError>();
-
         
-
-        public TypeCheckAssignmentsVisitor(Dictionary<string,AstNode> symbolTable)
+        
+        public GetDeclaredValueVisitor(Dictionary<string,AstNode> symbolTable)
         {
             S.Elements = symbolTable;
         }
@@ -215,13 +215,12 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             try
             {
-                if (!(S.CheckDeclaredTypeOf(node.Id.Value) == "bool"))
-                {
-                    errors.Add(new SemanticError(node, $"visitBoolExprNode: {node.Id.Value} is not declared as bool: Typemismatch!"));
-                }
+                node.Id.DeclaredValue = S.GetElementById(node.Id.Value);
+                Console.WriteLine("Retrieved Node:", node.Id.DeclaredValue);
+
             }catch
             {
-                errors.Add(new SemanticError(node, $"visitBoolExprNode: {node.Id.Value} Has not been declared: Undeclared"));
+                errors.Add(new SemanticError(node, $"visitBoolExprNode: {node.Id.Value} Could not be retrieved from scope: {S.GetCurrentScope()}"));
             }
 
             return new object();

@@ -107,7 +107,7 @@ namespace OG.CodeGeneration
 
      
 
-        public virtual void Visit(TuplePointNode node)
+        public void Visit(TuplePointNode node)
         {
             double xVal = EvaluateMathString(node.XValue.Value);
             double yVal = EvaluateMathString(node.YValue.Value);
