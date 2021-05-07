@@ -122,6 +122,20 @@ namespace OG.AstVisiting.Visitors
            
         }
 
+        public bool Add(string symbolTableAddress, AstNode node)
+        {
+            try
+            {
+                Elements[symbolTableAddress] = node;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        
         /// <summary>
         /// Returnerer typen på det sidst tilføjede ID
         /// </summary>
@@ -139,6 +153,13 @@ namespace OG.AstVisiting.Visitors
         {
             return stack.Peek();
         }
+
+        public string GetSymboltableAddressInCurrentScope(string id)
+        {
+            return GetCurrentScope() + $"_{id}";
+        }
+        
+        
         
         /// <summary>
         /// Checker typen på et declareret id, hvis id'et ikke findes i current scope
@@ -177,14 +198,13 @@ namespace OG.AstVisiting.Visitors
                         Console.WriteLine($": found {result}");
                         return result;
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 }
             //TODO: Lav en ordentlig exception type
             // return "!Not Found!";
             Console.Write($"\n--{id} has not been declared");
-            throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+           // throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+           return null;
         }
 
         public AstNode GetElementById(IdNode node)
@@ -203,7 +223,6 @@ namespace OG.AstVisiting.Visitors
                 var result = Elements[IdInScope];
                 Console.WriteLine($": found {result}");
                 return result;
-
             }
             catch { }
 
@@ -222,14 +241,65 @@ namespace OG.AstVisiting.Visitors
                     Console.WriteLine($": found {result}");
                     return result;
                 }
-                catch
-                {
-                }
+                catch { }
             }
             //TODO: Lav en ordentlig exception type
             // return "!Not Found!";
             Console.Write($"\n--{id} has not been declared");
-            throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+            //throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+            return null;
+        }
+        
+        public string GetSymboltableAddressFor(string id)
+        {
+            string IdInScope = parameterCount == 0 ? currentScopeName + "_" + id : currentScopeName+"_"+$"Param{parameterCount}" ;
+            
+            try
+            {
+                Console.Write($"\nChecking {IdInScope}");
+                var result = Elements[IdInScope].CompileTimeType;
+                Console.WriteLine($": found {IdInScope}");
+                return IdInScope;
+            }
+            catch { }
+
+                
+            Stack<string> stackCopy1 = new Stack<string>(stack.ToArray());
+            Stack<string> stackCopy = new Stack<string>(stackCopy1.ToArray());
+            // Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
+            //Alle containing scopes gennemløbes
+            while (stackCopy.Count > 0)
+            {
+                try
+                {
+                    string name = stackCopy.Pop() + "_" + id;
+                    Console.Write($"\n--nextScope {name}");
+                    var result = Elements[name].CompileTimeType;
+                    Console.WriteLine($": found {name}");
+                    return name;
+                }
+                catch { }
+            }
+            //TODO: Lav en ordentlig exception type
+            // return "!Not Found!";
+            Console.Write($"\n--{id} has not been declared");
+            //throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
+            return null;
+        }
+
+        public AstNode GetElementBySymbolTableAddress(string address)
+        {
+            try
+            {
+                return  Elements[address];
+            }
+            catch
+            {
+                Console.Write($"\n--{address} has not been declared");
+                // throw new Exception($"After having checked the local scopes it turns out that the {address} is not in symboltable");
+            }
+
+            return null;
         }
     }
 }

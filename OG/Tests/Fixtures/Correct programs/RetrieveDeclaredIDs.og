@@ -5,9 +5,25 @@ draw
    
 }
 
-function bool BoolFuncA(){
+function number BoolFuncA(){
  bool BoolA = true;
+ number NumberA = 99;
+ point PointA = (8,8);
+ point PointB = (4,7);
+
  bool BoolB = BoolA;
- return BoolA;  
+ BoolB = true;
+ BoolA = BoolB;
+ number NumberB = NumberA;
+ NumberA = NumberFuncA(2,2);
+ PointB.y = 3;
+ PointB.x = NumberA;
+ /*BoolA;*/
+ return BoolB;  
+}
+
+function number NumberFuncA(number a,number b){
+number result = a+b;
+return result;
 }
 
