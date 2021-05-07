@@ -77,9 +77,10 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             return "Parameter does not contain id: " + ParamType.ToString();
         }
         
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
+
 
         }
     }

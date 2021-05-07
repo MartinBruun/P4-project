@@ -36,7 +36,7 @@ namespace Tests
         {
             //Power node constructor takes first RHS and then LHS
             PowerNode node = new PowerNode(new NumberNode(y), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(Math.Pow(x,y),mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -64,7 +64,7 @@ namespace Tests
         {
             //Power node constructor takes first RHS and then LHS
             PowerNode node = new PowerNode(new AdditionNode (new NumberNode(y), new NumberNode(z)), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(Math.Pow(x,y+z),mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -91,7 +91,7 @@ namespace Tests
         {
             //Power node constructor takes first RHS and then LHS
             PowerNode node = new PowerNode(new MultiplicationNode (new NumberNode(y), new NumberNode(z)), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(Math.Pow(x,y*z),mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -119,7 +119,7 @@ namespace Tests
             //Power node constructor takes first RHS and then LHS
             //Same goes for division
             PowerNode node = new PowerNode(new DivisionNode (new NumberNode(y), new NumberNode(z)), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(Math.Pow(x,z/y),mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -147,7 +147,7 @@ namespace Tests
             //Power node constructor takes first RHS and then LHS
             //Same goes for subtraction
             PowerNode node = new PowerNode(new SubtractionNode (new NumberNode(y), new NumberNode(z)), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(Math.Pow(x,z-y),mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -175,7 +175,7 @@ namespace Tests
             //Power node constructor takes first RHS and then LHS
             //Same goes for subtraction
             PowerNode node = new PowerNode(new PowerNode (new NumberNode(y), new NumberNode(z)), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(Math.Pow(x,Math.Pow(z,y)),mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -217,7 +217,7 @@ namespace Tests
                 )
                 );
 
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             
             Assert.DoesNotThrow(() =>
             {
@@ -249,7 +249,7 @@ namespace Tests
         {
             //Power node constructor takes first RHS and then LHS
             AdditionNode node = new AdditionNode(new NumberNode(y), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(x+y, mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -277,7 +277,7 @@ namespace Tests
         {
             //Power node constructor takes first RHS and then LHS
             SubtractionNode node = new(new NumberNode(y), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(x-y, mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -304,7 +304,7 @@ namespace Tests
         {
             //Power node constructor takes first RHS and then LHS
             DivisionNode node = new(new NumberNode(y), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(x/y, mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -331,7 +331,7 @@ namespace Tests
         {
             //Power node constructor takes first RHS and then LHS
             MultiplicationNode node = new(new NumberNode(y), new NumberNode(x));
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(x*y, mathReducer.ReduceToNumberNode(node).NumberValue);
         }
         
@@ -352,7 +352,7 @@ namespace Tests
         [TestCase(1)]
         public void NumberNode_Should_Hold_Correct_Numerical_Value(double x)
         {
-            MathNodeReducer mathReducer = new MathNodeReducer(new SymbolTable(), new List<SemanticError>());
+            MathArithmeticCalculator mathReducer = new MathArithmeticCalculator(new SymbolTable(), new List<SemanticError>());
             Assert.AreEqual(x, mathReducer.ReduceToNumberNode(new NumberNode(x)).NumberValue);
         }
     }

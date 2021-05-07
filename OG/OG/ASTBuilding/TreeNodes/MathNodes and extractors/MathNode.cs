@@ -19,7 +19,7 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             CoordinateXyValueNode,
             IdValueNode
         }
-        public MathType MathNodeType { get; set; }
+        public MathType MathNodeType { get; private set; }
 
 
         public MathNode(string value, MathType mathNodeTypeOf):base(value, ExpressionType.MathExpression)

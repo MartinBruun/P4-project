@@ -67,24 +67,17 @@ namespace OG.CodeGeneration
             FromPointContainer = new PointReferenceGCodeTextEmitter(_symbolTable, SemanticErrors);
             ToPointGCodeCreater = new PointReferenceGCodeTextEmitter(symbolTable, errs);
         }
-
-        public LineEmitterVisitor() : this(null,null)
-        {
-        }
-
-
+        
         public void Visit(LineCommandNode node)
         {
             
             node.From.Accept(FromPointContainer);
             foreach (PointReferenceNode pointReferenceNode in node.To)
             {
-                Console.WriteLine(pointReferenceNode.ToString());
                 pointReferenceNode.Accept(ToPointGCodeCreater);
                 ToCommands.Add(ToPointGCodeCreater.ResultCommand);
             }
         }
-
     } 
     
 

@@ -62,6 +62,15 @@ namespace OG
             // var symboltable = GV.GetSymbolTable();
             symbolTable = TT.GetSymbolTable();
 
+
+            MathReducerVisitor reducer = new MathReducerVisitor(symbolTable, errors);
+            p.Accept(reducer);
+            
+            
+            
+            
+            
+
             Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
 
             foreach (var item in errors)

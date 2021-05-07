@@ -24,9 +24,10 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
             return visitor.Visit(this);
         }
 
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);        
+            return visitor.Visit(this);
+
         }
     }
 }

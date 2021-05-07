@@ -18,6 +18,5 @@
         {
             return new GCodeCommandText(g1.CommandText + g2.CommandText);
         }
-        
     }
 }

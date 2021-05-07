@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -19,19 +20,22 @@ using OG.CodeGeneration;
 
 namespace OG.Compiler
 {
-    public class MathNodeReducer : ISemanticErrorable, IMathNodeReducer
+    public class MathArithmeticCalculator : ISemanticErrorable, IMathNodeReducer
     {
         private SymbolTable _symbolTable;
         public double Result { get; set; }
+        readonly TypeCastVisitor _typeCaster = new TypeCastVisitor();
+        private MathReducerVisitor _mathReducerVisitor = null;
 
 
         public List<SemanticError> SemanticErrors { get; set; }
         public string TopNode { get; set; }
 
-        public MathNodeReducer(SymbolTable symboltable, List<SemanticError> errs)
+        public MathArithmeticCalculator(SymbolTable symboltable, List<SemanticError> errs, MathReducerVisitor mathReducerVisitor)
         {
             _symbolTable = symboltable;
             SemanticErrors = errs;
+            _mathReducerVisitor = mathReducerVisitor;
         }
 
         public NumberNode ReduceToNumberNode(MathNode node)
@@ -61,9 +65,15 @@ namespace OG.Compiler
 
         public NumberNode Visit(MathIdNode node)
         {
+            
             //Assigned value to Id must be a math node for it to occur as mathIdNode
-            MathNode assignedValue = (MathNode) _symbolTable.GetElementById(node.AssignedValueId);
-            return assignedValue.Accept(this);
+            AstNode symbolTableResult = _symbolTable.GetElementBySymbolTableAddress(node.AssignedValueId.SymboltableAddress);
+             
+            return (NumberNode)symbolTableResult.Accept(_mathReducerVisitor);
+            
+            
+            //MathNode assignedMathValue = (MathNode) numberNode.AssignedExpression;
+            return null;//assignedMathValue.Accept(this);
         }
 
         public NumberNode Visit(MultiplicationNode node)
@@ -89,8 +99,19 @@ namespace OG.Compiler
 
         public NumberNode Visit(MathFunctionCallNode node)
         {
-            SemanticErrors.Add(new SemanticError(node, "Function calls is not yet supported."){IsFatal = true});
+            
+            AstNode astNode = _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            FunctionNode funcNode = (FunctionNode) astNode.Accept(_typeCaster);
+            
+            for (int i = 0; i < node.Parameters.Count; i++)
+            {
+                funcNode.Parameters[i].Expression = node.Parameters[i].Expression;
+                _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
+            }
+
+            funcNode.Accept(_mathReducerVisitor);
             return null;
+
         }
 
         public NumberNode Visit(CoordinateXyValueNode node)

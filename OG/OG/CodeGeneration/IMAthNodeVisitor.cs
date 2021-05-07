@@ -8,9 +8,6 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.CodeGeneration
 {
-   
-    
-
     public interface IMathNodeVisitor
     {
         public NumberNode Visit(AdditionNode node);

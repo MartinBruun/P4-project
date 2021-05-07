@@ -11,9 +11,10 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         }
 
 
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);        
+            return visitor.Visit(this);
+   
         }
 
         public override NumberNode Accept(CodeGeneration.IMathNodeVisitor visitor)

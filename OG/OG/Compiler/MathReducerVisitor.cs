@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -20,20 +21,21 @@ using OG.CodeGeneration;
 
 namespace OG.Compiler
 {
-    public class ExpressionReducerVisitor : IVisitor, ISemanticErrorable
+    public class MathReducerVisitor : IVisitor, ISemanticErrorable
     {
-        private SymbolTable _symbolTable;
+        private SymbolTable _symbolTable = new SymbolTable();
         public List<SemanticError> SemanticErrors { get; set; }
         public string TopNode { get; set; }
 
         private readonly IMathNodeReducer _mathNodeReducer;
+        TypeCastVisitor typeCaster = new TypeCastVisitor();
 
 
-        public ExpressionReducerVisitor(SymbolTable symTab, List<SemanticError> errs)
+        public MathReducerVisitor(Dictionary<string, AstNode> symTab, List<SemanticError> errs)
         {
             SemanticErrors = errs;
-            _symbolTable = symTab;
-            _mathNodeReducer = new MathNodeReducer(symTab, errs);
+            _symbolTable.Elements = symTab;
+            _mathNodeReducer = new MathArithmeticCalculator(_symbolTable, errs, this);
         }
         
         public object Visit(BoolAssignmentNode node)
@@ -43,21 +45,45 @@ namespace OG.Compiler
 
         public object Visit(FunctionCallAssignNode node)
         {
-            
-            throw new System.NotImplementedException();
+            //get function declaration
+            AstNode s = _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            FunctionNode function = (FunctionNode) s.Accept(typeCaster);
+
+            return null;
+
         }
 
         public object Visit(IdAssignNode node)
         {
-            throw new System.NotImplementedException();
+            AstNode x = _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
+            NumberDeclarationNode numDcl;
+            try
+            {
+                 numDcl = (NumberDeclarationNode) x.Accept(typeCaster);
+            }
+            catch (InvalidCastException e)
+            {
+                return null;
+            }
+            MathNode mathNode = (MathNode) numDcl.AssignedExpression;
+
+            NumberDeclarationNode numberDeclarationResult = new NumberDeclarationNode(node.Id, mathNode);
+            _symbolTable.Add(node.Id.SymboltableAddress, numberDeclarationResult);
+            
+            return numberDeclarationResult;
         }
 
         public object Visit(MathAssignmentNode node)
         {
             NumberNode res = node.AssignedValue.Accept(_mathNodeReducer);
+
+            string lhsSymTabAddress = node.Id.SymboltableAddress;
+
+            NumberDeclarationNode numRes = new NumberDeclarationNode(node.Id, res);
+            _symbolTable.Add(lhsSymTabAddress, numRes);
             node.AssignedValue = res;
 
-            return new object();
+            return node;
         }
 
         public object Visit(PointAssignmentNode node)
@@ -72,7 +98,9 @@ namespace OG.Compiler
 
         public object Visit(ParameterTypeNode node)
         {
-            throw new System.NotImplementedException();
+            MathNode mathExpression = (MathNode)node.Expression;
+            NumberNode number = (NumberNode)mathExpression.Accept(_mathNodeReducer);
+            return number;
         }
 
         public object Visit(CurveCommandNode node)
@@ -128,11 +156,15 @@ namespace OG.Compiler
 
         public object Visit(NumberDeclarationNode node)
         {
+            Console.WriteLine("HERE");
             //Number declarations' expressions are always math.
             // Caught in parser and type checking.
             MathNode mathNode = (MathNode) node.AssignedExpression;
             NumberNode res = mathNode.Accept(_mathNodeReducer);
             node.AssignedExpression = res;
+
+            Console.WriteLine(node.Id+"   " + node.AssignedExpression);
+
             return new object();
         }
 
@@ -153,6 +185,7 @@ namespace OG.Compiler
         /// <returns></returns>
         public object Visit(BodyNode node)
         {
+            NumberNode bodyResult = null;
             foreach (StatementNode nodeStatementNode in node.StatementNodes)
             {
                 nodeStatementNode.Accept(this);
@@ -217,7 +250,10 @@ namespace OG.Compiler
 
         public object Visit(MathFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            AstNode funcDeclaration = _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+
+            FunctionNode f = (FunctionNode)funcDeclaration.Accept(typeCaster);
+            return node;
         }
 
         public object Visit(ParameterNode node)
@@ -227,7 +263,7 @@ namespace OG.Compiler
 
         public object Visit(FunctionNode node)
         {
-            throw new System.NotImplementedException();
+            return node.Body.Accept(this);
         }
 
         public object Visit(AdditionNode node)
@@ -241,16 +277,7 @@ namespace OG.Compiler
         }
 
         
-        /// <summary>
-        /// TODO det bliver træls det her
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public object Visit(InfixMathNode node)
-        {
-            throw new System.NotImplementedException();
-        }
+
 
         public object Visit(MathIdNode node)
         {
@@ -278,11 +305,7 @@ namespace OG.Compiler
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public object Visit(TerminalMathNode node)
-        {
-            return node.Accept(_mathNodeReducer);
-        }
-
+       
         public object Visit(PointFunctionCallNode node)
         {
             throw new System.NotImplementedException();
@@ -325,6 +348,7 @@ namespace OG.Compiler
 
         public object Visit(IdNode node)
         {
+            
             throw new System.NotImplementedException();
         }
 
@@ -366,9 +390,9 @@ namespace OG.Compiler
 
         public object Visit(ProgramNode node)
         {
-            foreach (ShapeNode nodeShapeDcl in node.ShapeDcls)
+            foreach (FunctionNode nodeFunctionDcl in node.FunctionDcls)
             {
-                nodeShapeDcl.Accept(this);
+                    nodeFunctionDcl.Accept(this);
             }
 
             return node;

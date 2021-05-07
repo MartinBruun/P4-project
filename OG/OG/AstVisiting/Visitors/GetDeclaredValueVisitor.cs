@@ -529,7 +529,7 @@ namespace OG.AstVisiting.Visitors
                 errors.Add(new SemanticError(node, $"{node.FunctionName}: is not of type number: typeMismatch"));
             }
             //Checking parameters
-            var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
+            var declaredNode= (FunctionNode) S.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
                 // Console.WriteLine("testing param");
@@ -785,12 +785,11 @@ namespace OG.AstVisiting.Visitors
         //TODO: konverter DeclaredValue så jeg kan få dens Id.pointingAt adresse ud.Jeg ved ikke om mit krumspring her flytter mig tættere
         public object Visit(IdNode node)
         {
-            if (_pointingAt != node.PointingAt)
-            {
-                node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
-                _pointingAt = node.PointingAt;
-                node.DeclaredValue.Accept(this);
-            }
+
+            node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
+            //_pointingAt = node.PointingAt;
+
+            
 
             Console.WriteLine("\n#####This is stored: "+ node.DeclaredValue+" At Addr:"+node.SymboltableAddress);
            
