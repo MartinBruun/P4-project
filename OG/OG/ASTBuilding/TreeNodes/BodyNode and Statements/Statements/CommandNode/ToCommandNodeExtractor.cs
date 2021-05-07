@@ -55,26 +55,38 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         public override PointReferenceNode VisitToWithId(OGParser.ToWithIdContext context)
         {
             IdNode id = new IdNode(context.id.Text);
-            return new PointReferenceIdNode(context.GetText(), id);
+            return new PointReferenceIdNode(context.GetText(), id) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override PointReferenceNode VisitToWithNumberTuple(OGParser.ToWithNumberTupleContext context)
         {
             MathNode firstNum = new MathNodeExtractor(SemanticErrors).ExtractMathNode(context.tuple.lhs);
             MathNode secondNum = new MathNodeExtractor(SemanticErrors).ExtractMathNode(context.tuple.rhs);
-            return new TuplePointNode(context.GetText(), firstNum, secondNum);
+            return new TuplePointNode(context.GetText(), firstNum, secondNum) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override PointReferenceNode VisitToWithStartPointRef(OGParser.ToWithStartPointRefContext context)
         {
             IdNode shapeId = new IdNode(context.toPoint.id.Text);
-            return new ShapeStartPointNode(context.GetText(), shapeId);
+            return new ShapeStartPointNode(context.GetText(), shapeId) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override PointReferenceNode VisitToWithEndPointRef(OGParser.ToWithEndPointRefContext context)
         {
             IdNode shapeId = new IdNode(context.toPoint.id.Text);
-            return new ShapeEndPointNode(context.GetText(), shapeId);
+            return new ShapeEndPointNode(context.GetText(), shapeId) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
     }
 }

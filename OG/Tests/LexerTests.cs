@@ -39,6 +39,8 @@ namespace Tests
         [TestCase("mathAddition.og", "Testing a file with additive math expressions")]
         [TestCase("mathMultiplication.og", "Testing a file with multiplicative math expressions")]
         [TestCase("while.og", "testing while loops")]
+        [TestCase("DrawCurves.og", "Draw curves")]
+
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)
         {
             CommonTokenStream tokenStream = CreateTokenStream(fileName, "Correct programs/");

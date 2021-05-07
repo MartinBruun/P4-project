@@ -1,0 +1,10 @@
+
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    someShape;
+}
+
+shape someShape {
+    curve.withAngle(30).from(2,2).to(4,4);
+}
