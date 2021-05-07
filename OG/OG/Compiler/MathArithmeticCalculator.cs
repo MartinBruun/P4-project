@@ -32,10 +32,15 @@ namespace OG.Compiler
         public string TopNode { get; set; }
 
         public MathArithmeticCalculator(SymbolTable symboltable, List<SemanticError> errs, MathReducerVisitor mathReducerVisitor)
+            :this(symboltable, errs)
+        {
+            _mathReducerVisitor = mathReducerVisitor;
+        }
+        
+        public MathArithmeticCalculator(SymbolTable symboltable, List<SemanticError> errs)
         {
             _symbolTable = symboltable;
             SemanticErrors = errs;
-            _mathReducerVisitor = mathReducerVisitor;
         }
 
         public NumberNode ReduceToNumberNode(MathNode node)
@@ -46,8 +51,8 @@ namespace OG.Compiler
 
         public NumberNode Visit(AdditionNode node)
         {
-            double rhs = node.RHS.Accept(this).NumberValue;
             double lhs = node.LHS.Accept(this).NumberValue;
+            double rhs = node.RHS.Accept(this).NumberValue;
             return new NumberNode(lhs + rhs);
         }
 
@@ -58,8 +63,8 @@ namespace OG.Compiler
 
         public NumberNode Visit(DivisionNode node)
         {
-            double rhs = node.RHS.Accept(this).NumberValue;
             double lhs = node.LHS.Accept(this).NumberValue;
+            double rhs = node.RHS.Accept(this).NumberValue;
             return new NumberNode(lhs / rhs);
         }
 
@@ -78,22 +83,22 @@ namespace OG.Compiler
 
         public NumberNode Visit(MultiplicationNode node)
         {
-            double rhs = node.RHS.Accept(this).NumberValue;
             double lhs = node.LHS.Accept(this).NumberValue;
+            double rhs = node.RHS.Accept(this).NumberValue;
             return new NumberNode(lhs * rhs);
         }
 
         public NumberNode Visit(PowerNode node)
         {
-            double rhs = node.RHS.Accept(this).NumberValue;
             double lhs = node.LHS.Accept(this).NumberValue;
+            double rhs = node.RHS.Accept(this).NumberValue;
             return new NumberNode(Math.Pow(lhs, rhs));
         }
 
         public NumberNode Visit(SubtractionNode node)
         {
-            double rhs = node.RHS.Accept(this).NumberValue;
             double lhs = node.LHS.Accept(this).NumberValue;
+            double rhs = node.RHS.Accept(this).NumberValue;
             return new NumberNode(lhs - rhs);
         }
 
