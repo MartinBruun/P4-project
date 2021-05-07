@@ -241,8 +241,7 @@ passedParam : id = ID                                       #passedID
  
 
 
-returnStatement         : 'return' id=ID ';'         #returnValueReference
-                        | 'return' expr=expression ';' #returnDirectValue
+returnStatement         :  'return' expr=expression ';' 
                         ;
 
 

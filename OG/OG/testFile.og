@@ -1,29 +1,24 @@
 Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
 
-draw {
-    Line;
+draw 
+{
+   
 }
 
-function point Lengthen(point oldEndPoint, number factor) {
-    point newEndpoint = (0,0);
-     newEndpoint.x = oldEndpoint.x * factor;
-     newEndpoint.y = oldEndpoint.y * factor;
-
-    return newEndpoint;
+function number BoolFuncA(){
+ /*bool BoolA = true;*/
+ number NumberA = 99;
+ point PointA = (8,8);
+ /*bool BoolB = BoolA;*/
+ /*number NumberB = NumberA;
+ NumberA = NumberFuncA(2,2);*/
+ point PointB = PointA;
+ PointB.x = NumberA;
+ return BoolA;  
 }
 
-function number RelativeSize(number LengthA, number LenghtB) {
-    return LengthA/LengthB;
-}
-
-function number AreaOfSquare(number sideLength) {
-    return sideLength^2;
-}
-
-shape Line {
-    startpoint = (5,6);
-    point endpoint = (6,7);
-    
-   /* endpoint = Lengthen(endpoint);*/
-}
+/*function number NumberFuncA(number a,number b){
+number result = a+b;
+return result;
+}*/
 
