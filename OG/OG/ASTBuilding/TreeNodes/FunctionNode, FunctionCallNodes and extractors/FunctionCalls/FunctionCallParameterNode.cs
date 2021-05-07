@@ -16,9 +16,9 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
 
       
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
 
         }
     }

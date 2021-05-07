@@ -15,6 +15,8 @@ namespace OG.ASTBuilding.TreeNodes
             this.ParameterType = parameterType;
         }
 
+        public ExpressionNode Expression { get; set; } = null;
+
         public ParameterTypeNode( IdNode id, ParameterTypeNodeExtractor.IOgTyped.OgType parameterType, int line, int column) : this(id, parameterType)
         {
             Line = line;
@@ -26,9 +28,10 @@ namespace OG.ASTBuilding.TreeNodes
         public ParameterTypeNodeExtractor.IOgTyped.OgType ParameterType { get; }
 
 
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
+
         }
     }
     

@@ -32,10 +32,9 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
             return "Type: " + BoolNodeType.ToString() + "\t Value: " + Value;
         }
 
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
-
+            return visitor.Visit(this);
         }
     }
 

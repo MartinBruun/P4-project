@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.AstVisiting.Visitors
 {

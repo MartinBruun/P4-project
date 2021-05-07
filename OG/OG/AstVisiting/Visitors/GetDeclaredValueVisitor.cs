@@ -787,12 +787,11 @@ namespace OG.AstVisiting.Visitors
         //TODO: konverter DeclaredValue så jeg kan få dens Id.pointingAt adresse ud.Jeg ved ikke om mit krumspring her flytter mig tættere
         public object Visit(IdNode node)
         {
-            if (_pointingAt != node.PointingAt)
-            {
-                node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
-                _pointingAt = node.PointingAt;
-                node.DeclaredValue.Accept(this);
-            }
+
+            node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
+            //_pointingAt = node.PointingAt;
+
+            
 
             Console.WriteLine("\n#####This is stored: "+ node.DeclaredValue+" At Addr:"+node.SymboltableAddress);
            

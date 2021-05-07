@@ -6,16 +6,14 @@ draw
 }
 
 function number BoolFuncA(){
- number a = 2;
- number b = 3;
- number c = numFuncA(a,b);
- return BoolA;  
+ number q = 1;
+ q = q*2;
+ number b = NumberFuncA(1,1);
+
 }
 
-function number numFuncA(number lhs, number rhs){
-number result = lhs+rhs;
+function number NumberFuncA(number a, number b){
+number result = a+b;
 return result;
 }
-
-
 

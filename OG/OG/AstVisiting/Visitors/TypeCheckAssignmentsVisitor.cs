@@ -559,7 +559,7 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-                
+            
                 node.FunctionName.Accept(this);
                 if (node.FunctionName.CompileTimeType != "bool")
                 {

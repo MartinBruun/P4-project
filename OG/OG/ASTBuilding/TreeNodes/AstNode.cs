@@ -12,9 +12,9 @@ namespace OG.ASTBuilding.TreeNodes
         public int Line;
         public int Column;
 
-        public abstract void Accept(IVisitor visitor);
+        public abstract object Accept(IVisitor visitor);
 
-
+        public AstNode Parent { get; set; }
 
         public AstNode()
         {
