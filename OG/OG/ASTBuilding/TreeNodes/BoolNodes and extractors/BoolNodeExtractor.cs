@@ -208,6 +208,7 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
                 Line =context.Start.Line,
                 Column = context.Start.Column
             };
+
         }
     }
 }
