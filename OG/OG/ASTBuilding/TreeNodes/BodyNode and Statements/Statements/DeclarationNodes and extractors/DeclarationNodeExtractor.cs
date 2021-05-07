@@ -66,7 +66,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
             Console.WriteLine("\t\t Trying to create DeclarationNode from " + context.GetText());
             IdNode id = new IdNode(context.numberDcl.id.Text);
             MathNode number = _mathNodeExtractor.ExtractMathNode(context.numberDcl.mathExpression());
-            return new NumberDeclarationNode(id, number);
+            return new NumberDeclarationNode(id, number) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override DeclarationNode VisitBoolDcl(OGParser.BoolDclContext context)
@@ -75,7 +78,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
             OGParser.BoolExpressionContext boolContext = context.boolDcl.value;
             BoolNode assignedExpression = _boolNodeExtractor.ExtractBoolNode(boolContext);
             IdNode variableId = new IdNode(context.boolDcl.id.Text);
-            return new BoolDeclarationNode(variableId, assignedExpression);
+            return new BoolDeclarationNode(variableId, assignedExpression) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override DeclarationNode VisitPointDcl(OGParser.PointDclContext context)
@@ -90,7 +96,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
                     OGParser.PointDclIdAssignContext pointIdAssign  = (OGParser.PointDclIdAssignContext) context.pointDcl;
                     PointReferenceNode pointReferenceIdNode =  _pointReferenceNodeExtractor.VisitPointDclIdAssign(pointIdAssign);
 
-                    return new PointDeclarationNode(new IdNode(pointIdAssign.id.Text), pointReferenceIdNode);
+                    return new PointDeclarationNode(new IdNode(pointIdAssign.id.Text), pointReferenceIdNode) {
+                        Line =context.Start.Line,
+                        Column = context.Start.Column
+                    };
 
                 }
                 catch (InvalidCastException )
@@ -99,7 +108,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
                 OGParser.PointDclPointRefAssignContext pointReferenceAssignContext  = (OGParser.PointDclPointRefAssignContext) context.pointDcl;
                 PointReferenceNode pointReferenceNode = _pointReferenceNodeExtractor.VisitPointDclPointRefAssign( pointReferenceAssignContext);
 
-                return new PointDeclarationNode(new IdNode(pointReferenceAssignContext.id.Text), pointReferenceNode);
+                return new PointDeclarationNode(new IdNode(pointReferenceAssignContext.id.Text), pointReferenceNode) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             }
             catch (InvalidCastException )
             {

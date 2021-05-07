@@ -45,14 +45,20 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             {
 
 
-                return new ParameterNode(new IdNode(exprContext.id.Text));
+                return new ParameterNode(new IdNode(exprContext.id.Text)) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             } 
             if (boolExpressionContext != null && !boolExpressionContext.IsEmpty)
             {
                 _boolNodeExtractor = new BoolNodeExtractor(SemanticErrors);
                 BoolNode boolRes = _boolNodeExtractor.ExtractBoolNode(boolExpressionContext);
 
-                return new ParameterNode(boolRes, ParameterNode.ParameterType.BoolExpression);
+                return new ParameterNode(boolRes, ParameterNode.ParameterType.BoolExpression) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             }
 
             if (mathExpressionContext != null && !mathExpressionContext.IsEmpty)
@@ -60,7 +66,10 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
                 _mathNodeExtractor = new MathNodeExtractor(SemanticErrors);
                 MathNode mathRes = _mathNodeExtractor.ExtractMathNode(mathExpressionContext);
-                return new ParameterNode(mathRes, ParameterNode.ParameterType.MathExpressionNode);
+                return new ParameterNode(mathRes, ParameterNode.ParameterType.MathExpressionNode) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             }
 
             if (functionExpressionContext != null && !functionExpressionContext.IsEmpty)
@@ -68,7 +77,10 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
                 _functionCallNodeNodeExtractor = new FunctionCallNodeExtractor(SemanticErrors);
                 FunctionCallNode functionCallNode = _functionCallNodeNodeExtractor.VisitFunctionCall(functionExpressionContext);
                 
-                return new FunctionCallParameterNode(functionCallNode);
+                return new FunctionCallParameterNode(functionCallNode) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             }
 
             return null;

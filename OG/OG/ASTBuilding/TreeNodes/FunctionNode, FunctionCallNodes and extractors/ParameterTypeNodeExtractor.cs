@@ -14,7 +14,10 @@ namespace OG.ASTBuilding.TreeNodes
 
         public ParameterTypeNode ExtractParameterTypeNode(OGParser.ParameterDclContext context)
         {
-            IdNode id = new IdNode(context.id.Text);
+            IdNode id = new IdNode(context.id.Text) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
             OGParser.TypeWordContext t = context.type;
             TypedTextInformation tokenInformation = InferType(t);
             return new ParameterTypeNode(id, tokenInformation.Type, tokenInformation.Line, tokenInformation.Column);
