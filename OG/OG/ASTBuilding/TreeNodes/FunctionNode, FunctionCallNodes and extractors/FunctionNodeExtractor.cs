@@ -11,7 +11,6 @@ namespace OG.ASTBuilding.TreeNodes
     public class FunctionNodeExtractor : AstBuilderErrorInheritor<FunctionNode>
     {
         private readonly BodyNodeExtractor _bodyNodeExtractor;
-
         
         public FunctionNodeExtractor(List<SemanticError> errs) : base(errs)
         {

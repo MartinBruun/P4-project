@@ -10,7 +10,7 @@ bool B = true;
 
 number N = B;/*Error type mismatch*/
 N = ABoolianFunc();/*Error type mismatch*/
-return B;/* Burde give en typemismatch fejl */
+return B;/* Burde give en typemismatch fejl     DETTE check er ikke implementeret */  
 }
 
 function bool ABoolianFunc(){

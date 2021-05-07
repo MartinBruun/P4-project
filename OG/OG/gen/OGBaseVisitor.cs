@@ -1043,8 +1043,7 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// <return>The visitor result.</return>
 	public virtual Result VisitPassedStartPointReference([NotNull] OGParser.PassedStartPointReferenceContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>returnValueReference</c>
-	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.returnStatement"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -1052,18 +1051,7 @@ public partial class OGBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, I
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitReturnValueReference([NotNull] OGParser.ReturnValueReferenceContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by the <c>returnDirectValue</c>
-	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context) { return VisitChildren(context); }
+	public virtual Result VisitReturnStatement([NotNull] OGParser.ReturnStatementContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.startPointReference"/>.
 	/// <para>
