@@ -43,8 +43,10 @@ namespace OG.ASTBuilding.TreeNodes
                 Console.WriteLine("\t{1} function named {0} detected! Creating node...", functionName, returnType);
                
                 List<ParameterTypeNode> paramDcls = paramDclsListBuilder.VisitVoidFunctionDCL(voidFunction);
-                //TODO : fisk returnStmt med ud den er ikke med pt
-                return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(voidFunction.body()),paramDcls);
+                return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(voidFunction.body()),paramDcls) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             } 
             if (returnFunction != null && !returnFunction.IsEmpty)
             {
@@ -80,7 +82,10 @@ namespace OG.ASTBuilding.TreeNodes
                 
                 
                 List<ParameterTypeNode> paramDcls = paramDclsListBuilder.VisitReturnFunctionDCL(returnFunction);
-                return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(returnFunction.body()), paramDcls);
+                return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(returnFunction.body()), paramDcls) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
 
             }
             

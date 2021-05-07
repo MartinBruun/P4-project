@@ -69,19 +69,28 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         {
             MathNode firstNum = new MathNodeExtractor(SemanticErrors).ExtractMathNode(context.tuple.lhs);
             MathNode secondNum = new MathNodeExtractor(SemanticErrors).ExtractMathNode(context.tuple.rhs);
-            return new TuplePointNode(context.GetText(),firstNum, secondNum );
+            return new TuplePointNode(context.GetText(),firstNum, secondNum ) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override PointReferenceNode VisitFromWithStartPointRef(OGParser.FromWithStartPointRefContext context)
         {
             IdNode shapeId = new IdNode(context.fromPoint.id.Text);
-            return new ShapeStartPointNode(context.GetText(), shapeId);
+            return new ShapeStartPointNode(context.GetText(), shapeId) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override PointReferenceNode VisitFromWithEndPointRef(OGParser.FromWithEndPointRefContext context)
         {
             IdNode shapeId = new IdNode(context.fromPoint.id.Text);
-            return new ShapeEndPointNode(context.GetText(), shapeId);
+            return new ShapeEndPointNode(context.GetText(), shapeId) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public FromCommandNodeExtractor(List<SemanticError> errs) : base(errs)

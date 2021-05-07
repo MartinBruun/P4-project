@@ -78,7 +78,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
                     FunctionCallNode x = new FunctionCallNodeExtractor(SemanticErrors).VisitFunctionCall(functionCallContext.funcCall);
                     IdNode id = new IdNode(functionCallContext.id.Text);
                     
-                    return new FunctionCallAssignNode(id,x.FunctionName, x.Parameters);
+                    return new FunctionCallAssignNode(id,x.FunctionName, x.Parameters) {
+                        Line =context.Start.Line,
+                        Column = context.Start.Column
+                    };
 
 
                 }
@@ -152,7 +155,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
                 MathNode mathNode = _mathNodeExtractor.ExtractMathNode(mathExprContext);
                 CoordinateXyValueNode xyValue =
                     new CoordinateXyValueNode(new IdNode(propAssign.xyVal.id.Text), propAssign.xyVal.xy.Text);
-                return new PropertyAssignmentNode(xyValue, mathNode);
+                return new PropertyAssignmentNode(xyValue, mathNode) {
+                    Line =propAssign.Start.Line,
+                    Column = propAssign.Start.Column
+                };
             }
 
 
@@ -165,14 +171,20 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             string value = context.value.Text;
             Console.Write("\t\tCreating IDAssignmentNode from expression {0} = {1}.", id, value);
             
-            return new IdAssignNode(new IdNode(id),new IdNode(value));
+            return new IdAssignNode(new IdNode(id),new IdNode(value)) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
         public BoolAssignmentNode ExtractAssignmentNode(OGParser.BoolAssignContext context)
         {
             string id = context.id.Text;
             string value = context.value.GetText();
             OGParser.BoolExpressionContext boolExprContext = context.value;
-            return new BoolAssignmentNode(new IdNode(id), _boolNodeExtractor.ExtractBoolNode(boolExprContext));
+            return new BoolAssignmentNode(new IdNode(id), _boolNodeExtractor.ExtractBoolNode(boolExprContext)) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
 
         }
         
@@ -183,7 +195,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             Console.Write("\t\tCreating NumberAssignmentNode from expression {0} = {1}.", id, value);
 
             MathNode mathNode = _mathNodeExtractor.ExtractMathNode(context.value);
-            return new MathAssignmentNode(new IdNode(id), mathNode);
+            return new MathAssignmentNode(new IdNode(id), mathNode) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
 
         }
         
@@ -202,18 +217,27 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             {
                 PointReferenceNode pointRefNode =  _pointReferenceNodeExtractor.VisitPointReference(pointReferenceContext);
                 IdNode id = new IdNode(context.id.Text);
-                return new PointAssignmentNode(id, pointRefNode);
+                return new PointAssignmentNode(id, pointRefNode) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             } else  if (endPointAssignmentContext != null && !endPointAssignmentContext.IsEmpty)
             {
 
                 PointReferenceNode value = _pointReferenceNodeExtractor.VisitPointReference(endPointAssignmentContext.value);
                 string id = endPointAssignmentContext.id.id.Text;
-                return new PointAssignmentNode(new IdNode(id), value);
+                return new PointAssignmentNode(new IdNode(id), value) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             } else if (startPointAssignment != null && !startPointAssignment.IsEmpty)
             {
                 PointReferenceNode value = _pointReferenceNodeExtractor.VisitPointReference(startPointAssignment.value);
                 string id = startPointAssignment.id.id.Text;
-                return new PointAssignmentNode(new IdNode(id), value);
+                return new PointAssignmentNode(new IdNode(id), value) {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             }
             else
             {

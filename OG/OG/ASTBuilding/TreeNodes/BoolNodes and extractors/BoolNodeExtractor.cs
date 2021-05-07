@@ -59,11 +59,17 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
                         case OGLexer.BooleanValue:
                             if (tOrFContext.value.Text == "true")
                             {
-                                return new TrueNode(tOrFContext.value.Text);
+                                return new TrueNode(tOrFContext.value.Text) {
+                                    Line =context.Start.Line,
+                                    Column = context.Start.Column
+                                };
                             }
                             else if (tOrFContext.value.Text == "false")
                             {
-                                return new FalseNode("False");
+                                return new FalseNode("False") {
+                                    Line =context.Start.Line,
+                                    Column = context.Start.Column
+                                };
                             }
                             break;
                         default:
@@ -86,8 +92,6 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
                 {
                 }
                 
-                
-
                 try
                 {
                     OGParser.BoolExprIDContext idBoolContext = (OGParser.BoolExprIDContext) context;
@@ -130,13 +134,22 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
             switch (comparer.GetText())
             {
                 case ">":
-                    return new GreaterThanComparerNode(lhs, rhs, context.GetText());
+                    return new GreaterThanComparerNode(lhs, rhs, context.GetText()) {
+                        Line =context.Start.Line,
+                        Column = context.Start.Column
+                    };
                 
                 case "<":
-                    return new LessThanComparerNode(lhs, rhs, context.GetText());
+                    return new LessThanComparerNode(lhs, rhs, context.GetText()) {
+                        Line =context.Start.Line,
+                        Column = context.Start.Column
+                    };
                     
                 case "==":
-                    return new EqualsComparerNode(lhs, rhs, context.GetText());
+                    return new EqualsComparerNode(lhs, rhs, context.GetText()) {
+                        Line =context.Start.Line,
+                        Column = context.Start.Column
+                    };
                 
                 default:
                     throw new AstNodeCreationException("BoolExprMathComprContext did not contain <, > or ==.");
@@ -147,7 +160,10 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 
         public override BoolNode VisitBoolExprNotPrefix(OGParser.BoolExprNotPrefixContext context)
         {
-            return new NegationNode(ExtractBoolNode(context.boolExpr), context.boolExpr.GetText());
+            return new NegationNode(ExtractBoolNode(context.boolExpr), context.boolExpr.GetText()) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override BoolNode VisitBoolExprBoolComp(OGParser.BoolExprBoolCompContext context)
@@ -159,9 +175,15 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
             switch (context.LogicOperator().GetText())
             {
                 case "&&":
-                    return new AndComparerNode(rhs, lhs, content);
+                    return new AndComparerNode(rhs, lhs, content) {
+                        Line =context.Start.Line,
+                        Column = context.Start.Column
+                    };
                 case "||":
-                    return new OrComparerNode(rhs, lhs, content);
+                    return new OrComparerNode(rhs, lhs, content) {
+                        Line =context.Start.Line,
+                        Column = context.Start.Column
+                    };
 
                 default:
                     SemanticErrors.Add(new SemanticError(context.Start.Line, context.Start.Column,"BoolExprBoolCompContext did not contain && or ||.")
@@ -182,8 +204,11 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
 
         public override BoolNode VisitBoolExprID(OGParser.BoolExprIDContext context)
         {
-            IdNode Id = new IdNode(context.id.Text);
-            return new BoolExprIdNode(context.GetText(),Id,BoolNode.BoolType.IdValueNode);
+            return new BoolExprIdNode(context.GetText(),new IdNode(context.id.Text),BoolNode.BoolType.IdValueNode) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
+
         }
     }
 }
