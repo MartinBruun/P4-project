@@ -167,30 +167,22 @@ namespace OG.AstVisiting.Visitors
         }
 
         
-        public object Visit(DeclarationNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            node.Accept(this);
-            return new object();
-        }
+      
         public object Visit(FunctionNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-
-            // S.enterScope(node.Id.Value);
+            //For at nulstille pointingAt
+            node.Id.Accept(this);
             foreach (var item in node.Parameters)
             {
                 item.Accept(this);
             }
             node.Body.Accept(this);
-            // S.exitScope(node.Id.Value);
             return new object();
         }
         
         public object Visit(ShapeNode node)
         {
+            //For at nulstille pointingAt
             node.Id.Accept(this);
             node.Body.Accept(this);
             return new object();
@@ -198,36 +190,54 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(BoolDeclarationNode node)
         {
-             node.AssignedExpression.Accept(this);
-             node.Id.DeclaredValue = node.AssignedExpression;
-             //string _pointing_at = _pointingAt;
-             if (_pointingAt != node.Id.PointingAt)
-             {
-                 node.Id.PointingAt = _pointingAt;
-                 if (!S.Add(node.Id.SymboltableAddress, node))
-                 {
-                     throw new Exception("Could not Save in Symboltable");
-                 }
-             }
-             node.Id.Accept(this);
+            //For at nulstille pointingAt
+            node.Id.Accept(this);
+            node.AssignedExpression.Accept(this);
+            if (_pointingAt != node.Id.PointingAt)
+            {
+                node.Id.PointingAt = _pointingAt;
+                if (!S.Add(node.Id.SymboltableAddress, node))
+                {
+                    throw new Exception("Could not Save in Symboltable");
+                }
+            }
+            // node.Id.Accept(this);
              
-               return new object();
+            return new object();
         }
 
         
         public object Visit(NumberDeclarationNode node)
         {
+            //For at nulstille pointingAt
             node.Id.Accept(this);
             node.AssignedExpression.Accept(this);
+            if (_pointingAt != node.Id.PointingAt)
+            {
+                node.Id.PointingAt = _pointingAt;
+                if (!S.Add(node.Id.SymboltableAddress, node))
+                {
+                    throw new Exception("Could not Save in Symboltable");
+                }
+            }
+            node.Id.Accept(this);
             return new object();
         }
 
         public object Visit(PointDeclarationNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            //For at nulstille pointingAt
             node.Id.Accept(this);
             node.AssignedExpression.Accept(this);
+            if (_pointingAt != node.Id.PointingAt)
+            {
+                node.Id.PointingAt = _pointingAt;
+                if (!S.Add(node.Id.SymboltableAddress, node))
+                {
+                    throw new Exception("Could not Save in Symboltable");
+                }
+            }
+            node.Id.Accept(this);
             
             return new object();
         }
@@ -235,13 +245,11 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(BoolAssignmentNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            //For at nulstille pointingAt
             node.Id.Accept(this);
             node.AssignedValue.Accept(this);
             
-            string _pointing_at = pointingAt;
-            if (_pointing_at != null)
+            if (_pointingAt != node.Id.PointingAt)
             {
                 node.Id.PointingAt = pointingAt;
                 S.Add(node.Id.SymboltableAddress, node);
@@ -250,10 +258,10 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-
+//TODO: check lige det her igennem
         public object Visit(FunctionCallAssignNode node)
         {
-            
+                //For at nulstille pointingAt
                 node.Id.Accept(this);
                 node.FunctionName.Accept(this);
                 node.Id.PointingAt = node.FunctionName.PointingAt;
@@ -264,30 +272,52 @@ namespace OG.AstVisiting.Visitors
                     node.Parameters[i].Accept(this);                    
                     node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
                 }
+                
+                if (_pointingAt != node.Id.PointingAt)
+                {
+                    node.Id.PointingAt = pointingAt;
+                    S.Add(node.Id.SymboltableAddress, node);
+                }
+                
                 return new object();
         }
 
         public object Visit(IdAssignNode node)
         {
+            //For at nulstille pointingAt
             node.Id.Accept(this);
             node.AssignedValue.Accept(this);
-            node.Id.PointingAt = node.AssignedValue.PointingAt;
+            
+            if (_pointingAt != node.Id.PointingAt)
+            {
+                node.Id.PointingAt = pointingAt;
+                S.Add(node.Id.SymboltableAddress, node);
+            }
             return new object();
         }
 
         public object Visit(MathAssignmentNode node)
         {
+            //For at nulstille pointingAt
             node.Id.Accept(this);
             node.AssignedValue.Accept(this);
-            node.Id.PointingAt = pointingAt;
-            return new object();
+            if (_pointingAt != node.Id.PointingAt)
+            {
+                node.Id.PointingAt = pointingAt;
+                S.Add(node.Id.SymboltableAddress, node);
+            }            return new object();
         }
 
         public object Visit(PointAssignmentNode node)
         {
+            //For at nulstille pointingAt
             node.Id.Accept(this);
             node.AssignedValue.Accept(this);
-            node.Id.PointingAt = pointingAt;
+            if (_pointingAt != node.Id.PointingAt)
+            {
+                node.Id.PointingAt = pointingAt;
+                S.Add(node.Id.SymboltableAddress, node);
+            }           
             return new object();
         }
 
@@ -295,6 +325,7 @@ namespace OG.AstVisiting.Visitors
         //TODO: Find en måde at tilgå .x og .y
         public object Visit(PropertyAssignmentNode node)
         {
+            //For at nulstille pointingAt
             node.Id.Accept(this);
             Console.WriteLine(((PointDeclarationNode)node.Id.DeclaredValue).AssignedExpression.Value);
             
@@ -343,6 +374,7 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             //TODO: måske bør man lave symboltable opslaget her .
+            S.GetElementBySymbolTableAddress(node.Id.PointingAt); 
             node.Id.Accept(this);
             return new object();
         }
@@ -750,12 +782,18 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
+        //TODO: konverter DeclaredValue så jeg kan få dens Id.pointingAt adresse ud.Jeg ved ikke om mit krumspring her flytter mig tættere
         public object Visit(IdNode node)
         {
-            node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
-            
-            Console.WriteLine("\n#####This is stored: "+ node.DeclaredValue+node.SymboltableAddress);
-            _pointingAt = node.PointingAt;
+            if (_pointingAt != node.PointingAt)
+            {
+                node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
+                _pointingAt = node.PointingAt;
+                node.DeclaredValue.Accept(this);
+            }
+
+            Console.WriteLine("\n#####This is stored: "+ node.DeclaredValue+" At Addr:"+node.SymboltableAddress);
+           
             return new object();
         }
 

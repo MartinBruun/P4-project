@@ -428,6 +428,10 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             //TODO: måske bør man lave symboltable opslaget her .
             node.Id.Accept(this);
+            if (node.Id.CompileTimeType != "shape")
+            {
+                errors.Add(new SemanticError(node, $"{node.Id.Value} is not a shape"));
+            }
             return new object();
         }
 

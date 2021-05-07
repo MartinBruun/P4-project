@@ -58,35 +58,39 @@ namespace Tests
             ProgramNode p = astContainer.AstTreeTopNode;
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
             p.Accept(ST);
+            var errors = ST.GetErrors();
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             p.Accept(TT);
+            errors.AddRange( TT.GetErrors());
+
             GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
             p.Accept(GV);
-            PrintsymboltableAddress PA = new PrintsymboltableAddress(GV.GetSymbolTable());
+            errors.AddRange( GV.GetErrors());
+
+            PrintsymboltableAddress PA = new PrintsymboltableAddress();
             p.Accept(PA);
             // var symboltable = GV.GetSymbolTable();
-            var errors = TT.GetErrors();
             //
-            // #region ErrorPrinter
-            // Console.WriteLine("\n--- Symboltable Errors---");
-            // foreach (var item in ST.GetErrors())
-            // {
-            //     Console.WriteLine(item);
-            // }
-            //
-            // Console.WriteLine("\n--- TypeChecker Errors---");
-            // foreach (var item in TT.GetErrors())
-            // {
-            //     Console.WriteLine(item);
-            // }
-            //
-            // Console.WriteLine("\n--- GetDeclared Values Errors---");
-            //
-            // foreach (var item in GV.GetErrors())
-            // {
-            //     Console.WriteLine(item);
-            // }
-            // #endregion
+            #region ErrorPrinter
+            Console.WriteLine("\n--- Symboltable Errors---");
+            foreach (var item in ST.GetErrors())
+            {
+                Console.WriteLine(item);
+            }
+            
+            Console.WriteLine("\n--- TypeChecker Errors---");
+            foreach (var item in TT.GetErrors())
+            {
+                Console.WriteLine(item);
+            }
+            
+            Console.WriteLine("\n--- GetDeclared Values Errors---");
+            
+            foreach (var item in GV.GetErrors())
+            {
+                Console.WriteLine(item);
+            }
+            #endregion
             //
             // #region SymboltablePrinter
             // Console.WriteLine("\n-----Contents of symboltable-----");

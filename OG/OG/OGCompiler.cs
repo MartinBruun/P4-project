@@ -57,7 +57,7 @@ namespace OG
             p.Accept(GV);
             errors.AddRange(GV.GetErrors());
             
-            PrintsymboltableAddress PA = new PrintsymboltableAddress(GV.GetSymbolTable());
+            PrintsymboltableAddress PA = new PrintsymboltableAddress();
             p.Accept(PA);
             // var symboltable = GV.GetSymbolTable();
             symbolTable = TT.GetSymbolTable();

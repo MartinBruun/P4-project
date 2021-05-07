@@ -20,28 +20,12 @@ namespace OG.AstVisiting.Visitors
     public class PrintsymboltableAddress:IVisitor
     {
         
-        private SymbolTable S = new SymbolTable();
         private List<SemanticError> errors = new List<SemanticError>();
         
         
-         public PrintsymboltableAddress(Dictionary<string,AstNode>  s)
+         public PrintsymboltableAddress()
         {
-            S.Elements = s;
-        }
-
-        
-        void PrintSymbolTable()
-        {
-            foreach (var item in S.Elements)
-            {
-                // // Console.WriteLine(item.Key + ":" + item.Value);
-            }
-        }
-        
-        //Mark: Getters
-        public Dictionary<string, AstNode> GetSymbolTable()
-        {
-            return S.Elements;
+          
         }
 
         public List<SemanticError> GetErrors()
@@ -49,7 +33,6 @@ namespace OG.AstVisiting.Visitors
             return errors;
         }
 
-        
         
         
         //Visitors
@@ -79,7 +62,6 @@ namespace OG.AstVisiting.Visitors
         //    S.exitScope("Global");
             
             
-            PrintSymbolTable();
             foreach (var item in errors)
             {
             }
@@ -301,6 +283,7 @@ namespace OG.AstVisiting.Visitors
         {Console.WriteLine("-->"+node);
             //TODO: måske bør man lave symboltable opslaget her .
             node.Id.Accept(this);
+            
             return new object();
         }
         
@@ -608,9 +591,6 @@ namespace OG.AstVisiting.Visitors
         public object Visit(IdNode node)
         {
             Console.WriteLine("Visit(IdNode node)");
-            
-           
-            node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
             
             Console.WriteLine($"{node.Value} : SymbTAddr: { node.SymboltableAddress}   ----> pointingAt:  {node.PointingAt}\n");
 
