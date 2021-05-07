@@ -1,4 +1,5 @@
-﻿using OG.ASTBuilding.TreeNodes.TerminalNodes;
+﻿using System;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors

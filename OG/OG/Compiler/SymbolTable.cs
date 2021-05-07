@@ -21,15 +21,23 @@ namespace OG.AstVisiting.Visitors
         {
             stack.Push("0");
         }
-        public class SymbolTableItem
-        {
-            public string scopeName;
-            public string type;
-        }
+        
+        /// <summary>
+        /// The list of elements in the symboltable.
+        /// </summary>
         public Dictionary<string, AstNode> Elements = new Dictionary<string,AstNode>();
 
+        public void Accept(IVisitor visitor, AstNode visitable, string bodyId)
+        {
+           
+            enterScope(bodyId);
+            visitable.Accept(visitor);
+            exitScope(bodyId);
+        }
+        
+        
         /// <summary>
-        /// Skal kaldes når et  scope entres
+        /// Must be called when a scope is entered
         /// 
         /// </summary>
         public void enterScope(string id)

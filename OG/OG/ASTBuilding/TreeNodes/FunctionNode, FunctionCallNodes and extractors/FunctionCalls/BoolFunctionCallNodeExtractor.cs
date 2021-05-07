@@ -15,7 +15,10 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             _parameterListBuilder = new ParameterNodeListBuilder(SemanticErrors);
             IdNode id = new IdNode(context.id.Text);
             List<ParameterNode> parameters = _parameterListBuilder.VisitFunctionCall(context);
-            return new BoolFunctionCallNode(context.GetText(), id, parameters);
+            return new BoolFunctionCallNode(context.GetText(), id, parameters) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public BoolFunctionCallNodeExtractor(List<SemanticError> errs) : base(errs)

@@ -52,14 +52,22 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
             
             if (context.ID() != null && !string.IsNullOrEmpty(context.ID().GetText()))
             {
-                return new PointReferenceIdNode(context.GetText(), new IdNode(context.ID().GetText()));
+                return new PointReferenceIdNode(context.GetText(), new IdNode(context.ID().GetText()))
+                {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             }
             
             if (tupleContext != null && !tupleContext.IsEmpty)
             {
                 MathNode lhs = _mathNodeExtractor.ExtractMathNode(tupleContext.lhs);
                 MathNode rhs = _mathNodeExtractor.ExtractMathNode(tupleContext.rhs);
-                return new TuplePointNode(context.GetText(), lhs, rhs);
+                return new TuplePointNode(context.GetText(), lhs, rhs)
+                {
+                    Line =context.Start.Line,
+                    Column = context.Start.Column
+                };
             }
             
             if (pointFunctionCallContext != null && !pointFunctionCallContext.IsEmpty)
@@ -84,7 +92,11 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
 
         public PointReferenceNode ExtractPointReferenceNode(OGParser.StartPointReferenceContext startPointContext)
         {
-            return CheckForStartEndPointText(startPointContext.GetText());
+            var res = CheckForStartEndPointText(startPointContext.GetText());
+            res.Line = startPointContext.Start.Line;
+            res.Column = startPointContext.Start.Column;
+
+            return res;
         }
 
         private PointReferenceNode CheckForStartEndPointText(string pointText)
@@ -112,7 +124,11 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
 
         public override PointReferenceNode VisitPointDclIdAssign(OGParser.PointDclIdAssignContext context)
         {
-            return new PointReferenceIdNode(context.GetText(), new IdNode(context.id.Text));
+            return new PointReferenceIdNode(context.GetText(), new IdNode(context.id.Text)) 
+            {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
        
@@ -174,7 +190,10 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         {
             MathNode lhs = _mathNodeExtractor.ExtractMathNode(context.tuple.lhs);
             MathNode rhs = _mathNodeExtractor.ExtractMathNode(context.tuple.rhs);
-            return new TuplePointNode(context.GetText(), lhs, rhs);
+            return new TuplePointNode(context.GetText(), lhs, rhs) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
  

@@ -25,14 +25,20 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         {
             FunctionCallNode func = new FunctionCallNodeExtractor(SemanticErrors).VisitFunctionCall(context.iterator);
             BodyNode body = GetBody(context.statements);
-            return new UntilFunctionCallNode(func, body);
+            return new UntilFunctionCallNode(func, body) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override IterationNode VisitUntilCondition(OGParser.UntilConditionContext context)
         {
             BoolNode boolnode = new BoolNodeExtractor(SemanticErrors).ExtractBoolNode(context.iterator);
             BodyNode body = GetBody(context.statements);
-            return new UntilNode(boolnode, body);
+            return new UntilNode(boolnode, body) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         
@@ -42,7 +48,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             
             MathNode mathNode = new MathNodeExtractor(new List<SemanticError>()).ExtractMathNode(context.iterator);
             BodyNode body = GetBody(context.statements);
-            return new NumberIterationNode(mathNode, body);
+            return new NumberIterationNode(mathNode, body) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public IterationNode ExtractIterationNode(OGParser.UntilIterationContext context)

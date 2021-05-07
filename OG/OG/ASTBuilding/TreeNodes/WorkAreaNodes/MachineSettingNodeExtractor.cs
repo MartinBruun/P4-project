@@ -23,8 +23,12 @@ namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
                 WorkAreaSettingNode workAreaSettings = new WorkAreaSettingNode(size);
                 return workAreaSettings;
             }
-
-            return  new WorkAreaSettingNode();
+            
+            return  new WorkAreaSettingNode()
+            {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
         
         public override SizePropertyNode VisitSizePrpt(
@@ -37,7 +41,11 @@ namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
             MathNode yMax = mathNodeExtractor.ExtractMathNode(context.workAreaVariables.ymax);
 
 
-            return new SizePropertyNode(xMin, xMax, yMin, yMax);
+            return new SizePropertyNode(xMin, xMax, yMin, yMax)
+            {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
         
 
