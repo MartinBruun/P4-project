@@ -293,6 +293,7 @@ namespace OG.AstVisiting.Visitors
                 for (int i = 0 ; i< node.Parameters.Count ; i++)
                 {
                     node.Parameters[i].Accept(this);
+                    node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
                     if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                     {
                         errors.Add(new SemanticError(node.Parameters[i],
@@ -558,11 +559,22 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            
+                
                 node.FunctionName.Accept(this);
                 if (node.FunctionName.CompileTimeType != "bool")
                 {
                     errors.Add(new SemanticError(node, $"VisitBoolFunctionCallNode: {node.FunctionName.Value} is not of type bool : Typemismatch! "));
+                }
+                var declaredNode = (FunctionNode) node.FunctionName.DeclaredValue;// S.GetElementById(node.FunctionName.Value);
+                for (int i = 0 ; i< node.Parameters.Count ; i++)
+                {
+                    node.Parameters[i].Accept(this);
+                    node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
+                    if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
+                    {
+                        errors.Add(new SemanticError(node.Parameters[i],
+                            $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
+                    }
                 }
            
             return new object();
@@ -577,17 +589,16 @@ namespace OG.AstVisiting.Visitors
             
             //Checking parameters
             //TODO: her kan FunctionName.Declared...anvendes
-            var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
+            var declaredNode = (FunctionNode) node.FunctionName.DeclaredValue;// S.GetElementById(node.FunctionName.Value);
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
-                // Console.WriteLine("testing param");
                 node.Parameters[i].Accept(this);
-                if (node.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
+                node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
+                if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
                     errors.Add(new SemanticError(node.Parameters[i],
                         $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
                 }
-                   
             }
             S.resetParameterCount();
             return new object();
@@ -621,17 +632,16 @@ namespace OG.AstVisiting.Visitors
                 errors.Add(new SemanticError(node, $"{node.FunctionName}: is not of type number: typeMismatch"));
             }
             //Checking parameters
-            var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
+            var declaredNode = (FunctionNode) node.FunctionName.DeclaredValue;// S.GetElementById(node.FunctionName.Value);
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
-                // Console.WriteLine("testing param");
                 node.Parameters[i].Accept(this);
+                node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
                 if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
                     errors.Add(new SemanticError(node.Parameters[i],
                         $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
                 }
-                   
             }
             S.resetParameterCount();
             return new object();
