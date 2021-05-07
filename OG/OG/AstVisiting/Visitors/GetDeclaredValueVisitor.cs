@@ -529,11 +529,13 @@ namespace OG.AstVisiting.Visitors
                 errors.Add(new SemanticError(node, $"{node.FunctionName}: is not of type number: typeMismatch"));
             }
             //Checking parameters
-            var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
+            var declaredNode= (FunctionNode) S.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
                 // Console.WriteLine("testing param");
                 node.Parameters[i].Accept(this);
+                //node.Parameters[i].Expression = declaredNode.Parameters[i].Expression;
+                
                 if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
                     errors.Add(new SemanticError(node.Parameters[i],

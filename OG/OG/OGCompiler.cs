@@ -44,8 +44,8 @@ namespace OG
             
             ProgramNode p = astContainer.AstTreeTopNode;
 
-            PrettyPrinter PP = new PrettyPrinter();
-            p.Accept(PP);
+            // PrettyPrinter PP = new PrettyPrinter();
+            // p.Accept(PP);
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
             p.Accept(ST);
             errors.AddRange(ST.GetErrors());
@@ -71,10 +71,10 @@ namespace OG
             }
             
             Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
-            foreach (var item in symbolTable)
-            {
-                Console.WriteLine(item);
-            }
+            // foreach (var item in symbolTable)
+            // {
+            //     Console.WriteLine(item);
+            // }
 
             
 
