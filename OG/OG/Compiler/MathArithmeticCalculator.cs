@@ -111,20 +111,19 @@ namespace OG.Compiler
 
         public NumberNode Visit(MathFunctionCallNode node)
         {
-            
-            AstNode astNode = _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
-            FunctionNode funcNode = (FunctionNode) astNode.Accept(_typeCaster);
-            
+            FunctionNode funcNode = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+
+            //Pass parameters to function body
             for (int i = 0; i < node.Parameters.Count; i++)
             {
-                funcNode.Parameters[i].Expression = node.Parameters[i].Expression;
+                funcNode.Parameters[i].Expression = (MathNode) node.Parameters[i].Expression;
                 _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
             }
             
             funcNode.Accept(_mathReducerVisitor);
-            //We have evaluated the function body, now set the return value!
-            
-            return null;
+            //We know that return value is math node - we can reduce math nodes to numbers.
+            return (NumberNode)  funcNode.ReturnValue.Accept(_mathReducerVisitor);
+
 
         }
 

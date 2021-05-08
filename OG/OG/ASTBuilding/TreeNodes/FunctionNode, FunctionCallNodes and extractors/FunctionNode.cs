@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
 using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
@@ -15,7 +16,7 @@ namespace OG.ASTBuilding.TreeNodes
 
         public ParameterNode Type { get; set; }
         public string ReturnType { get; set; }
-        public AstNode ReturnValue { get; set; }
+        public ExpressionNode ReturnValue { get; set; }
         public BodyNode Body;
         public List<ParameterTypeNode> Parameters { get; set; }
 

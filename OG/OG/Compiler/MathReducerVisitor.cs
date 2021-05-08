@@ -27,7 +27,7 @@ namespace OG.Compiler
         public List<SemanticError> SemanticErrors { get; set; }
         public string TopNode { get; set; }
 
-        private readonly IMathNodeReducer _mathNodeReducer;
+        private readonly IMathNodeReducer _arithmeticPerformer;
         TypeCastVisitor typeCaster = new TypeCastVisitor();
 
 
@@ -35,7 +35,7 @@ namespace OG.Compiler
         {
             SemanticErrors = errs;
             _symbolTable.Elements = symTab;
-            _mathNodeReducer = new MathArithmeticCalculator(_symbolTable, errs, this);
+            _arithmeticPerformer = new MathArithmeticCalculator(_symbolTable, errs, this);
         }
         
         public object Visit(BoolAssignmentNode node)
@@ -75,7 +75,7 @@ namespace OG.Compiler
 
         public object Visit(MathAssignmentNode node)
         {
-            NumberNode res = node.AssignedValue.Accept(_mathNodeReducer);
+            NumberNode res = node.AssignedValue.Accept(_arithmeticPerformer);
 
             string lhsSymTabAddress = node.Id.SymboltableAddress;
 
@@ -99,7 +99,7 @@ namespace OG.Compiler
         {
             
             MathNode mathExpression = (MathNode)node.Expression;
-            NumberNode number = mathExpression.Accept(_mathNodeReducer);
+            NumberNode number = mathExpression.Accept(_arithmeticPerformer);
             return number;
         }
 
@@ -125,7 +125,7 @@ namespace OG.Compiler
         /// <returns></returns>
         public object Visit(NumberIterationNode node)
         {
-            NumberNode result = node.Iterations.Accept(_mathNodeReducer);
+            NumberNode result = node.Iterations.Accept(_arithmeticPerformer);
             node.Iterations = result;
             
             
@@ -157,7 +157,7 @@ namespace OG.Compiler
         public object Visit(NumberDeclarationNode node)
         {
             MathNode res = (MathNode) node.AssignedExpression;
-            node.AssignedExpression = res.Accept(_mathNodeReducer);
+            node.AssignedExpression = res.Accept(_arithmeticPerformer);
             _symbolTable.Add(node.Id.SymboltableAddress, node.AssignedExpression);
             
             return node.AssignedExpression;
@@ -207,8 +207,8 @@ namespace OG.Compiler
 
         public object Visit(GreaterThanComparerNode node)
         {
-            NumberNode rhs = node.RHS.Accept(_mathNodeReducer);
-            NumberNode lhs = node.LHS.Accept(_mathNodeReducer);
+            NumberNode rhs = node.RHS.Accept(_arithmeticPerformer);
+            NumberNode lhs = node.LHS.Accept(_arithmeticPerformer);
             node.RHS = rhs;
             node.LHS = lhs;
             return new object();
@@ -265,12 +265,12 @@ namespace OG.Compiler
 
         public object Visit(AdditionNode node)
         {
-            return node.Accept(_mathNodeReducer);
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(DivisionNode node)
         {
-            return node.Accept(_mathNodeReducer);
+            return node.Accept(_arithmeticPerformer);
         }
 
         
@@ -278,23 +278,23 @@ namespace OG.Compiler
 
         public object Visit(MathIdNode node)
         {
-            return node.Accept(_mathNodeReducer);
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(MultiplicationNode node)
         {
-            return node.Accept(_mathNodeReducer);
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(PowerNode node)
         {
             
-            return node.Accept(_mathNodeReducer);
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(SubtractionNode node)
         {
-            return node.Accept(_mathNodeReducer);
+            return node.Accept(_arithmeticPerformer);
         }
 
         /// <summary>
@@ -330,8 +330,8 @@ namespace OG.Compiler
 
         public object Visit(TuplePointNode node)
         {
-            NumberNode x = node.XValue.Accept(_mathNodeReducer);
-            NumberNode y = node.YValue.Accept(_mathNodeReducer);
+            NumberNode x = node.XValue.Accept(_arithmeticPerformer);
+            NumberNode y = node.YValue.Accept(_arithmeticPerformer);
 
             node.XValue = x;
             node.YValue = y;
@@ -353,7 +353,7 @@ namespace OG.Compiler
 
         public object Visit(NumberNode node)
         {
-            return node.Accept(_mathNodeReducer);
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(TrueNode node)
@@ -363,10 +363,10 @@ namespace OG.Compiler
 
         public object Visit(SizePropertyNode node)
         {
-            node.XMax = node.XMax.Accept(_mathNodeReducer);
-            node.YMax = node.XMax.Accept(_mathNodeReducer);
-            node.YMin = node.YMin.Accept(_mathNodeReducer);
-            node.XMin = node.XMin.Accept(_mathNodeReducer);
+            node.XMax = node.XMax.Accept(_arithmeticPerformer);
+            node.YMax = node.XMax.Accept(_arithmeticPerformer);
+            node.YMin = node.YMin.Accept(_arithmeticPerformer);
+            node.XMin = node.XMin.Accept(_arithmeticPerformer);
 
             return node;
         }

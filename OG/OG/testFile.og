@@ -1,4 +1,4 @@
-Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+Machine.WorkArea.size(xmin=0+2,xmax=100,ymin=0,ymax=100);
 
 draw 
 {
@@ -6,13 +6,13 @@ draw
 }
 
 function number BoolFuncA(){
- number q = 2;
- number b = NumberFuncA(q,8*8);
-
+ number b = NumberFuncA(5,1);
+ b = 2;
+ return b;
 }
 
 function number NumberFuncA(number a, number b){
 number result = a+b;
-return result;
+    return result;
 }
 
