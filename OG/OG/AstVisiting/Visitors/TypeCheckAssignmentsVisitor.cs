@@ -657,6 +657,13 @@ namespace OG.AstVisiting.Visitors
             {
                 node.Expression.Accept(this);
                 node.CompileTimeType = node.Expression.CompileTimeType;
+
+                if (node.Expression.ExprType == ExpressionNode.ExpressionType.SingleId ||
+                    node.Expression.ExprType == ExpressionNode.ExpressionType.FunctionCall)
+                {
+                    node.CompileTimeType = node.ParameterId.CompileTimeType;
+                }
+                
             }
             else
             {
@@ -924,10 +931,10 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             
-                node.CompileTimeType = S.CheckDeclaredTypeOf(node.Value);
-                node.DeclaredValue = S.GetElementById(node.Value);
-                node.SymboltableAddress = S.GetSymboltableAddressFor(node.Value);
-                Console.WriteLine("set CompiletimeType on IDNode");
+            node.CompileTimeType = S.CheckDeclaredTypeOf(node.Value);
+            node.DeclaredValue = S.GetElementById(node.Value);
+            node.SymboltableAddress = S.GetSymboltableAddressFor(node.Value);
+                
             if (node.SymboltableAddress == null)
             {
                 node.CompileTimeType = "!Not Found!";

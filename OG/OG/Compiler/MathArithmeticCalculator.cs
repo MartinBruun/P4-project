@@ -74,10 +74,7 @@ namespace OG.Compiler
             //Assigned value to Id must be a math node for it to occur as mathIdNode
             AstNode symbolTableResult =
                  _symbolTable.GetElementBySymbolTableAddress(node.AssignedValueId.SymboltableAddress);
-
-     
             
-            var r = symbolTableResult.Accept(_typeCaster);
             var q = symbolTableResult.Accept(_mathReducerVisitor);
 
             return (NumberNode) q;

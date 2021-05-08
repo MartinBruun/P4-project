@@ -323,6 +323,7 @@ namespace OG.AstVisiting.Visitors
             }
 
             S.increaseParameterCount();
+            node.IdNode.CompileTimeType = type;
             if (!(S.Add(node.IdNode.Value, type,node)))
             {
                 errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.IdNode.Value} Already exists in SymbolTable VistiParameterTypeNode"));

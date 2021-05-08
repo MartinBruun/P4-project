@@ -12,7 +12,7 @@ function number BoolFuncA(){
 }
 
 function number NumberFuncA(number a, number b){
-number result = a+b;
+    number result = a+b;
     return result;
 }
 

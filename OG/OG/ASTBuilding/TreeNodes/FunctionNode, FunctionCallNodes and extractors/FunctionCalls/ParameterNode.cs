@@ -46,10 +46,15 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         /// <param name="id"></param>
         public ParameterNode(IdNode id)
         {
-            Expression = new MathIdNode(id.Value,id);
             ParamType = ParameterType.Id;
             ParameterId = id;
         }
+
+        public ParameterNode(IdNode id, ExpressionNode expression ):this(id)
+        {
+            Expression = expression;
+        }
+
         public ParameterNode()
         {
             Expression = null;
@@ -57,13 +62,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             ParameterId = new IdNode("");
         }
 
-        public ParameterNode(IdNode id, PointReferenceNode startPoint)
-        {
-            ParameterId = id;
-            Expression = startPoint;
-        }
         
-       
 
         public override string ToString()
         {

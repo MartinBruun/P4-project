@@ -272,10 +272,7 @@ namespace OG.Compiler
         {
             return node.Accept(_arithmeticPerformer);
         }
-
         
-
-
         public object Visit(MathIdNode node)
         {
             return node.Accept(_arithmeticPerformer);

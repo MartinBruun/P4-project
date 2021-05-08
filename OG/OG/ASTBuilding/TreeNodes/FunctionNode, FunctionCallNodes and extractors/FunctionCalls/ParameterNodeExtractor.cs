@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Antlr4.Runtime;
 using OG.ASTBuilding.Shapes;
 using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
@@ -63,7 +64,6 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
             if (mathExpressionContext != null && !mathExpressionContext.IsEmpty)
             {
-
                 _mathNodeExtractor = new MathNodeExtractor(SemanticErrors);
                 MathNode mathRes = _mathNodeExtractor.ExtractMathNode(mathExpressionContext);
                 return new ParameterNode(mathRes, ParameterNode.ParameterType.MathExpressionNode) {
@@ -131,7 +131,8 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 
         public override ParameterNode VisitPassedID(OGParser.PassedIDContext context)
         {
-            return new ParameterNode(new IdNode(context.id.Text));
+            
+            return new ParameterNode(new IdNode(context.id.Text), InferIdType(context));
         }
 
         public ParameterNode ExtractParameterNode(OGParser.PassedFunctionCallContext funcCallContext)
@@ -156,6 +157,34 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             OGParser.EndPointReferenceContext endpointContext = context.endpointRef;
             PointReferenceNode pointRef = new PointReferenceNodeExtractor(SemanticErrors).ExtractPointReferenceNode(endpointContext);
             return new ParameterNode(new IdNode(context.endpointRef.id.Text), pointRef);
+        }
+        
+        private ExpressionNode InferIdType(OGParser.PassedIDContext context)
+        {
+            IToken idContext = context?.id;
+          
+            if (idContext != null)
+            {
+                switch (idContext.Text)
+                {
+                    case "number":
+                        return new MathIdNode(idContext.Text, new IdNode(idContext.Text));
+                    case "bool":
+                        return new BoolExprIdNode(idContext.Text, new IdNode(idContext.Text), BoolNode.BoolType.IdValueNode);
+                    case "point":
+                        return new PointReferenceIdNode(idContext.Text, new IdNode(idContext.Text));
+                        
+                }
+            }
+
+            SemanticErrors.Add(new SemanticError("Somethinf went wrong trying to defer return type.")
+            {
+                Line = context.Start.Line,
+                Column = context.Start.Column,
+                IsFatal = true
+            });
+
+            return null;
         }
     }
 }
