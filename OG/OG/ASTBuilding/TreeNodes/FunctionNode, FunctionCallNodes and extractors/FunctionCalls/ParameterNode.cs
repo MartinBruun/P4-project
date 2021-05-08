@@ -1,3 +1,4 @@
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting;
@@ -45,7 +46,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         /// <param name="id"></param>
         public ParameterNode(IdNode id)
         {
-            Expression = null;
+            Expression = new MathIdNode(id.Value,id);
             ParamType = ParameterType.Id;
             ParameterId = id;
         }
