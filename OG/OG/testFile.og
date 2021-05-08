@@ -8,7 +8,7 @@ draw
 function number BoolFuncA(){
  number q = 1;
  q = 3;
- number b = NumberFuncA(1,1);
+ number b = NumberFuncA(q,1);
 
 }
 
