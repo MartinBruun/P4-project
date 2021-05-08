@@ -79,8 +79,7 @@ namespace OG.Compiler
 
             string lhsSymTabAddress = node.Id.SymboltableAddress;
 
-            NumberDeclarationNode numRes = new NumberDeclarationNode(node.Id, res);
-            _symbolTable.Add(lhsSymTabAddress, numRes);
+            _symbolTable.Add(lhsSymTabAddress, res);
             node.AssignedValue = res;
 
             return node;
@@ -98,8 +97,9 @@ namespace OG.Compiler
 
         public object Visit(ParameterTypeNode node)
         {
+            
             MathNode mathExpression = (MathNode)node.Expression;
-            NumberNode number = (NumberNode)mathExpression.Accept(_mathNodeReducer);
+            NumberNode number = mathExpression.Accept(_mathNodeReducer);
             return number;
         }
 
@@ -156,16 +156,12 @@ namespace OG.Compiler
 
         public object Visit(NumberDeclarationNode node)
         {
-            Console.WriteLine("HERE");
-            //Number declarations' expressions are always math.
-            // Caught in parser and type checking.
-            MathNode mathNode = (MathNode) node.AssignedExpression;
-            NumberNode res = mathNode.Accept(_mathNodeReducer);
-            node.AssignedExpression = res;
+            MathNode res = (MathNode) node.AssignedExpression;
+            node.AssignedExpression = res.Accept(_mathNodeReducer);
+            _symbolTable.Add(node.Id.SymboltableAddress, node.AssignedExpression);
+            
+            return node.AssignedExpression;
 
-            Console.WriteLine(node.Id+"   " + node.AssignedExpression);
-
-            return new object();
         }
 
         public object Visit(PointDeclarationNode node)
@@ -263,6 +259,7 @@ namespace OG.Compiler
 
         public object Visit(FunctionNode node)
         {
+
             return node.Body.Accept(this);
         }
 
@@ -348,6 +345,8 @@ namespace OG.Compiler
 
         public object Visit(IdNode node)
         {
+            //slå op
+          
             
             throw new System.NotImplementedException();
         }

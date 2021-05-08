@@ -72,10 +72,15 @@ namespace OG.Compiler
         {
             
             //Assigned value to Id must be a math node for it to occur as mathIdNode
-            AstNode symbolTableResult = _symbolTable.GetElementBySymbolTableAddress(node.AssignedValueId.SymboltableAddress);
-             
-            return (NumberNode)symbolTableResult.Accept(_mathReducerVisitor);
+            AstNode symbolTableResult =
+                 _symbolTable.GetElementBySymbolTableAddress(node.AssignedValueId.SymboltableAddress);
+
+     
             
+            var r = symbolTableResult.Accept(_typeCaster);
+            var q = symbolTableResult.Accept(_mathReducerVisitor);
+
+            return (NumberNode) q;
             
             //MathNode assignedMathValue = (MathNode) numberNode.AssignedExpression;
             return null;//assignedMathValue.Accept(this);
@@ -83,6 +88,8 @@ namespace OG.Compiler
 
         public NumberNode Visit(MultiplicationNode node)
         {
+            
+            
             double lhs = node.LHS.Accept(this).NumberValue;
             double rhs = node.RHS.Accept(this).NumberValue;
             return new NumberNode(lhs * rhs);
@@ -113,8 +120,10 @@ namespace OG.Compiler
                 funcNode.Parameters[i].Expression = node.Parameters[i].Expression;
                 _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
             }
-
+            
             funcNode.Accept(_mathReducerVisitor);
+            //We have evaluated the function body, now set the return value!
+            
             return null;
 
         }
