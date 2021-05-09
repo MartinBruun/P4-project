@@ -83,7 +83,7 @@ namespace OG.CodeGeneration
             string curveCommandWord = "";
 
             //Check for valid angle
-            if (angle <= 90 && angle >= -90)
+            if (angle < 90 && angle > -90)
             {
                 
                 //If angle is 0 then it is a line.

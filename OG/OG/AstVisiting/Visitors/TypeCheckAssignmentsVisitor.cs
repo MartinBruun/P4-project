@@ -657,13 +657,6 @@ namespace OG.AstVisiting.Visitors
             {
                 node.Expression.Accept(this);
                 node.CompileTimeType = node.Expression.CompileTimeType;
-
-                if (node.Expression.ExprType == ExpressionNode.ExpressionType.SingleId ||
-                    node.Expression.ExprType == ExpressionNode.ExpressionType.FunctionCall)
-                {
-                    node.CompileTimeType = node.ParameterId.CompileTimeType;
-                }
-                
             }
             else
             {

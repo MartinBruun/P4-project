@@ -14,6 +14,7 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
+using OG.Compiler;
 
 namespace OG.AstVisiting.Visitors
 {
@@ -323,12 +324,18 @@ namespace OG.AstVisiting.Visitors
             }
 
             S.increaseParameterCount();
+            
             node.IdNode.CompileTimeType = type;
             if (!(S.Add(node.IdNode.Value, type,node)))
             {
                 errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+node.IdNode.Value} Already exists in SymbolTable VistiParameterTypeNode"));
             }
+            node.IdNode.SymboltableAddress = S.GetSymboltableAddressFor(node.IdNode.Value);
             
+            //TODO: kan måske undværes
+            //add node again now with its symboltableAddress included, may be redundant , it seems that node is stored in symboltable as a refferencetype!!!!!!!
+            S.Add(node.IdNode.SymboltableAddress, node);
+
             return new object();
         }
 

@@ -58,9 +58,12 @@ namespace OG.ASTBuilding.TreeNodes
                 functionName = returnFunction.funcName.Text;
                 returnType = returnFunction.type.GetText();
                 IdNode id = new IdNode(functionName);
+                id.Line = returnFunction.Start.Line;
+                id.Column = returnFunction.Start.Column;
+                //TODO: fjern dette det er blot print til debug, eller erstat med en writeDebugInfoToConsole() funktion
                 if (returnFunction.paramDcls != null && !returnFunction.paramDcls.IsEmpty)
                 {
-                    Console.WriteLine("----------- TEST PRINTING ----------");
+                    Console.WriteLine("----------- TEST PRINTING Found Params----------");
                     // Console.WriteLine(returnFunction.paramDcls?.children.Count );
                     if (returnFunction.paramDcls.ChildCount > 0)
                     {
@@ -81,7 +84,7 @@ namespace OG.ASTBuilding.TreeNodes
                         }
                     }
                 }
-
+//TODO: RETURN Hold fast i denne !!! det er jo vores return statement, det skal med i functionNode constructoren
                 OGParser.ExpressionContext returnVal = returnFunction.returnStatement().expr;
                 returnExpression =  InferExpressionType(returnVal, returnType);
 
@@ -103,8 +106,10 @@ namespace OG.ASTBuilding.TreeNodes
 
         }
 
+        //TODO: se på idContext, nu uderstøtter den kun returntype værende et id, dvs vi tvinger programmøren til at oprette en lokal result variabel eller returnere en af de indeholdte variabler.
         private ExpressionNode InferExpressionType(OGParser.ExpressionContext context, string type )
         {
+            string str = context.GetText();
             IToken idContext = context?.id;
             OGParser.FunctionCallContext functionCallContext = context?.functionCall();
             OGParser.MathExpressionContext mathExprCont = context?.mathExpression();
@@ -127,17 +132,27 @@ namespace OG.ASTBuilding.TreeNodes
 
             if (functionCallContext != null)
             {
-                return new FunctionCallNodeExtractor(SemanticErrors).VisitFunctionCall(functionCallContext);
+                var resultingNode = new FunctionCallNodeExtractor(SemanticErrors).VisitFunctionCall(functionCallContext);
+                resultingNode.Line = functionCallContext.Start.Line;
+                resultingNode.Column = functionCallContext.Start.Column;
+                return resultingNode;
             }
 
             if (mathExprCont != null)
             {
-                return new MathNodeExtractor(SemanticErrors).ExtractMathNode(mathExprCont);
+                var resultingNode = new MathNodeExtractor(SemanticErrors).ExtractMathNode(mathExprCont);
+                resultingNode.Line = mathExprCont.Start.Line;
+                resultingNode.Column = mathExprCont.Start.Column;
+                return resultingNode;
             }
 
+            //TODO: det skal checkes om dette altid er en Return statement node???
             if (boolExprContext != null)
             {
-                return new BoolExprIdNode(idContext.Text, new IdNode(idContext.Text), BoolNode.BoolType.IdValueNode);
+                var resultingNode = new  BoolExprIdNode("Return", new IdNode("Return"), BoolNode.BoolType.IdValueNode);
+                resultingNode.Line = boolExprContext.Start.Line;
+                resultingNode.Column = boolExprContext.Start.Column;
+                return resultingNode;
             }
             
             SemanticErrors.Add(new SemanticError("Somethinf went wrong trying to defer return type.")

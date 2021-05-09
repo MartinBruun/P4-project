@@ -518,12 +518,6 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-        public object Visit(MathIdNode node)
-        {
-            node.AssignedValueId.Accept(this);
-
-            return "number";
-        }
 
         public object Visit(MathNode node)
         {
@@ -591,6 +585,27 @@ namespace OG.AstVisiting.Visitors
 
 
         #region Id's
+        
+        public object Visit(IdNode node)
+        {
+
+            node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
+            //_pointingAt = node.PointingAt;
+
+            
+
+            Console.WriteLine("\n#####This is stored: "+ node.DeclaredValue+" At Addr:"+node.SymboltableAddress);
+           
+            return new object();
+        }
+        
+        public object Visit(MathIdNode node)
+        {
+            node.AssignedValueId.Accept(this);
+
+            return "number";
+        }
+
         public object Visit(BoolExprIdNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -818,18 +833,6 @@ namespace OG.AstVisiting.Visitors
         }
 
         //TODO: konverter DeclaredValue så jeg kan få dens Id.pointingAt adresse ud.Jeg ved ikke om mit krumspring her flytter mig tættere
-        public object Visit(IdNode node)
-        {
-
-            node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
-            //_pointingAt = node.PointingAt;
-
-            
-
-            Console.WriteLine("\n#####This is stored: "+ node.DeclaredValue+" At Addr:"+node.SymboltableAddress);
-           
-            return new object();
-        }
 
         public object Visit(NumberNode node)
         {
