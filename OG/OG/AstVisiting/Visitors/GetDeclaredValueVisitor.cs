@@ -738,7 +738,6 @@ namespace OG.AstVisiting.Visitors
             {
                 item.Accept(this);
             }
-            node.Body.Accept(this);
             return new object();
         }
 

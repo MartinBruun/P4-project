@@ -54,39 +54,43 @@ namespace OG.AstVisiting.Visitors
         
         //Visitors
         public object Visit(ProgramNode node)
-        {   S.enterScope("Global");
+        {   
+             S.enterScope("Global");
              Console.WriteLine("\n\n---Creating SymbolTable---");
                             
-                // ProgramStartElementNaming();
-                foreach (var item in node.FunctionDcls)
-                    {
-                        if (S.Add(item.Id.Value, item.ReturnType, item))
-                        {
-                            item.Id.SymboltableAddress = S.GetSymboltableAddressInCurrentScope(item.Id.Value);
-                        }
-                        else
-                        {
-                            errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+ item.Id.Value} Already exists in SymbolTable visitProgram"));
-                        }
-                        
-                        item.Accept(this);
-                        // ProgramFunctionListElementNaming(item);
-                    }
+            // ProgramStartElementNaming();
+            foreach (var item in node.FunctionDcls)
+            {
+                if (S.Add(item.Id.Value, item.ReturnType, item))
+                {
+                    item.Id.SymboltableAddress = S.GetSymboltableAddressInCurrentScope(item.Id.Value);
+                    S.Add(item.Id.SymboltableAddress, item);
+                }
+                else
+                {
+                    errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+ item.Id.Value} Already exists in SymbolTable visitProgram"));
+                }
                 
-                    foreach (var item in node.ShapeDcls)
-                    {
-                        if (S.Add(item.Id.Value, "shape",item))
-                        {
-                            item.Id.SymboltableAddress = S.GetSymboltableAddressInCurrentScope(item.Id.Value);
-                        }
-                        else
-                        {
-                            errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+item.Id.Value} Already exists in SymbolTable visitProgram"));
-                        }
-                        // ProgramShapeListElementNaming(item);
-                        item.Accept(this);
+                item.Accept(this);
+                // ProgramFunctionListElementNaming(item);
+            }
+            
+            foreach (var item in node.ShapeDcls)
+            {
+                if (S.Add(item.Id.Value, "shape",item))
+                {
+                    item.Id.SymboltableAddress = S.GetSymboltableAddressInCurrentScope(item.Id.Value);
+                    S.Add(item.Id.SymboltableAddress, item);
 
-                    }
+                }
+                else
+                {
+                    errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+item.Id.Value} Already exists in SymbolTable visitProgram"));
+                }
+                // ProgramShapeListElementNaming(item);
+                item.Accept(this);
+
+            }
             S.exitScope("Global");
             // Console.WriteLine("\n---SYMBOLTABLE:---");
             // Console.WriteLine($"Reached S.GetCurrentScope() {S.GetCurrentScope()} on stack\n");
@@ -117,6 +121,11 @@ namespace OG.AstVisiting.Visitors
             {
                 node?.ReturnValue?.Accept(this);
                 S.Add("return", node.ReturnType, node.ReturnValue);
+
+                string adrr = S.GetSymboltableAddressFor(node.ReturnValue.Value);
+                S.Add(adrr, node.ReturnValue);
+                
+
             }
             
             S.exitScope(node.Id.Value);
@@ -250,9 +259,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(BoolExprIdNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            
+            node.Id.SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value);
             return new object();
         }
         
@@ -616,8 +623,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointReferenceIdNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+            node.AssignedValue.SymboltableAddress = S.GetSymboltableAddressFor(node.AssignedValue.Value);
             return new object();
         }
 

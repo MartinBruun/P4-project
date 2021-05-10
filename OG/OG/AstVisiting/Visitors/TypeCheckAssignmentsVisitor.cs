@@ -284,24 +284,24 @@ namespace OG.AstVisiting.Visitors
             node.Id.Accept(this);
             node.FunctionName.Accept(this);
 
-                if (node.Id.CompileTimeType != node.FunctionName.CompileTimeType)
-                {
-                    errors.Add(new SemanticError(node, $"visitFunctionCallAssignment:{node.Id.Value}:{node.Id.CompileTimeType} does not match type of function {node.FunctionName.Value}:{node.FunctionName.CompileTimeType}"));
-                }
+            if (node.Id.CompileTimeType != node.FunctionName.CompileTimeType)
+            {
+                errors.Add(new SemanticError(node, $"visitFunctionCallAssignment:{node.Id.Value}:{node.Id.CompileTimeType} does not match type of function {node.FunctionName.Value}:{node.FunctionName.CompileTimeType}"));
+            }
 
-                var declaredNode = (FunctionNode) node.FunctionName.DeclaredValue;// S.GetElementById(node.FunctionName.Value);
-                for (int i = 0 ; i< node.Parameters.Count ; i++)
+            var declaredNode = (FunctionNode) node.FunctionName.DeclaredValue;// S.GetElementById(node.FunctionName.Value);
+            for (int i = 0 ; i< node.Parameters.Count ; i++)
+            {
+                node.Parameters[i].Accept(this);
+                node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
+                if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
-                    node.Parameters[i].Accept(this);
-                    node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
-                    if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
-                    {
-                        errors.Add(new SemanticError(node.Parameters[i],
-                            $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
-                    }
+                    errors.Add(new SemanticError(node.Parameters[i],
+                        $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
                 }
-                S.resetParameterCount();
-                return new object();
+            }
+            S.resetParameterCount();
+            return new object();
         }
 
         public object Visit(IdAssignNode node)
@@ -814,22 +814,24 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
             // Console.WriteLine("!!!PointFuncCall 503");
-            try
+            node.FunctionName.Accept(this);
+            if (node.FunctionName.CompileTimeType != "point")
             {
-                if (S.CheckDeclaredTypeOf(node.FunctionName.Value) != "point")
+                errors.Add(new SemanticError(node, $"{node.FunctionName}: is not of type number: typeMismatch"));
+            }
+            //Checking parameters
+            var declaredNode = (FunctionNode) node.FunctionName.DeclaredValue;// S.GetElementById(node.FunctionName.Value);
+            for (int i = 0 ; i< node.Parameters.Count ; i++)
+            {
+                node.Parameters[i].Accept(this);
+                //node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
+                if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
-                    errors.Add(new SemanticError(node, $"VisitPointFunctionCallNode: {node.FunctionName.Value} is not a pointFunction: TypeMismatch"));
-                }
-                else
-                {
-                    node.CompileTimeType = "point";
+                    errors.Add(new SemanticError(node.Parameters[i],
+                        $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
                 }
             }
-            catch 
-            {
-                errors.Add(new SemanticError(node, $"VisitPointFunctionCallNode: {node.FunctionName.Value} Has not been declared: Undeclared"));
-            }
-            
+            S.resetParameterCount();
             return new object();
         }
 
@@ -838,7 +840,7 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             
-            node.AssignedValue.Accept(this);
+                node.AssignedValue.Accept(this);
                 if (node.AssignedValue.CompileTimeType == "point")
                 {
                     node.CompileTimeType = "point";

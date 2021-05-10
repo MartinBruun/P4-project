@@ -84,7 +84,7 @@ namespace OG.ASTBuilding.TreeNodes
                         }
                     }
                 }
-//TODO: RETURN Hold fast i denne !!! det er jo vores return statement, det skal med i functionNode constructoren
+
                 OGParser.ExpressionContext returnVal = returnFunction.returnStatement().expr;
                 returnExpression =  InferExpressionType(returnVal, returnType);
 
@@ -126,6 +126,8 @@ namespace OG.ASTBuilding.TreeNodes
                         return new BoolExprIdNode(idContext.Text, new IdNode(idContext.Text), BoolNode.BoolType.IdValueNode);
                     case "point":
                         return new PointReferenceIdNode(idContext.Text, new IdNode(idContext.Text));
+                    default:
+                        return null;
                         
                 }
             }

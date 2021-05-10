@@ -7,19 +7,12 @@ draw
 
 function number BoolFuncA(){
 number x = 20;
-bool t = true;
-number y = 21;
-
-point a = (2+2,x + y);
-number p = myFunc(x,false);
-return p;
+point b = myFunc(2,5);
+return x;
 }
 
-function number myFunc(number a, bool b){
-    
-number result = a;
-
+function point myFunc(number a, number b){
+point result = (a,b);
 return result;
-    
 }
 

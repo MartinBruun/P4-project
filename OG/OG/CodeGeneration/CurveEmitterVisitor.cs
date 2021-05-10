@@ -884,7 +884,6 @@ namespace OG.CodeGeneration
         public void Visit(PointFunctionCallNode node)
         {
             IEnumerable<ParameterNode> parameters = node.Parameters;
-            BodyNode body = node.Body;
         }
 
         /// <summary>

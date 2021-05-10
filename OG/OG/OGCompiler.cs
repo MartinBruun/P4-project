@@ -63,6 +63,9 @@ namespace OG
             {
                 MathReducerVisitor reducer = new MathReducerVisitor(symbolTable, errors);
                 p.Accept(reducer);
+
+                PointReducerVisitor preducer = new PointReducerVisitor(symbolTable, errors);
+                p.Accept(preducer);
             }
             else
             {

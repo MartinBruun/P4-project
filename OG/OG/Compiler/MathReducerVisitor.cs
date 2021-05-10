@@ -49,7 +49,7 @@ namespace OG.Compiler
             AstNode s = _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
             FunctionNode function = (FunctionNode) s.Accept(typeCaster);
 
-            return null;
+            return function;
 
         }
 
@@ -324,11 +324,7 @@ namespace OG.Compiler
 
         public object Visit(TuplePointNode node)
         {
-            NumberNode x = node.XValue.Accept(_arithmeticPerformer);
-            NumberNode y = node.YValue.Accept(_arithmeticPerformer);
-
-            node.XValue = x;
-            node.YValue = y;
+           
             return node;
         }
 

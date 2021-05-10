@@ -118,6 +118,7 @@ namespace OG.Compiler
                 {
                     AstNode xVal = _symbolTable.GetElementBySymbolTableAddress(node.Parameters[i].ParameterId
                         .SymboltableAddress);
+                    xVal.Accept(_mathReducerVisitor);
                     funcNode.Parameters[i].Expression = (ExpressionNode)xVal;
                 }
                 
