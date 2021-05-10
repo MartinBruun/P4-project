@@ -46,16 +46,7 @@ namespace OG.CodeGeneration
             string result = FromPointContainer.ResultCommand.CreateGCodeTextCommand();
             foreach (IGCodeCommand command in ToCommands)
             {
-                try
-                {
-                    CodeGenerationNotification?.Invoke(command.CreateGCodeTextCommand());
-                    result += command.CreateGCodeTextCommand();
-                }
-                catch (Exception e)
-                {
-                    SemanticErrors.Add(new SemanticError("Something went wrong emitting G code."));
-                }
-                
+                SemanticErrors.Add(new SemanticError("Something went wrong emitting G code."));
             }
 
             return result;
@@ -75,7 +66,6 @@ namespace OG.CodeGeneration
 
         public void Visit(LineCommandNode node)
         {
-            
             node.From.Accept(FromPointContainer);
             foreach (PointReferenceNode pointReferenceNode in node.To)
             {

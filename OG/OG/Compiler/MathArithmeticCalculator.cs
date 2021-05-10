@@ -20,10 +20,9 @@ using OG.CodeGeneration;
 
 namespace OG.Compiler
 {
-    public class MathArithmeticCalculator : ISemanticErrorable, IMathNodeReducer
+    public class MathArithmeticCalculator : ISemanticErrorable, IMathNodeVisitor
     {
         private SymbolTable _symbolTable;
-        public double Result { get; set; }
         readonly TypeCastVisitor _typeCaster = new TypeCastVisitor();
         private MathReducerVisitor _mathReducerVisitor = null;
 
@@ -70,13 +69,11 @@ namespace OG.Compiler
 
         public NumberNode Visit(MathIdNode node)
         {
-            
             //Assigned value to Id must be a math node for it to occur as mathIdNode
             AstNode symbolTableResult =
                  _symbolTable.GetElementBySymbolTableAddress(node.AssignedValueId.SymboltableAddress);
             
-            var q = symbolTableResult.Accept(_mathReducerVisitor);
-
+            object q = symbolTableResult.Accept(_mathReducerVisitor);
             return (NumberNode) q;
             
             //MathNode assignedMathValue = (MathNode) numberNode.AssignedExpression;
@@ -108,17 +105,29 @@ namespace OG.Compiler
 
         public NumberNode Visit(MathFunctionCallNode node)
         {
-            FunctionNode funcNode = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            string functionNodeAdresse = node.FunctionName.SymboltableAddress;
+            FunctionNode funcNode = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(functionNodeAdresse);
 
             //Pass parameters to function body
             for (int i = 0; i < node.Parameters.Count; i++)
             {
-                funcNode.Parameters[i].Expression = (MathNode) node.Parameters[i].Expression;
+                funcNode.Parameters[i].Expression = (ExpressionNode) node.Parameters[i].Expression;
+                //This will go wrong
+              
+                if (funcNode.Parameters[i].Expression == null)
+                {
+                    AstNode xVal = _symbolTable.GetElementBySymbolTableAddress(node.Parameters[i].ParameterId
+                        .SymboltableAddress);
+                    funcNode.Parameters[i].Expression = (ExpressionNode)xVal;
+                }
+                
                 _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
             }
             
             funcNode.Accept(_mathReducerVisitor);
+
             //We know that return value is math node - we can reduce math nodes to numbers.
+            
             return (NumberNode)  funcNode.ReturnValue.Accept(_mathReducerVisitor);
 
 

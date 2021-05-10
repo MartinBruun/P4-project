@@ -6,13 +6,20 @@ draw
 }
 
 function number BoolFuncA(){
- number b = NumberFuncA(5,1);
- b = 2;
- return b;
+number x = 20;
+bool t = true;
+number y = 21;
+
+point a = (2+2,x + y);
+number p = myFunc(x,false);
+return p;
 }
 
-function number NumberFuncA(number a, number b){
-    number result = a+b;
-    return result;
+function number myFunc(number a, bool b){
+    
+number result = a;
+
+return result;
+    
 }
 

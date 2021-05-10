@@ -27,7 +27,7 @@ namespace OG.Compiler
         public List<SemanticError> SemanticErrors { get; set; }
         public string TopNode { get; set; }
 
-        private readonly IMathNodeReducer _arithmeticPerformer;
+        private readonly IMathNodeVisitor _arithmeticPerformer;
         TypeCastVisitor typeCaster = new TypeCastVisitor();
 
 
@@ -40,7 +40,7 @@ namespace OG.Compiler
         
         public object Visit(BoolAssignmentNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(FunctionCallAssignNode node)
@@ -87,35 +87,38 @@ namespace OG.Compiler
 
         public object Visit(PointAssignmentNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(PropertyAssignmentNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(ParameterTypeNode node)
         {
             
-            MathNode mathExpression = (MathNode)node.Expression;
-            NumberNode number = mathExpression.Accept(_arithmeticPerformer);
-            return number;
+            if (node.Expression is MathNode)
+            {
+                return ((MathNode)node.Expression).Accept(_arithmeticPerformer);
+            }
+
+            return node;
         }
 
         public object Visit(CurveCommandNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(DrawCommandNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(LineCommandNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         /// <summary>
@@ -136,22 +139,22 @@ namespace OG.Compiler
         
         public object Visit(UntilFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         /// <summary>
         /// TODO Enter Body
         /// </summary>
         /// <param name="node"></param>
-        /// <returns></returns>
+        /// <returns></returns> 
         public object Visit(UntilNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(BoolDeclarationNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(NumberDeclarationNode node)
@@ -161,17 +164,16 @@ namespace OG.Compiler
             _symbolTable.Add(node.Id.SymboltableAddress, node.AssignedExpression);
             
             return node.AssignedExpression;
-
         }
 
         public object Visit(PointDeclarationNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(BoolExprIdNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         /// <summary>
@@ -184,6 +186,7 @@ namespace OG.Compiler
             NumberNode bodyResult = null;
             foreach (StatementNode nodeStatementNode in node.StatementNodes)
             {
+                Console.WriteLine(nodeStatementNode);
                 nodeStatementNode.Accept(this);
             }
 
@@ -192,74 +195,69 @@ namespace OG.Compiler
 
         public object Visit(AndComparerNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(BoolNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(EqualsComparerNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(GreaterThanComparerNode node)
         {
-            NumberNode rhs = node.RHS.Accept(_arithmeticPerformer);
-            NumberNode lhs = node.LHS.Accept(_arithmeticPerformer);
-            node.RHS = rhs;
-            node.LHS = lhs;
-            return new object();
+            return node;
         }
 
         public object Visit(LessThanComparerNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(NegationNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(OrComparerNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(BoolFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(FunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(FunctionCallParameterNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(MathFunctionCallNode node)
         {
-            AstNode funcDeclaration = _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
-
+            string functionCallAddress = node.FunctionName.SymboltableAddress;
+            AstNode funcDeclaration = _symbolTable.GetElementBySymbolTableAddress(functionCallAddress);
+        
             FunctionNode f = (FunctionNode)funcDeclaration.Accept(typeCaster);
             return node;
         }
-
         public object Visit(ParameterNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(FunctionNode node)
         {
-
             return node.Body.Accept(this);
         }
 
@@ -285,7 +283,6 @@ namespace OG.Compiler
 
         public object Visit(PowerNode node)
         {
-            
             return node.Accept(_arithmeticPerformer);
         }
 
@@ -302,27 +299,27 @@ namespace OG.Compiler
        
         public object Visit(PointFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(PointReferenceIdNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(ShapeEndPointNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(ShapePointRefNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(ShapeStartPointNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(TuplePointNode node)
@@ -337,7 +334,7 @@ namespace OG.Compiler
 
         public object Visit(FalseNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(IdNode node)
@@ -345,7 +342,7 @@ namespace OG.Compiler
             //slå op
           
             
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(NumberNode node)
@@ -355,7 +352,7 @@ namespace OG.Compiler
 
         public object Visit(TrueNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(SizePropertyNode node)
@@ -376,12 +373,12 @@ namespace OG.Compiler
 
         public object Visit(AstNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(DrawNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(ProgramNode node)
@@ -402,7 +399,7 @@ namespace OG.Compiler
 
         public object Visit(CoordinateXyValueNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
 

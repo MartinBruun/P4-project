@@ -105,7 +105,6 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine($"pCount {parameterCount} adding {id} to symtbl, {node}");
             try
             {
-                
                 node.CompileTimeType = type;
                 Elements.Add(currentScopeName+"_"+id, node);
                 //TODO: overvej om vi kan undvære param1 navngivningen, hvis ikke så skal  Visit(ParameterTypeNode node) justeres i CreateSymbolTableVisitor

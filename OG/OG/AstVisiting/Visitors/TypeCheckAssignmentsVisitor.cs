@@ -636,7 +636,7 @@ namespace OG.AstVisiting.Visitors
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
                 node.Parameters[i].Accept(this);
-                node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
+                //node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
                 if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
                     errors.Add(new SemanticError(node.Parameters[i],

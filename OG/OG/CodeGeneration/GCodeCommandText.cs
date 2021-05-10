@@ -10,7 +10,7 @@
         public string CommandText { get; }
 
         public string CreateGCodeTextCommand()
-        {
+            {
             return CommandText;
         }
 
