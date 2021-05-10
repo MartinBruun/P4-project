@@ -93,6 +93,9 @@ return node;        }
         public object Visit(PointDeclarationNode node)
         {
                 return node.AssignedExpression.Accept(this);
+                
+                
+                
         }
 
         public object Visit(BoolExprIdNode node)
