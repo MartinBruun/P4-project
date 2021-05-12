@@ -724,19 +724,19 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MathIdNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-
+             // Console.Write($"Scope {S.GetCurrentScope()} | ");
+             // Console.WriteLine(node.ToString());
+             
             
-                node.AssignedValueId.Accept(this);
-                if (node.AssignedValueId.CompileTimeType != "number")
-                {
-                    errors.Add(new SemanticError(node, $"VisitMathIdNode:  {node.AssignedValueId.Value} is not a number: TypeMismatch"));
-                }
-                else
-                {
-                    node.CompileTimeType = "number";
-                }
+            node.AssignedValueId.Accept(this);
+            if (node.AssignedValueId.CompileTimeType != "number")
+            {
+                errors.Add(new SemanticError(node, $"VisitMathIdNode:  {node.AssignedValueId.Value} is not a number: TypeMismatch"));
+            }
+            else
+            {
+                node.CompileTimeType = "number";
+            }
                 
             return "number";
         }

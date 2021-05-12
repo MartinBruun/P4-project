@@ -119,13 +119,11 @@ namespace OG.AstVisiting.Visitors
 
             if (node.ReturnValue != null)
             {
+                node.ReturnValue.CompileTimeType = S.CheckDeclaredTypeOf(node.ReturnValue.Value);
                 node?.ReturnValue?.Accept(this);
-                S.Add("return", node.ReturnType, node.ReturnValue);
-
-                string adrr = S.GetSymboltableAddressFor(node.ReturnValue.Value);
+                S.Add("return", node.ReturnType, new IdNode("return"));
+                string adrr = S.GetSymboltableAddressFor("return");
                 S.Add(adrr, node.ReturnValue);
-                
-
             }
             
             S.exitScope(node.Id.Value);
