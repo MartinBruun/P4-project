@@ -712,8 +712,8 @@ namespace OG.AstVisiting.Visitors
             {
                 errors.Add(new SemanticError(node, $"VisitMathIdNode:  {node.AssignedValueId.Value} is not a number: TypeMismatch"));
             }
-            node.CompileTimeType = "number";
 
+            node.CompileTimeType = "number";
             return new object();
         }
 

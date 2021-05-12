@@ -7,6 +7,7 @@ number N = B;       /*Error type mismatch*/
 a = b;              /*Error type mismatch*/
 N = ABoolianFunc(); /*Error type mismatch*/
 return B;           /*Return type mismatch*/
+
 }
 
 function bool ABoolianFunc(){

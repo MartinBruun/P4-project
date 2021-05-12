@@ -121,6 +121,7 @@ namespace OG.AstVisiting.Visitors
             {
                 node.ReturnValue.CompileTimeType = S.CheckDeclaredTypeOf(node.ReturnValue.Value);
                 node?.ReturnValue?.Accept(this);
+
                 DeclarationNode dcl = null;
                 switch (node.CompileTimeType)
                 {
@@ -136,10 +137,8 @@ namespace OG.AstVisiting.Visitors
                         break;
                 }
 
-                
                 S.Add("return", node.ReturnType, dcl);
                 dcl.Id.SymboltableAddress = S.GetSymboltableAddressFor("return");
-
             }
             
             S.exitScope(node.Id.Value);
@@ -149,9 +148,7 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(ShapeNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-
+        
             S.enterScope(node.Id.Value);
             node.Body.Accept(this);
             S.exitScope(node.Id.Value);
@@ -161,9 +158,7 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(NumberIterationNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-
+   
             S.enterRepeatScope();
             node.Body.Accept(this);
             S.exitRepeatScope();
