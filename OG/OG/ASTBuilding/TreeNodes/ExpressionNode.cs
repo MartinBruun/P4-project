@@ -14,8 +14,7 @@ namespace OG.ASTBuilding.TreeNodes
             BoolExpression,
             SingleId,
             FunctionCall,
-            PointReference
-            
+            PointReference,
         }
         
         public ExpressionType ExprType;

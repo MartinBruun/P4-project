@@ -19,14 +19,15 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
             return Value.ToString();
         }
 
-        public override void Accept(OG.CodeGeneration.IMathNodeVisitor visitor)
+        public override NumberNode Accept(OG.CodeGeneration.IMathNodeVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
 
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);        
+            return visitor.Visit(this);
+
         }
     }
 }

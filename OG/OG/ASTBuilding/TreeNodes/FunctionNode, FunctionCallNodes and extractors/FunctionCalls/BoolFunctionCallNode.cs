@@ -16,10 +16,9 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
        
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
-
+            return visitor.Visit(this);
         }
 
      

@@ -16,9 +16,10 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         }
 
         
-        public override void Accept(IVisitor visitor)
-        {
-            visitor.Visit(this);        
+        public override object Accept(IVisitor visitor)
+        { 
+            return visitor.Visit(this);
+  
         }
     }
 }

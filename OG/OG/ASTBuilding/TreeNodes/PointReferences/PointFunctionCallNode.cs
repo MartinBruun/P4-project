@@ -15,7 +15,6 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
             FunctionName = functionName;
         }
 
-        public BodyNode Body { get; set; }
 
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
@@ -23,9 +22,10 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         {
             visitor.Visit(this);
         }
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);        
+            return visitor.Visit(this);
+      
         }
         public override void Accept(IPointReferenceNodeVisitor visitor)
         {

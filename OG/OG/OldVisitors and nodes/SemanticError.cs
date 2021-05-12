@@ -41,7 +41,10 @@ namespace OG.ASTBuilding
 
         public override string ToString()
         {
-            return $"{Msg}\nLine: {Node.Line} Column: {Node.Column} at:\n--> {Context}";
+            var line = Line == 0 ? Node.Line : Line;
+            var column = Column == 0 ? Node.Column : Column;
+
+            return $"{Msg}\nLine: "+ (line != 0 ? $"{line}" : "?")+ $" Column: {column} at:\n--> {Context}";
         }
         
     }

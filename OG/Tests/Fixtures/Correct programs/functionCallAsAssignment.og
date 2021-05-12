@@ -1,3 +1,4 @@
+
 Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
 draw { }
 

@@ -6,16 +6,19 @@ draw
    B;
 }
 function bool boolFuncA (point a, point b) {
-	return dist(a, b) < 6.6;
+    bool result = dist(a, b) < 6.6;
+    return result; 
 }
 
 function bool boolFuncB (point a, point b) {
-	return dist(a, b) < 6.6;
+	bool result = dist(a, b) < 6.6;
+    return result;
 }
 
 
 function number dist (point a, point b) {
- return 3;
+    number result = 3;
+    return result;
 } 
 
 
