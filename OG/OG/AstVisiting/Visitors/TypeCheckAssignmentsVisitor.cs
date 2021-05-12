@@ -104,6 +104,13 @@ namespace OG.AstVisiting.Visitors
                 item.Accept(this);
             }
             node.Body.Accept(this);
+            node.Id.Accept(this);
+            node.ReturnValue?.Accept(this);
+            if (node.ReturnValue != null && node.ReturnValue.CompileTimeType != node.Id.CompileTimeType)
+            {
+                errors.Add(new SemanticError(node,"return type mismatch: " + node.Id + "   " + node.ReturnValue));
+            }
+            
             S.exitScope(node.Id.Value);
             return new object();
         }
@@ -190,6 +197,7 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             node.Id.Accept(this);//SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value));
             node.AssignedExpression.Accept(this);
+            node.CompileTimeType = "bool";
             // if (!(node.AssignedExpression.CompileTimeType == "bool"))
             // {
             //     errors.Add(new SemanticError(node , $"VisitBoolDeclNode: {node.Id.Value} Assignment does not match declared type!"));
@@ -225,7 +233,7 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
            
                 node.Id.Accept(this);
-                
+                node.CompileTimeType = "bool";
                 if (node.Id.CompileTimeType != "bool")
                 {
                     errors.Add(new SemanticError(node, $"visitBoolExprNode: {node.Id.Value} is not declared as bool: Typemismatch!"));
@@ -271,6 +279,7 @@ namespace OG.AstVisiting.Visitors
             // }
             node.Id.SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedValue.Accept(this);
+            node.CompileTimeType = "bool";
             return new object();
         }
 
@@ -351,7 +360,7 @@ namespace OG.AstVisiting.Visitors
             // }
             node.Id.SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedValue.Accept(this);
-           
+            node.CompileTimeType = "number";
             return new object();
         }
 
@@ -372,6 +381,7 @@ namespace OG.AstVisiting.Visitors
             // }
             node.Id.Accept(this);// = S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedValue.Accept(this);
+            node.CompileTimeType = "point";
             return new object();
         }
 
@@ -474,15 +484,7 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             node.LHS.Accept(this);
             node.RHS.Accept(this);
-            return new object();
-        }
-
-        public object Visit(BoolComparerNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            node.LHS.Accept(this);
-            node.RHS.Accept(this);
+            node.CompileTimeType = "bool";
             return new object();
         }
 
@@ -491,23 +493,18 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             //TODO: overvej om der skal påtegnes noget her
+            node.CompileTimeType = "bool";
             return new object();
         }
 
-        public object Visit(BoolTerminalNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            node.Accept(this);
-            return new object();
-        }
-
+       
         public object Visit(EqualsComparerNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
             node.LHS.Accept(this);
             node.RHS.Accept(this);
+            node.CompileTimeType = "bool";
             return new object();
         }
 
@@ -517,6 +514,7 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             node.LHS.Accept(this);
             node.RHS.Accept(this);
+            node.CompileTimeType = "bool";
             return new object();
         }
 
@@ -526,15 +524,7 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString()); 
             node.LHS.Accept(this);
             node.RHS.Accept(this);
-            return new object();
-        }
-
-        public object Visit(MathComparerNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            node.LHS.Accept(this);
-            node.RHS.Accept(this);
+            node.CompileTimeType = "bool";
             return new object();
         }
 
@@ -543,6 +533,7 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             //TODO: overvej om der skal gøres noget her
+            node.CompileTimeType = "bool";
             return new object();
         }
 
@@ -552,6 +543,7 @@ namespace OG.AstVisiting.Visitors
             // Console.WriteLine(node.ToString());
             node.LHS.Accept(this);
             node.RHS.Accept(this);
+            node.CompileTimeType = "bool";
             return new object();
         }
 
@@ -559,23 +551,23 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            
-                node.FunctionName.Accept(this);
-                if (node.FunctionName.CompileTimeType != "bool")
+            node.CompileTimeType = "bool";
+            node.FunctionName.Accept(this);
+            if (node.FunctionName.CompileTimeType != "bool")
+            {
+                errors.Add(new SemanticError(node, $"VisitBoolFunctionCallNode: {node.FunctionName.Value} is not of type bool : Typemismatch! "));
+            }
+            var declaredNode = (FunctionNode) node.FunctionName.DeclaredValue;// S.GetElementById(node.FunctionName.Value);
+            for (int i = 0 ; i< node.Parameters.Count ; i++)
+            {
+                node.Parameters[i].Accept(this);
+                node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
+                if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
-                    errors.Add(new SemanticError(node, $"VisitBoolFunctionCallNode: {node.FunctionName.Value} is not of type bool : Typemismatch! "));
+                    errors.Add(new SemanticError(node.Parameters[i],
+                        $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
                 }
-                var declaredNode = (FunctionNode) node.FunctionName.DeclaredValue;// S.GetElementById(node.FunctionName.Value);
-                for (int i = 0 ; i< node.Parameters.Count ; i++)
-                {
-                    node.Parameters[i].Accept(this);
-                    node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
-                    if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
-                    {
-                        errors.Add(new SemanticError(node.Parameters[i],
-                            $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
-                    }
-                }
+            }
            
             return new object();
         }
@@ -644,6 +636,7 @@ namespace OG.AstVisiting.Visitors
                 }
             }
             S.resetParameterCount();
+            node.CompileTimeType = "number";
             return new object();
         }
 
@@ -685,10 +678,7 @@ namespace OG.AstVisiting.Visitors
             {
                 errors.Add(new SemanticError(node, $"VisitAdditionNode: {node.Value} LHS RHS does not match type: Number:   TypeMismatch"));
             }
-            else
-            {
-                node.CompileTimeType = "number";
-            }
+           node.CompileTimeType = "number";
            // node.LHS.Accept(this);
            // // Console.Write("+");
            // node.RHS.Accept(this);
@@ -705,22 +695,11 @@ namespace OG.AstVisiting.Visitors
             {
                 errors.Add(new SemanticError(node, $"VisitDivisionNode: {node.Value} LHS RHS does not match type: Number:   TypeMismatch"));
             }
-            else
-            {
-                node.CompileTimeType = "number";
-            }
+            node.CompileTimeType = "number";
             return new object();
         }
 
-        public object Visit(InfixMathNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            node.Accept(this);
-            // Console.WriteLine("!!!Infix 449");
 
-            return new object();
-        }
 
         public object Visit(MathIdNode node)
         {
@@ -733,20 +712,8 @@ namespace OG.AstVisiting.Visitors
             {
                 errors.Add(new SemanticError(node, $"VisitMathIdNode:  {node.AssignedValueId.Value} is not a number: TypeMismatch"));
             }
-            else
-            {
-                node.CompileTimeType = "number";
-            }
-                
-            return "number";
-        }
 
-        public object Visit(MathNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            node.Accept(this);
-            // // Console.Write(node.Value); 
+            node.CompileTimeType = "number";
             return new object();
         }
 
@@ -754,16 +721,15 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
+
             node.LHS.Accept(this);
             node.RHS.Accept(this);
-            if (node.LHS.CompileTimeType != "number" && node.RHS.CompileTimeType == "number")
+            if (node.LHS.CompileTimeType != "number" || node.RHS.CompileTimeType != "number")
             {
                 errors.Add(new SemanticError(node, $"VisitMultiplicationNode: {node.Value} LHS RHS does not match type: Number:   TypeMismatch"));
             }
-            else
-            {
-                node.CompileTimeType = "number";
-            }
+            node.CompileTimeType = "number";
+      
             return new object();
         }
 
@@ -777,10 +743,8 @@ namespace OG.AstVisiting.Visitors
             {
                 errors.Add(new SemanticError(node, $"VisitPowerNode: {node.Value} LHS RHS does not match type: Number:   TypeMismatch"));
             }
-            else
-            {
-                node.CompileTimeType = "number";
-            }
+            node.CompileTimeType = "number";
+
             return new object();
         }
 
@@ -794,18 +758,7 @@ namespace OG.AstVisiting.Visitors
             {
                 errors.Add(new SemanticError(node, $"VisitSubtractionNode: {node.Value} LHS RHS does not match type: Number:   TypeMismatch"));
             }
-            else
-            {
-                node.CompileTimeType = "number";
-            }
-            return new object();
-        }
-
-        public object Visit(TerminalMathNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            node.Accept(this);
+            node.CompileTimeType = "number";
             return new object();
         }
 
@@ -832,6 +785,7 @@ namespace OG.AstVisiting.Visitors
                 }
             }
             S.resetParameterCount();
+            node.CompileTimeType = "point";
             return new object();
         }
 
@@ -840,28 +794,19 @@ namespace OG.AstVisiting.Visitors
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             
-                node.AssignedValue.Accept(this);
-                if (node.AssignedValue.CompileTimeType == "point")
-                {
-                    node.CompileTimeType = "point";
-                }
-                else
-                {
-                    errors.Add(new SemanticError(node, $"VisitPointReferenceIdNode: {node.AssignedValue.Value} is not a pointRefference : TypeMismatch"));
-                }
-                
+            node.AssignedValue.Accept(this);
+            if (node.AssignedValue.CompileTimeType == "point")
+            {
+                node.CompileTimeType = "point";
+            }
+            else
+            {
+                errors.Add(new SemanticError(node, $"VisitPointReferenceIdNode: {node.AssignedValue.Value} is not a pointRefference : TypeMismatch"));
+            }
+            node.CompileTimeType = "point";
             return new object();
         }
-
-        public object Visit(PointReferenceNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            // Console.WriteLine("!!!PointRefference 522");
-            node.Accept(this);
-            return new object();
-        }
-
+        
         public object Visit(ShapeEndPointNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -909,7 +854,7 @@ namespace OG.AstVisiting.Visitors
             {
                 errors.Add(new SemanticError(node, $"{node.ToString()}: XYValue does not match type number: Typemismatch"));
             }
-
+            node.CompileTimeType = "point";
             return new object();
         }
 

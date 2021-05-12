@@ -6,12 +6,11 @@ draw
 }
 
 function number BoolFuncA(){
-number x = 20;
-point b = myFunc(2,5);
-return x;
+    number x = myFunc(2,2);
+    return x;
 }
 
-function point myFunc(number a, number b){
-point result = (a,b);
-return result;
+function number myFunc(number a, number b){
+    number result = a + b;
+    return result * 2;
 }

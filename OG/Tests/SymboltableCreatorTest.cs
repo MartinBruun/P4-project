@@ -81,11 +81,9 @@ namespace Tests
         
        
         [TestCase("Correct programs/FunctionDeclParameters.og",5, "testing that two parameters are discovered and stored in symboltable")]
-        [TestCase("Incorrect programs/boolToNumber.og", 8,"Check Boolian should create 6 elements in symboltable")]
-        [TestCase("Incorrect programs/FunctionCallAssignTypeMisMatch.og",12, "testing that this can be created in symboltable: a boolian function can not be assigned to a number variable and numberFunction to a boolian variable")]
+        [TestCase("Incorrect programs/boolToNumber.og", 8,"Check Boolean should create 6 elements in symboltable")]
         [TestCase("Incorrect programs/UndeclaredEndPointRefference.og",4, "testing that this can be created in symboltable:a value  can not be assigned to a xy value on an undeclared pointrefference")]
-
-
+        
         public void Test_Fixtures_ShouldCreateElementsInSymbolTable(string fileName,int elementCount, string description)
         {
             OGParser parser = CreateParser(fileName, "");
