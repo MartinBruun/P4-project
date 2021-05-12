@@ -15,4 +15,3 @@ function point myFunc(number a, number b){
 point result = (a,b);
 return result;
 }
-

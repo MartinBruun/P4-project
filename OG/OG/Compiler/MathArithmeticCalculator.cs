@@ -23,7 +23,6 @@ namespace OG.Compiler
     public class MathArithmeticCalculator : ISemanticErrorable, IMathNodeVisitor
     {
         private SymbolTable _symbolTable;
-        readonly TypeCastVisitor _typeCaster = new TypeCastVisitor();
         private MathReducerVisitor _mathReducerVisitor = null;
 
 

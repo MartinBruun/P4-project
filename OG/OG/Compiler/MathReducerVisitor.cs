@@ -59,7 +59,7 @@ namespace OG.Compiler
             NumberDeclarationNode numDcl;
             try
             {
-                 numDcl = (NumberDeclarationNode) x.Accept(typeCaster);
+                numDcl = (NumberDeclarationNode) x.Accept(typeCaster);
             }
             catch (InvalidCastException e)
             {
@@ -98,9 +98,9 @@ namespace OG.Compiler
         public object Visit(ParameterTypeNode node)
         {
             
-            if (node.Expression is MathNode)
+            if (node.Expression is MathNode mathNode)
             {
-                return ((MathNode)node.Expression).Accept(_arithmeticPerformer);
+                return mathNode.Accept(_arithmeticPerformer);
             }
 
             return node;
@@ -108,6 +108,7 @@ namespace OG.Compiler
 
         public object Visit(CurveCommandNode node)
         {
+            node.Angle.Accept(this);
             return node;
         }
 
@@ -128,12 +129,7 @@ namespace OG.Compiler
         /// <returns></returns>
         public object Visit(NumberIterationNode node)
         {
-            NumberNode result = node.Iterations.Accept(_arithmeticPerformer);
-            node.Iterations = result;
-            
-            
-            
-            return new object();
+            return node.Iterations.Accept(_arithmeticPerformer);
         }
 
         
@@ -183,7 +179,6 @@ namespace OG.Compiler
         /// <returns></returns>
         public object Visit(BodyNode node)
         {
-            NumberNode bodyResult = null;
             foreach (StatementNode nodeStatementNode in node.StatementNodes)
             {
                 Console.WriteLine(nodeStatementNode);
@@ -381,7 +376,7 @@ namespace OG.Compiler
         {
             foreach (FunctionNode nodeFunctionDcl in node.FunctionDcls)
             {
-                    nodeFunctionDcl.Accept(this);
+                nodeFunctionDcl.Accept(this);
             }
 
             return node;

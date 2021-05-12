@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -22,6 +23,7 @@ namespace OG.AstVisiting.Visitors
     {
         private SymbolTable _symbolTable = new SymbolTable();
         private readonly MathReducerVisitor _mathReducer;
+
         public PointReducerVisitor(Dictionary<string, AstNode> symbolTable, List<SemanticError> errs)
         {
             SemanticErrors = errs;
@@ -29,78 +31,136 @@ namespace OG.AstVisiting.Visitors
             _mathReducer = new MathReducerVisitor(symbolTable, errs);
         }
 
-        
+
         public object Visit(BoolAssignmentNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(FunctionCallAssignNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(IdAssignNode node)
         {
-return node;        }
+            AstNode x = _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
+            
+            if (x is not PointDeclarationNode)
+            {
+                return node;
+            }
+
+            PointDeclarationNode pointDcl = (PointDeclarationNode) x;
+            PointReferenceNode pointRef = (PointReferenceNode) pointDcl.AssignedExpression;
+            
+            //TODO UPDATE SYMTAB AND VISIT POINTREF
+            
+
+
+            return node;
+        }
 
         public object Visit(MathAssignmentNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(PointAssignmentNode node)
         {
-return node;        }
+            PointReferenceNode res = (PointReferenceNode) node.AssignedValue.Accept(this);
+
+            string lhsSymTabAddress = node.Id.SymboltableAddress;
+
+            _symbolTable.Add(lhsSymTabAddress, res);
+            node.AssignedValue = res;
+
+            return node;
+        }
 
         public object Visit(PropertyAssignmentNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(ParameterTypeNode node)
         {
-return node;        }
+            if (node.Expression is PointReferenceNode referenceNode)
+            {
+                return referenceNode.Accept(this);
+            }
+
+            return node;
+        }
 
         public object Visit(CurveCommandNode node)
         {
-return node;        }
+            node.Angle.Accept(_mathReducer);
+            node.From.Accept(this);
+            foreach (PointReferenceNode pointReferenceNode in node.To)
+            {
+                pointReferenceNode.Accept(this);
+            }
+            return node;
+        }
 
         public object Visit(DrawCommandNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(LineCommandNode node)
         {
-return node;        }
+            node.From.Accept(this);
+            foreach (PointReferenceNode pointReferenceNode in node.To)
+            {
+                pointReferenceNode.Accept(this);
+            }
+            return node;
+        }
 
         public object Visit(NumberIterationNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(UntilFunctionCallNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(UntilNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(BoolDeclarationNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(NumberDeclarationNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(PointDeclarationNode node)
-        {
-                return node.AssignedExpression.Accept(this);
-                
-                
-                
+        { 
+            PointDeclarationNode o = (PointDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
+            Console.WriteLine("YOLLLLL1" + o.AssignedExpression);
+            
+            
+            
+           
+            node.AssignedExpression = (ExpressionNode) node.AssignedExpression.Accept(this);
+            return node;
+
         }
 
         public object Visit(BoolExprIdNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(BodyNode node)
         {
@@ -115,51 +175,64 @@ return node;        }
 
         public object Visit(AndComparerNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(BoolNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(EqualsComparerNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(GreaterThanComparerNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(LessThanComparerNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(NegationNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(OrComparerNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(BoolFunctionCallNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(FunctionCallNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(FunctionCallParameterNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(MathFunctionCallNode node)
         {
-return node;        }
+            node.Accept(_mathReducer);
+            return node;
+        }
 
         public object Visit(ParameterNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(FunctionNode node)
         {
@@ -168,27 +241,33 @@ return node;        }
 
         public object Visit(AdditionNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(DivisionNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(MathIdNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(MultiplicationNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(PowerNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(SubtractionNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(PointFunctionCallNode node)
         {
@@ -200,43 +279,50 @@ return node;        }
             {
                 funcNode.Parameters[i].Expression = (ExpressionNode) node.Parameters[i].Expression;
                 //This will go wrong
-              
+
                 if (funcNode.Parameters[i].Expression == null)
                 {
                     AstNode xVal = _symbolTable.GetElementBySymbolTableAddress(node.Parameters[i].ParameterId
                         .SymboltableAddress);
 
                     xVal.Accept(this);
-                    funcNode.Parameters[i].Expression = (ExpressionNode)xVal;
+                    funcNode.Parameters[i].Expression = (ExpressionNode) xVal;
                 }
-                
+
                 _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
             }
-            
+
             funcNode.Accept(this);
 
-            //We know that return value is math node - we can reduce math nodes to numbers.
+            //TODO Before return, add and save the address! Return value should be the node!
+            funcNode.ReturnValue = (PointReferenceNode) funcNode.ReturnValue.Accept(this);
             
-            return (PointReferenceNode)  funcNode.ReturnValue.Accept(this);
+            return funcNode.ReturnValue;
         }
 
         public object Visit(PointReferenceIdNode node)
         {
-            AstNode res =  _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
-            return  res.Accept(this);
+            AstNode res = 
+                _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
+            PointDeclarationNode q = (PointDeclarationNode)res.Accept(this);
+            
+            return (PointReferenceNode) q.AssignedExpression;
         }
 
         public object Visit(ShapeEndPointNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(ShapePointRefNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(ShapeStartPointNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(TuplePointNode node)
         {
@@ -247,37 +333,46 @@ return node;        }
             node.YValue = y;
             return node;
         }
+
         public object Visit(FalseNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(IdNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(NumberNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(TrueNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(SizePropertyNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(WorkAreaSettingNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(AstNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(DrawNode node)
         {
-return node;        }
+            return node;
+        }
 
         public object Visit(ProgramNode node)
         {
@@ -301,7 +396,8 @@ return node;        }
 
         public object Visit(CoordinateXyValueNode node)
         {
-return node;        }
+            return node;
+        }
 
         public List<SemanticError> SemanticErrors { get; set; }
         public string TopNode { get; set; }
