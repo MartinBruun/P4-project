@@ -58,8 +58,12 @@ namespace Tests
         }
         
         [TestCase("nested_shape.og", true,"Testing that nested shapes are not valid")]        
-        [TestCase("boolToNumber.og", false,"Check Boolian stuff should not fail")]
-
+        [TestCase("BoolAssignedToNumberDcl.og", true,"Check number declaration fails on wrong type assignment")]
+        [TestCase("PointAssignedToNumberDcl.og", true,"Check number declaration fails on wrong type assignment")]
+        [TestCase("PointAssignedToBoolDcl.og", true,"Check bool declaration fails on wrong type assignment")]
+        [TestCase("NumberAssignedToBoolDcl.og", true,"Check bool declaration fails on wrong type assignment")]
+        [TestCase("BoolAssignedToPointDcl.og", true,"Check point declaration fails on wrong type assignment")]
+        [TestCase("NumberAssignedToPointDcl.og", true,"Check point declaration fails on wrong type assignment")]
         public void Test_Fixtures_ShouldRaiseSyntaxExceptions(string fileName,bool shouldFail, string description)
         {
             OGParser parser = CreateParser(fileName, "Incorrect programs/");

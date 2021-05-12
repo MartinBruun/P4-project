@@ -1,0 +1,7 @@
+﻿Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
+draw { }
+
+function number boolToNumber(){
+    bool n = (2,2); /*Fails here*/
+    return 2;
+}

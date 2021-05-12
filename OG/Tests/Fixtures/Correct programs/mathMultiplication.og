@@ -4,6 +4,10 @@ draw {
     Line;
 }
 
+function number RelativeSize(number LengthA, number LenghtB) {
+    return LengthA / LenghtB;
+}
+
 function point Lengthen(point oldEndPoint, number factor) {
     point newEndpoint = (0,0);
      newEndpoint.x = oldEndpoint.x * factor;
@@ -12,9 +16,6 @@ function point Lengthen(point oldEndPoint, number factor) {
     return newEndpoint;
 }
 
-function number RelativeSize(number LengthA, number LenghtB) {
-    return LengthA/LengthB;
-}
 
 function number AreaOfSquare(number sideLength) {
     return sideLength^2;
