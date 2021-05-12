@@ -47,10 +47,6 @@ namespace Tests
         [TestCase("NestedRepeatLoopsInShape.og", "testing nested Repeat loops in shape")]
         [TestCase("FunctionCallParameters.og", "testing that a function can take id as params")]
         [TestCase("DrawCurves.og", "Draw curves")]
-
-
-
-        
         public void Test_Fixtures_ShouldNotFindAnyTypeMismatches(string fileName, string description)
         {
             OGParser parser = CreateParser(fileName, "Correct programs/");
@@ -90,7 +86,6 @@ namespace Tests
         [TestCase("FunctionCallAssignTypeMisMatch.og",4, "testing that a boolian function can not be assigned to a number variable and numberFunction to a boolian variable")]
         //[TestCase("UndeclaredEndPointRefference.og",2, "testing that a value  can not be assigned to a xy value on an undeclared pointrefference")]
         [TestCase("FunctionCallParametersTypeMismatch.og",3, "testing that parameters can be found in symboltable and match type")]
-
         public void Test_Fixtures_ShouldFindTypeMismatch(string fileName,int errorCount, string description)
         {
             OGParser parser = CreateParser(fileName, "Incorrect programs/");
