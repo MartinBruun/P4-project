@@ -5,7 +5,10 @@ draw
    ShapeA;
   
 }
-function bool boolFuncA (point a, point b) {return true;}
+function bool boolFuncA (point a, point b) {
+bool result = false;
+return result;
+}
 
 shape ShapeA  {
 point start = (2,2);

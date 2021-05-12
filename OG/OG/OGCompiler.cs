@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
 using System.Text.RegularExpressions;
-
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using OG.ASTBuilding;
@@ -21,31 +19,30 @@ using OG.Compiler;
 
 namespace OG
 {
-    
     public class OGCompiler
     {
-        public static readonly Dictionary<IdNode, ShapeNode>    GlobalShapeDeclarations    = new Dictionary<IdNode, ShapeNode>();
+        public static readonly Dictionary<IdNode, ShapeNode> GlobalShapeDeclarations =
+            new Dictionary<IdNode, ShapeNode>();
+
         private static async Task Main(string[] args)
         {
-            
-          
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
-            
+
             List<SemanticError> errors = new List<SemanticError>();
             Dictionary<string, AstNode> symbolTable = new Dictionary<string, AstNode>();
 
-            string sourceFile      = File.ReadAllText("../../../testFile.og");
-            LexerContainer lexCon  = new LexerContainer(sourceFile);
+            string sourceFile = File.ReadAllText("../../../testFile.og");
+            LexerContainer lexCon = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
-            
-            
+
+
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("program"));
-            
+
             ProgramNode p = astContainer.AstTreeTopNode;
 
-            PrettyPrinter PP = new PrettyPrinter();
-            p.Accept(PP);
+            // PrettyPrinter PP = new PrettyPrinter();
+            // p.Accept(PP);
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
             p.Accept(ST);
             errors.AddRange(ST.GetErrors());
@@ -56,27 +53,41 @@ namespace OG
             GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
             p.Accept(GV);
             errors.AddRange(GV.GetErrors());
-            
+
             PrintsymboltableAddress PA = new PrintsymboltableAddress();
             p.Accept(PA);
             // var symboltable = GV.GetSymbolTable();
             symbolTable = TT.GetSymbolTable();
 
-            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
+            if (errors.Count == 0)
+            {
+                MathReducerVisitor reducer = new MathReducerVisitor(symbolTable, errors);
+                p.Accept(reducer);
 
+                PointReducerVisitor preducer = new PointReducerVisitor(symbolTable, errors);
+                p.Accept(preducer);
+            }
+            else
+            {
+                foreach (var item in errors)
+                {
+                    Console.Write("\n" + item + "\n");
+                }
+
+            }
+
+
+
+            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
             foreach (var item in errors)
             {
-                Console.Write("\n"+item + "\n");
-
+                Console.Write("\n" + item + "\n");
             }
-            
             Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
-            foreach (var item in symbolTable)
-            {
-                Console.WriteLine(item);
-            }
-
-            
+            // foreach (var item in symbolTable)
+            // {
+            //     Console.WriteLine(item);
+            // }
 
 
             // errors.AddRange(ST.GetErrors());
@@ -101,10 +112,6 @@ namespace OG
             //
 
 
-
-
-
-
             //De resterende items bør udelukkende være dependant på opdaterede AST'er.
             /*
             TypeChecker<ProgramNode, ASTBuilderVisitor> typeChecker        = new TypeChecker<ProgramNode,ASTBuilderVisitor>(parCon.OGParser);
@@ -122,7 +129,6 @@ namespace OG
             Console.WriteLine(typeChecker.AST.ShapeDcls[0]);
             Console.WriteLine("\n\nTRANSLATOR IS STILL WORK IN PROGRESS!");
             */
-
         }
     }
 }

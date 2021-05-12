@@ -40,9 +40,10 @@ namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
             return $"SizeProperty with XMin={XMin}, XMax={XMax},YMin={YMin},YMax={YMax},ZMin={ZMin},ZMax={ZMax}";
         }
         
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);        
+            return visitor.Visit(this);
+
         }
     }
 }

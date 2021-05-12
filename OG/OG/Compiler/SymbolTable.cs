@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 
 namespace OG.AstVisiting.Visitors
 {
@@ -104,13 +105,14 @@ namespace OG.AstVisiting.Visitors
             Console.WriteLine($"pCount {parameterCount} adding {id} to symtbl, {node}");
             try
             {
-                
                 node.CompileTimeType = type;
                 Elements.Add(currentScopeName+"_"+id, node);
-                if ( parameterCount != 0)
-                {
-                    Elements.Add(currentScopeName+"_"+$"Param{parameterCount}",node);
-                } 
+                //TODO: overvej om vi kan undvære param1 navngivningen, hvis ikke så skal  Visit(ParameterTypeNode node) justeres i CreateSymbolTableVisitor
+
+                // if ( parameterCount != 0)
+                // {
+                //     Elements.Add(currentScopeName+"_"+$"Param{parameterCount}",node);
+                // } 
                 return true;
             }
             catch (Exception e)

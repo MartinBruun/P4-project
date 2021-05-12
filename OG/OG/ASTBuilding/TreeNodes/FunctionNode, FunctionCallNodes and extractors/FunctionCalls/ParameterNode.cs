@@ -1,3 +1,4 @@
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting;
@@ -45,10 +46,15 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         /// <param name="id"></param>
         public ParameterNode(IdNode id)
         {
-            Expression = null;
             ParamType = ParameterType.Id;
             ParameterId = id;
         }
+
+        public ParameterNode(IdNode id, ExpressionNode expression ):this(id)
+        {
+            Expression = expression;
+        }
+
         public ParameterNode()
         {
             Expression = null;
@@ -56,13 +62,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             ParameterId = new IdNode("");
         }
 
-        public ParameterNode(IdNode id, PointReferenceNode startPoint)
-        {
-            ParameterId = id;
-            Expression = startPoint;
-        }
         
-       
 
         public override string ToString()
         {
@@ -77,9 +77,10 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             return "Parameter does not contain id: " + ParamType.ToString();
         }
         
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
+
 
         }
     }

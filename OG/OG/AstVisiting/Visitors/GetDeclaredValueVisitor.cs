@@ -23,11 +23,14 @@ namespace OG.AstVisiting.Visitors
         private SymbolTable S = new SymbolTable();
         private List<SemanticError> errors = new List<SemanticError>();
         
-        
+        #region Constructor
         public GetDeclaredValueVisitor(Dictionary<string,AstNode> symbolTable)
         {
             S.Elements = symbolTable;
         }
+
+        #endregion
+        //________________
 
         
         void PrintSymbolTable()
@@ -166,8 +169,9 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
+
+        #region Declarations
         
-      
         public object Visit(FunctionNode node)
         {
             //For at nulstille pointingAt
@@ -242,7 +246,12 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
         
+        #endregion
+        //________________
 
+
+        #region Assignmants
+        
         public object Visit(BoolAssignmentNode node)
         {
             //For at nulstille pointingAt
@@ -335,12 +344,13 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-        public object Visit(ParameterTypeNode node)
-        {
-            node.IdNode.Accept(this);
-            return new object();
-        }
+        #endregion
+        //________________
 
+        
+
+
+        #region Drawing
         
         public object Visit(CurveCommandNode node)
         {
@@ -378,6 +388,12 @@ namespace OG.AstVisiting.Visitors
             node.Id.Accept(this);
             return new object();
         }
+
+        #endregion
+        //________________
+
+
+        #region Bool operations
         
         public object Visit(AndComparerNode node)
         {
@@ -397,30 +413,6 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
         
-        public object Visit(BoolExprIdNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            node.Id.Accept(this);
-            return new object();
-
-        }
-
-        // TODO Måske crasher denne
-        public object Visit(BoolNode node)
-        {
-            node.Accept(this);
-            return new object();
-        }
-
-        public object Visit(BoolTerminalNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            node.Accept(this);
-            return new object();
-        }
-
         public object Visit(EqualsComparerNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -447,7 +439,7 @@ namespace OG.AstVisiting.Visitors
             node.RHS.Accept(this);
             return new object();
         }
-
+        
         public object Visit(MathComparerNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
@@ -473,105 +465,11 @@ namespace OG.AstVisiting.Visitors
             node.RHS.Accept(this);
             return new object();
         }
+        #endregion
+        //________________
 
-        public object Visit(BoolFunctionCallNode node)
-        {
-            node.FunctionName.Accept(this);
-            return new object();
-        }
 
-        //Todo: RESET PARAMCOUNT 
-        public object Visit(FunctionCallNode node)
-        {
-            // Console.Write($"VisitFunctionCallNode  Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            node.FunctionName.Accept(this);
-            
-            //Checking parameters
-            var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
-            for (int i = 0 ; i< node.Parameters.Count ; i++)
-            {
-                // Console.WriteLine("testing param");
-                node.Parameters[i].Accept(this);
-                if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
-                {
-                    errors.Add(new SemanticError(node.Parameters[i],
-                        $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
-                }
-                   
-            }
-            S.resetParameterCount();
-            return new object();
-        }
-        //Todo: INCREASE PARAMCOUNT 
-        public object Visit(FunctionCallParameterNode node)
-        {
-            node.ParameterId.Accept(this);
-           
-            return new object();
-        }
-
-        public object Visit(IFunctionCallNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            return new object();
-        }
-
-        //Todo: RESET PARAMCOUNT 
-        public object Visit(MathFunctionCallNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            node.FunctionName.Accept(this);
-            if (node.FunctionName.CompileTimeType != "number")
-            {
-                errors.Add(new SemanticError(node, $"{node.FunctionName}: is not of type number: typeMismatch"));
-            }
-            //Checking parameters
-            var declaredNode= (FunctionNode) S.GetElementById(node.FunctionName.Value);
-            for (int i = 0 ; i< node.Parameters.Count ; i++)
-            {
-                // Console.WriteLine("testing param");
-                node.Parameters[i].Accept(this);
-                if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
-                {
-                    errors.Add(new SemanticError(node.Parameters[i],
-                        $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
-                }
-                   
-            }
-            S.resetParameterCount();
-            return new object();
-        }
-
-        public object Visit(ParameterNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            // Console.Write($"VisitParameterNode   Scope {S.GetCurrentScope()} | ");
-
-            if (node.Expression != null)
-            {
-                node.Expression.Accept(this);
-                node.CompileTimeType = node.Expression.CompileTimeType;
-            }
-            else
-            {
-                node.ParameterId.Accept(this);
-                node.CompileTimeType = node.ParameterId.CompileTimeType;
-            }
-            return new object();
-        }
-
-        
-//Anvendes ikke
-        public object Visit(IFunctionNode node)
-        {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            return new object();
-        }
+        #region Number operations
 
         public object Visit(AdditionNode node)
         {
@@ -620,12 +518,6 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-        public object Visit(MathIdNode node)
-        {
-            node.AssignedValueId.Accept(this);
-
-            return "number";
-        }
 
         public object Visit(MathNode node)
         {
@@ -686,6 +578,172 @@ namespace OG.AstVisiting.Visitors
             }
             return new object();
         }
+        
+        #endregion
+        //________________
+
+
+
+        #region Id's
+        
+        public object Visit(IdNode node)
+        {
+
+            node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
+            //_pointingAt = node.PointingAt;
+
+            
+
+            Console.WriteLine("\n#####This is stored: "+ node.DeclaredValue+" At Addr:"+node.SymboltableAddress);
+           
+            return new object();
+        }
+        
+        public object Visit(MathIdNode node)
+        {
+            node.AssignedValueId.Accept(this);
+
+            return "number";
+        }
+
+        public object Visit(BoolExprIdNode node)
+        {
+            // Console.Write($"Scope {S.GetCurrentScope()} | ");
+            // Console.WriteLine(node.ToString());
+            node.Id.Accept(this);
+            return new object();
+
+        }
+        
+        public object Visit(ParameterTypeNode node)
+        {
+            node.IdNode.Accept(this);
+            return new object();
+        }
+        
+        public object Visit(ParameterNode node)
+        {
+            // Console.Write($"Scope {S.GetCurrentScope()} | ");
+            // Console.WriteLine(node.ToString());
+            // Console.Write($"VisitParameterNode   Scope {S.GetCurrentScope()} | ");
+
+            if (node.Expression != null)
+            {
+                node.Expression.Accept(this);
+                node.CompileTimeType = node.Expression.CompileTimeType;
+            }
+            else
+            {
+                node.ParameterId.Accept(this);
+                node.CompileTimeType = node.ParameterId.CompileTimeType;
+            }
+            return new object();
+        }
+        
+        public object Visit(FunctionCallParameterNode node)
+        {
+            node.ParameterId.Accept(this);
+           
+            return new object();
+        }
+
+        #endregion
+        //________________
+
+        
+
+        // TODO Måske crasher denne
+        public object Visit(BoolNode node)
+        {
+            node.Accept(this);
+            return new object();
+        }
+
+        public object Visit(BoolTerminalNode node)
+        {
+            // Console.Write($"Scope {S.GetCurrentScope()} | ");
+            // Console.WriteLine(node.ToString());
+            node.Accept(this);
+            return new object();
+        }
+
+
+
+
+        #region FunctionCalls
+        
+        public object Visit(BoolFunctionCallNode node)
+        {
+            node.FunctionName.Accept(this);
+            return new object();
+        }
+
+        public object Visit(FunctionCallNode node)
+        {
+            // Console.Write($"VisitFunctionCallNode  Scope {S.GetCurrentScope()} | ");
+            // Console.WriteLine(node.ToString());
+            node.FunctionName.Accept(this);
+            
+            //Checking parameters
+            var declaredNode= (FunctionNode) S.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            for (int i = 0 ; i< node.Parameters.Count ; i++)
+            {
+                // Console.WriteLine("testing param");
+                node.Parameters[i].Accept(this);
+                node.Parameters[i].ParameterId.SymboltableAddress = declaredNode.Parameters[i].IdNode.SymboltableAddress;
+                if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
+                {
+                    errors.Add(new SemanticError(node.Parameters[i],
+                        $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
+                }
+                   
+            }
+            // S.resetParameterCount();
+            return new object();
+        }
+        
+
+        public object Visit(MathFunctionCallNode node)
+        {
+            // Console.Write($"Scope {S.GetCurrentScope()} | ");
+            // Console.WriteLine(node.ToString());
+            node.FunctionName.Accept(this);
+            if (node.FunctionName.CompileTimeType != "number")
+            {
+                errors.Add(new SemanticError(node, $"{node.FunctionName}: is not of type number: typeMismatch"));
+            }
+            //Checking parameters
+            var declaredNode= (FunctionNode) S.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            for (int i = 0 ; i< node.Parameters.Count ; i++)
+            {
+                // Console.WriteLine("testing param");
+                node.Parameters[i].Accept(this);
+                //node.Parameters[i].Expression = declaredNode.Parameters[i].Expression;
+                
+                if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
+                {
+                    errors.Add(new SemanticError(node.Parameters[i],
+                        $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
+                }
+                   
+            }
+            S.resetParameterCount();
+            return new object();
+        }
+        
+        public object Visit(PointFunctionCallNode node)
+        {
+            node.FunctionName.Accept(this);
+            foreach (var item in node.Parameters)
+            {
+                item.Accept(this);
+            }
+            return new object();
+        }
+
+        #endregion
+        //________________
+        
 
         public object Visit(TerminalMathNode node)
         {
@@ -695,16 +753,7 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-        public object Visit(PointFunctionCallNode node)
-        {
-            node.FunctionName.Accept(this);
-            foreach (var item in node.Parameters)
-            {
-                item.Accept(this);
-            }
-            node.Body.Accept(this);
-            return new object();
-        }
+       
 
         public object Visit(PointReferenceIdNode node)
         {
@@ -783,19 +832,6 @@ namespace OG.AstVisiting.Visitors
         }
 
         //TODO: konverter DeclaredValue så jeg kan få dens Id.pointingAt adresse ud.Jeg ved ikke om mit krumspring her flytter mig tættere
-        public object Visit(IdNode node)
-        {
-            if (_pointingAt != node.PointingAt)
-            {
-                node.DeclaredValue = S.GetElementBySymbolTableAddress(node.SymboltableAddress);
-                _pointingAt = node.PointingAt;
-                node.DeclaredValue.Accept(this);
-            }
-
-            Console.WriteLine("\n#####This is stored: "+ node.DeclaredValue+" At Addr:"+node.SymboltableAddress);
-           
-            return new object();
-        }
 
         public object Visit(NumberNode node)
         {

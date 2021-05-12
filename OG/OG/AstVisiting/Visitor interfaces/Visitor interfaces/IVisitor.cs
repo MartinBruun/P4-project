@@ -79,14 +79,12 @@ namespace OG.AstVisiting
 
         public Object Visit(AdditionNode node);
         public Object Visit(DivisionNode node);
-        public Object Visit(InfixMathNode node);
         public Object Visit(MathIdNode node);
         public Object Visit(MultiplicationNode node);
         public Object Visit(PowerNode node);
         public Object Visit(SubtractionNode node);
-        public Object Visit(TerminalMathNode node);
 
-        
+
         //Point
         public Object Visit(PointFunctionCallNode node);
         public Object Visit(PointReferenceIdNode node);

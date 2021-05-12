@@ -43,6 +43,8 @@ namespace Tests
         //[TestCase("soleFunctionCall.og", "Testing a single function call")]//Vi har valgt at dette ikke er muligt
         [TestCase("funcCallAssignmentWithParams.og", "Testing a function call to an ID with params")]
         [TestCase("DrawCurves.og", "Draw curves")]
+        [TestCase("FunctionDeclParameters.og", "testing that two parameters are discovered")]
+        
 
 
         public void Test_Fixtures_ShouldNotRaiseAnySyntaxExceptions(string fileName, string description)

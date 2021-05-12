@@ -1,4 +1,4 @@
-Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+Machine.WorkArea.size(xmin=0+2,xmax=100,ymin=0,ymax=100);
 
 draw 
 {
@@ -6,19 +6,12 @@ draw
 }
 
 function number BoolFuncA(){
- /*bool BoolA = true;*/
- number NumberA = 99;
- point PointA = (8,8);
- /*bool BoolB = BoolA;*/
- /*number NumberB = NumberA;
- NumberA = NumberFuncA(2,2);*/
- point PointB = PointA;
- PointB.x = NumberA;
- return BoolA;  
+number x = 20;
+point b = myFunc(2,5);
+return x;
 }
 
-/*function number NumberFuncA(number a,number b){
-number result = a+b;
+function point myFunc(number a, number b){
+point result = (a,b);
 return result;
-}*/
-
+}
