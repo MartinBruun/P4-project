@@ -6,12 +6,7 @@ draw { }
 function bool TestIdassign(number z,bool l){
 bool b= true;
 number n = 1;
-/*bool bb = false;
-number nn = 2;
-n=nn;
-b=bb;
-n=b;
-b=n;*/
+
 b = myBoolfunc(true);
 n = myNumfunc(3*3);
 return a;}
@@ -20,6 +15,6 @@ function number myNumfunc(number n){
 return n;
 }
 
-function number myBoolfunc(bool n){
+function bool myBoolfunc(bool n){
 return n;
 }

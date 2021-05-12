@@ -6,9 +6,8 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
 {
     public class NumberDeclarationNode : DeclarationNode
     {
-        public NumberDeclarationNode(IdNode id, MathNode assignedAssignedExpression) : base(id, assignedAssignedExpression, DeclarationType.NumberDeclarationNode)
+        public NumberDeclarationNode(IdNode id, ExpressionNode assignedAssignedExpression) : base(id, assignedAssignedExpression, DeclarationType.NumberDeclarationNode)
         {
-
             AssignedExpression = assignedAssignedExpression;
         }
 

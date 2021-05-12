@@ -121,9 +121,25 @@ namespace OG.AstVisiting.Visitors
             {
                 node.ReturnValue.CompileTimeType = S.CheckDeclaredTypeOf(node.ReturnValue.Value);
                 node?.ReturnValue?.Accept(this);
-                S.Add("return", node.ReturnType, new IdNode("return"));
-                string adrr = S.GetSymboltableAddressFor("return");
-                S.Add(adrr, node.ReturnValue);
+                DeclarationNode dcl = null;
+                switch (node.CompileTimeType)
+                {
+                    case "number":
+                        dcl = new NumberDeclarationNode(new IdNode("return"), node.ReturnValue);
+                        break;
+                    case"bool":
+                        dcl = new BoolDeclarationNode(new IdNode("return"), node.ReturnValue);
+                        break;
+
+                    case"point":
+                        dcl = new PointDeclarationNode(new IdNode("return"), node.ReturnValue);
+                        break;
+                }
+
+                
+                S.Add("return", node.ReturnType, dcl);
+                dcl.Id.SymboltableAddress = S.GetSymboltableAddressFor("return");
+
             }
             
             S.exitScope(node.Id.Value);

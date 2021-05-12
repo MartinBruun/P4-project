@@ -151,7 +151,7 @@ namespace OG.ASTBuilding.TreeNodes
             //TODO: det skal checkes om dette altid er en Return statement node???
             if (boolExprContext != null)
             {
-                var resultingNode = new  BoolExprIdNode("Return", new IdNode("Return"), BoolNode.BoolType.IdValueNode);
+                var resultingNode = new  BoolExprIdNode("return", new IdNode("return"), BoolNode.BoolType.IdValueNode);
                 resultingNode.Line = boolExprContext.Start.Line;
                 resultingNode.Column = boolExprContext.Start.Column;
                 return resultingNode;

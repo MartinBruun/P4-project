@@ -13,7 +13,7 @@ function void triangleA() {
     line.from(startpoint).to(x,y).to(x,y).to(startpoint);
 }
 
-function void triangleB() {
+shape triangleB{
     point startpoint = (0,0);
     number x = 1;
     number y = 2;
@@ -41,9 +41,7 @@ shape D {
     number numberOfTriangles = 0;
     number desiredAmountOfTriangles = 27;
     repeat.until (numberOfTriangles == desiredAmountOfTriangles)
-
-        triangleB.from(origin);
-        
+        triangleB;
     repeat.end
 }
 
