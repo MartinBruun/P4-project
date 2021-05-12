@@ -128,7 +128,7 @@ namespace OG.ASTBuilding.TreeNodes
                         return new PointReferenceIdNode(idContext.Text, new IdNode(idContext.Text));
                     default:
                         return null;
-                        
+                    
                 }
             }
 

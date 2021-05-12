@@ -51,6 +51,7 @@ namespace Tests
             }, description);
         }
         
+
         public void Test_Fixtures_ShouldRaiseSyntaxExceptions(string fileName, string description)
         {
             CommonTokenStream tokenStream = CreateTokenStream(fileName, "Incorrect programs/");
