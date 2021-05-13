@@ -17,6 +17,19 @@ shape Diamond {
     line.from(start).to(-4,-5).to(-5,-3).to(-6,-5).to(start);
 }
 
+shape ClubStand {
+    point start = (5,3);
+    
+    curve.withAngle(80).from(start).to(6,2);
+    line.from(6,2).to(4,2);
+    curve.withAngle(80).from(4,2).to(start);
+}
+
+shape Club {
+    point start = (5,3);
+    curve.withAngle(90).from(start).to(6,4.5).to(4,4.5).to(start);
+}
+
 shape Heart {
     point start = (-5, 7);
     point rightEdge = (-3,7);
@@ -25,19 +38,19 @@ shape Heart {
     point rightMiddleLine = getMiddlePoint(rightEdge, bottomPoint);
     point leftMiddleLine = getMiddlePoint(leftEdge, bottomPoint);
 
-    curve.WithAngle(-90).from(start).to(rightEdge);
-    curve.WithAngle(-45).from(rightEdge).to(rightMiddleLine);
-    curve.WithAngle(45).from(rightMiddleLine).to(bottomPoint).to(leftMiddleLine);
-    curve.WithAngle(-45).from(leftMiddleLine).to(leftEdge);
-    curve.WithAngle(-90).from(leftEdge).to(start);
+    curve.withAngle(-90).from(start).to(rightEdge);
+    curve.withAngle(-45).from(rightEdge).to(rightMiddleLine);
+    curve.withAngle(45).from(rightMiddleLine).to(bottomPoint).to(leftMiddleLine);
+    curve.withAngle(-45).from(leftMiddleLine).to(leftEdge);
+    curve.withAngle(-90).from(leftEdge).to(start);
 }
 
 shape SpadeStand {
     point start = (5,-7);
     
-    curve.WithAngle(80).from(start).to(6,-8);
+    curve.withAngle(80).from(start).to(6,-8);
     line.from(6,-8).to(4,-8);
-    curve.WithAngle(80).from(4,-8).to(start);
+    curve.withAngle(80).from(4,-8).to(start);
 }
 
 shape Spade {
@@ -49,20 +62,7 @@ shape Spade {
 
     SpadeStand;
     repeat(2)
-        curve.WithAngle(sideVal * 90).from(start).to((edge.x * sideVal),edge.y);
-        curve.WithAngle(sideVal * 45).from((edge.x * sideVal),edge.y).to((middleLine.x * sideVal),middleLine.y).to(top);
+        curve.withAngle(sideVal * 90).from(start).to((edge.x * sideVal),edge.y);
+        curve.withAngle(sideVal * 45).from((edge.x * sideVal),edge.y).to((middleLine.x * sideVal),middleLine.y).to(top);
         sideVal = -1;
-}
-
-shape ClubStand {
-    point start = (5,3);
-    
-    curve.WithAngle(80).from(start).to(6,2);
-    line.from(6,2).to(4,2);
-    curve.WithAngle(80).from(4,2).to(start);
-}
-
-shape Club {
-    point start = (5,3);
-    line.from(start).to(5,4);
 }
