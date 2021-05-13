@@ -27,7 +27,6 @@ namespace OG
         private static async Task Main(string[] args)
         {
             // Handle args arguments in finished implementation, so its not hardcoded to testFile.og
-
             List<SemanticError> errors = new List<SemanticError>();
             Dictionary<string, AstNode> symbolTable = new Dictionary<string, AstNode>();
 
@@ -66,6 +65,8 @@ namespace OG
 
                 PointReducerVisitor preducer = new PointReducerVisitor(symbolTable, errors);
                 p.Accept(preducer);
+
+                LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable,errors);
             }
             else
             {
@@ -76,7 +77,7 @@ namespace OG
 
             }
 
-
+           
 
             Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
             foreach (var item in errors)

@@ -1,0 +1,16 @@
+﻿Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {}
+
+function number RepeatFunction(){
+    number result = 0;
+    number a = 2;
+    number b = 3;
+    
+    repeat (a + b) 
+      
+    repeat.end
+    result = a;
+    
+    return b;
+}
