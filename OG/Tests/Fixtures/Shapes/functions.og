@@ -1,0 +1,32 @@
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    functionShape;
+}
+
+shape functionShape {
+    point initPoint = (1,1);
+    point next = firstPoint();
+    line.from(initPoint).to(next);
+    point startPoint = next;
+    next = secondPoint();
+    line.from(startPoint).to(next);
+    startPoint = next;
+    next = thirdPoint();
+    line.from(startPoint).to(next);
+    startPoint = next;
+    line.from(startPoint).to(initPoint);
+
+}
+
+function point firstPoint(){
+    return (1,4);
+}
+
+function point secondPoint(){
+    return (4,4);
+}
+
+function point thirdPoint(){
+    return (4,1);
+}
