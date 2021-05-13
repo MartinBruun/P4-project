@@ -181,7 +181,6 @@ namespace OG.Compiler
         {
             foreach (StatementNode nodeStatementNode in node.StatementNodes)
             {
-                Console.WriteLine(nodeStatementNode);
                 nodeStatementNode.Accept(this);
             }
 
