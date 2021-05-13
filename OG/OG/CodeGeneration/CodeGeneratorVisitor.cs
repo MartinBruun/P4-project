@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Schema;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -21,21 +20,43 @@ using OG.CodeGeneration;
 
 namespace OG.Compiler
 {
-    public class MathReducerVisitor : IVisitor, ISemanticErrorable
+    /// <summary>
+    /// The class responsible for converting an AST into executable G-code.
+    /// </summary>
+    public class CodeGeneratorVisitor : IVisitor, IGCodeStringEmitter
     {
-        private SymbolTable _symbolTable = new SymbolTable();
-        public List<SemanticError> SemanticErrors { get; set; }
-        public string TopNode { get; set; }
+        private readonly SymbolTable _symbolTable = new SymbolTable();
+        private readonly List<SemanticError> _errors;
 
-        private readonly IMathNodeVisitor _arithmeticPerformer;
-        TypeCastVisitor typeCaster = new TypeCastVisitor();
-
-
-        public MathReducerVisitor(Dictionary<string, AstNode> symTab, List<SemanticError> errs)
+        private readonly LineEmitter _lineEmitter = null;
+        private readonly CurveEmitter _curveEmitter = null;
+        private List<IGCodeCommand> _gCodeCommands = new List<IGCodeCommand>();
+        public event CodeGenerationNotification CodeGenerationNotification;
+        public GCodeCommandText ResultCommand { get; private set; }
+        
+        public CodeGeneratorVisitor(Dictionary<string, AstNode> symbolTable, List<SemanticError> errors)
         {
-            SemanticErrors = errs;
-            _symbolTable.Elements = symTab;
-            _arithmeticPerformer = new MathArithmeticCalculator(_symbolTable, errs, this);
+            _symbolTable.Elements = symbolTable;
+            _errors = errors;
+            _lineEmitter = new LineEmitter( _errors);
+            _curveEmitter = new CurveEmitter( _errors);
+        }
+
+        public string Emit()
+        {
+            string result = "";
+            foreach (IGCodeCommand gCodeCommand in _gCodeCommands)
+            {
+                result += gCodeCommand.CreateGCodeTextCommand();
+            }
+            
+            CodeGenerationNotification?.Invoke(result);
+            return result;
+        }
+
+        public void ClearResult()
+        {
+            _gCodeCommands = new List<IGCodeCommand>();
         }
         
         public object Visit(BoolAssignmentNode node)
@@ -45,43 +66,16 @@ namespace OG.Compiler
 
         public object Visit(FunctionCallAssignNode node)
         {
-            //get function declaration
-            AstNode s = _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
-            FunctionNode function = (FunctionNode) s.Accept(typeCaster);
-
-            return function;
-
+            return node;
         }
 
         public object Visit(IdAssignNode node)
         {
-            AstNode x = _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
-            NumberDeclarationNode numDcl;
-            try
-            {
-                numDcl = (NumberDeclarationNode) x.Accept(typeCaster);
-            }
-            catch (InvalidCastException e)
-            {
-                return null;
-            }
-            MathNode mathNode = (MathNode) numDcl.AssignedExpression;
-
-            NumberDeclarationNode numberDeclarationResult = new NumberDeclarationNode(node.Id, mathNode);
-            _symbolTable.Add(node.Id.SymboltableAddress, numberDeclarationResult);
-            
-            return numberDeclarationResult;
+            return node;
         }
 
         public object Visit(MathAssignmentNode node)
         {
-            NumberNode res = node.AssignedValue.Accept(_arithmeticPerformer);
-
-            string lhsSymTabAddress = node.Id.SymboltableAddress;
-
-            _symbolTable.Add(lhsSymTabAddress, res);
-            node.AssignedValue = res;
-
             return node;
         }
 
@@ -97,52 +91,47 @@ namespace OG.Compiler
 
         public object Visit(ParameterTypeNode node)
         {
-            
-            if (node.Expression is MathNode mathNode)
-            {
-                return mathNode.Accept(_arithmeticPerformer);
-            }
-
             return node;
         }
 
         public object Visit(CurveCommandNode node)
         {
-            node.Angle.Accept(this);
+            
+           _curveEmitter.SetupGCodeResult(node);
+           _gCodeCommands.Add(_curveEmitter.ResultCommand);
+           _curveEmitter.ClearResult();
             return node;
         }
 
         public object Visit(DrawCommandNode node)
         {
+            ShapeNode shape = (ShapeNode) _symbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
+            shape.Body.Accept(this);
+            
+            
+            
             return node;
         }
 
         public object Visit(LineCommandNode node)
         {
+            _lineEmitter.SetupGCodeResult(node);
+            _gCodeCommands.Add(_lineEmitter.ResultCommand);
+            _lineEmitter.ClearResult();
             return node;
         }
 
-        /// <summary>
-        /// TODO Enter Body
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
         public object Visit(NumberIterationNode node)
         {
-            return node.Iterations.Accept(_arithmeticPerformer);
+            node.Body.Accept(this);
+            return node;
         }
 
-        
         public object Visit(UntilFunctionCallNode node)
         {
             return node;
         }
 
-        /// <summary>
-        /// TODO Enter Body
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns> 
         public object Visit(UntilNode node)
         {
             return node;
@@ -155,11 +144,7 @@ namespace OG.Compiler
 
         public object Visit(NumberDeclarationNode node)
         {
-            MathNode res = (MathNode) node.AssignedExpression;
-            node.AssignedExpression = res.Accept(_arithmeticPerformer);
-            _symbolTable.Add(node.Id.SymboltableAddress, node.AssignedExpression);
-            
-            return node.AssignedExpression;
+            return node;
         }
 
         public object Visit(PointDeclarationNode node)
@@ -172,18 +157,12 @@ namespace OG.Compiler
             return node;
         }
 
-        /// <summary>
-        /// TODO Enter Body
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
         public object Visit(BodyNode node)
         {
             foreach (StatementNode nodeStatementNode in node.StatementNodes)
             {
                 nodeStatementNode.Accept(this);
             }
-
             return node;
         }
 
@@ -239,12 +218,9 @@ namespace OG.Compiler
 
         public object Visit(MathFunctionCallNode node)
         {
-            string functionCallAddress = node.FunctionName.SymboltableAddress;
-            AstNode funcDeclaration = _symbolTable.GetElementBySymbolTableAddress(functionCallAddress);
-        
-            FunctionNode f = (FunctionNode)funcDeclaration.Accept(typeCaster);
             return node;
         }
+
         public object Visit(ParameterNode node)
         {
             return node;
@@ -252,45 +228,39 @@ namespace OG.Compiler
 
         public object Visit(FunctionNode node)
         {
-            return node.Body.Accept(this);
+            return node;
         }
 
         public object Visit(AdditionNode node)
         {
-            return node.Accept(_arithmeticPerformer);
+            return node;
         }
 
         public object Visit(DivisionNode node)
         {
-            return node.Accept(_arithmeticPerformer);
+            return node;
         }
-        
+
         public object Visit(MathIdNode node)
         {
-            return node.Accept(_arithmeticPerformer);
+            return node;
         }
 
         public object Visit(MultiplicationNode node)
         {
-            return node.Accept(_arithmeticPerformer);
+            return node;
         }
 
         public object Visit(PowerNode node)
         {
-            return node.Accept(_arithmeticPerformer);
+            return node;
         }
 
         public object Visit(SubtractionNode node)
         {
-            return node.Accept(_arithmeticPerformer);
+            return node;
         }
 
-        /// <summary>
-        /// Det bliver måske også træls
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-       
         public object Visit(PointFunctionCallNode node)
         {
             return node;
@@ -318,7 +288,6 @@ namespace OG.Compiler
 
         public object Visit(TuplePointNode node)
         {
-            
             return node;
         }
 
@@ -329,15 +298,12 @@ namespace OG.Compiler
 
         public object Visit(IdNode node)
         {
-            //slå op
-          
-            
             return node;
         }
 
         public object Visit(NumberNode node)
         {
-            return node.Accept(_arithmeticPerformer);
+            return node;
         }
 
         public object Visit(TrueNode node)
@@ -347,17 +313,11 @@ namespace OG.Compiler
 
         public object Visit(SizePropertyNode node)
         {
-            node.XMax = node.XMax.Accept(_arithmeticPerformer);
-            node.YMax = node.XMax.Accept(_arithmeticPerformer);
-            node.YMin = node.YMin.Accept(_arithmeticPerformer);
-            node.XMin = node.XMin.Accept(_arithmeticPerformer);
-
             return node;
         }
 
         public object Visit(WorkAreaSettingNode node)
         {
-            node.SizeProperty.Accept(this);
             return node;
         }
 
@@ -368,22 +328,22 @@ namespace OG.Compiler
 
         public object Visit(DrawNode node)
         {
-            return node;
-        }
-
-        public object Visit(ProgramNode node)
-        {
-            foreach (FunctionNode nodeFunctionDcl in node.FunctionDcls)
+            foreach (DrawCommandNode nodeDrawCommand in node.drawCommands)
             {
-                nodeFunctionDcl.Accept(this);
+                nodeDrawCommand.Accept(this);
             }
 
             return node;
         }
 
+        public object Visit(ProgramNode node)
+        {
+            return node.drawNode.Accept(this);
+            
+        }
+
         public object Visit(ShapeNode node)
         {
-            node.Body.Accept(this);
             return node;
         }
 
@@ -394,4 +354,5 @@ namespace OG.Compiler
 
 
     }
+
 }

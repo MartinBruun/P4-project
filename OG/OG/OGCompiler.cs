@@ -67,6 +67,9 @@ namespace OG
                 p.Accept(preducer);
 
                 LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable,errors);
+                p.Accept(loopUnfolder);
+
+                CodeGeneratorVisitor gCodeGeneratorVisitor = new CodeGeneratorVisitor(symbolTable, errors);
             }
             else
             {

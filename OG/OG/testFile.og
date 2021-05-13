@@ -2,15 +2,23 @@ Machine.WorkArea.size(xmin=0+2,xmax=100,ymin=0,ymax=100);
 
 draw 
 {
-   
+   myShape;
 }
 
-function number BoolFuncA(){
-    number x = myFunc(2,2);
-    return x;
+function number BoolFuncA()
+{
+
+
+    x = 1;
+    line.from(1,1).to(1,1)
+
 }
 
 function number myFunc(number a, number b){
     number result = a + b;
     return result * 2;
+}
+
+shape myShape {
+    myfun();
 }

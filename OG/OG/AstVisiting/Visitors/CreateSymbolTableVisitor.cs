@@ -81,7 +81,6 @@ namespace OG.AstVisiting.Visitors
                 {
                     item.Id.SymboltableAddress = S.GetSymboltableAddressInCurrentScope(item.Id.Value);
                     S.Add(item.Id.SymboltableAddress, item);
-
                 }
                 else
                 {
