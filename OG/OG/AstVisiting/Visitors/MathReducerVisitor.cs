@@ -27,7 +27,7 @@ namespace OG.Compiler
         public List<SemanticError> SemanticErrors { get; set; }
         public string TopNode { get; set; }
 
-        private readonly IMathNodeVisitor _arithmeticPerformer;
+        private readonly MathArithmeticCalculator _arithmeticPerformer;
         TypeCastVisitor typeCaster = new TypeCastVisitor();
 
 
@@ -45,12 +45,14 @@ namespace OG.Compiler
 
         public object Visit(FunctionCallAssignNode node)
         {
-            //get function declaration
-            AstNode s = _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
-            FunctionNode function = (FunctionNode) s.Accept(typeCaster);
-
+            NumberDeclarationNode id = (NumberDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            FunctionNode function = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            
+            
+            
+            
+            id.AssignedExpression = function.ReturnValue;
             return function;
-
         }
 
         public object Visit(IdAssignNode node)
@@ -122,11 +124,6 @@ namespace OG.Compiler
             return node;
         }
 
-        /// <summary>
-        /// TODO Enter Body
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
         public object Visit(NumberIterationNode node)
         {
             return node.Iterations.Accept(_arithmeticPerformer);
@@ -138,11 +135,7 @@ namespace OG.Compiler
             return node;
         }
 
-        /// <summary>
-        /// TODO Enter Body
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns> 
+      
         public object Visit(UntilNode node)
         {
             return node;
@@ -240,9 +233,10 @@ namespace OG.Compiler
         public object Visit(MathFunctionCallNode node)
         {
             string functionCallAddress = node.FunctionName.SymboltableAddress;
-            AstNode funcDeclaration = _symbolTable.GetElementBySymbolTableAddress(functionCallAddress);
-        
-            FunctionNode f = (FunctionNode)funcDeclaration.Accept(typeCaster);
+            FunctionNode funcDeclaration = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(functionCallAddress);
+
+            funcDeclaration.Accept(this);
+
             return node;
         }
         public object Visit(ParameterNode node)

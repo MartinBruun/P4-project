@@ -60,11 +60,8 @@ namespace OG
 
             if (errors.Count == 0)
             {
-                MathReducerVisitor reducer = new MathReducerVisitor(symbolTable, errors);
+                ExpressionReducerVisitor reducer = new ExpressionReducerVisitor(symbolTable, errors);
                 p.Accept(reducer);
-
-                PointReducerVisitor preducer = new PointReducerVisitor(symbolTable, errors);
-                p.Accept(preducer);
 
                 LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable,errors);
             }

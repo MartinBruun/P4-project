@@ -13,8 +13,8 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             Line,
             Curve
         }
-        public PointReferenceNode From { get; }
-        public ICollection<PointReferenceNode> To { get;}
+        public PointReferenceNode From { get; set; }
+        public List<PointReferenceNode> To { get;}
 
         public MovementType TypeOfMovement { get; }
 

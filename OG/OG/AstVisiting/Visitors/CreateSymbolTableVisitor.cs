@@ -308,6 +308,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(IdAssignNode node)
         {
+            
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString()); 
             return new object();

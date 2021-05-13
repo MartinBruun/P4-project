@@ -30,6 +30,14 @@ namespace OG.AstVisiting.Visitors
             _symbolTable.Elements = symbolTable;
             _mathReducer = new MathReducerVisitor(symbolTable, errs);
         }
+        
+        public PointReducerVisitor( Dictionary<string, AstNode> symbolTable, List<SemanticError> errs, 
+            MathReducerVisitor mathReducer)
+            :this(symbolTable, errs)
+        {
+
+            _mathReducer = mathReducer;
+        }
 
 
         public object Visit(BoolAssignmentNode node)
@@ -145,10 +153,11 @@ namespace OG.AstVisiting.Visitors
         }
 
         public object Visit(PointDeclarationNode node)
-        { 
-            PointDeclarationNode o = (PointDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
-
-            node.AssignedExpression = (ExpressionNode) node.AssignedExpression.Accept(this);
+        {
+            PointReferenceNode p = (PointReferenceNode) node.AssignedExpression;
+            node.AssignedExpression = (TuplePointNode) p.Accept(this);
+            _symbolTable.Add(node.Id.SymboltableAddress, node.AssignedExpression);
+            
             return node;
 
         }
@@ -269,6 +278,7 @@ namespace OG.AstVisiting.Visitors
             string functionNodeAdresse = node.FunctionName.SymboltableAddress;
             FunctionNode funcNode = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(functionNodeAdresse);
 
+            
             //Pass parameters to function body
             for (int i = 0; i < node.Parameters.Count; i++)
             {
@@ -286,22 +296,20 @@ namespace OG.AstVisiting.Visitors
 
                 _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
             }
-
+            
             funcNode.Accept(this);
 
-            //TODO Before return, add and save the address! Return value should be the node!
-            funcNode.ReturnValue = (PointReferenceNode) funcNode.ReturnValue.Accept(this);
-            
-            return funcNode.ReturnValue;
+           funcNode.ReturnValue = (TuplePointNode) funcNode.ReturnValue.Accept(this);
+           return funcNode.ReturnValue;
         }
 
         public object Visit(PointReferenceIdNode node)
         {
             AstNode res = 
                 _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
-            PointDeclarationNode q = (PointDeclarationNode)res.Accept(this);
-            
-            return (PointReferenceNode) q.AssignedExpression;
+            TuplePointNode q = (TuplePointNode)res.Accept(this);
+
+            return q;
         }
 
         public object Visit(ShapeEndPointNode node)
@@ -336,6 +344,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(IdNode node)
         {
+           
             return node;
         }
 
