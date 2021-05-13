@@ -27,6 +27,8 @@ shape ClubStand {
 
 shape Club {
     point start = (5,3);
+    
+    ClubStand;
     curve.withAngle(90).from(start).to(6,4.5).to(4,4.5).to(start);
 }
 
