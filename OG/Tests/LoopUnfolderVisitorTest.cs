@@ -80,7 +80,7 @@ namespace Tests.Fixtures
         [TestCase("Testing repeat node containing 3 assignments, looping 2 times", 3,2)]
         [TestCase("Testing repeat node containing 4 assignments, looping 2 times", 4,2)]
         [TestCase("Testing repeat node containing 5 assignments, looping 2 times", 5,2)]
-        [TestCase("Testing repeat node containing 6 assignments, looping 2 times", 6,2)]
+        [TestCase("Testing repeat node containing 6 assignments, looping 2 times", 100,100)]
         public void Test_Nested_Loops_Are_Visited_And_Unfolded(string description, int numberOfAssignments, int numberOfLoops)
         {
             //Arrange
@@ -110,7 +110,7 @@ namespace Tests.Fixtures
         [TestCase("Testing repeat node containing 4 assignments, looping 2 times", 4,2)]
         [TestCase("Testing repeat node containing 5 assignments, looping 2 times", 5,2)]
         [TestCase("Testing repeat node containing 6 assignments, looping 2 times", 6,2)]
-        public void Test_Nested_Loops_Are_Repeated_In_Order_In_Statement_List(string description, int numberOfAssignments, int numberOfLoops)
+        public void Test_Nested_Loops_Are_Repeated_In_Order_In_Statement_List_by_Reference(string description, int numberOfAssignments, int numberOfLoops)
         {
             //Arrange
             List<SemanticError> errors = new List<SemanticError>();
