@@ -1,31 +1,57 @@
-Machine.WorkArea.size(xmin=0+2,xmax=100,ymin=0,ymax=100);
 
-draw 
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    
+  TestShape;    
+}
+
+
+function number declarations() 
 {
-   myshape;
+    number eigthy = function80();
+    number fourty = function40();
+    number minus40 = functionMinus40();
+    number zero = function0();
+    number one = function1();
+    number two = function2();
+    return 0;
 }
 
-function number BoolFuncA(){
-    point b = (0,0);
-    point x = (1,2);
-    b = x;
-    x = myFunc();
-
-    return 2;
+function number function40(){
+   return 20 * 2 + 1 - 1;
 }
 
-
-function point myFunc(number a, number b){
-    point result = (a,b);
-    return result;
+function number function80() {
+    number b = 1;
+    b = b + 4;
+    b = b * 16;
+    return b;
 }
 
-
-shape myshape {
-
-point a = myFunc(10,5);
-line.from(a).to(19+19, 3).to(a);
-
+function number functionMinus40() {
+        
+        return 160/4 * -1;
 }
+
+function number function0() {
+    return -100 + 100;
+}
+
+function number function1() {
+    number a = (1 + 1 - 1 + 1 - 1 * 0) + 1;
+    return a;
+}
+function number function2() {
+    number b = function1();
+    b = b + function1();
+
+    return b;
+}
+
+shape TestShape{
+    number a = declarations();
+}
+
 
 

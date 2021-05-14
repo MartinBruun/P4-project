@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -296,9 +297,11 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             }
             
             funcNode.Accept(this);
-
-           funcNode.ReturnValue = (TuplePointNode) funcNode.ReturnValue.Accept(this);
-           return funcNode.ReturnValue;
+            Console.WriteLine("LUDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR + " + funcNode.Id.Value);
+            var res = (TuplePointNode)funcNode.ReturnValue.Accept(this);
+            res.XValue.Accept(_mathReducer);
+            res.YValue.Accept(_mathReducer);
+            return res;
         }
 
         public object Visit(PointReferenceIdNode node)

@@ -25,7 +25,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         public string TopNode { get; set; }
 
         private readonly MathArithmeticCalculator _arithmeticPerformer;
-
+        
 
         public MathReducerVisitor(Dictionary<string, AstNode> symTab, List<SemanticError> errs)
         {
@@ -224,7 +224,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
             funcDeclaration.Accept(this);
 
-            return node;
+            return funcDeclaration.ReturnValue.Accept(this);
         }
         public object Visit(ParameterNode node)
         {

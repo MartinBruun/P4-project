@@ -11,7 +11,7 @@ using OG.Compiler;
 
 namespace Tests
 {
-    public class MAthArithmeticCalculatorTest
+    public class MathArithmeticCalculatorTest
     {
         [TestCase(0,2)]
         [TestCase(1,0)]
