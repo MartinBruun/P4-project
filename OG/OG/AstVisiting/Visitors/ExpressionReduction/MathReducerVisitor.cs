@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -17,29 +16,24 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 using OG.Compiler;
 
-namespace OG.AstVisiting.Visitors
+namespace OG.AstVisiting.Visitors.ExpressionReduction
 {
-    public class PointReducerVisitor : IVisitor, ISemanticErrorable
+    public class MathReducerVisitor : IVisitor, ISemanticErrorable
     {
         private SymbolTable _symbolTable = new SymbolTable();
-        private readonly MathReducerVisitor _mathReducer;
+        public List<SemanticError> SemanticErrors { get; set; }
+        public string TopNode { get; set; }
 
-        public PointReducerVisitor(Dictionary<string, AstNode> symbolTable, List<SemanticError> errs)
+        private readonly MathArithmeticCalculator _arithmeticPerformer;
+
+
+        public MathReducerVisitor(Dictionary<string, AstNode> symTab, List<SemanticError> errs)
         {
             SemanticErrors = errs;
-            _symbolTable.Elements = symbolTable;
-            _mathReducer = new MathReducerVisitor(symbolTable, errs);
+            _symbolTable.Elements = symTab;
+            _arithmeticPerformer = new MathArithmeticCalculator(_symbolTable, errs, this);
         }
         
-        public PointReducerVisitor( Dictionary<string, AstNode> symbolTable, List<SemanticError> errs, 
-            MathReducerVisitor mathReducer)
-            :this(symbolTable, errs)
-        {
-
-            _mathReducer = mathReducer;
-        }
-
-
         public object Visit(BoolAssignmentNode node)
         {
             return node;
@@ -47,42 +41,41 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionCallAssignNode node)
         {
-            return node;
+            NumberDeclarationNode id = (NumberDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            FunctionNode function = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            
+            
+            
+            
+            id.AssignedExpression = function.ReturnValue;
+            return function;
         }
 
         public object Visit(IdAssignNode node)
         {
-            AstNode x = _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
-            
-            if (x is not PointDeclarationNode)
-            {
-                return node;
-            }
+            NumberDeclarationNode numDcl = (NumberDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
+            MathNode mathNode = (MathNode) numDcl.AssignedExpression;
 
-            PointDeclarationNode pointDcl = (PointDeclarationNode) x;
-            PointReferenceNode pointRef = (PointReferenceNode) pointDcl.AssignedExpression;
+            NumberDeclarationNode numberDeclarationResult = new NumberDeclarationNode(node.Id, mathNode);
+            _symbolTable.Add(node.Id.SymboltableAddress, numberDeclarationResult);
             
-            //TODO UPDATE SYMTAB AND VISIT POINTREF
-            
-
-
-            return node;
+            return numberDeclarationResult;
         }
 
         public object Visit(MathAssignmentNode node)
         {
-            return node;
-        }
-
-        public object Visit(PointAssignmentNode node)
-        {
-            PointReferenceNode res = (PointReferenceNode) node.AssignedValue.Accept(this);
+            NumberNode res = node.AssignedValue.Accept(_arithmeticPerformer);
 
             string lhsSymTabAddress = node.Id.SymboltableAddress;
 
             _symbolTable.Add(lhsSymTabAddress, res);
             node.AssignedValue = res;
 
+            return node;
+        }
+
+        public object Visit(PointAssignmentNode node)
+        {
             return node;
         }
 
@@ -93,9 +86,10 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ParameterTypeNode node)
         {
-            if (node.Expression is PointReferenceNode referenceNode)
+            
+            if (node.Expression is MathNode mathNode)
             {
-                return referenceNode.Accept(this);
+                return mathNode.Accept(_arithmeticPerformer);
             }
 
             return node;
@@ -103,12 +97,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(CurveCommandNode node)
         {
-            node.Angle.Accept(_mathReducer);
-            node.From.Accept(this);
-            foreach (PointReferenceNode pointReferenceNode in node.To)
-            {
-                pointReferenceNode.Accept(this);
-            }
+            node.Angle.Accept(this);
             return node;
         }
 
@@ -119,24 +108,21 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(LineCommandNode node)
         {
-            node.From.Accept(this);
-            foreach (PointReferenceNode pointReferenceNode in node.To)
-            {
-                pointReferenceNode.Accept(this);
-            }
             return node;
         }
 
         public object Visit(NumberIterationNode node)
         {
-            return node;
+            return node.Iterations.Accept(_arithmeticPerformer);
         }
 
+        
         public object Visit(UntilFunctionCallNode node)
         {
             return node;
         }
 
+      
         public object Visit(UntilNode node)
         {
             return node;
@@ -149,17 +135,16 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(NumberDeclarationNode node)
         {
-            return node;
+            MathNode res = (MathNode) node.AssignedExpression;
+            node.AssignedExpression = res.Accept(_arithmeticPerformer);
+            _symbolTable.Add(node.Id.SymboltableAddress, node.AssignedExpression);
+            
+            return node.AssignedExpression;
         }
 
         public object Visit(PointDeclarationNode node)
         {
-            PointReferenceNode p = (PointReferenceNode) node.AssignedExpression;
-            node.AssignedExpression = (TuplePointNode) p.Accept(this);
-            _symbolTable.Add(node.Id.SymboltableAddress, node.AssignedExpression);
-            
             return node;
-
         }
 
         public object Visit(BoolExprIdNode node)
@@ -167,6 +152,11 @@ namespace OG.AstVisiting.Visitors
             return node;
         }
 
+        /// <summary>
+        /// TODO Enter Body
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public object Visit(BodyNode node)
         {
             foreach (StatementNode nodeStatementNode in node.StatementNodes)
@@ -229,10 +219,13 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MathFunctionCallNode node)
         {
-            node.Accept(_mathReducer);
+            string functionCallAddress = node.FunctionName.SymboltableAddress;
+            FunctionNode funcDeclaration = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(functionCallAddress);
+
+            funcDeclaration.Accept(this);
+
             return node;
         }
-
         public object Visit(ParameterNode node)
         {
             return node;
@@ -245,71 +238,48 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(AdditionNode node)
         {
-            return node;
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(DivisionNode node)
         {
-            return node;
+            return node.Accept(_arithmeticPerformer);
         }
-
+        
         public object Visit(MathIdNode node)
         {
-            return node;
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(MultiplicationNode node)
         {
-            return node;
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(PowerNode node)
         {
-            return node;
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(SubtractionNode node)
         {
-            return node;
+            return node.Accept(_arithmeticPerformer);
         }
 
+        /// <summary>
+        /// Det bliver måske også træls
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+       
         public object Visit(PointFunctionCallNode node)
         {
-            string functionNodeAdresse = node.FunctionName.SymboltableAddress;
-            FunctionNode funcNode = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(functionNodeAdresse);
-
-            
-            //Pass parameters to function body
-            for (int i = 0; i < node.Parameters.Count; i++)
-            {
-                funcNode.Parameters[i].Expression = (ExpressionNode) node.Parameters[i].Expression;
-                //This will go wrong
-
-                if (funcNode.Parameters[i].Expression == null)
-                {
-                    AstNode xVal = _symbolTable.GetElementBySymbolTableAddress(node.Parameters[i].ParameterId
-                        .SymboltableAddress);
-
-                    xVal.Accept(this);
-                    funcNode.Parameters[i].Expression = (ExpressionNode) xVal;
-                }
-
-                _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
-            }
-            
-            funcNode.Accept(this);
-
-           funcNode.ReturnValue = (TuplePointNode) funcNode.ReturnValue.Accept(this);
-           return funcNode.ReturnValue;
+            return node;
         }
 
         public object Visit(PointReferenceIdNode node)
         {
-            AstNode res = 
-                _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
-            TuplePointNode q = (TuplePointNode)res.Accept(this);
-
-            return q;
+            return node;
         }
 
         public object Visit(ShapeEndPointNode node)
@@ -329,11 +299,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(TuplePointNode node)
         {
-            NumberNode x = (NumberNode) node.XValue.Accept(_mathReducer);
-            NumberNode y = (NumberNode) node.YValue.Accept(_mathReducer);
-
-            node.XValue = x;
-            node.YValue = y;
+           
             return node;
         }
 
@@ -344,13 +310,15 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(IdNode node)
         {
-           
+            //slå op
+          
+            
             return node;
         }
 
         public object Visit(NumberNode node)
         {
-            return node;
+            return node.Accept(_arithmeticPerformer);
         }
 
         public object Visit(TrueNode node)
@@ -360,11 +328,17 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(SizePropertyNode node)
         {
+            node.XMax = node.XMax.Accept(_arithmeticPerformer);
+            node.YMax = node.XMax.Accept(_arithmeticPerformer);
+            node.YMin = node.YMin.Accept(_arithmeticPerformer);
+            node.XMin = node.XMin.Accept(_arithmeticPerformer);
+
             return node;
         }
 
         public object Visit(WorkAreaSettingNode node)
         {
+            node.SizeProperty.Accept(this);
             return node;
         }
 
@@ -385,17 +359,13 @@ namespace OG.AstVisiting.Visitors
                 nodeFunctionDcl.Accept(this);
             }
 
-            foreach (var shape in node.ShapeDcls)
-            {
-                shape.Accept(this);
-            }
-
             return node;
         }
 
         public object Visit(ShapeNode node)
         {
-            return node.Body.Accept(this);
+            node.Body.Accept(this);
+            return node;
         }
 
         public object Visit(CoordinateXyValueNode node)
@@ -403,7 +373,6 @@ namespace OG.AstVisiting.Visitors
             return node;
         }
 
-        public List<SemanticError> SemanticErrors { get; set; }
-        public string TopNode { get; set; }
+
     }
 }

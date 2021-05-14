@@ -6,11 +6,12 @@ using OG.ASTBuilding;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting.Visitors;
+using OG.AstVisiting.Visitors.ExpressionReduction;
 using OG.Compiler;
 
 namespace Tests
 {
-    public class MathNodeReducerTest
+    public class MAthArithmeticCalculatorTest
     {
         [TestCase(0,2)]
         [TestCase(1,0)]

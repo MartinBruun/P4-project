@@ -15,14 +15,15 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
+using OG.AstVisiting.Visitors.ExpressionReduction;
 using OG.CodeGeneration;
 using OG.Compiler;
 
-namespace OG.AstVisiting.Visitors
+namespace OG.AstVisiting.Visitors.ExpressionReduction
 {
     public class ExpressionReducerVisitor : IVisitor, IErrorable
     {
-        private SymbolTable _symbolTable = new SymbolTable();
+        public SymbolTable _symbolTable = new SymbolTable();
         public List<SemanticError> SemanticErrors { get; set; }
         public string TopNode { get; set; }
 
@@ -163,7 +164,6 @@ namespace OG.AstVisiting.Visitors
             {
                 node.To[i] = (TuplePointNode) node.To[i].Accept(this);
             }
-
             return node;
         }
 
