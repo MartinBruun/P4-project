@@ -309,6 +309,8 @@ namespace OG.AstVisiting.Visitors
                         $"{node.FunctionName.Value}(Param#:{i}),  does not match type:{declaredNode.Parameters[i].CompileTimeType} in function declaration"));
                 }
             }
+
+            node.CompileTimeType = node.Id.CompileTimeType;
             S.resetParameterCount();
             return new object();
         }
@@ -324,13 +326,17 @@ namespace OG.AstVisiting.Visitors
                 // Console.WriteLine(
                 //     "Jakob LHS =" + S.CheckDeclaredTypeOf(node.Id.Value) + "RHS = "+S.CheckDeclaredTypeOf(
                 //         node.AssignedValue.Value));
-                var LHSType = S.CheckDeclaredTypeOf(node.Id.Value);
-                var RHSType = S.CheckDeclaredTypeOf(node.AssignedValue.Value);
-
-                if (LHSType != RHSType)
+                node.Id.Accept(this);
+                node.AssignedValue.Accept(this);
+              
+                if (node.Id.CompileTimeType != node.AssignedValue.CompileTimeType)
                 {
-                    errors.Add(new SemanticError(node, $"visitIdAssignNode:{node.Id.Value}:{LHSType} does not match type of  AssignedValue:{node.AssignedValue.Value}:{RHSType} "));
+                    errors.Add(new SemanticError(node, $"visitIdAssignNode:{node.Id.Value}:{node.Id.CompileTimeType } does not match type of  AssignedValue:{node.AssignedValue.Value}:{node.AssignedValue.CompileTimeType} "));
                 }
+
+                node.CompileTimeType = node.Id.CompileTimeType;
+
+
             }catch
             {
                 errors.Add(new SemanticError(node, $"VisitIDAssignNode:{node.Id.Value} or AssignedValue has not been declared "));

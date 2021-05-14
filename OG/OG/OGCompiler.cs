@@ -14,6 +14,7 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting.Visitors;
+using OG.AstVisiting.Visitors.ExpressionReduction;
 using OG.CodeGeneration;
 using OG.Compiler;
 
@@ -60,11 +61,8 @@ namespace OG
 
             if (errors.Count == 0)
             {
-                MathReducerVisitor reducer = new MathReducerVisitor(symbolTable, errors);
+                ExpressionReducerVisitor reducer = new ExpressionReducerVisitor(symbolTable, errors);
                 p.Accept(reducer);
-
-                PointReducerVisitor preducer = new PointReducerVisitor(symbolTable, errors);
-                p.Accept(preducer);
 
                 LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable,errors);
                 p.Accept(loopUnfolder);
