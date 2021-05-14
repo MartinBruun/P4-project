@@ -174,25 +174,25 @@ namespace OG.CodeGeneration
 
         private void CreateFinalCurveCommand(CurveCommandNode node)
         {
-            var currentFrom = node.From;
-            
             Tuple<double, double> from = TuplePointToTuple((TuplePointNode)node.From);
-            StartPointCommand = new GCodeCommandText($"G01 X{from.Item1} Y{from.Item2}\n");
-            
+            ResultCommand += new GCodeCommandText($"G01 X{from.Item1} Y{from.Item2}\n");
+
             double radius = 0;
             foreach (PointReferenceNode pnode in node.To)
             {
-                radius = CalculateRadius((TuplePointNode)pnode, (TuplePointNode)currentFrom, _angle);
+                Tuple<double, double> to = TuplePointToTuple((TuplePointNode)node.From);
                 
-                
-                
-                
-                ToChainPointCommand = new GCodeCommandText(curveCommandWord +
-                                                           $"X{to.Item1} Y{to.Item2} R{radius.ToString().Replace(',', '.')} \n");
+                radius = CalculateRadius(from, to, _angle);
+                ResultCommand +=new GCodeCommandText(curveCommandWord +
+                                                     $"X{to.Item1} Y{to.Item2} R{radius.ToString().Replace(',', '.')} \n");
 
-                currentFrom = pnode;
             }
-            
+           
+        }
+
+        private GCodeCommandText CreateFromCommand(TuplePointNode n)
+        {
+            return null;
         }
 
         private double CalculateRadius(TuplePointNode currentFrom, TuplePointNode toNode, double angle)
