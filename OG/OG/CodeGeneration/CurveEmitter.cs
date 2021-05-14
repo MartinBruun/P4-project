@@ -24,11 +24,14 @@ namespace OG.CodeGeneration
     
     public class CurveEmitter : CodeEmitterErrorInheritor, IGCodeStringEmitter
     {
-        
-        
-        public GCodeCommandText ResultCommand { get;  private set; }
-        private GCodeCommandText ToPointCommand { get; set; }
-        private GCodeCommandText FromPointCommand { get; set; }
+
+        private double _angle;
+        private string curveCommandWord = "";
+        private int ToCommandsLeft = 1;
+        private double _radius = 0;
+        public GCodeCommandText ResultCommand { get;  private set; } =  new GCodeCommandText("");
+        private GCodeCommandText ToChainPointCommand { get; set; } = new GCodeCommandText("");
+        private GCodeCommandText StartPointCommand { get; set; } = new GCodeCommandText("");
 
         public CurveEmitter( List<SemanticError> errs) : base(errs)
         {
@@ -38,37 +41,98 @@ namespace OG.CodeGeneration
         public void ClearResult()
         {
             ResultCommand        = null;
-            ToPointCommand       = null;
-            FromPointCommand = null;
+            ToChainPointCommand       = null;
+            StartPointCommand = null;
         }
         
         public string Emit()
         {
             return ResultCommand.CreateGCodeTextCommand().Replace(',', '.');
         }
+        
+        
+        
 
         public void SetupGCodeResult(CurveCommandNode node)
         {
-            TuplePointNode tupleFrom = null;
-            TuplePointNode tupleTo = null;
+            
+            
+            //CHECK VALID
+
+
+            NumberNode fromX = (NumberNode) ((TuplePointNode) node.From).XValue;
+            NumberNode fromY = (NumberNode) ((TuplePointNode) node.From).YValue;
+            StartPointCommand = new GCodeCommandText($"G01 X{fromX} Y{fromY}\n");
+            NumberNode currentToX = null;
+            NumberNode currentToY = null;
+            
+            if (_angle == 0)
+            {
+                LineEmitter lineEmitter = new LineEmitter(SemanticErrors);
+                LineCommandNode l = new LineCommandNode(node.From, node.To);
+                lineEmitter.SetupGCodeResult(l);
+                ResultCommand = lineEmitter.ResultCommand;
+                SemanticErrors.Add(new SemanticError(node,
+                    "WARNING: Curve command with angle 0. Use line command instead!"));
+                return;
+            }
+            else if (_angle <= 90 && _angle >= -90)
+            {
+                if (_angle < 0)
+                {
+                    curveCommandWord = "G02";
+                }
+                else if (_angle > 0)
+                {
+                    curveCommandWord = "G03";
+                }
+
+
+
+                CreateFinalCurveCommand(node);
+                  
+                
+                
+                
+                
+                
+            }
+            else
+            {
+                SemanticErrors.Add(new SemanticError(node.Line, node.Column,
+                    "Angle is more than 90 degrees or less than -90 degrees.") {IsFatal = true});
+                return;
+            }
+           
+            
+            
+            TuplePointNode currentFromTuple = null;
+            TuplePointNode currentToTuple = null;
+            
             bool validNode = CheckNodeValidity(node);
             if (validNode)
             {
-                tupleFrom = (TuplePointNode)  node.From;
-                tupleTo   = (TuplePointNode) node.To.First();
+                currentFromTuple = (TuplePointNode)  node.From;
+                currentToTuple   = (TuplePointNode) node.To.First();
             }
             else
             {
                 return;
             }
             
-            Tuple<double, double> to = CreateTuple(tupleTo);
-            Tuple<double, double> from = CreateTuple(tupleFrom);
+            
+            
+            
+            
+            
+            
+            Tuple<double, double> to = CreateTuple(currentToTuple);
+            Tuple<double, double> from = CreateTuple(currentFromTuple);
             double angle = ((NumberNode) node.Angle).NumberValue;
-            string curveCommandWord = "";
+
 
             //Check for valid angle
-            if (angle < 90 && angle > -90)
+            if (angle <= 90 && angle >= -90)
             {
                 //If angle is 0 then it is a line.
                 if (angle == 0)
@@ -82,34 +146,70 @@ namespace OG.CodeGeneration
                 //Find out where to place circle.
                 if (angle < 0)
                 {
-                    curveCommandWord = "G03";
+                    curveCommandWord = "G02";
                 }
                 else if (angle > 0)
                 {
-                    curveCommandWord = "G02";
+                    curveCommandWord = "G03";
                 }
             }
             else
             {
-                SemanticErrors.Add(new SemanticError(node.Line, node.Column,
-                    "Angle is more than 90 degrees or less than -90 degrees.") {IsFatal = true});
-                return;
+ 
             }
 
             //To radians
             angle *= Math.PI / 180;
             double radius = CalculateRadius(to, from, angle);
             
-            ToPointCommand = new GCodeCommandText(curveCommandWord + " " +
-                                                  $"X{to.Item1} Y{to.Item2} R{radius.ToString().Replace(',', '.')}");
-            ResultCommand = FromPointCommand + ToPointCommand;
+            
+            ResultCommand = StartPointCommand + ToChainPointCommand;
         }
 
-        private double CalculateRadius(Tuple<double, double> to, Tuple<double, double> @from, double angle)
+        private Tuple<double, double> TuplePointToTuple(TuplePointNode node)
         {
-            return Math.Sqrt(Math.Pow(from.Item1 - to.Item1, 2) + Math.Pow(@from.Item2 - to.Item2, 2)) /
-                2 //Pythagoras and distance
-                / (Math.Cos(90 * Math.PI / 180) - Math.Abs(angle) * Math.PI / 180);
+            return new Tuple<double,double>(( (NumberNode) node.XValue ).NumberValue,
+                ( (NumberNode) node.YValue ).NumberValue);
+        }
+
+        private void CreateFinalCurveCommand(CurveCommandNode node)
+        {
+            var currentFrom = node.From;
+            
+            Tuple<double, double> from = TuplePointToTuple((TuplePointNode)node.From);
+            StartPointCommand = new GCodeCommandText($"G01 X{from.Item1} Y{from.Item2}\n");
+            
+            double radius = 0;
+            foreach (PointReferenceNode pnode in node.To)
+            {
+                radius = CalculateRadius((TuplePointNode)pnode, (TuplePointNode)currentFrom, _angle);
+                
+                
+                
+                
+                ToChainPointCommand = new GCodeCommandText(curveCommandWord +
+                                                           $"X{to.Item1} Y{to.Item2} R{radius.ToString().Replace(',', '.')} \n");
+
+                currentFrom = pnode;
+            }
+            
+        }
+
+        private double CalculateRadius(TuplePointNode currentFrom, TuplePointNode toNode, double angle)
+        {
+            Tuple<double, double> from = TuplePointToTuple(currentFrom);
+            Tuple<double, double> to = TuplePointToTuple(toNode);
+            return CalculateRadius(to, from, angle);
+        }
+
+        private double CalculateRadius(Tuple<double, double> @from, Tuple<double, double> to, double angleInRadians)
+        {
+            double fromToDist = Math.Sqrt(Math.Pow(from.Item1 - to.Item1, 2) + Math.Pow(@from.Item2 - to.Item2, 2));
+            angleInRadians = Math.Cos(0.5 * Math.PI - Math.Abs(angleInRadians));
+
+            var result = (fromToDist / 2) / angleInRadians;
+            return result;
+
         }
 
 
@@ -122,14 +222,14 @@ namespace OG.CodeGeneration
 
         private bool CheckNodeValidity(CurveCommandNode node)
         {
-            if (node?.From == null || node.To == null || node.Angle == null)
+            if (node?.From == null || node.To == null || node.To.Count == 0 || node.Angle == null)
             {
                 SemanticErrors.Add(new SemanticError(node,"FATAL ERROR: Node was NULL"){IsFatal = true});
             }
             
-            if (node?.From is TuplePointNode tupleTo)
+            if (node?.From is TuplePointNode tupleFrom)
             {
-                FromPointCommand = CreateLineGCodeCommand(tupleTo);
+                StartPointCommand = CreateLineGCodeCommand(tupleFrom);
             }
             else
             {
@@ -137,29 +237,25 @@ namespace OG.CodeGeneration
                 return false;
             }
 
-            if (node?.To?.First() is TuplePointNode tupleFrom)
+            TuplePointNode tupleTo = null;
+            foreach (PointReferenceNode pointReferenceNode in node.To)
             {
-                FromPointCommand = CreateLineGCodeCommand(tupleFrom);
-            }
-            else
-            {
-                SemanticErrors.Add(new SemanticError(node,"FATAL ERROR: A point reference was not reduced to Tuple!"){IsFatal = true});
-                return false;
-            }
+                if (!(pointReferenceNode is TuplePointNode t))
+                {
+                    SemanticErrors.Add(new SemanticError(node,"FATAL ERROR: A point reference was not reduced to Tuple!"){IsFatal = true});
+                    return false;
+                }
 
+                tupleTo = t;
+            }
+            
             if (! (AssertNumberTuple(tupleFrom) && AssertNumberTuple(tupleTo)) )
             {
                 SemanticErrors.Add(new SemanticError(node,"FATAL ERROR: A mathematical expression inside a point was not reduced to number node!"){IsFatal = true});
                 return false;
             }
             
-            if (node?.To?.Count > 1)
-            {
-                SemanticErrors.Add(new SemanticError(node.Line, node.Column,
-                    "OG does not support to chaining in Curve commands.") {IsFatal = false});
-                return false;
-            }
-
+          
             if (!(node.Angle is NumberNode))
             {
                 SemanticErrors.Add(new SemanticError(node,"FATAL ERROR: A mathematical expression inside angle of a curve command was not reduced to number node!"){IsFatal = true});

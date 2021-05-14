@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Policy;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -15,15 +14,12 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
-using OG.AstVisiting.Visitors.ExpressionReduction;
-using OG.CodeGeneration;
-using OG.Compiler;
 
 namespace OG.AstVisiting.Visitors.ExpressionReduction
 {
     public class ExpressionReducerVisitor : IVisitor, IErrorable
     {
-        public SymbolTable _symbolTable = new SymbolTable();
+        public readonly SymbolTable SymbolTable = new SymbolTable();
         public List<SemanticError> SemanticErrors { get; set; }
         public string TopNode { get; set; }
 
@@ -34,14 +30,14 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         public ExpressionReducerVisitor(Dictionary<string, AstNode> symTab, List<SemanticError> errs)
         {
             SemanticErrors = errs;
-            _symbolTable.Elements = symTab;
-            _mathReducer = new MathReducerVisitor(_symbolTable.Elements, errs);
-            _pointReducer = new PointReducerVisitor(_symbolTable.Elements, errs,_mathReducer);
+            SymbolTable.Elements = symTab;
+            _mathReducer = new MathReducerVisitor(SymbolTable.Elements, errs);
+            _pointReducer = new PointReducerVisitor(SymbolTable.Elements, errs,_mathReducer);
         }
 
         public object Visit(BoolAssignmentNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         /// <summary>
@@ -51,8 +47,6 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         /// <returns></returns>
         public object Visit(FunctionCallAssignNode node)
         {
-
-            
             switch (node.Id.CompileTimeType)
             {
                 case "number":
@@ -62,12 +56,6 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
                     n.Accept(_mathReducer);
                     return node;
                 case "bool":
-                    /*
-                    BoolExprIdNode bid = new BoolExprIdNode(node.AssignedValue.Value, node.AssignedValue, BoolNode.BoolType.IdValueNode);
-                    BoolAssignmentNode b = new BoolAssignmentNode(node.Id, bid);
-                    b.CompileTimeType = node.CompileTimeType;
-                    _symbolTable.Add(node.Id.SymboltableAddress, (BoolTerminalNode)b.Accept(_mathReducer));
-                    */
                     return node;
 
                 case "point":
@@ -85,8 +73,6 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(IdAssignNode node)
         {
-            AstNode q = node.Id.DeclaredValue;
-
             switch (node.Id.CompileTimeType)
             {
                 case"number":
@@ -96,16 +82,9 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
                     n.Accept(_mathReducer);
                     return node;
                 case"bool":
-                    /*
-                    BoolExprIdNode bid = new BoolExprIdNode(node.AssignedValue.Value, node.AssignedValue, BoolNode.BoolType.IdValueNode);
-                    BoolAssignmentNode b = new BoolAssignmentNode(node.Id, bid);
-                    b.CompileTimeType = node.CompileTimeType;
-                    _symbolTable.Add(node.Id.SymboltableAddress, (BoolTerminalNode)b.Accept(_mathReducer));
-                    */
                     return node;
                    
                 case"point":
-
                     PointReferenceIdNode pid = new PointReferenceIdNode(node.AssignedValue.Value, node.AssignedValue);
                     PointAssignmentNode p = new PointAssignmentNode(node.Id, pid);
                     p.CompileTimeType = node.CompileTimeType;
@@ -130,21 +109,21 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(PropertyAssignmentNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(ParameterTypeNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(CurveCommandNode node)
         {
-            node.Angle.Accept(_mathReducer);
-            node.From.Accept(_pointReducer);
-            foreach (PointReferenceNode pointReferenceNode in node.To)
+            node.Angle = (NumberNode) node.Angle.Accept(_mathReducer);
+            node.From = (TuplePointNode) node.From.Accept(_pointReducer);
+            for (int i = 0; i < node.To.Count; i++)
             {
-                pointReferenceNode.Accept(_pointReducer);
+                node.To[i] =(TuplePointNode) node.To[i].Accept(_pointReducer);
             }
 
             return node;
@@ -152,7 +131,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(DrawCommandNode node)
         {
-            AstNode shape = _symbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
+            AstNode shape = SymbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
             shape.Accept(this);
             return node;
         }
@@ -176,7 +155,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(UntilFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(UntilNode node)
@@ -187,7 +166,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(BoolDeclarationNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(NumberDeclarationNode node)
@@ -203,7 +182,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(BoolExprIdNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(BodyNode node)
@@ -218,42 +197,42 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(AndComparerNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(BoolNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(EqualsComparerNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(GreaterThanComparerNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(LessThanComparerNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(NegationNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(OrComparerNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(BoolFunctionCallNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         /// <summary>
@@ -270,7 +249,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
                     MathFunctionCallNode n = new MathFunctionCallNode(node.Value, node.FunctionName, node.Parameters);
                     n.CompileTimeType = node.CompileTimeType;
                     n.Accept(_mathReducer);
-                    _symbolTable.Add(node.FunctionName.SymboltableAddress, n);
+                    SymbolTable.Add(node.FunctionName.SymboltableAddress, n);
                     return node;
                 case"bool":
                     /*
@@ -284,7 +263,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
                     PointFunctionCallNode p = new PointFunctionCallNode(node.Value, node.FunctionName, node.Parameters);
                     p.CompileTimeType = node.CompileTimeType;
                     p.Accept(_pointReducer);
-                    _symbolTable.Add(node.FunctionName.SymboltableAddress, p);
+                    SymbolTable.Add(node.FunctionName.SymboltableAddress, p);
                     return node;
                     default:
                         SemanticErrors.Add(new SemanticError(node, "Function call type could not be determined."){IsFatal =  true});
@@ -359,17 +338,17 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(ShapeEndPointNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(ShapePointRefNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(ShapeStartPointNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(TuplePointNode node)
@@ -379,12 +358,12 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(FalseNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(IdNode node)
         {
-            DeclarationNode dcl =(DeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.SymboltableAddress);
+            DeclarationNode dcl =(DeclarationNode) SymbolTable.GetElementBySymbolTableAddress(node.SymboltableAddress);
             return dcl.AssignedExpression.Accept(this);
         }
 
@@ -395,7 +374,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(TrueNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(SizePropertyNode node)
@@ -418,7 +397,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         public object Visit(AstNode node)
         {
             
-            throw new System.NotImplementedException();
+            return node;
         }
 
         public object Visit(DrawNode node)
@@ -450,7 +429,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(CoordinateXyValueNode node)
         {
-            throw new System.NotImplementedException();
+            return node;
         }
     }
 }

@@ -1,57 +1,76 @@
-
-Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+Machine.WorkArea.size(xmin=-10,xmax=10,ymin=-10,ymax=10);
 
 draw {
+
+    Club;
+}
+
+/*
+function point getMiddlePoint(point p1, point p2){
+    point p = ((p1.x - p2.x), (p1.y - p2.y));
+    return p;
+}
+
+shape Diamond {
+    point start = (-5,-7);
+    line.from(start).to(-4,-5).to(-5,-3).to(-6,-5).to(start);
+}
+*/
+
+shape ClubStand {
+    point start = (5,3);
+    number angle = 35;
+    curve.withAngle(angle).from(start).to(6,2);
+    line.from(6,2).to(4,2);
     
-  TestShape;    
+    curve.withAngle(angle).from(4,2).to(start);
 }
 
-
-function number declarations() 
-{
-    number eigthy = function80();
-    number fourty = function40();
-    number minus40 = functionMinus40();
-    number zero = function0();
-    number one = function1();
-    number two = function2();
-    return 0;
+shape Club {
+/*
+    
+    ClubStand;
+    */
+    point start = (5,3);
+    curve.withAngle(90).from(start).to(6,4.5).to(4,4.5).to(start);
 }
 
-function number function40(){
-   return 20 * 2 + 1 - 1;
+/*
+shape Heart {
+    point start = (-5, 7);
+    point rightEdge = (-3,7);
+    point leftEdge = (-7,7);
+    point bottomPoint = (-5,4);
+    point rightMiddleLine = getMiddlePoint(rightEdge, bottomPoint);
+    point leftMiddleLine = getMiddlePoint(leftEdge, bottomPoint);
+
+    curve.withAngle(-90).from(start).to(rightEdge);
+    curve.withAngle(-45).from(rightEdge).to(rightMiddleLine);
+    curve.withAngle(45).from(rightMiddleLine).to(bottomPoint).to(leftMiddleLine);
+    curve.withAngle(-45).from(leftMiddleLine).to(leftEdge);
+    curve.withAngle(-90).from(leftEdge).to(start);
 }
 
-function number function80() {
-    number b = 1;
-    b = b + 4;
-    b = b * 16;
-    return b;
+shape SpadeStand {
+    point start = (5,-7);
+    
+    curve.withAngle(80).from(start).to(6,-8);
+    line.from(6,-8).to(4,-8);
+    curve.withAngle(80).from(4,-8).to(start);
 }
 
-function number functionMinus40() {
-        
-        return 160/4 * -1;
+shape Spade {
+    point start = (5, -7);
+    point edge = (3,-7);
+    point top = (5,-3);
+    point middleLine = getMiddlePoint(edge,top);
+    number sideVal = 1;
+
+    SpadeStand;
+    repeat(2)
+        curve.withAngle(sideVal * 90).from(start).to((edge.x * sideVal),edge.y);
+        curve.withAngle(sideVal * 45).from((edge.x * sideVal),edge.y).to((middleLine.x * sideVal),middleLine.y).to(top);
+        sideVal = -1;
+        repeat.end
 }
-
-function number function0() {
-    return -100 + 100;
-}
-
-function number function1() {
-    number a = (1 + 1 - 1 + 1 - 1 * 0) + 1;
-    return a;
-}
-function number function2() {
-    number b = function1();
-    b = b + function1();
-
-    return b;
-}
-
-shape TestShape{
-    number a = declarations();
-}
-
-
-
+*/

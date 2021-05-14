@@ -103,7 +103,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         public object Visit(CurveCommandNode node)
         {
             node.Angle.Accept(_mathReducer);
-            node.From.Accept(this);
+            node.From = (TuplePointNode) node.From.Accept(this);
             foreach (PointReferenceNode pointReferenceNode in node.To)
             {
                 pointReferenceNode.Accept(this);
@@ -309,7 +309,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             AstNode res = 
                 _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
             TuplePointNode q = (TuplePointNode)res.Accept(this);
-
+            _symbolTable.Add(node.AssignedValue.SymboltableAddress, q);
             return q;
         }
 

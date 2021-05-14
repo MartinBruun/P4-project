@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -16,9 +15,9 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 using OG.AstVisiting;
 using OG.AstVisiting.Visitors;
-using OG.CodeGeneration;
+using OG.AstVisiting.Visitors.ExpressionReduction;
 
-namespace OG.Compiler
+namespace OG.CodeGeneration
 {
     /// <summary>
     /// The class responsible for converting an AST into executable G-code.
@@ -30,16 +29,18 @@ namespace OG.Compiler
 
         private readonly LineEmitter _lineEmitter = null;
         private readonly CurveEmitter _curveEmitter = null;
+        private ExpressionReducerVisitor _reducer = null;
         private List<IGCodeCommand> _gCodeCommands = new List<IGCodeCommand>();
         public event CodeGenerationNotification CodeGenerationNotification;
-        public GCodeCommandText ResultCommand { get; private set; }
+        public GCodeCommandText ResultCommand { get; private set; } = null;
         
-        public CodeGeneratorVisitor(Dictionary<string, AstNode> symbolTable, List<SemanticError> errors)
+        public CodeGeneratorVisitor(Dictionary<string, AstNode> symbolTable, List<SemanticError> errors,  ExpressionReducerVisitor reducer)
         {
             _symbolTable.Elements = symbolTable;
             _errors = errors;
             _lineEmitter = new LineEmitter( _errors);
             _curveEmitter = new CurveEmitter( _errors);
+            _reducer = reducer;
         }
 
         public string Emit()
@@ -96,8 +97,7 @@ namespace OG.Compiler
 
         public object Visit(CurveCommandNode node)
         {
-            
-           _curveEmitter.SetupGCodeResult(node);
+            _curveEmitter.SetupGCodeResult(node);
            _gCodeCommands.Add(_curveEmitter.ResultCommand);
            _curveEmitter.ClearResult();
             return node;
@@ -106,10 +106,7 @@ namespace OG.Compiler
         public object Visit(DrawCommandNode node)
         {
             ShapeNode shape = (ShapeNode) _symbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
-            shape.Body.Accept(this);
-            
-            
-            
+            shape.Accept(this);
             return node;
         }
 
@@ -161,6 +158,7 @@ namespace OG.Compiler
         {
             foreach (StatementNode nodeStatementNode in node.StatementNodes)
             {
+                nodeStatementNode.Accept(_reducer);
                 nodeStatementNode.Accept(this);
             }
             return node;
@@ -339,12 +337,11 @@ namespace OG.Compiler
         public object Visit(ProgramNode node)
         {
             return node.drawNode.Accept(this);
-            
         }
 
         public object Visit(ShapeNode node)
         {
-            return node;
+            return node.Body.Accept(this);
         }
 
         public object Visit(CoordinateXyValueNode node)

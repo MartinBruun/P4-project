@@ -15,7 +15,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             Curve
         }
         public PointReferenceNode From { get; set; }
-        public List<PointReferenceNode> To { get;}
+        public List<PointReferenceNode> To { get; set; }
 
         public MovementType TypeOfMovement { get; }
 

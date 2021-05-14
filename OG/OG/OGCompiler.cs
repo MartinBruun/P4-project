@@ -61,13 +61,15 @@ namespace OG
 
             if (errors.Count == 0)
             {
-                ExpressionReducerVisitor reducer = new ExpressionReducerVisitor(symbolTable, errors);
-                p.Accept(reducer);
+               
 
                 LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable,errors);
                 p.Accept(loopUnfolder);
 
-                CodeGeneratorVisitor gCodeGeneratorVisitor = new CodeGeneratorVisitor(symbolTable, errors);
+                ExpressionReducerVisitor reducer = new ExpressionReducerVisitor(symbolTable, errors);
+                CodeGeneratorVisitor gCodeGeneratorVisitor = new CodeGeneratorVisitor(symbolTable, errors, reducer );
+                p.Accept(gCodeGeneratorVisitor);
+                Console.WriteLine(gCodeGeneratorVisitor.Emit());
             }
             else
             {

@@ -37,7 +37,7 @@ namespace Tests
             
             //Act
             expressionReducer.Visit(assign);
-            AstNode p = expressionReducer._symbolTable.GetElementBySymbolTableAddress("a");
+            AstNode p = expressionReducer.SymbolTable.GetElementBySymbolTableAddress("a");
 
             //Assert
             Assert.IsInstanceOf<MathAssignmentNode>(p);
@@ -262,7 +262,7 @@ namespace Tests
             
             //Act
             expressionReducer.Visit(assign);
-            AstNode p = expressionReducer._symbolTable.GetElementBySymbolTableAddress("a");
+            AstNode p = expressionReducer.SymbolTable.GetElementBySymbolTableAddress("a");
 
             //Assert
             Assert.IsInstanceOf<PointAssignmentNode>(p);
@@ -282,7 +282,7 @@ namespace Tests
             
             //Act
             expressionReducer.Visit(assign);
-            AstNode p = expressionReducer._symbolTable.GetElementBySymbolTableAddress("a");
+            AstNode p = expressionReducer.SymbolTable.GetElementBySymbolTableAddress("a");
 
             //Assert
             Assert.IsInstanceOf<MathAssignmentNode>(p);
