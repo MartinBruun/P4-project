@@ -17,6 +17,7 @@ using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 using OG.AstVisiting;
 using OG.AstVisiting.Visitors;
+using OG.AstVisiting.Visitors.ExpressionReduction;
 using Z.Expressions;
 
 namespace OG.CodeGeneration
@@ -25,48 +26,36 @@ namespace OG.CodeGeneration
     public class CurveEmitter : CodeEmitterErrorInheritor, IGCodeStringEmitter
     {
 
-        private double _angle;
+        private double _angleRadians;
         private string curveCommandWord = "";
-        private int ToCommandsLeft = 1;
-        private double _radius = 0;
-        public GCodeCommandText ResultCommand { get;  private set; } =  new GCodeCommandText("");
-        private GCodeCommandText ToChainPointCommand { get; set; } = new GCodeCommandText("");
-        private GCodeCommandText StartPointCommand { get; set; } = new GCodeCommandText("");
+        public GCodeCommandText ResultCommand { get;  private set; }
+        private GCodeCommandText ToChainPointCommand { get; set; }
+        private GCodeCommandText StartPointCommand { get; set; }
 
         public CurveEmitter( List<SemanticError> errs) : base(errs)
         {
-
+            ResultCommand = new GCodeCommandText("");
+            ToChainPointCommand = new GCodeCommandText("");
+            StartPointCommand = new GCodeCommandText("");
         }
 
         public void ClearResult()
         {
-            ResultCommand        = null;
-            ToChainPointCommand       = null;
-            StartPointCommand = null;
+            ResultCommand = new GCodeCommandText("");
+            ToChainPointCommand = new GCodeCommandText("");
+            StartPointCommand = new GCodeCommandText("");
         }
         
         public string Emit()
         {
             return ResultCommand.CreateGCodeTextCommand().Replace(',', '.');
         }
-        
-        
-        
 
         public void SetupGCodeResult(CurveCommandNode node)
         {
+            _angleRadians = (((NumberNode) node.Angle).NumberValue) * Math.PI / 180;
             
-            
-            //CHECK VALID
-
-
-            NumberNode fromX = (NumberNode) ((TuplePointNode) node.From).XValue;
-            NumberNode fromY = (NumberNode) ((TuplePointNode) node.From).YValue;
-            StartPointCommand = new GCodeCommandText($"G01 X{fromX} Y{fromY}\n");
-            NumberNode currentToX = null;
-            NumberNode currentToY = null;
-            
-            if (_angle == 0)
+            if (_angleRadians == 0 && CheckNodeValidity(node))
             {
                 LineEmitter lineEmitter = new LineEmitter(SemanticErrors);
                 LineCommandNode l = new LineCommandNode(node.From, node.To);
@@ -74,28 +63,18 @@ namespace OG.CodeGeneration
                 ResultCommand = lineEmitter.ResultCommand;
                 SemanticErrors.Add(new SemanticError(node,
                     "WARNING: Curve command with angle 0. Use line command instead!"));
-                return;
             }
-            else if (_angle <= 90 && _angle >= -90)
+            else if (_angleRadians <= 90 && _angleRadians >= -90 && CheckNodeValidity(node))
             {
-                if (_angle < 0)
+                if (_angleRadians < 0)
                 {
                     curveCommandWord = "G02";
                 }
-                else if (_angle > 0)
+                else if (_angleRadians > 0)
                 {
                     curveCommandWord = "G03";
                 }
-
-
-
-                CreateFinalCurveCommand(node);
-                  
-                
-                
-                
-                
-                
+                ResultCommand = CreateFinalCurveCommand(node);
             }
             else
             {
@@ -103,67 +82,6 @@ namespace OG.CodeGeneration
                     "Angle is more than 90 degrees or less than -90 degrees.") {IsFatal = true});
                 return;
             }
-           
-            
-            
-            TuplePointNode currentFromTuple = null;
-            TuplePointNode currentToTuple = null;
-            
-            bool validNode = CheckNodeValidity(node);
-            if (validNode)
-            {
-                currentFromTuple = (TuplePointNode)  node.From;
-                currentToTuple   = (TuplePointNode) node.To.First();
-            }
-            else
-            {
-                return;
-            }
-            
-            
-            
-            
-            
-            
-            
-            Tuple<double, double> to = CreateTuple(currentToTuple);
-            Tuple<double, double> from = CreateTuple(currentFromTuple);
-            double angle = ((NumberNode) node.Angle).NumberValue;
-
-
-            //Check for valid angle
-            if (angle <= 90 && angle >= -90)
-            {
-                //If angle is 0 then it is a line.
-                if (angle == 0)
-                {
-                    ResultCommand = new GCodeCommandText($"G01 X{from.Item1} Y{from.Item2}\n G01 X{to.Item1} Y{to.Item2}");
-                    SemanticErrors.Add(new SemanticError(node,
-                        "WARNING: Curve command with angle 0. Use line command instead!"));
-                    return;
-                }
-
-                //Find out where to place circle.
-                if (angle < 0)
-                {
-                    curveCommandWord = "G02";
-                }
-                else if (angle > 0)
-                {
-                    curveCommandWord = "G03";
-                }
-            }
-            else
-            {
- 
-            }
-
-            //To radians
-            angle *= Math.PI / 180;
-            double radius = CalculateRadius(to, from, angle);
-            
-            
-            ResultCommand = StartPointCommand + ToChainPointCommand;
         }
 
         private Tuple<double, double> TuplePointToTuple(TuplePointNode node)
@@ -172,52 +90,40 @@ namespace OG.CodeGeneration
                 ( (NumberNode) node.YValue ).NumberValue);
         }
 
-        private void CreateFinalCurveCommand(CurveCommandNode node)
+        private GCodeCommandText CreateFinalCurveCommand(CurveCommandNode node)
         {
-            Tuple<double, double> from = TuplePointToTuple((TuplePointNode)node.From);
-            ResultCommand += new GCodeCommandText($"G01 X{from.Item1} Y{from.Item2}\n");
-
-            double radius = 0;
+            TuplePointNode currentFrom = (TuplePointNode) node.From;
+            TuplePointNode currentTo;
+            double radius;
+            
             foreach (PointReferenceNode pnode in node.To)
             {
-                Tuple<double, double> to = TuplePointToTuple((TuplePointNode)node.From);
+                currentTo = (TuplePointNode) pnode;
+                radius = CalculateRadius(currentFrom, currentTo);
                 
-                radius = CalculateRadius(from, to, _angle);
-                ResultCommand +=new GCodeCommandText(curveCommandWord +
-                                                     $"X{to.Item1} Y{to.Item2} R{radius.ToString().Replace(',', '.')} \n");
-
+                ToChainPointCommand += new GCodeCommandText(
+                    curveCommandWord + 
+                    $" X{((NumberNode)currentTo.XValue).NumberValue} Y{((NumberNode)currentTo.YValue).NumberValue} R{radius.ToString().Replace(',', '.')} \n");
+                currentFrom = currentTo;
             }
-           
+            return StartPointCommand + ToChainPointCommand;
         }
 
-        private GCodeCommandText CreateFromCommand(TuplePointNode n)
-        {
-            return null;
-        }
-
-        private double CalculateRadius(TuplePointNode currentFrom, TuplePointNode toNode, double angle)
+        private double CalculateRadius(TuplePointNode currentFrom, TuplePointNode toNode)
         {
             Tuple<double, double> from = TuplePointToTuple(currentFrom);
             Tuple<double, double> to = TuplePointToTuple(toNode);
-            return CalculateRadius(to, from, angle);
+            return CalculateRadius(to, from);
         }
 
-        private double CalculateRadius(Tuple<double, double> @from, Tuple<double, double> to, double angleInRadians)
+        private double CalculateRadius(Tuple<double, double> @from, Tuple<double, double> to)
         {
             double fromToDist = Math.Sqrt(Math.Pow(from.Item1 - to.Item1, 2) + Math.Pow(@from.Item2 - to.Item2, 2));
-            angleInRadians = Math.Cos(0.5 * Math.PI - Math.Abs(angleInRadians));
+            double angle = Math.Cos(0.5 * Math.PI - Math.Abs(_angleRadians));
 
-            var result = (fromToDist / 2) / angleInRadians;
+            var result = (fromToDist / 2) / angle;
             return result;
 
-        }
-
-
-        private Tuple<double, double> CreateTuple(TuplePointNode node)
-        {
-            double xVal= ((NumberNode) node.XValue).NumberValue;
-            double yVal = ((NumberNode) node.YValue).NumberValue;
-            return new Tuple<double, double>(xVal, yVal);
         }
 
         private bool CheckNodeValidity(CurveCommandNode node)
