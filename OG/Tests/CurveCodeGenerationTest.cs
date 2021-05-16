@@ -44,7 +44,7 @@ namespace Tests
             });
 
             List<string> gCodeCommands = curveEmitter.Emit().Split("\n").ToList();
-            gCodeCommands.RemoveAt(gCodeCommands.Count - 1);
+            gCodeCommands.RemoveAt(gCodeCommands.Count - 1); // Remove the empty string from the split operation.
 
             Assert.AreEqual(2, gCodeCommands.Count);
             Assert.AreEqual($"G00 X{x1} Y{y1}",gCodeCommands.First());
@@ -70,7 +70,7 @@ namespace Tests
             
             //Act and Assert
             List<string> resultCommand = curveEmitter.Emit().Split("\n").ToList();
-            resultCommand.RemoveAt(resultCommand.Count - 1);
+            resultCommand.RemoveAt(resultCommand.Count - 1); // Remove the empty string from the split operation.
             
             Assert.AreEqual($"G00 X{x1} Y{y1}",resultCommand.First());
             Assert.AreEqual($"G01 X{x2} Y{y2}",resultCommand.Last());
@@ -82,29 +82,24 @@ namespace Tests
         [TestCase(-10,1000, -1000,100,100)]
         [TestCase(-89.999,10, 10.10, 5,5)]
         [TestCase(-0.999,0.0, 0.2, 999,9999)]
-        public void Curve_With_Negative_Angle_Gives_G03 (double angle, double x1, double y1, double x2, double y2)
+        public void Curve_With_Negative_Angle_Gives_G02 (double angle, double x1, double y1, double x2, double y2)
         {
             //Arrange
             CurveCommandNode curveNode = CreateCurveNode(angle,  x1,  y1,  x2,  y2);
             CurveEmitter curveEmitter = SetupEmitter(curveNode);
             
             //Act and Assert
-
             Assert.DoesNotThrow(() =>
             {
-                curveEmitter.SetupGCodeResult(curveNode);
                 Assert.IsTrue(curveEmitter.SemanticErrors.Count == 0);
             });
 
             List<string> gCodeCommands = curveEmitter.Emit().Split("\n").ToList();
-            foreach (string command in gCodeCommands.Where(String.IsNullOrEmpty).ToList())
-            {
-                gCodeCommands.Remove(command);
-            }
+            gCodeCommands.RemoveAt(gCodeCommands.Count - 1); // Remove the empty string from the split operation.
 
             Assert.AreEqual(2, gCodeCommands.Count);
             Assert.AreEqual($"G00 X{x1} Y{y1}",gCodeCommands.First());
-            Assert.IsTrue(G03Regex.IsMatch(gCodeCommands.Last()));
+            Assert.IsTrue(G02Regex.IsMatch(gCodeCommands.Last()));
         }
         
         [TestCase(45, -0.0001, -0.0001, 999999.9999,9999999.9999)]
@@ -112,7 +107,7 @@ namespace Tests
         [TestCase(10, -1000, -1000,1,0)]
         [TestCase(89.999,0, 0,99,99)]
         [TestCase(0.999,1, 1,0001, 1)]
-        public void Curve_With_Positive_Angle_Gives_G02 (double angle, double x1, double y1, double x2, double y2)
+        public void Curve_With_Positive_Angle_Gives_G03 (double angle, double x1, double y1, double x2, double y2)
         {
             //Arrange
             CurveCommandNode curveNode = CreateCurveNode(angle,  x1,  y1,  x2,  y2);
@@ -121,19 +116,15 @@ namespace Tests
             //Act and Assert
             Assert.DoesNotThrow(() =>
             {
-                curveEmitter.SetupGCodeResult(curveNode);
                 Assert.IsTrue(curveEmitter.SemanticErrors.Count == 0);
             });
 
             List<string> gCodeCommands = curveEmitter.Emit().Split("\n").ToList();
-            foreach (string command in gCodeCommands.Where(String.IsNullOrEmpty).ToList())
-            {
-                gCodeCommands.Remove(command);
-            }
+            gCodeCommands.RemoveAt(gCodeCommands.Count - 1); // Remove the empty string from the split operation.
 
             Assert.AreEqual(2, gCodeCommands.Count);
             Assert.AreEqual($"G00 X{x1} Y{y1}",gCodeCommands.First());
-            Assert.IsTrue(G02Regex.IsMatch(gCodeCommands.Last()));
+            Assert.IsTrue(G03Regex.IsMatch(gCodeCommands.Last()));
         }
         
         [TestCase(0, -0.0001, -0.0001, 999999.9999,9999999.9999)]
