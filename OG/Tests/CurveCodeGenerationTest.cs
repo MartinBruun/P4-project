@@ -16,7 +16,6 @@ namespace Tests
     
     public class CurveCodeGenerationTest
     {
-        private static Regex LineRegex { get; } = new Regex(@"G01 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+$");
         private static Regex ArcRegex { get; } = new Regex(@"^(G02|G03) X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+ R-?\d*\.{0,1}\d+$");
         private static Regex G02Regex { get; } = new Regex(@"^G02 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+ R-?\d*\.{0,1}\d+$");
         private static Regex G03Regex { get; } = new Regex(@"^G03 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+ R-?\d*\.{0,1}\d+$");
