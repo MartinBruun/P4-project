@@ -17,6 +17,7 @@ namespace Tests
 {
     public class LineCodeGenerationTest
     {
+        private static Regex G00Regex { get; } = new Regex(@"^G00 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+$");
         private static Regex G01Regex { get; } = new Regex(@"^G01 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+$");
         
         [TestCase(-0.000001, -0.000001, 999999.9999,9999999.9999)]
@@ -51,7 +52,7 @@ namespace Tests
             result.RemoveAll(string.IsNullOrWhiteSpace);
             result.ForEach(str =>
             {
-                Assert.IsTrue(G01Regex.IsMatch(str));
+                Assert.IsTrue(G01Regex.IsMatch(str) || G00Regex.IsMatch(str));
             });
 
         }
@@ -86,7 +87,7 @@ namespace Tests
             result.RemoveAll(string.IsNullOrWhiteSpace);
             result.ForEach(str =>
             {
-                Assert.IsTrue(G01Regex.IsMatch(str));
+                Assert.IsTrue(G01Regex.IsMatch(str) || G00Regex.IsMatch(str));
             });
         }
 
