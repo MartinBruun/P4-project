@@ -103,7 +103,7 @@ namespace OG.CodeGeneration
                 
                 ToChainPointCommand += new GCodeCommandText(
                     curveCommandWord + 
-                    $" X{((NumberNode)currentTo.XValue).NumberValue} Y{((NumberNode)currentTo.YValue).NumberValue} R{radius.ToString().Replace(',', '.')} \n");
+                    $" X{((NumberNode)currentTo.XValue).NumberValue} Y{((NumberNode)currentTo.YValue).NumberValue} R{radius.ToString().Replace(',', '.')}\n");
                 currentFrom = currentTo;
             }
             return StartPointCommand + ToChainPointCommand;

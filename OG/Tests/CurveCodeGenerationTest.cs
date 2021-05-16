@@ -16,7 +16,7 @@ namespace Tests
     
     public class CurveCodeGenerationTest
     {
-        private static Regex LineRegex { get; } = new Regex(@"^G01 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+$");
+        private static Regex LineRegex { get; } = new Regex(@"G01 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+$");
         private static Regex ArcRegex { get; } = new Regex(@"^(G02|G03) X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+ R-?\d*\.{0,1}\d+$");
         private static Regex G02Regex { get; } = new Regex(@"^G02 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+ R-?\d*\.{0,1}\d+$");
         private static Regex G03Regex { get; } = new Regex(@"^G03 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+ R-?\d*\.{0,1}\d+$");
@@ -44,13 +44,10 @@ namespace Tests
             });
 
             List<string> gCodeCommands = curveEmitter.Emit().Split("\n").ToList();
-            foreach (string command in gCodeCommands.Where(String.IsNullOrEmpty))
-            {
-                gCodeCommands.Remove(command);
-            }
+            gCodeCommands.RemoveAt(gCodeCommands.Count - 1);
 
-            Assert.IsTrue(gCodeCommands.Count == 2);
-            Assert.IsTrue(LineRegex.IsMatch(gCodeCommands.First()));
+            Assert.AreEqual(2, gCodeCommands.Count);
+            Assert.AreEqual($"G00 X{x1} Y{y1}",gCodeCommands.First());
             Assert.IsTrue(ArcRegex.IsMatch(gCodeCommands.Last()));
         }
 
@@ -64,7 +61,7 @@ namespace Tests
         [TestCase(-0,0, 0,99,99)]
         [TestCase(-0,10, 10.10, 5,5)]
         [TestCase(-0,0.0, 0.2, 999,9999)]
-        public void Curve_With_Angle_Zero_Matches_Line_Regex (double angle, double x1, double y1, double x2, double y2)
+        public void Curve_With_Angle_Zero_Matches_Line_Regex(double angle, double x1, double y1, double x2, double y2)
         {
             
             //Arrange
@@ -72,9 +69,11 @@ namespace Tests
             CurveEmitter curveEmitter = SetupEmitter(curveNode);
             
             //Act and Assert
-            string resultCommand = curveEmitter.Emit().Remove('\n');
-            Assert.IsFalse(resultCommand.Contains("\n") || resultCommand.Contains('\n'));
-            LineRegex.IsMatch(resultCommand);
+            List<string> resultCommand = curveEmitter.Emit().Split("\n").ToList();
+            resultCommand.RemoveAt(resultCommand.Count - 1);
+            
+            Assert.AreEqual($"G00 X{x1} Y{y1}",resultCommand.First());
+            Assert.AreEqual($"G01 X{x2} Y{y2}",resultCommand.Last());
         }
         
 
@@ -98,13 +97,13 @@ namespace Tests
             });
 
             List<string> gCodeCommands = curveEmitter.Emit().Split("\n").ToList();
-            foreach (string command in gCodeCommands.Where(String.IsNullOrEmpty))
+            foreach (string command in gCodeCommands.Where(String.IsNullOrEmpty).ToList())
             {
                 gCodeCommands.Remove(command);
             }
 
-            Assert.IsTrue(gCodeCommands.Count == 2);
-            Assert.IsTrue(LineRegex.IsMatch(gCodeCommands.First()));
+            Assert.AreEqual(2, gCodeCommands.Count);
+            Assert.AreEqual($"G00 X{x1} Y{y1}",gCodeCommands.First());
             Assert.IsTrue(G03Regex.IsMatch(gCodeCommands.Last()));
         }
         
@@ -127,13 +126,13 @@ namespace Tests
             });
 
             List<string> gCodeCommands = curveEmitter.Emit().Split("\n").ToList();
-            foreach (string command in gCodeCommands.Where(String.IsNullOrEmpty))
+            foreach (string command in gCodeCommands.Where(String.IsNullOrEmpty).ToList())
             {
                 gCodeCommands.Remove(command);
             }
 
-            Assert.IsTrue(gCodeCommands.Count == 2);
-            Assert.IsTrue(LineRegex.IsMatch(gCodeCommands.First()));
+            Assert.AreEqual(2, gCodeCommands.Count);
+            Assert.AreEqual($"G00 X{x1} Y{y1}",gCodeCommands.First());
             Assert.IsTrue(G02Regex.IsMatch(gCodeCommands.Last()));
         }
         
@@ -165,7 +164,7 @@ namespace Tests
         private CurveCommandNode CreateCurveNode(in double angle, in double x1, in double y1, in double x2, in double y2)
         {
             NumberNode angleNode = new NumberNode(angle);
-            TuplePointNode fromNode = new TuplePointNode("", new NumberNode(x1), new NumberNode(y2));
+            TuplePointNode fromNode = new TuplePointNode("", new NumberNode(x1), new NumberNode(y1));
             List<PointReferenceNode> toNode = new List<PointReferenceNode>();
             toNode.Add(new TuplePointNode("", new NumberNode(x2), new NumberNode(y2)));
             return new CurveCommandNode(fromNode, toNode, angleNode);
