@@ -42,7 +42,7 @@ namespace OG.CodeGeneration
         {
             if (node.From is TuplePointNode t)
             {
-                FromPoint = CreateLineGCodeCommand(t);
+                FromPoint = CreateLineGCodeCommand(t,"G00");
             }
             else
             {
@@ -75,7 +75,7 @@ namespace OG.CodeGeneration
             }
         }
 
-        private GCodeCommandText CreateLineGCodeCommand(TuplePointNode node)
+        private GCodeCommandText CreateLineGCodeCommand(TuplePointNode node, string typeOfLine="G01")
         {
             string formattedX ="";
             string formattedY ="";
@@ -90,7 +90,7 @@ namespace OG.CodeGeneration
                 return null;
 
             }
-            return new GCodeCommandText($"G01 X{formattedX} Y{formattedY}\n");
+            return new GCodeCommandText($"{typeOfLine} X{formattedX} Y{formattedY}\n");
         }
 
       

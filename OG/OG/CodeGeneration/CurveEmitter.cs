@@ -195,7 +195,7 @@ namespace OG.CodeGeneration
                 SemanticErrors.Add(new SemanticError(node,"FATAL ERROR: A mathematical expression inside a point was not reduced to number node!"){IsFatal = true});
                 return null;
             }
-            return new GCodeCommandText($"G01 X{formattedX} Y{formattedY}\n");
+            return new GCodeCommandText($"G00 X{formattedX} Y{formattedY}\n");
         }
     }
 }
