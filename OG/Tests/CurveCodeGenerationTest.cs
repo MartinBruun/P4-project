@@ -50,9 +50,6 @@ namespace Tests
             Assert.IsTrue(ArcRegex.IsMatch(gCodeCommands.Last()));
         }
 
-       
-
-
         [TestCase(0, -0.0001, -0.0001, 999999.9999,9999999.9999)]
         [TestCase(0, -1000, 0,1,0)]
         [TestCase(0, -1000, -1000,1,0)]
@@ -74,7 +71,6 @@ namespace Tests
             Assert.AreEqual($"G00 X{x1} Y{y1}",resultCommand.First());
             Assert.AreEqual($"G01 X{x2} Y{y2}",resultCommand.Last());
         }
-        
 
         [TestCase(-45,-0.01, -0.01, 0.01,0.001)]
         [TestCase(-1,-0, -1000, 0, 0)]
@@ -140,10 +136,6 @@ namespace Tests
         }
 
         #region Helper functions
-
-        
-
-
         private CurveEmitter SetupEmitter(CurveCommandNode curveNode)
         {
             CurveEmitter curveEmitter = new CurveEmitter( new List<SemanticError>());
