@@ -8,7 +8,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
     {
         public NumberDeclarationNode(IdNode id, ExpressionNode assignedAssignedExpression) : base(id, assignedAssignedExpression, DeclarationType.NumberDeclarationNode)
         {
-            AssignedExpression = assignedAssignedExpression;
+            
+        }
+        public NumberDeclarationNode(NumberDeclarationNode node) : base(node)
+        {
+            
         }
 
         public override object Accept(IVisitor visitor)

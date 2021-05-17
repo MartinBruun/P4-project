@@ -10,15 +10,12 @@ namespace OG.ASTBuilding.Terminals
         public CoordinateXyValueNode(string value, MathType mathNodeTypeOf) : base(value, mathNodeTypeOf)
         {
         }
-
-    
         
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
    
         }
-
 
         public override NumberNode Accept(IMathNodeVisitor visitor)
         {

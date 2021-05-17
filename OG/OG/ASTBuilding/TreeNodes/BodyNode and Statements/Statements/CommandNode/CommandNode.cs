@@ -7,14 +7,16 @@
             MovementNode,
             DrawCommandNode,
             IterationNode
-
-
         }
 
         public CommandType TypeOfCommand { get;}
         public CommandNode(CommandType type):base(StatementType.CommandNode)
         {
             TypeOfCommand = type;
+        }
+        public CommandNode(CommandNode node) : base(node)
+        {
+            TypeOfCommand = node.TypeOfCommand;
         }
     }
 }

@@ -10,6 +10,10 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
         {
             
         }
+        public PointDeclarationNode(PointDeclarationNode node) : base(node)
+        {
+            
+        }
 
         public override object Accept(IVisitor visitor)
         {

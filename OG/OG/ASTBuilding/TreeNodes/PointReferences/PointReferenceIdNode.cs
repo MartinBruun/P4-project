@@ -14,6 +14,10 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         {
             AssignedValue = assignedValue;
         }
+        public PointReferenceIdNode(PointReferenceIdNode node) : base(node)
+        {
+            AssignedValue = node.AssignedValue;
+        }
 
         public override void Accept(IPointReferenceNodeVisitor visitor)
         {
@@ -23,7 +27,6 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
-      
         }
     }
 }

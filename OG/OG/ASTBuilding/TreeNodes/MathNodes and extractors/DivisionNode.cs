@@ -11,6 +11,11 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         {
         }
 
+        public DivisionNode(DivisionNode node) : base(node)
+        {
+            
+        }
+
 
         public override object Accept(IVisitor visitor)
         {

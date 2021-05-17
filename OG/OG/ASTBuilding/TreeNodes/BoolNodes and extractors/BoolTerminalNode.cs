@@ -5,10 +5,9 @@
         public BoolTerminalNode(string value, BoolType type) : base(value, type)
         {
         }
+        public BoolTerminalNode(BoolTerminalNode node) : base(node)
+        {
+            
+        }
     }
-
-    public interface IBoolTerminalNode : IBoolNode
-    {
-        
-    } 
 }

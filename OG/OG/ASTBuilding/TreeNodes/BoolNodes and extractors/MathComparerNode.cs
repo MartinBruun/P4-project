@@ -6,13 +6,7 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
     {
         private MathNode _rhs;
         private MathNode _lhs;
-
-        protected MathComparerNode(MathNode lhs, MathNode rhs,string value, BoolType type) : base(value, type)
-        {
-            RHS = rhs;
-            LHS = lhs;
-        }
-
+        
         public MathNode RHS
         {
             get => _rhs;
@@ -39,6 +33,18 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
                 _lhs = value;
                 _lhs.Parent = this;
             }
+        }
+
+        protected MathComparerNode(MathNode lhs, MathNode rhs,string value, BoolType type) : base(value, type)
+        {
+            RHS = rhs;
+            LHS = lhs;
+        }
+        
+        public MathComparerNode(MathComparerNode node) : base(node)
+        {
+            RHS = node.RHS;
+            LHS = node.LHS;
         }
     }
 

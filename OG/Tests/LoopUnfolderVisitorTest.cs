@@ -13,6 +13,7 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting.Visitors;
 using OG.AstVisiting.Visitors.ExpressionReduction;
+using OG.CodeGeneration;
 using OG.Compiler;
 
 namespace Tests.Fixtures

@@ -8,24 +8,25 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
     public class FunctionCallAssignNode : AssignmentNode, IFunctionCallNode
  
     {
+        public IdNode FunctionName { get; set; }
+        public List<ParameterNode> Parameters { get; set; }
+        
         public FunctionCallAssignNode(IdNode id,IdNode funcName, List<ParameterNode> parameters) : base(id, AssignmentType.FunctionCallAssignment)
         {
             FunctionName = funcName;
             Parameters = parameters;
         }
 
-        public IdNode FunctionName { get; set; }
-        public List<ParameterNode> Parameters { get; set; }
-     
-    
+        public FunctionCallAssignNode(FunctionCallAssignNode node) : base(node)
+        {
+            FunctionName = node.FunctionName;
+            Parameters = node.Parameters;
+        }
+
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
 
         }
     }
-
-    
-
-  
 }

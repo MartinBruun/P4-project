@@ -9,6 +9,11 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         {
         }
 
+        public PowerNode(PowerNode node) : base(node)
+        {
+            
+        }
+
 
         public override object Accept(IVisitor visitor)
         {

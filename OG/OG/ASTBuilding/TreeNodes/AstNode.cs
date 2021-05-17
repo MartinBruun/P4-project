@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes
@@ -25,6 +26,13 @@ namespace OG.ASTBuilding.TreeNodes
         {
             Line = line;
             Column = column;
+        }
+
+        public AstNode(AstNode node)
+        {
+            Line = node.Line;
+            Column = node.Column;
+            CompileTimeType = node.CompileTimeType;
         }
     }
 

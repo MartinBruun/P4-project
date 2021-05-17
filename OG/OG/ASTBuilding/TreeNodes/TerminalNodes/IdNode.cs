@@ -26,19 +26,22 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
         {
             Value = value;
         }
+
+        public IdNode(IdNode node) : base(node)
+        {
+            Value = node.Value;
+            SymboltableAddress = node.SymboltableAddress;
+            PointingAt = node.PointingAt;
+            DeclaredValue = node.DeclaredValue;
+        }
         public override string ToString()
         {
             return Value;
         }
-        
         
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
         }
     }
-
- 
-
-
 }
