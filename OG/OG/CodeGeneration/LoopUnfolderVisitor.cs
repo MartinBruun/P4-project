@@ -17,7 +17,7 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 using OG.AstVisiting;
 using OG.AstVisiting.Visitors;
 
-namespace OG
+namespace OG.CodeGeneration
 {
     public class LoopUnfolderVisitor : IVisitor
     {
@@ -100,13 +100,13 @@ namespace OG
 
             for (int i = 0; i < (int) iterator.NumberValue * bodyStatements.Count; i++)
             {
-                // Make serialization on the cloned node!
                 StatementNode clonedNode = node.Body.StatementNodes[i % bodyStatements.Count];
                 tempStatements.Add(clonedNode);
             }
 
             node.Body.StatementNodes = tempStatements;
-            node.Body.Accept(this);
+            ASTNodeCloner cloner = new ASTNodeCloner();
+            node.Body = (BodyNode) node.Body.Accept(cloner);
             node.Iterations = new NumberNode(1);
             return node;
         }

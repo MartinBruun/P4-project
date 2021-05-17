@@ -5,6 +5,11 @@
         public TerminalMathNode(string value, MathType mathNodeTypeOf) : base(value, mathNodeTypeOf)
         {
         }
+
+        public TerminalMathNode(TerminalMathNode node) : base(node)
+        {
+            
+        }
     }
 
     

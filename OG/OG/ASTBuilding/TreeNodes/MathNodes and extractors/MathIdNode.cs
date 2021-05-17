@@ -13,6 +13,11 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             this.AssignedValueId = assignedValueId;
         }
 
+        public MathIdNode(MathIdNode node) : base(node)
+        {
+            AssignedValueId = node.AssignedValueId;
+        }
+
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);

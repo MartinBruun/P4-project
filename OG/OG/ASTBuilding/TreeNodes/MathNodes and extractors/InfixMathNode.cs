@@ -11,6 +11,12 @@
             RHS = rhs;
         }
 
+        public InfixMathNode(InfixMathNode node) : base(node)
+        {
+            LHS = node.LHS;
+            RHS = node.RHS;
+        }
+
 
         public MathNode RHS
         {
