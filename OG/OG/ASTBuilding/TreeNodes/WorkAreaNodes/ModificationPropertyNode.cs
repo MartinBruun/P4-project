@@ -2,6 +2,9 @@
 {
     public abstract class ModificationPropertyNode : MachineSettingNode
     {
-        
+        public ModificationPropertyNode(ModificationPropertyNode node) : base(node)
+        {
+
+        }
     }
 }

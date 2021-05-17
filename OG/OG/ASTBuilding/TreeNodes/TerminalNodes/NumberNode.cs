@@ -13,6 +13,10 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
         {
             NumberValue = value;
         }
+        public NumberNode(NumberNode node) : base(node)
+        {
+            NumberValue = node.NumberValue;
+        }
 
         public override string ToString()
         {

@@ -16,15 +16,15 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         {
             Angle = angleExpression;
         }
+        public CurveCommandNode(CurveCommandNode node) : base(node)
+        {
+            Angle = node.Angle;
+        }
 
-      
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
 
         }
-
     }
-
-    
 }

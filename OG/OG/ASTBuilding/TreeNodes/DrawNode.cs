@@ -18,13 +18,14 @@ namespace OG.ASTBuilding.TreeNodes
         {
             drawCommands = new List<DrawCommandNode>();
         }
+        public DrawNode(DrawNode node) : base(node)
+        {
+            drawCommands = node.drawCommands;
+        }
 
-    
-        
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
-
         }
     }
 }

@@ -61,9 +61,13 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             ParamType = ParameterType.NotAssignedType;
             ParameterId = new IdNode("");
         }
-
+        public ParameterNode(ParameterNode node) : base(node)
+        {
+            Expression = node.Expression;
+            ParamType = node.ParamType;
+            ParameterId = node.ParameterId;
+        }
         
-
         public override string ToString()
         {
             if (ParameterId != null)
@@ -80,11 +84,6 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
-
-
         }
     }
-
-
-    
 }

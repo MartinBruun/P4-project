@@ -10,6 +10,11 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
             
         }
 
+        public SubtractionNode(SubtractionNode node) : base(node)
+        {
+            
+        }
+
 
         public override object Accept(IVisitor visitor)
         {

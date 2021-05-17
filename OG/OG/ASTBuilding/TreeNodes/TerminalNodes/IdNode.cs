@@ -39,14 +39,9 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
             return Value;
         }
         
-        
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
         }
     }
-
- 
-
-
 }

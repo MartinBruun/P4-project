@@ -10,5 +10,9 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         {
             
         }
+        public LessThanComparerNode(LessThanComparerNode node) : base(node)
+        {
+            
+        }
     }
 }

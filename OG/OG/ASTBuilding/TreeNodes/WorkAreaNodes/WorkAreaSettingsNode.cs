@@ -1,4 +1,5 @@
-﻿using OG.AstVisiting;
+﻿using System.Drawing;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
 {
@@ -15,6 +16,10 @@ namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
         {
             SizeProperty = sizeProperty;
         }
+        public WorkAreaSettingNode(WorkAreaSettingNode node) : base(node)
+        {
+            SizeProperty = node.SizeProperty;
+        }
 
         public override string ToString()
         {
@@ -25,7 +30,6 @@ namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
-       
         }
     }
 }

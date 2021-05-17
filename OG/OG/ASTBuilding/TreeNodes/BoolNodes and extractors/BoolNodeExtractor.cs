@@ -11,8 +11,6 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
     {
         private readonly MathNodeExtractor _mathExtractor;
 
-
-
         public BoolNodeExtractor(List<SemanticError> errs) : base(errs)
         {
             _mathExtractor = new MathNodeExtractor(errs);

@@ -11,8 +11,13 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
 
         public TuplePointNode(string pointText, MathNode xValue, MathNode yValue) : base(pointText, PointReferenceNodeType.NumberTupleNode)
         {
-            YValue = yValue;
             XValue = xValue;
+            YValue = yValue;
+        }
+        public TuplePointNode(TuplePointNode node) : base(node)
+        {
+            XValue = node.XValue;
+            YValue = node.YValue;
         }
 
         public override void Accept(IPointReferenceNodeVisitor visitor)

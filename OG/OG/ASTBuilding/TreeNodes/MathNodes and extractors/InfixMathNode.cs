@@ -4,20 +4,7 @@
     {
         private MathNode _rhs;
         private MathNode _lhs;
-
-        public InfixMathNode(MathNode rhs, MathNode lhs, MathType mathType):base(rhs.ToString(),mathType)
-        {
-            LHS = lhs;
-            RHS = rhs;
-        }
-
-        public InfixMathNode(InfixMathNode node) : base(node)
-        {
-            LHS = node.LHS;
-            RHS = node.RHS;
-        }
-
-
+        
         public MathNode RHS
         {
             get => _rhs;
@@ -44,6 +31,18 @@
                 _lhs = value;
                 _lhs.Parent = this;
             }
+        }
+
+        public InfixMathNode(MathNode rhs, MathNode lhs, MathType mathType):base(rhs.ToString(),mathType)
+        {
+            LHS = lhs;
+            RHS = rhs;
+        }
+
+        public InfixMathNode(InfixMathNode node) : base(node)
+        {
+            LHS = node.LHS;
+            RHS = node.RHS;
         }
     }
 

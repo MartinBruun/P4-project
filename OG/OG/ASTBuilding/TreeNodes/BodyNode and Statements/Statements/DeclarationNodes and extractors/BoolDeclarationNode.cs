@@ -8,17 +8,16 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
     {
         public BoolDeclarationNode(IdNode id, ExpressionNode assignmentAssignedExpression):base(id, assignmentAssignedExpression, DeclarationType.BoolDeclarationNode)
         {
-            Id = id;
-            AssignedExpression = assignmentAssignedExpression;
+
+        }
+        public BoolDeclarationNode(BoolDeclarationNode node) : base(node)
+        {
+            
         }
 
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
-
-
         }
     }
-    
-    
 }
