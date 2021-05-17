@@ -114,7 +114,8 @@ namespace OG.ASTBuilding.TreeNodes
             OGParser.FunctionCallContext functionCallContext = context?.functionCall();
             OGParser.MathExpressionContext mathExprCont = context?.mathExpression();
             OGParser.BoolExpressionContext boolExprContext = context?.boolExpression();
-
+            OGParser.PointReferenceContext pointExprContext = context?.pointReference();
+            
             if (idContext != null)
             {
                 switch (type)
@@ -153,6 +154,14 @@ namespace OG.ASTBuilding.TreeNodes
                 var resultingNode = new  BoolExprIdNode("return", new IdNode("return"), BoolNode.BoolType.IdValueNode);
                 resultingNode.Line = boolExprContext.Start.Line;
                 resultingNode.Column = boolExprContext.Start.Column;
+                return resultingNode;
+            }
+
+            if (pointExprContext != null)
+            {
+                var resultingNode = new PointReferenceNodeExtractor(SemanticErrors).VisitPointReference(pointExprContext);
+                resultingNode.Line = pointExprContext.Start.Line;
+                resultingNode.Column = pointExprContext.Start.Column;
                 return resultingNode;
             }
             
