@@ -98,10 +98,9 @@ namespace OG.CodeGeneration
                 return node;
             }
 
-            for (int i = 0; i < (int) iterator.NumberValue * bodyStatements.Count; i++)
+            for (int i = 0; i < (int) iterator.NumberValue; i++)
             {
-                StatementNode clonedNode = node.Body.StatementNodes[i % bodyStatements.Count];
-                tempStatements.Add(clonedNode);
+                tempStatements.AddRange(node.Body.StatementNodes);
             }
 
             node.Body.StatementNodes = tempStatements;
