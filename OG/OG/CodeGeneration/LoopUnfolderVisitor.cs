@@ -97,16 +97,15 @@ namespace OG.CodeGeneration
                 _errs.Add(new SemanticError(node, $"Iterator: {iterator.NumberValue} is not an integer."));
                 return node;
             }
-
             for (int i = 0; i < (int) iterator.NumberValue; i++)
             {
                 tempStatements.AddRange(node.Body.StatementNodes);
             }
-
+            node.Iterations = new NumberNode(1);
             node.Body.StatementNodes = tempStatements;
+            node.Body.Accept(this);
             ASTNodeCloner cloner = new ASTNodeCloner();
             node.Body = (BodyNode) node.Body.Accept(cloner);
-            node.Iterations = new NumberNode(1);
             return node;
         }
 
