@@ -15,67 +15,10 @@ function point getMiddlePoint(point p1, point p2){
         return p;
     */
 }
-
-shape Diamond {
-    point start = (-5,-7);
-    line.from(start).to(-4,-5).to(-5,-3).to(-6,-5).to(start);
+function number AA(number NN){
+return NN;
 }
 
-shape ClubStand {
-    point start = (5,3);
+   xOffset = AA(sideVal);
     
-    curve.withAngle(20).from(start).to(6,2);
-    line.from(6,2).to(4,2);
-    curve.withAngle(20).from(4,2).to(start);
-}
-
-shape Club {
-    point start = (5,3);
-
-    ClubStand;
-    curve.withAngle(90).from(start).to(6,5).to(4,5).to(start);
-}
-
-shape Heart {
-    point start = (-5, 7);
-    point rightEdge = (-3,7);
-    point leftEdge = (-7,7);
-    point bottomPoint = (-5,4);
-    point rightMiddleLine = (-4,5.5);/*getMiddlePoint(rightEdge, bottomPoint);*/
-    point leftMiddleLine = (-6,5.5);/*getMiddlePoint(leftEdge, bottomPoint);*/
-
-    curve.withAngle(-90).from(start).to(rightEdge);
-    curve.withAngle(-45).from(rightEdge).to(rightMiddleLine);
-    curve.withAngle(45).from(rightMiddleLine).to(bottomPoint).to(leftMiddleLine);
-    curve.withAngle(-45).from(leftMiddleLine).to(leftEdge);
-    curve.withAngle(-90).from(leftEdge).to(start);
-}
-
-shape SpadeStand {
-    point start = (5,-7);
-    
-    curve.withAngle(20).from(start).to(6,-8);
-    line.from(6,-8).to(4,-8);
-    curve.withAngle(20).from(4,-8).to(start);
-}
-
-shape Spade {
-    number xMiddle = 5;
-    point start = (xMiddle, -7);
-    point top = (xMiddle,-3);
-    point edge = (0,0);
-    point middleLine = (0,0);
-    number sideVal = 1;
-    number xOffset = -2;
-
-    SpadeStand;
-    repeat(2)
-        edge = (xMiddle + (xOffset * sideVal), -7);
-        middleLine = (xMiddle + ((xOffset * sideVal)/2), -5)/*getMiddlePoint(edge,top);*/
-
-        curve.withAngle(sideVal * -90).from(start).to(edge);
-        curve.withAngle(sideVal * -45).from(edge).to(middleLine);
-        curve.withAngle(sideVal * 45).from(middleLine).to(top);
-        sideVal = -1;
-    repeat.end();
 }

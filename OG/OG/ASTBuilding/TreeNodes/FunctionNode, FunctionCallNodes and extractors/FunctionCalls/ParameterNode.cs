@@ -18,10 +18,13 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         }
 
         public ParameterType ParamType { get; set; }
+        
         /// <summary>
-        /// ParameterId is set to null ParameterType is not Id.
+        /// ParameterId Is the id that is passed as a parameter , is set to null ParameterType is not Id.
         /// </summary>
         public IdNode ParameterId { get; set; } = null;
+
+        public IdNode FormalParameterId { get;set; } = null;
 
         /// <summary>
         /// Expression is set to null ParameterType is Id.
