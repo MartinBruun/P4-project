@@ -7,7 +7,7 @@ namespace OG.ASTBuilding.TreeNodes
 {
     public class ParameterTypeNode : AstNode
     {
-        public IdNode IdNode { get; }
+        public IdNode IdNode { get; set; }
         public ExpressionNode Expression { get; set; } = null;
         public ParameterTypeNodeExtractor.IOgTyped.OgType ParameterType { get; }
 

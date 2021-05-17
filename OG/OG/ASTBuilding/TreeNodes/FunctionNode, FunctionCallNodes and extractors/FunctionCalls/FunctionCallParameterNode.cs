@@ -6,7 +6,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
     public class FunctionCallParameterNode : ParameterNode
     {
-        public readonly FunctionCallNode FunctionCallNode;
+        public FunctionCallNode FunctionCallNode { get; set; }
         
         public FunctionCallParameterNode(FunctionCallNode funcCallNode):base(funcCallNode.FunctionName)
         {
