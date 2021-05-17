@@ -7,13 +7,9 @@ draw {
     Spade;
 }
 
-function point getMiddlePoint(point p1, point p2){
-    point p = (-4,5.5);
+function point getMiddlePoint(number x1, number y1, number x2, number y2){
+    point p = ((x1 + x2)/2, (y1+y2)/2);
     return p;
-    /* Should be implemented like this.
-        point p = ((p1.x - p2.x), (p1.y - p2.y));
-        return p;
-    */
 }
 
 shape Diamond {
@@ -38,11 +34,16 @@ shape Club {
 
 shape Heart {
     point start = (-5, 7);
-    point rightEdge = (-3,7);
-    point leftEdge = (-7,7);
-    point bottomPoint = (-5,4);
-    point rightMiddleLine = getMiddlePoint(rightEdge, bottomPoint);
-    point leftMiddleLine = (-6,5.5);/*getMiddlePoint(leftEdge, bottomPoint);*/
+    number edgeY = 7;
+    number rightEdgeX = -3;
+    point rightEdge = (rightEdgeX, edgeY);
+    number leftEdgeX = -7;
+    point leftEdge = (leftEdgeX,edgeY);
+    number bottomX = -5;
+    number bottomY = 4;
+    point bottomPoint = (bottomX,bottomY);
+    point rightMiddleLine = getMiddlePoint(rightEdgeX, edgeY,bottomX,bottomY);
+    point leftMiddleLine = getMiddlePoint(leftEdgeX,edgeY, bottomX,bottomY);
 
     curve.withAngle(-90).from(start).to(rightEdge);
     curve.withAngle(-45).from(rightEdge).to(rightMiddleLine);
@@ -53,25 +54,31 @@ shape Heart {
 
 shape SpadeStand {
     point start = (5,-7);
+    number standBottomY = -9;
     
-    curve.withAngle(20).from(start).to(6,-9);
-    line.from(6,-9).to(4,-9);
-    curve.withAngle(20).from(4,-9).to(start);
+    curve.withAngle(20).from(start).to(6,standBottomY);
+    line.from(6,standBottomY).to(4,standBottomY);
+    curve.withAngle(20).from(4,standBottomY).to(start);
 }
 
 shape Spade {
     number xMiddle = 5;
     point start = (xMiddle, -7);
-    point top = (xMiddle,-3);
-    point edge = (0,0);
+    number topX = xMiddle;
+    number topY = -3;
+    point top = (topX,topY);
+    number edgeX = 0;
+    number edgeY = -7;
+    point edge = (edgeX,edgeY);
     point middleLine = (0,0);
     number sideVal = 1;
     number xOffset = -2;
 
     SpadeStand;
     repeat(2)
-        edge = (xMiddle + (xOffset * sideVal), -7);
-        middleLine = (xMiddle + ((xOffset * sideVal)/2), -5)/*getMiddlePoint(edge,top);*/
+        edgeX = xMiddle + (xOffset * sideVal);
+        edge = (edgeX,edgeY);
+        middleLine = getMiddlePoint(edgeY,edgeY,topX,topY);
 
         curve.withAngle(sideVal * -90).from(start).to(edge);
         curve.withAngle(sideVal * -25).from(edge).to(middleLine);
