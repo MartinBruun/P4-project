@@ -274,7 +274,7 @@ namespace OG.CodeGeneration
         }
 
         public object Visit(ParameterNode node)
-        {
+        {//TODO: add formal parameter id in typechecker.        node.ParameterId = (IdNode) node.ParameterId.Accept(this);
             node.ParameterId = (IdNode) node.ParameterId.Accept(this);
             node.Expression = (ExpressionNode) node.Expression.Accept(this);
             return new ParameterNode(node);

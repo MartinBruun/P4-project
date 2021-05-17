@@ -65,11 +65,8 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         public object Visit(MathAssignmentNode node)
         {
             NumberNode res = node.AssignedValue.Accept(_arithmeticPerformer);
-
-            string lhsSymTabAddress = node.Id.SymboltableAddress;
-
-            _symbolTable.Add(lhsSymTabAddress, res);
-            node.AssignedValue = res;
+            
+            _symbolTable.Add(node.Id.SymboltableAddress, res);
 
             return node;
         }
@@ -228,6 +225,11 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         }
         public object Visit(ParameterNode node)
         {
+            node.Expression = (ExpressionNode) node.Expression?.Accept(this);
+            if (node.Expression == null)
+            {
+                node.Expression = (ExpressionNode) node.ParameterId?.Accept(this);
+            }
             return node;
         }
 
@@ -310,10 +312,13 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(IdNode node)
         {
-            //slå op
-          
-            
-            return node;
+            var result = _symbolTable.GetElementBySymbolTableAddress(node.SymboltableAddress);
+            if (result is IdNode id)
+            {
+                return id;
+            }
+
+            return result.Accept(this);
         }
 
         public object Visit(NumberNode node)

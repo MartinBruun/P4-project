@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
+using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
@@ -61,7 +62,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             //Assigned value to Id must be a math node for it to occur as mathIdNode
             AstNode symbolTableResult =
                  _symbolTable.GetElementBySymbolTableAddress(node.AssignedValueId.SymboltableAddress);
-            
+            node.AssignedValueId.DeclaredValue = symbolTableResult;
             object q = symbolTableResult.Accept(_mathReducerVisitor);
             return (NumberNode) q;
             
@@ -100,18 +101,24 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             //Pass parameters to function body
             for (int i = 0; i < node.Parameters.Count; i++)
             {
-                funcNode.Parameters[i].Expression = (ExpressionNode) node.Parameters[i].Expression;
-                //This will go wrong
-              
-                if (funcNode.Parameters[i].Expression == null)
+
+                if (node.Parameters[i].ParameterId != null)
                 {
-                    AstNode xVal = _symbolTable.GetElementBySymbolTableAddress(node.Parameters[i].ParameterId
-                        .SymboltableAddress);
-                    xVal.Accept(_mathReducerVisitor);
-                    funcNode.Parameters[i].Expression = (ExpressionNode)xVal;
+                    var passedParamValue =
+                        _symbolTable.GetElementBySymbolTableAddress(node.Parameters[i].ParameterId.SymboltableAddress);
+                    funcNode.Parameters[i].Expression =
+                        (ExpressionNode) passedParamValue?.Accept(_mathReducerVisitor); 
+                    
+                    node.Parameters[i].FormalParameterId = funcNode.Parameters[i].IdNode;
+
                 }
+
+                 if (funcNode.Parameters[i].Expression == null)
+                 {
+                     funcNode.Parameters[i].Expression = node.Parameters[i].Expression;
+                 }
                 
-                _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
+                _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i].Expression);
             }
             
             funcNode.Accept(_mathReducerVisitor);

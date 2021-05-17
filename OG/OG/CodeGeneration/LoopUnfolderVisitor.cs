@@ -106,7 +106,7 @@ namespace OG.CodeGeneration
             node.Body.StatementNodes = tempStatements;
             node.Body.Accept(this);
             ASTNodeCloner cloner = new ASTNodeCloner();
-            node.Body = (BodyNode) node.Body.Accept(cloner);
+            //node.Body = (BodyNode) node.Body.Accept(cloner);
             return node;
         }
 

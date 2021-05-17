@@ -13,8 +13,10 @@ shape S{
     number sideVal = 0;
     number b = 0
     repeat(10)
+        b = AA(sideVal+2);
         sideVal = sideVal+1;
         xOffset = AA(sideVal); 
+        
     repeat.end;
     
 }

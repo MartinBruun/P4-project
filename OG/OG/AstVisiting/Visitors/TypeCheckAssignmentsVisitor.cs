@@ -569,7 +569,9 @@ namespace OG.AstVisiting.Visitors
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
                 node.Parameters[i].Accept(this);
-                node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
+                node.Parameters[i].FormalParameterId = declaredNode.Parameters[i].IdNode;
+
+                //node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
                 if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
                     errors.Add(new SemanticError(node.Parameters[i],
@@ -593,7 +595,9 @@ namespace OG.AstVisiting.Visitors
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
                 node.Parameters[i].Accept(this);
-                node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
+                node.Parameters[i].FormalParameterId = declaredNode.Parameters[i].IdNode;
+
+                //node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
                 if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
                     errors.Add(new SemanticError(node.Parameters[i],
@@ -608,6 +612,7 @@ namespace OG.AstVisiting.Visitors
         {
             S.increaseParameterCount();
             node.CompileTimeType = S.CheckDeclaredTypeOf(node.ParameterId.Value);
+            //TODO: add formal parameter Id
             // Console.Write($"VisitFunctionCallParameterNode  Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
             
@@ -636,6 +641,8 @@ namespace OG.AstVisiting.Visitors
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
                 node.Parameters[i].Accept(this);
+                node.Parameters[i].FormalParameterId = declaredNode.Parameters[i].IdNode;
+
                 //node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
                 if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
@@ -799,6 +806,8 @@ namespace OG.AstVisiting.Visitors
             for (int i = 0 ; i< node.Parameters.Count ; i++)
             {
                 node.Parameters[i].Accept(this);
+                node.Parameters[i].FormalParameterId = declaredNode.Parameters[i].IdNode;
+
                 //node.Parameters[i].ParameterId = declaredNode.Parameters[i].IdNode;
                 if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
