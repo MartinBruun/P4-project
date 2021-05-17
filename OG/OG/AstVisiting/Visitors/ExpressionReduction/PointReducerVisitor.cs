@@ -297,7 +297,6 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             }
             
             funcNode.Accept(this);
-            Console.WriteLine("LUDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR + " + funcNode.Id.Value);
             var res = (TuplePointNode)funcNode.ReturnValue.Accept(this);
             res.XValue.Accept(_mathReducer);
             res.YValue.Accept(_mathReducer);
