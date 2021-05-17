@@ -1,24 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
-using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
-using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.AssignmentNodes_and_extractors;
-using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
-using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors;
-using OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
-using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
-using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
-using OG.AstVisiting;
-using OG.AstVisiting.Visitors;
 using OG.CodeGeneration;
 
-namespace OG.Compiler
+namespace OG.AstVisiting.Visitors.ExpressionReduction
 {
     public class MathArithmeticCalculator : ISemanticErrorable, IMathNodeVisitor
     {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -15,23 +13,53 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
-using OG.Compiler;
+using OG.AstVisiting;
+using OG.AstVisiting.Visitors;
+using OG.AstVisiting.Visitors.ExpressionReduction;
 
-namespace OG.AstVisiting.Visitors
+namespace OG.CodeGeneration
 {
-    public class PointReducerVisitor : IVisitor, ISemanticErrorable
+    /// <summary>
+    /// The class responsible for converting an AST into executable G-code.
+    /// </summary>
+    public class CodeGeneratorVisitor : IVisitor, IGCodeStringEmitter
     {
-        private SymbolTable _symbolTable = new SymbolTable();
-        private readonly MathReducerVisitor _mathReducer;
+        private readonly SymbolTable _symbolTable = new SymbolTable();
+        private readonly List<SemanticError> _errors;
 
-        public PointReducerVisitor(Dictionary<string, AstNode> symbolTable, List<SemanticError> errs)
+        private readonly LineEmitter _lineEmitter = null;
+        private readonly CurveEmitter _curveEmitter = null;
+        private ExpressionReducerVisitor _reducer = null;
+        private List<IGCodeCommand> _gCodeCommands = new List<IGCodeCommand>();
+        public event CodeGenerationNotification CodeGenerationNotification;
+        public GCodeCommandText ResultCommand { get; private set; } = null;
+        
+        public CodeGeneratorVisitor(Dictionary<string, AstNode> symbolTable, List<SemanticError> errors,  ExpressionReducerVisitor reducer)
         {
-            SemanticErrors = errs;
             _symbolTable.Elements = symbolTable;
-            _mathReducer = new MathReducerVisitor(symbolTable, errs);
+            _errors = errors;
+            _lineEmitter = new LineEmitter( _errors);
+            _curveEmitter = new CurveEmitter( _errors);
+            _reducer = reducer;
         }
 
+        public string Emit()
+        {
+            string result = "";
+            foreach (IGCodeCommand gCodeCommand in _gCodeCommands)
+            {
+                result += gCodeCommand.CreateGCodeTextCommand();
+            }
+            
+            CodeGenerationNotification?.Invoke(result);
+            return result;
+        }
 
+        public void ClearResult()
+        {
+            _gCodeCommands = new List<IGCodeCommand>();
+        }
+        
         public object Visit(BoolAssignmentNode node)
         {
             return node;
@@ -44,20 +72,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(IdAssignNode node)
         {
-            AstNode x = _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
-            
-            if (x is not PointDeclarationNode)
-            {
-                return node;
-            }
-
-            PointDeclarationNode pointDcl = (PointDeclarationNode) x;
-            PointReferenceNode pointRef = (PointReferenceNode) pointDcl.AssignedExpression;
-            
-            //TODO UPDATE SYMTAB AND VISIT POINTREF
-            
-
-
             return node;
         }
 
@@ -68,13 +82,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointAssignmentNode node)
         {
-            PointReferenceNode res = (PointReferenceNode) node.AssignedValue.Accept(this);
-
-            string lhsSymTabAddress = node.Id.SymboltableAddress;
-
-            _symbolTable.Add(lhsSymTabAddress, res);
-            node.AssignedValue = res;
-
             return node;
         }
 
@@ -85,42 +92,35 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ParameterTypeNode node)
         {
-            if (node.Expression is PointReferenceNode referenceNode)
-            {
-                return referenceNode.Accept(this);
-            }
-
             return node;
         }
 
         public object Visit(CurveCommandNode node)
         {
-            node.Angle.Accept(_mathReducer);
-            node.From.Accept(this);
-            foreach (PointReferenceNode pointReferenceNode in node.To)
-            {
-                pointReferenceNode.Accept(this);
-            }
+            _curveEmitter.SetupGCodeResult(node);
+           _gCodeCommands.Add(_curveEmitter.ResultCommand);
+           _curveEmitter.ClearResult();
             return node;
         }
 
         public object Visit(DrawCommandNode node)
         {
+            ShapeNode shape = (ShapeNode) _symbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
+            shape.Accept(this);
             return node;
         }
 
         public object Visit(LineCommandNode node)
         {
-            node.From.Accept(this);
-            foreach (PointReferenceNode pointReferenceNode in node.To)
-            {
-                pointReferenceNode.Accept(this);
-            }
+            _lineEmitter.SetupGCodeResult(node);
+            _gCodeCommands.Add(_lineEmitter.ResultCommand);
+            _lineEmitter.ClearResult();
             return node;
         }
 
         public object Visit(NumberIterationNode node)
         {
+            node.Body.Accept(this);
             return node;
         }
 
@@ -145,12 +145,8 @@ namespace OG.AstVisiting.Visitors
         }
 
         public object Visit(PointDeclarationNode node)
-        { 
-            PointDeclarationNode o = (PointDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
-
-            node.AssignedExpression = (ExpressionNode) node.AssignedExpression.Accept(this);
+        {
             return node;
-
         }
 
         public object Visit(BoolExprIdNode node)
@@ -162,9 +158,9 @@ namespace OG.AstVisiting.Visitors
         {
             foreach (StatementNode nodeStatementNode in node.StatementNodes)
             {
+                nodeStatementNode.Accept(_reducer);
                 nodeStatementNode.Accept(this);
             }
-
             return node;
         }
 
@@ -220,7 +216,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MathFunctionCallNode node)
         {
-            node.Accept(_mathReducer);
             return node;
         }
 
@@ -231,7 +226,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionNode node)
         {
-            return node.Body.Accept(this);
+            return node;
         }
 
         public object Visit(AdditionNode node)
@@ -266,42 +261,12 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointFunctionCallNode node)
         {
-            string functionNodeAdresse = node.FunctionName.SymboltableAddress;
-            FunctionNode funcNode = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(functionNodeAdresse);
-
-            //Pass parameters to function body
-            for (int i = 0; i < node.Parameters.Count; i++)
-            {
-                funcNode.Parameters[i].Expression = (ExpressionNode) node.Parameters[i].Expression;
-                //This will go wrong
-
-                if (funcNode.Parameters[i].Expression == null)
-                {
-                    AstNode xVal = _symbolTable.GetElementBySymbolTableAddress(node.Parameters[i].ParameterId
-                        .SymboltableAddress);
-
-                    xVal.Accept(this);
-                    funcNode.Parameters[i].Expression = (ExpressionNode) xVal;
-                }
-
-                _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
-            }
-
-            funcNode.Accept(this);
-
-            //TODO Before return, add and save the address! Return value should be the node!
-            funcNode.ReturnValue = (PointReferenceNode) funcNode.ReturnValue.Accept(this);
-            
-            return funcNode.ReturnValue;
+            return node;
         }
 
         public object Visit(PointReferenceIdNode node)
         {
-            AstNode res = 
-                _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
-            PointDeclarationNode q = (PointDeclarationNode)res.Accept(this);
-            
-            return (PointReferenceNode) q.AssignedExpression;
+            return node;
         }
 
         public object Visit(ShapeEndPointNode node)
@@ -321,11 +286,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(TuplePointNode node)
         {
-            NumberNode x = (NumberNode) node.XValue.Accept(_mathReducer);
-            NumberNode y = (NumberNode) node.YValue.Accept(_mathReducer);
-
-            node.XValue = x;
-            node.YValue = y;
             return node;
         }
 
@@ -366,22 +326,17 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(DrawNode node)
         {
+            foreach (DrawCommandNode nodeDrawCommand in node.drawCommands)
+            {
+                nodeDrawCommand.Accept(this);
+            }
+
             return node;
         }
 
         public object Visit(ProgramNode node)
         {
-            foreach (FunctionNode nodeFunctionDcl in node.FunctionDcls)
-            {
-                nodeFunctionDcl.Accept(this);
-            }
-
-            foreach (var shape in node.ShapeDcls)
-            {
-                shape.Accept(this);
-            }
-
-            return node;
+            return node.drawNode.Accept(this);
         }
 
         public object Visit(ShapeNode node)
@@ -394,7 +349,7 @@ namespace OG.AstVisiting.Visitors
             return node;
         }
 
-        public List<SemanticError> SemanticErrors { get; set; }
-        public string TopNode { get; set; }
+
     }
+
 }

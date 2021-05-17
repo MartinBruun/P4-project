@@ -81,7 +81,6 @@ namespace OG.AstVisiting.Visitors
                 {
                     item.Id.SymboltableAddress = S.GetSymboltableAddressInCurrentScope(item.Id.Value);
                     S.Add(item.Id.SymboltableAddress, item);
-
                 }
                 else
                 {
@@ -158,7 +157,6 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(NumberIterationNode node)
         {
-   
             S.enterRepeatScope();
             node.Body.Accept(this);
             S.exitRepeatScope();
@@ -288,8 +286,8 @@ namespace OG.AstVisiting.Visitors
        public object Visit(AssignmentNode node)
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-           return new object();
+            // Console.WriteLine(node.ToString());
+            return new object();
         }
 
         public object Visit(BoolAssignmentNode node)
@@ -308,8 +306,9 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(IdAssignNode node)
         {
+            
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+            // Console.WriteLine(node.ToString());
             return new object();
         }
 

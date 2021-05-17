@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Schema;
 using OG.ASTBuilding;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes;
@@ -15,11 +14,9 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
-using OG.AstVisiting;
-using OG.AstVisiting.Visitors;
-using OG.CodeGeneration;
+using OG.Compiler;
 
-namespace OG.Compiler
+namespace OG.AstVisiting.Visitors.ExpressionReduction
 {
     public class MathReducerVisitor : IVisitor, ISemanticErrorable
     {
@@ -27,9 +24,8 @@ namespace OG.Compiler
         public List<SemanticError> SemanticErrors { get; set; }
         public string TopNode { get; set; }
 
-        private readonly IMathNodeVisitor _arithmeticPerformer;
-        TypeCastVisitor typeCaster = new TypeCastVisitor();
-
+        private readonly MathArithmeticCalculator _arithmeticPerformer;
+        
 
         public MathReducerVisitor(Dictionary<string, AstNode> symTab, List<SemanticError> errs)
         {
@@ -45,26 +41,19 @@ namespace OG.Compiler
 
         public object Visit(FunctionCallAssignNode node)
         {
-            //get function declaration
-            AstNode s = _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
-            FunctionNode function = (FunctionNode) s.Accept(typeCaster);
-
+            NumberDeclarationNode id = (NumberDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            FunctionNode function = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
+            
+            
+            
+            
+            id.AssignedExpression = function.ReturnValue;
             return function;
-
         }
 
         public object Visit(IdAssignNode node)
         {
-            AstNode x = _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
-            NumberDeclarationNode numDcl;
-            try
-            {
-                numDcl = (NumberDeclarationNode) x.Accept(typeCaster);
-            }
-            catch (InvalidCastException e)
-            {
-                return null;
-            }
+            NumberDeclarationNode numDcl = (NumberDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.AssignedValue.SymboltableAddress);
             MathNode mathNode = (MathNode) numDcl.AssignedExpression;
 
             NumberDeclarationNode numberDeclarationResult = new NumberDeclarationNode(node.Id, mathNode);
@@ -122,11 +111,6 @@ namespace OG.Compiler
             return node;
         }
 
-        /// <summary>
-        /// TODO Enter Body
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
         public object Visit(NumberIterationNode node)
         {
             return node.Iterations.Accept(_arithmeticPerformer);
@@ -138,11 +122,7 @@ namespace OG.Compiler
             return node;
         }
 
-        /// <summary>
-        /// TODO Enter Body
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns> 
+      
         public object Visit(UntilNode node)
         {
             return node;
@@ -240,10 +220,11 @@ namespace OG.Compiler
         public object Visit(MathFunctionCallNode node)
         {
             string functionCallAddress = node.FunctionName.SymboltableAddress;
-            AstNode funcDeclaration = _symbolTable.GetElementBySymbolTableAddress(functionCallAddress);
-        
-            FunctionNode f = (FunctionNode)funcDeclaration.Accept(typeCaster);
-            return node;
+            FunctionNode funcDeclaration = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(functionCallAddress);
+
+            funcDeclaration.Accept(this);
+
+            return funcDeclaration.ReturnValue.Accept(this);
         }
         public object Visit(ParameterNode node)
         {
@@ -318,7 +299,7 @@ namespace OG.Compiler
 
         public object Visit(TuplePointNode node)
         {
-           
+            
             return node;
         }
 
