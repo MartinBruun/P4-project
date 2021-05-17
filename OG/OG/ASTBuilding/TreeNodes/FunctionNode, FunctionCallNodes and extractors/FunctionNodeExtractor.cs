@@ -114,7 +114,7 @@ namespace OG.ASTBuilding.TreeNodes
             OGParser.FunctionCallContext functionCallContext = context?.functionCall();
             OGParser.MathExpressionContext mathExprCont = context?.mathExpression();
             OGParser.BoolExpressionContext boolExprContext = context?.boolExpression();
-            
+
             if (idContext != null)
             {
                 switch (type)

@@ -50,9 +50,9 @@ namespace OG
             p.Accept(TT);
             errors.AddRange(TT.GetErrors());
 
-            GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
-            p.Accept(GV);
-            errors.AddRange(GV.GetErrors());
+            //GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
+            //p.Accept(GV);
+            //errors.AddRange(GV.GetErrors());
 
             PrintsymboltableAddress PA = new PrintsymboltableAddress();
             p.Accept(PA);
@@ -61,8 +61,6 @@ namespace OG
 
             if (errors.Count == 0)
             {
-               
-
                 LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable,errors);
                 p.Accept(loopUnfolder);
 

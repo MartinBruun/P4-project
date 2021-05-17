@@ -2,6 +2,7 @@
 using Microsoft.Win32.SafeHandles;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting;
+using OG.CodeGeneration;
 
 namespace OG.ASTBuilding.TreeNodes
 {

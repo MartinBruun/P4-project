@@ -43,10 +43,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         {
             NumberDeclarationNode id = (NumberDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
             FunctionNode function = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
-            
-            
-            
-            
+
             id.AssignedExpression = function.ReturnValue;
             return function;
         }
@@ -91,7 +88,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             {
                 return mathNode.Accept(_arithmeticPerformer);
             }
-
+            
             return node;
         }
 
@@ -310,10 +307,8 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(IdNode node)
         {
-            //slå op
-          
-            
-            return node;
+            object n = _symbolTable.GetElementBySymbolTableAddress(node.SymboltableAddress);
+            return n;
         }
 
         public object Visit(NumberNode node)

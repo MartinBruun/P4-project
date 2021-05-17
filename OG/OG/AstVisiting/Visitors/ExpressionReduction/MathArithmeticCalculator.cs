@@ -61,8 +61,16 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             //Assigned value to Id must be a math node for it to occur as mathIdNode
             AstNode symbolTableResult =
                  _symbolTable.GetElementBySymbolTableAddress(node.AssignedValueId.SymboltableAddress);
-            
-            object q = symbolTableResult.Accept(_mathReducerVisitor);
+
+            object q;
+            if (symbolTableResult is ParameterTypeNode paramNode)
+            {
+                q = paramNode.Expression.Accept(_mathReducerVisitor);
+            }
+            else
+            {
+                q = symbolTableResult.Accept(_mathReducerVisitor);
+            }
             return (NumberNode) q;
             
             //MathNode assignedMathValue = (MathNode) numberNode.AssignedExpression;
