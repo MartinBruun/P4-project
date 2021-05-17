@@ -1,24 +1,20 @@
 Machine.WorkArea.size(xmin=-10,xmax=10,ymin=-10,ymax=10);
 
 draw {
-    Diamond;
-    Heart;
-    Spade;
-    Club;
+    S;
 }
 
-function point getMiddlePoint(point p1, point p2){
-    point p = (0,0);
-    return p;
-    /* Should be implemented like this.
-        point p = ((p1.x - p2.x), (p1.y - p2.y));
-        return p;
-    */
-}
 function number AA(number NN){
-return NN;
+return 2 * NN;
 }
 
-   xOffset = AA(sideVal);
+shape S{
+    number xOffset = 0;
+    number sideVal = 0;
+    number b = 0
+    repeat(10)
+        sideVal = sideVal+1;
+        xOffset = AA(sideVal); 
+    repeat.end;
     
 }

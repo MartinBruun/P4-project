@@ -304,7 +304,7 @@ namespace OG.AstVisiting.Visitors
                 node.Parameters[i].Accept(this);
                 //node.Parameters[i].ParameterId
                 node.Parameters[i].FormalParameterId = declaredNode.Parameters[i].IdNode;
-                    //((FunctionNode) node.FunctionName.DeclaredValue).Parameters[i].IdNode;
+                
                 if (declaredNode.Parameters[i].CompileTimeType != node.Parameters[i].CompileTimeType)
                 {
                     errors.Add(new SemanticError(node.Parameters[i],
@@ -955,9 +955,17 @@ namespace OG.AstVisiting.Visitors
         {
             // Console.Write($"Scope {S.GetCurrentScope()} | ");
             // Console.WriteLine(node.ToString());
-            foreach (var item in node.drawCommands)
+            foreach (var drawCommandNode in node.drawCommands)
             {
-                item.Id.Accept(this);
+                drawCommandNode.Id.Accept(this);
+               
+               if (drawCommandNode.Id.CompileTimeType != "shape")
+               {
+                   errors.Add(new SemanticError(drawCommandNode, $"{drawCommandNode.Id.Value} is not a shape node!"));
+               }
+               drawCommandNode.CompileTimeType = drawCommandNode.Id.CompileTimeType;
+               drawCommandNode.Line = drawCommandNode.Id.Line;
+               drawCommandNode.Line = drawCommandNode.Id.Column;
             }
             return new object();
         }

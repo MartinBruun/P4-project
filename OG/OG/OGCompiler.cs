@@ -50,13 +50,13 @@ namespace OG
             p.Accept(TT);
             errors.AddRange(TT.GetErrors());
 
-            GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
-            p.Accept(GV);
-            errors.AddRange(GV.GetErrors());
-
-            PrintsymboltableAddress PA = new PrintsymboltableAddress();
-            p.Accept(PA);
-            // var symboltable = GV.GetSymbolTable();
+            // GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
+            // p.Accept(GV);
+            // errors.AddRange(GV.GetErrors());
+            //
+            // PrintsymboltableAddress PA = new PrintsymboltableAddress();
+            // p.Accept(PA);
+            // // var symboltable = GV.GetSymbolTable();
             symbolTable = TT.GetSymbolTable();
 
             if (errors.Count == 0)
