@@ -83,6 +83,7 @@ namespace OG
         public object Visit(NumberIterationNode node)
         {
             NumberNode iterator = (NumberNode) node.Iterations;
+            List<StatementNode> bodyStatements = node.Body.StatementNodes;
             List<StatementNode> tempStatements = new List<StatementNode>();
             if ((int)iterator.NumberValue == 0)
             {
@@ -97,9 +98,11 @@ namespace OG
                 return node;
             }
 
-            for (int i = 0; i < (int) iterator.NumberValue; i++)
+            for (int i = 0; i < (int) iterator.NumberValue * bodyStatements.Count; i++)
             {
-                tempStatements.AddRange(node.Body.StatementNodes);
+                // Make serialization on the cloned node!
+                StatementNode clonedNode = node.Body.StatementNodes[i % bodyStatements.Count];
+                tempStatements.Add(clonedNode);
             }
 
             node.Body.StatementNodes = tempStatements;
