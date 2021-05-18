@@ -2,9 +2,8 @@
 
 namespace OG.ASTBuilding.TreeNodes.TerminalNodes
 {
-    public class IdNode : AstNode
+    public class IdNode : ExpressionNode
     {
-        public string Value { get; set; }
         public string SymboltableAddress { get; set; }
         public string PointingAt
         {
@@ -22,14 +21,13 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
         private string _pointingAt = null;
         public AstNode DeclaredValue { get; set; }
 
-        public IdNode(string value)
+        public IdNode(string value) : base(value,ExpressionType.SingleId)
         {
-            Value = value;
+            
         }
 
         public IdNode(IdNode node) : base(node)
         {
-            Value = node.Value;
             SymboltableAddress = node.SymboltableAddress;
             PointingAt = node.PointingAt;
             DeclaredValue = node.DeclaredValue;

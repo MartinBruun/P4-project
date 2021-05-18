@@ -671,18 +671,8 @@ namespace OG.AstVisiting.Visitors
             {
                 node.ParameterId.Accept(this);
                 node.CompileTimeType = node.ParameterId.CompileTimeType;
-                switch (node.CompileTimeType)
-                {
-                    case "number":
-                        node.Expression = ((NumberDeclarationNode) node.ParameterId.DeclaredValue).AssignedExpression;
-                        break;
-                    case "point":
-                        node.Expression = ((PointDeclarationNode) node.ParameterId.DeclaredValue).AssignedExpression;
-                        break;
-                    case "bool":
-                        node.Expression = ((BoolDeclarationNode) node.ParameterId.DeclaredValue).AssignedExpression;
-                        break;
-                }
+                node.Expression = node.ParameterId;
+                node.Expression.Accept(this);
             }
             
             return new object();
