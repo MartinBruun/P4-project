@@ -35,7 +35,6 @@ namespace OG
             LexerContainer lexCon = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
 
-
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("program"));
 

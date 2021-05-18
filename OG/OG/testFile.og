@@ -1,9 +1,9 @@
 Machine.WorkArea.size(xmin=-10,xmax=10,ymin=-10,ymax=10);
 
 draw{
-    Diamond;
+    /*Diamond;
     Club;
-    Heart;
+    Heart;*/
     Spade;
 }
 
@@ -13,7 +13,7 @@ function point getMiddlePoint(number px1, number py1, number px2, number py2){
         point p = (x,y);
         return p;
 }
-
+/*
 shape Diamond {
     point start = (-5,-7);
     line.from(start).to(-4,-5).to(-5,-3).to(-6,-5).to(start);
@@ -56,7 +56,7 @@ shape Heart {
 
 shape SpadeStand {
     point start = (5,-7);
-    number bottomY = -9
+    number bottomY = -9;
     number leftSide = 4;
     number rightSide = 6;
     
@@ -64,14 +64,12 @@ shape SpadeStand {
     line.from(rightSide,bottomY).to(leftSide,bottomY);
     curve.withAngle(20).from(leftSide,bottomY).to(start);
 }
-
+*/
 shape Spade {
-    number minX = -10;
-    number minY = -10;
     number xMiddle = 5;
     point start = (xMiddle, -7);
     
-    number topX = = xMiddle;
+    number topX = xMiddle;
     number topY = -3;
     point top = (topX,topY);
     
@@ -82,9 +80,9 @@ shape Spade {
     number sideVal = 1;
     number xOffset = -2;
 
-    SpadeStand;
+    /*SpadeStand;*/
     repeat(2)
-        edgeX = xMiddle + (xOffset * sideVal)
+        edgeX = xMiddle + (xOffset * sideVal);
         edge = (edgeX,edgeY);
         middleLine = getMiddlePoint(edgeX,edgeY,topX,topY);
 
@@ -92,5 +90,5 @@ shape Spade {
         curve.withAngle(sideVal * -45).from(edge).to(middleLine);
         curve.withAngle(sideVal * 45).from(middleLine).to(top);
         sideVal = -1;
-    repeat.end();
+    repeat.end
 }

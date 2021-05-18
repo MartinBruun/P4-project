@@ -85,7 +85,11 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             {
                 return mathNode.Accept(_arithmeticPerformer);
             }
-            
+            else
+            {
+                //SOmething!
+            }
+
             return node;
         }
 

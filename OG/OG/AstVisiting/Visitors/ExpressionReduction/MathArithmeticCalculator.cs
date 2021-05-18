@@ -134,10 +134,11 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             SemanticErrors.Add(new SemanticError(node, "Coordinate XY value is not yet supported."){IsFatal = true});
             return null;
         }
-    }
 
-    public interface IMathNodeReducer : IMathNodeVisitor
-    {
-        public NumberNode ReduceToNumberNode(MathNode node);
+        public NumberNode Visit(ParameterTypeNode node)
+        {
+            NumberNode n = (NumberNode) node.Accept(_mathReducerVisitor);
+            return n;
+        }
     }
 }
