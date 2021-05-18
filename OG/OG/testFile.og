@@ -88,17 +88,27 @@ shape Heart {
 
 shape SpadeStand {
     point start = (5,-7);
+    number buttomY = -9
     
-    curve.withAngle(20).from(start).to(6,-8);
-    line.from(6,-8).to(4,-8);
-    curve.withAngle(20).from(4,-8).to(start);
+    curve.withAngle(20).from(start).to(6,buttomY);
+    line.from(6,buttomY).to(4,buttomY);
+    curve.withAngle(20).from(4,buttomY).to(start);
 }
 
 shape Spade {
+    number minX = -10;
+    number minY = -10;
     number xMiddle = 5;
     point start = (xMiddle, -7);
-    point top = (xMiddle,-3);
-    point edge = (0,0);
+    
+    number topX = = xMiddle;
+    number topY = -3;
+    point top = (topX,topY);
+    
+    number edgeX = 0;
+    number edgeY = edgeX;
+    point edge = (edgeX,edgeY);
+    
     point middleLine = (0,0);
     number sideVal = 1;
     number xOffset = -2;
@@ -106,11 +116,18 @@ shape Spade {
     SpadeStand;
     repeat(2)
         edge = (xMiddle + (xOffset * sideVal), -7);
-        middleLine = (xMiddle + ((xOffset * sideVal)/2), -5)/*getMiddlePoint(edge,top);*/
+        middleLine =  (xMiddle + ((xOffset * sideVal)/2), -5); /*getMiddlePoint(edgeX,edgeY,topX,topY);*/
 
         curve.withAngle(sideVal * -90).from(start).to(edge);
         curve.withAngle(sideVal * -45).from(edge).to(middleLine);
         curve.withAngle(sideVal * 45).from(middleLine).to(top);
         sideVal = -1;
+        /*Udkommenter dette nested repeat*/
+        repeat(2)
+           minX = minX+sideVal;
+           minY = sideVal-minY;
+           line.from(minX,minY).to(10,10).to(minY,minX);
+        repeat.end;
+        line.from(minY,minX).to(-10,-10).to(minX,minY);
     repeat.end();
 }
