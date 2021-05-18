@@ -1,9 +1,9 @@
 Machine.WorkArea.size(xmin=-10,xmax=10,ymin=-10,ymax=10);
 
 draw{
-    /*Diamond;
+    Diamond;
     Club;
-    Heart;*/
+    Heart;
     Spade;
 }
 
@@ -13,7 +13,7 @@ function point getMiddlePoint(number px1, number py1, number px2, number py2){
         point p = (x,y);
         return p;
 }
-/*
+
 shape Diamond {
     point start = (-5,-7);
     line.from(start).to(-4,-5).to(-5,-3).to(-6,-5).to(start);
@@ -53,7 +53,7 @@ shape Heart {
     curve.withAngle(-45).from(leftMiddleLine).to(leftEdge);
     curve.withAngle(-90).from(leftEdge).to(start);
 }
-*/
+
 shape SpadeStand {
     point start = (5,-7);
     number bottomY = -9
