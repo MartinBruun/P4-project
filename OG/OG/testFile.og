@@ -123,11 +123,11 @@ shape Spade {
         curve.withAngle(sideVal * 45).from(middleLine).to(top);
         sideVal = -1;
         /*Udkommenter dette nested repeat*/
-        repeat(2)
+       /* repeat(2)
            minX = minX+sideVal;
            minY = sideVal-minY;
            line.from(minX,minY).to(10,10).to(minY,minX);
         repeat.end;
-        line.from(minY,minX).to(-10,-10).to(minX,minY);
+        line.from(minY,minX).to(-10,-10).to(minX,minY);*/
     repeat.end();
 }
