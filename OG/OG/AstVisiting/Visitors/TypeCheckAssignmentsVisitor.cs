@@ -14,6 +14,7 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
+using OG.CodeGeneration;
 
 namespace OG.AstVisiting.Visitors
 {
@@ -21,6 +22,8 @@ namespace OG.AstVisiting.Visitors
     {
         private SymbolTable S = new SymbolTable();
         private List<SemanticError> errors = new List<SemanticError>();
+        ASTNodeCloner cloner = new ASTNodeCloner();
+
 
         
 
@@ -34,7 +37,7 @@ namespace OG.AstVisiting.Visitors
         {
             foreach (var item in S.Elements)
             {
-                // // Console.WriteLine(item.Key + ":" + item.Value);
+                 Console.WriteLine(item.Key + ":" + item.Value);
             }
         }
         
@@ -58,7 +61,6 @@ namespace OG.AstVisiting.Visitors
         //ENTER--> Exit SCOPE
         public object Visit(ProgramNode node)
         {   S.enterScope("Global"); 
-            Console.WriteLine("\n\n--- TypeChecking ---\n\n");
 
             foreach (var item in node.MachineSettingNodes)
             {
@@ -78,15 +80,6 @@ namespace OG.AstVisiting.Visitors
                     }
             S.exitScope("Global");
             
-            // Console.WriteLine("\n---TypeChecker:---");
-            // Console.WriteLine($"Reached S.GetCurrentScope() {S.GetCurrentScope()} on stack\n");
-            PrintSymbolTable();
-            // Console.WriteLine("\n---Missing or bad typed declarations---");
-            foreach (var item in errors)
-            {
-                // Console.WriteLine(item);
-            }
-            
             
             return new object();
         }
@@ -95,8 +88,7 @@ namespace OG.AstVisiting.Visitors
         //ENTER--> Exit SCOPE
         public object Visit(FunctionNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
 
             S.enterScope(node.Id.Value);
             foreach (var item in node.Parameters)
@@ -119,8 +111,7 @@ namespace OG.AstVisiting.Visitors
         //ENTER--> Exit SCOPE
         public object Visit(ShapeNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
 
             S.enterScope(node.Id.Value);
             node.Body.Accept(this);
@@ -133,8 +124,7 @@ namespace OG.AstVisiting.Visitors
         //Todo: ENTER REPEATSCOPE
         public object Visit(NumberIterationNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
 
             S.enterRepeatScope();
             node.Body.Accept(this);
@@ -145,8 +135,7 @@ namespace OG.AstVisiting.Visitors
         //Todo: ENTER REPEATSCOPE
         public object Visit(UntilFunctionCallNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
 
             S.enterRepeatScope();
             node.Predicate.Accept(this);
@@ -158,21 +147,18 @@ namespace OG.AstVisiting.Visitors
         //Todo: ENTER REPEATSCOPE
         public object Visit(UntilNode node)
         { 
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
 
             S.enterRepeatScope();
             node.Predicate.Accept(this);
             node.Body.Accept(this);
             S.exitRepeatScope();
-            // // Console.Write("***UntilNode"+stack.Peek()+"***");
             return new object();
         }
         
         public object Visit(BodyNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
 
             foreach (var item in node.StatementNodes)
             {
@@ -184,8 +170,7 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(DeclarationNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             
             node.Accept(this);
             return new object();
@@ -193,8 +178,7 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(BoolDeclarationNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.Id.Accept(this);//SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value));
             node.AssignedExpression.Accept(this);
             node.CompileTimeType = "bool";
@@ -209,9 +193,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(NumberDeclarationNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            // Console.Write("NumberN\n");
+            
             node.Id.Accept(this);//SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedExpression.Accept(this);
             return new object();
@@ -219,8 +201,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointDeclarationNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.Id.Accept(this); //= S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedExpression.Accept(this);
             return new object();
@@ -229,8 +210,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(BoolExprIdNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
            
                 node.Id.Accept(this);
                 node.CompileTimeType = "bool";
@@ -242,30 +222,20 @@ namespace OG.AstVisiting.Visitors
             return new object();
         }
 
-        // public object Visit(StatementNode node)
-        // {
-        //     // Console.Write($"Scope {S.GetCurrentScope()} | ");
-        //     // Console.WriteLine(node.ToString());
-        //
-        //     node.Accept(this);
-        //     // Console.Write("StatementN\n");
-        //     return new object();
-        // }
+       
         
         
        //Unused Visitors
        public object Visit(AssignmentNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.Accept(this);
            return new object();
         }
 
         public object Visit(BoolAssignmentNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             //TODO: Det ser ud til at boolassignment mangler en id
             // try
             // {
@@ -287,8 +257,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FunctionCallAssignNode node)
         {
-            // Console.Write($"\n!!!!!FunctionCallAssignment Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine($"id:{node.Id.Value}--FuncName: {node.FunctionName.Value}");
+            
 
             node.Id.Accept(this);
             node.FunctionName.Accept(this);
@@ -319,15 +288,12 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(IdAssignNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             //TODO: der bør måske være en id på alle 
 
             try
             {
-                // Console.WriteLine(
-                //     "Jakob LHS =" + S.CheckDeclaredTypeOf(node.Id.Value) + "RHS = "+S.CheckDeclaredTypeOf(
-                //         node.AssignedValue.Value));
+                
                 node.Id.Accept(this);
                 node.AssignedValue.Accept(this);
               
@@ -346,14 +312,12 @@ namespace OG.AstVisiting.Visitors
 
             node.Id.SymboltableAddress = S.GetSymboltableAddressFor(node.Id.Value);
             node.AssignedValue.SymboltableAddress = S.GetSymboltableAddressFor(node.AssignedValue.Value);
-            //node.AssignedValue.Accept(this);
             return new object();
         }
 
         public object Visit(MathAssignmentNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             //TODO: der bør måske være en id på alle  mathassignments
             //node.Id.Accept(this);
             // try
@@ -374,8 +338,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointAssignmentNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             //TODO: der bør måske være en id 
             // try
             // {
@@ -395,12 +358,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PropertyAssignmentNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            // Console.WriteLine("propertyAssignment: "+ node.Id.Value);
-            // Console.WriteLine("propertyAssignment: "+ node.coordinateValueNode.Property);
-            // Console.WriteLine("propertyAssignment: "+ node.assignedValue);
-           
+
             node.Id.Accept(this);
             
             node.assignedValue.Accept(this);
@@ -420,8 +378,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(CommandNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
 
             node.Accept(this);
             return new object();
@@ -429,8 +386,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(CurveCommandNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.Angle.Accept(this);
             node.From.Accept(this);
             foreach (var item in node.To)
@@ -443,8 +399,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(DrawCommandNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             //TODO: måske bør man lave symboltable opslaget her .
             node.Id.Accept(this);
             if (node.Id.CompileTimeType != "shape")
@@ -456,8 +411,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(IterationNode node)
         { 
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.Accept(this);
             //TODO:vurder om body skal besøges her.
            //node.Body.Accept(this);
@@ -466,8 +420,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(LineCommandNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.From.Accept(this);
             foreach (var item in node.To)
             {
@@ -479,8 +432,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MovementCommandNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             //node.Accept(this);
             return new object();
         }
@@ -488,8 +440,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(AndComparerNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.LHS.Accept(this);
             node.RHS.Accept(this);
             node.CompileTimeType = "bool";
@@ -498,8 +449,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(BoolNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             //TODO: overvej om der skal påtegnes noget her
             node.CompileTimeType = "bool";
             return new object();
@@ -508,8 +458,7 @@ namespace OG.AstVisiting.Visitors
        
         public object Visit(EqualsComparerNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.LHS.Accept(this);
             node.RHS.Accept(this);
             node.CompileTimeType = "bool";
@@ -518,8 +467,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(GreaterThanComparerNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.LHS.Accept(this);
             node.RHS.Accept(this);
             node.CompileTimeType = "bool";
@@ -528,8 +476,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(LessThanComparerNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.LHS.Accept(this);
             node.RHS.Accept(this);
             node.CompileTimeType = "bool";
@@ -538,8 +485,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(NegationNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             //TODO: overvej om der skal gøres noget her
             node.CompileTimeType = "bool";
             return new object();
@@ -547,8 +493,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(OrComparerNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.LHS.Accept(this);
             node.RHS.Accept(this);
             node.CompileTimeType = "bool";
@@ -557,8 +502,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(BoolFunctionCallNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.CompileTimeType = "bool";
             node.FunctionName.Accept(this);
             if (node.FunctionName.CompileTimeType != "bool")
@@ -585,8 +529,6 @@ namespace OG.AstVisiting.Visitors
         //Todo: RESET PARAMCOUNT 
         public object Visit(FunctionCallNode node)
         {
-            // Console.Write($"VisitFunctionCallNode  Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
             node.FunctionName.Accept(this);
             
             //Checking parameters
@@ -613,24 +555,20 @@ namespace OG.AstVisiting.Visitors
             S.increaseParameterCount();
             node.CompileTimeType = S.CheckDeclaredTypeOf(node.ParameterId.Value);
             //TODO: add formal parameter Id
-            // Console.Write($"VisitFunctionCallParameterNode  Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
             
             return new object();
         }
 
         public object Visit(IFunctionCallNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             return new object();
         }
 
         //Todo: RESET PARAMCOUNT 
         public object Visit(MathFunctionCallNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.FunctionName.Accept(this);
             if (node.FunctionName.CompileTimeType != "number")
             {
@@ -657,10 +595,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ParameterNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            // Console.Write($"VisitParameterNode   Scope {S.GetCurrentScope()} | ");
-
+            
             
             if (node.Expression != null)
             {
@@ -692,15 +627,13 @@ namespace OG.AstVisiting.Visitors
 //Anvendes ikke
         public object Visit(IFunctionNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             return new object();
         }
 
         public object Visit(AdditionNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.LHS.Accept(this);
             node.RHS.Accept(this);
             if (node.LHS.CompileTimeType != "number" && node.RHS.CompileTimeType == "number")
@@ -708,16 +641,13 @@ namespace OG.AstVisiting.Visitors
                 errors.Add(new SemanticError(node, $"VisitAdditionNode: {node.Value} LHS RHS does not match type: Number:   TypeMismatch"));
             }
            node.CompileTimeType = "number";
-           // node.LHS.Accept(this);
-           // // Console.Write("+");
-           // node.RHS.Accept(this);
+           
            return new object();
         }
 
         public object Visit(DivisionNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.LHS.Accept(this);
             node.RHS.Accept(this);
             if (node.LHS.CompileTimeType != "number" && node.RHS.CompileTimeType == "number")
@@ -732,9 +662,6 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MathIdNode node)
         {
-             // Console.Write($"Scope {S.GetCurrentScope()} | ");
-             // Console.WriteLine(node.ToString());
-             
             
             node.AssignedValueId.Accept(this);
             if (node.AssignedValueId.CompileTimeType != "number")
@@ -748,8 +675,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(MultiplicationNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
 
             node.LHS.Accept(this);
             node.RHS.Accept(this);
@@ -764,8 +690,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PowerNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.LHS.Accept(this);
             node.RHS.Accept(this);
             if (node.LHS.CompileTimeType != "number" && node.RHS.CompileTimeType == "number")
@@ -779,8 +704,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(SubtractionNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.LHS.Accept(this);
             node.RHS.Accept(this);
             if (node.LHS.CompileTimeType != "number" && node.RHS.CompileTimeType == "number")
@@ -793,9 +717,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointFunctionCallNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            // Console.WriteLine("!!!PointFuncCall 503");
+             
             node.FunctionName.Accept(this);
             if (node.FunctionName.CompileTimeType != "point")
             {
@@ -822,8 +744,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(PointReferenceIdNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             
             node.AssignedValue.Accept(this);
             if (node.AssignedValue.CompileTimeType == "point")
@@ -840,9 +761,7 @@ namespace OG.AstVisiting.Visitors
         
         public object Visit(ShapeEndPointNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
-            // Console.WriteLine("!!!ShapePointEndNode 529");
+             
             node.Accept(this);
 
             return new object();
@@ -850,18 +769,14 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ShapePointReference node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            // Console.WriteLine("!!!ShapePointRefference 536");
+            
             node.Accept(this);
             return new object();
         }
 
         public object Visit(ShapePointRefNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
-            // Console.WriteLine("!!!ShapePointRefNode 544");
+            
             node.ShapeNameId.Accept(this);
 
             return new object();
@@ -869,16 +784,14 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ShapeStartPointNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.ShapeName.Accept(this);
             return new object();
         }
 
         public object Visit(TuplePointNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.XValue.Accept(this);
             node.YValue.Accept(this);
             if (node.XValue.CompileTimeType != node.YValue.CompileTimeType)
@@ -891,16 +804,14 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(FalseNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.CompileTimeType = "bool";
             return new object();
         }
 
         public object Visit(IdNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             
             node.CompileTimeType = S.CheckDeclaredTypeOf(node.Value);
             node.DeclaredValue = S.GetElementById(node.Value);
@@ -912,45 +823,48 @@ namespace OG.AstVisiting.Visitors
                 errors.Add(new SemanticError(node, $"VisitIdNode: {node.Value} has not been declared"));
             }
 
+            try
+            {
+                node.Declaration = (AstNode) node.DeclaredValue.Accept(cloner);
+            }
+            catch
+            {
+            }
+
             return new object();
         }
 
         public object Visit(NumberNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.CompileTimeType = "number";
             return new object();
         }
 
         public object Visit(TrueNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.CompileTimeType = "bool";
             return new object();
         }
 
         public object Visit(MachineSettingNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.Accept(this);
             return new object();
         }
 
         public object Visit(ModificationPropertyNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.Accept(this);
             return new object();
         }
 
         public object Visit(SizePropertyNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.XMax.Accept(this);
             node.YMax.Accept(this);
             node.XMin.Accept(this);
@@ -960,22 +874,19 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(WorkAreaSettingNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             node.SizeProperty.Accept(this);
             return new object();
         }
 
         public object Visit(AstNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             return new object();
         }
         object IVisitor.Visit(DrawNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString());
+            
             foreach (var drawCommandNode in node.drawCommands)
             {
                 drawCommandNode.Id.Accept(this);
@@ -993,8 +904,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(ExpressionNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.Accept(this);
             return new object();
         }
@@ -1002,8 +912,7 @@ namespace OG.AstVisiting.Visitors
 
         public object Visit(CoordinateXyValueNode node)
         {
-            // Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // Console.WriteLine(node.ToString()); 
+             
             node.CompileTimeType = "number";
             //TODO Jeg er i tvivl om jeg må / kan sætte denne til number???
             return new object();

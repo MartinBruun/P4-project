@@ -81,6 +81,7 @@ namespace OG.CodeGeneration
 
         public object Visit(CurveCommandNode node)
         {
+            node.Angle = (MathNode) node.Angle.Accept(this);
             node.From = (PointReferenceNode) node.From.Accept(this);
             List<PointReferenceNode> toList = new List<PointReferenceNode>();
             foreach (PointReferenceNode pointNode in node.To)
@@ -88,7 +89,6 @@ namespace OG.CodeGeneration
                 toList.Add((PointReferenceNode) pointNode.Accept(this));
             }
             node.To = toList;
-            node.Angle = (MathNode) node.Angle.Accept(this);
             
             return new CurveCommandNode(node);
         }
@@ -473,8 +473,8 @@ namespace OG.CodeGeneration
 
         public object Visit(ShapeNode node)
         {
-            node.Id = (IdNode) node.Id.Accept(this);
-            node.Body = (BodyNode) node.Body.Accept(this);
+            node.Id = (IdNode) node.Id?.Accept(this);
+            node.Body = (BodyNode) node.Body?.Accept(this);
             return new ShapeNode(node);
         }
 

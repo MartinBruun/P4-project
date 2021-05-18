@@ -15,6 +15,7 @@ using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting.Visitors;
 using OG.AstVisiting.Visitors.ExpressionReduction;
+using OG.AstVisiting.Visitors.ProgramRunner;
 using OG.CodeGeneration;
 using OG.Compiler;
 
@@ -34,11 +35,12 @@ namespace OG
             string sourceFile = File.ReadAllText("../../../testFile.og");
             LexerContainer lexCon = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
+            //TODO: add errorlistener to the parCon.Parser, that collects the errors in the errors list for later print.
 
-
+            AstBuilder builder = new AstBuilder("program");
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
-                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("program"));
-
+                new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, builder);
+            
             ProgramNode p = astContainer.AstTreeTopNode;
 
             // PrettyPrinter PP = new PrettyPrinter();
@@ -61,7 +63,8 @@ namespace OG
 
             if (errors.Count == 0)
             {
-               
+                runProgramVisitor run = new runProgramVisitor();
+                p.Accept(run);
 
                 LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable,errors);
                 p.Accept(loopUnfolder);
@@ -82,13 +85,34 @@ namespace OG
 
             }
 
-           
 
+            
+            
             Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
-            foreach (var item in errors)
+           
+            Console.WriteLine("\n---Errors in Parser AstBuilder---");
+            foreach (var error in builder.SemanticErrors)
+            {
+                Console.WriteLine(error);
+            }
+            Console.WriteLine("\n---Errors found in Declarations by Symboltable Creater---");
+            foreach (var item in ST.GetErrors())
             {
                 Console.Write("\n" + item + "\n");
             }
+            
+            Console.WriteLine("\n---Errors found in Applied Occurrences and typeChecking by Typechecker---");
+            foreach (var item in ST.GetErrors())
+            {
+                Console.Write("\n" + item + "\n");
+            }
+            
+            // Console.WriteLine("\n---Errors found in Applied Occurrences and typeChecking by Typechecker---");
+            // foreach (var item in ST.GetErrors())
+            // {
+            //     Console.Write("\n" + item + "\n");
+            // }
+            
             Console.WriteLine("\n\n---The SYMBOLTABLE contains:---\n");
             foreach (var item in symbolTable)
             {

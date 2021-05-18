@@ -1,4 +1,5 @@
-﻿using OG.AstVisiting;
+﻿using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.DeclarationNodes_and_extractors;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.TerminalNodes
 {
@@ -21,6 +22,7 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
 
         private string _pointingAt = null;
         public AstNode DeclaredValue { get; set; }
+        public AstNode Declaration { get; set; }
 
         public IdNode(string value)
         {
