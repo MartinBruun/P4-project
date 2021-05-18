@@ -67,7 +67,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             NumberNode res = node.AssignedValue.Accept(_arithmeticPerformer);
             
             _symbolTable.Add(node.Id.SymboltableAddress, res);
-
+            node.AssignedValue = res;
             return node;
         }
 
