@@ -35,7 +35,6 @@ namespace OG
             LexerContainer lexCon = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
 
-
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parCon.Parser, new AstBuilder("program"));
 
@@ -49,20 +48,11 @@ namespace OG
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             p.Accept(TT);
             errors.AddRange(TT.GetErrors());
-
-            GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
-            p.Accept(GV);
-            errors.AddRange(GV.GetErrors());
-
-            PrintsymboltableAddress PA = new PrintsymboltableAddress();
-            p.Accept(PA);
-            // var symboltable = GV.GetSymbolTable();
+            
             symbolTable = TT.GetSymbolTable();
 
             if (errors.Count == 0)
             {
-               
-
                 LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable,errors);
                 p.Accept(loopUnfolder);
 

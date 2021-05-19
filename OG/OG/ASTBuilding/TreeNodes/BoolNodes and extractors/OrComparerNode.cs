@@ -8,14 +8,15 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         {
             
         }
-
-     
+        public OrComparerNode(OrComparerNode node) : base(node)
+        {
+            
+        }
         
         public override object Accept(IVisitor visitor)
         {
             visitor.Visit(this);
             return visitor.Visit(this);
-
         }
     }
 }

@@ -13,6 +13,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         {
             AssignedValue = point;
         }
+        
+        public PointAssignmentNode(PointAssignmentNode node) : base(node)
+        {
+            AssignedValue = node.AssignedValue;
+        }
 
         public override string ToString()
         {
@@ -22,10 +27,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
-
-
         }
     }
-    
-   
 }

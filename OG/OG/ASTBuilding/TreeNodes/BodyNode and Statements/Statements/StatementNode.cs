@@ -3,7 +3,7 @@ using OG.AstVisiting.Visitors;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements
 {
-    public abstract class StatementNode :AstNode, IAstNode//, IStatementNodeVisitable
+    public abstract class StatementNode :AstNode, IAstNode
     {
         public enum StatementType
         {
@@ -14,11 +14,13 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements
 
         public StatementType Type;
 
-      
-
         public StatementNode(StatementType type)
         {
             Type = type;
+        }
+        public StatementNode(StatementNode node) : base(node)
+        {
+            Type = node.Type;
         }
     }
 

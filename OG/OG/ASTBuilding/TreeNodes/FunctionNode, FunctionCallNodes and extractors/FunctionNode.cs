@@ -11,8 +11,6 @@ namespace OG.ASTBuilding.TreeNodes
     public class FunctionNode : AstNode
     {
         public IdNode Id { get; set; }
-        // public List<ParameterNode> Params { get; set; }
-            
 
         public ParameterNode Type { get; set; }
         public string ReturnType { get; set; }
@@ -27,20 +25,23 @@ namespace OG.ASTBuilding.TreeNodes
             Parameters = parameters ?? new List<ParameterTypeNode>();
             Body = body;
         }
+        public FunctionNode(FunctionNode node) : base(node)
+        {
+            Id = node.Id;
+            Type = node.Type;
+            ReturnType = node.ReturnType;
+            ReturnValue = node.ReturnValue;
+            Body = node.Body;
+            Parameters = node.Parameters;
+        }
         public override string ToString()
         {
             return "FunctionNode with ID: " + Id.ToString();
         }
         
-        
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
-
-
-
         }
     }
-
-  
 }

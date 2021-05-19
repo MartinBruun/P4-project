@@ -11,8 +11,12 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         public LineCommandNode(PointReferenceNode fromPosition, List<PointReferenceNode> toPosition): base(fromPosition, toPosition, MovementType.Line)
         {
         }
-
-
+        
+        public LineCommandNode(LineCommandNode node) : base(node)
+        {
+            
+        }
+        
         public void Accept(ILineCommandNodeVisitor visitor)
         {
             visitor.Visit(this);
@@ -22,9 +26,5 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             return visitor.Visit(this);
 
         }
-
-     
     }
-
-  
 }

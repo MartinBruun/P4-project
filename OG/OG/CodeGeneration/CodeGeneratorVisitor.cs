@@ -105,8 +105,9 @@ namespace OG.CodeGeneration
 
         public object Visit(DrawCommandNode node)
         {
-            ShapeNode shape = (ShapeNode) _symbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
-            shape.Accept(this);
+            // ShapeNode shape = (ShapeNode) _symbolTable.GetElementBySymbolTableAddress(node.Id.SymboltableAddress);
+            // shape.Accept(this);
+           node.Id.DeclaredValue.Accept(this);
             return node;
         }
 
@@ -158,8 +159,8 @@ namespace OG.CodeGeneration
         {
             foreach (StatementNode nodeStatementNode in node.StatementNodes)
             {
-                nodeStatementNode.Accept(_reducer);
-                nodeStatementNode.Accept(this);
+               nodeStatementNode.Accept(_reducer);////
+               nodeStatementNode.Accept(this);
             }
             return node;
         }

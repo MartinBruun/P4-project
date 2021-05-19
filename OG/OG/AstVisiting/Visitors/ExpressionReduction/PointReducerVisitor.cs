@@ -277,27 +277,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             string functionNodeAdresse = node.FunctionName.SymboltableAddress;
             FunctionNode funcNode = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(functionNodeAdresse);
 
-            
-            //Pass parameters to function body
-            for (int i = 0; i < node.Parameters.Count; i++)
-            {
-                funcNode.Parameters[i].Expression = (ExpressionNode) node.Parameters[i].Expression;
-                //This will go wrong
-
-                if (funcNode.Parameters[i].Expression == null)
-                {
-                    AstNode xVal = _symbolTable.GetElementBySymbolTableAddress(node.Parameters[i].ParameterId
-                        .SymboltableAddress);
-
-                    xVal.Accept(this);
-                    funcNode.Parameters[i].Expression = (ExpressionNode) xVal;
-                }
-
-                _symbolTable.Add(funcNode.Parameters[i].IdNode.SymboltableAddress, funcNode.Parameters[i]);
-            }
-            
             funcNode.Accept(this);
-            Console.WriteLine("LUDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR + " + funcNode.Id.Value);
             var res = (TuplePointNode)funcNode.ReturnValue.Accept(this);
             res.XValue.Accept(_mathReducer);
             res.YValue.Accept(_mathReducer);

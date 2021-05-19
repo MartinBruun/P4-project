@@ -43,10 +43,7 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         {
             NumberDeclarationNode id = (NumberDeclarationNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
             FunctionNode function = (FunctionNode) _symbolTable.GetElementBySymbolTableAddress(node.FunctionName.SymboltableAddress);
-            
-            
-            
-            
+
             id.AssignedExpression = function.ReturnValue;
             return function;
         }
@@ -65,12 +62,9 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         public object Visit(MathAssignmentNode node)
         {
             NumberNode res = node.AssignedValue.Accept(_arithmeticPerformer);
-
-            string lhsSymTabAddress = node.Id.SymboltableAddress;
-
-            _symbolTable.Add(lhsSymTabAddress, res);
+            
+            _symbolTable.Add(node.Id.SymboltableAddress, res);
             node.AssignedValue = res;
-
             return node;
         }
 
@@ -90,6 +84,10 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
             if (node.Expression is MathNode mathNode)
             {
                 return mathNode.Accept(_arithmeticPerformer);
+            }
+            else
+            {
+                //SOmething!
             }
 
             return node;
@@ -228,6 +226,11 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         }
         public object Visit(ParameterNode node)
         {
+            node.Expression = (ExpressionNode) node.Expression?.Accept(this);
+            if (node.Expression == null)
+            {
+                node.Expression = (ExpressionNode) node.ParameterId?.Accept(this);
+            }
             return node;
         }
 
@@ -310,10 +313,13 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
 
         public object Visit(IdNode node)
         {
-            //slå op
-          
-            
-            return node;
+            var result = _symbolTable.GetElementBySymbolTableAddress(node.SymboltableAddress);
+            if (result is IdNode id)
+            {
+                return id;
+            }
+
+            return result.Accept(this);
         }
 
         public object Visit(NumberNode node)

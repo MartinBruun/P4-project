@@ -10,7 +10,10 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         {
             
         }
-
-      
+        
+        public EqualsComparerNode(EqualsComparerNode node) : base(node)
+        {
+            
+        }
     }
 }

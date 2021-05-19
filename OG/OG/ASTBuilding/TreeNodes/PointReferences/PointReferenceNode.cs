@@ -11,7 +11,6 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         /// If both LHS and RHS is null, it must be startpointreference, endpointreference, or ID.
         /// </summary>
         ///
-        
         public enum PointReferenceNodeType
         {
             PointIdNode,
@@ -28,17 +27,11 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         {
             PointReferenceType = pointRefNodeType;
         }
+        public PointReferenceNode(PointReferenceNode node) : base(node)
+        {
+            PointReferenceType = node.PointReferenceType;
+        }
 
         public abstract void Accept(IPointReferenceNodeVisitor visitor);
-
-
-     
-        
-        // public override void Accept(IVisitor visitor)
-        // {
-        //     visitor.Visit(this);        
-        // }
     }
-
-   
 }

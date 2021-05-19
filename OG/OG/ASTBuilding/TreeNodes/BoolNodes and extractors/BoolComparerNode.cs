@@ -16,5 +16,10 @@
             this.LHS = LHS;
             this.RHS = RHS;
         }
+        public BoolComparerNode(BoolComparerNode node) : base(node)
+        {
+            LHS = node.LHS;
+            RHS = node.RHS;
+        }
     }
 }

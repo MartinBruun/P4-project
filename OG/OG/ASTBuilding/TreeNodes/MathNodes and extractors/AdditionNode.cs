@@ -1,4 +1,5 @@
-﻿using OG.ASTBuilding.TreeNodes.TerminalNodes;
+﻿using System.Diagnostics.Contracts;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
@@ -7,6 +8,11 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
     {
         public AdditionNode(MathNode rhs, MathNode lhs) : base(rhs, lhs, MathType.AdditionNode)
         {
+        }
+
+        public AdditionNode(AdditionNode node) : base(node)
+        {
+            
         }
         
  

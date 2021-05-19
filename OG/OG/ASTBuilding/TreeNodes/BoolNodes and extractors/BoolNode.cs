@@ -32,6 +32,11 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
             BoolNodeType = type;
         }
         
+        public BoolNode(BoolNode node) : base(node)
+        {
+            BoolNodeType = node.BoolNodeType;
+        }
+        
         public override string ToString()
         {
             return "Type: " + BoolNodeType.ToString() + "\t Value: " + Value;

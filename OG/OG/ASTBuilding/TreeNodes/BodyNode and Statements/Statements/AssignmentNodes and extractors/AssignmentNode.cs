@@ -20,6 +20,12 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             this.AssignType = assignmentType;
             this.Id = id;
         }
+
+        public AssignmentNode(AssignmentNode node) : base(node)
+        {
+            AssignType = node.AssignType;
+            Id = node.Id;
+        }
     }
     
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq.Expressions;
 
 namespace OG.ASTBuilding.TreeNodes
 {
@@ -24,6 +25,12 @@ namespace OG.ASTBuilding.TreeNodes
         {
             this.ExprType = exprType;
             Value = exprText;
+        }
+
+        public ExpressionNode(ExpressionNode node) : base(node)
+        {
+            ExprType = node.ExprType;
+            Value = node.Value;
         }
     }
 

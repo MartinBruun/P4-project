@@ -52,6 +52,10 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
                 case "number":
                     MathFunctionCallNode mfc = new MathFunctionCallNode(node.FunctionName.Value, node.FunctionName, node.Parameters);
                     MathAssignmentNode n = new MathAssignmentNode(node.Id, mfc);
+                    // foreach (var parameter in node.Parameters)
+                    // {
+                    //     parameter.Accept(_mathReducer);
+                    // }
                     n.CompileTimeType = node.CompileTimeType;
                     n.Accept(_mathReducer);
                     return node;
@@ -149,7 +153,8 @@ namespace OG.AstVisiting.Visitors.ExpressionReduction
         public object Visit(NumberIterationNode node)
         {
             node.Iterations.Accept(_mathReducer);
-            node.Body.Accept(this);
+            //Vi skal vælge om vi besøger body i Code generator visitoren Visit(BodyNode) eller her!!
+            //node.Body.Accept(this);
             return node;
         }
 

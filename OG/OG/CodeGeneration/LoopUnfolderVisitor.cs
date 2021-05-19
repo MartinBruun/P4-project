@@ -17,7 +17,7 @@ using OG.ASTBuilding.TreeNodes.WorkAreaNodes;
 using OG.AstVisiting;
 using OG.AstVisiting.Visitors;
 
-namespace OG
+namespace OG.CodeGeneration
 {
     public class LoopUnfolderVisitor : IVisitor
     {
@@ -97,17 +97,16 @@ namespace OG
                 _errs.Add(new SemanticError(node, $"Iterator: {iterator.NumberValue} is not an integer."));
                 return node;
             }
-
-            for (int i = 0; i < (int) iterator.NumberValue * bodyStatements.Count; i++)
+            
+            for (int i = 0; i < (int) iterator.NumberValue; i++)
             {
-                // Make serialization on the cloned node!
-                StatementNode clonedNode = node.Body.StatementNodes[i % bodyStatements.Count];
-                tempStatements.Add(clonedNode);
+                tempStatements.AddRange(node.Body.StatementNodes);
             }
-
+            node.Iterations = new NumberNode(1);
             node.Body.StatementNodes = tempStatements;
             node.Body.Accept(this);
-            node.Iterations = new NumberNode(1);
+            ASTNodeCloner cloner = new ASTNodeCloner();
+            node.Body = (BodyNode) node.Body.Accept(cloner);
             return node;
         }
 

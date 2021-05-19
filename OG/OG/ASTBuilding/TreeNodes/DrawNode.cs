@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode;
 using OG.AstVisiting;
 
@@ -17,13 +18,14 @@ namespace OG.ASTBuilding.TreeNodes
         {
             drawCommands = new List<DrawCommandNode>();
         }
+        public DrawNode(DrawNode node) : base(node)
+        {
+            drawCommands = node.drawCommands;
+        }
 
-    
-        
         public override object Accept(IVisitor visitor)
         {
             return visitor.Visit(this);
-
         }
     }
 }

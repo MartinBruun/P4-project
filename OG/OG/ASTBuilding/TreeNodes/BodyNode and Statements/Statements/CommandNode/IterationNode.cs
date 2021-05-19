@@ -8,10 +8,9 @@
         {
             Body = body;
         }
-    }
-
-    public interface IIterationNode
-    {
-        public IBody Body { get; set; }
+        public IterationNode(IterationNode node) : base(node)
+        {
+            Body = node.Body;
+        }
     }
 }

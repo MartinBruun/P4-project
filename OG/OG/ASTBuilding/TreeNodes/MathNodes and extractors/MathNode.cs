@@ -26,6 +26,11 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         {
             MathNodeType = mathNodeTypeOf;
         }
+
+        public MathNode(MathNode node) : base(node)
+        {
+            MathNodeType = node.MathNodeType;
+        }
         
         public override string ToString()
         {
