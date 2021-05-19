@@ -1,0 +1,11 @@
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    Square;
+}
+
+shape Square {
+    point start = (1,1);
+    
+    line.from(start).to(1,4).to(4,5).to(5,1).to(start);
+}

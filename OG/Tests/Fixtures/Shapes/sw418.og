@@ -1,0 +1,28 @@
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    S;W;four;one;eight;
+}
+
+Shape S {
+    curve.withAngle(45).from(2,6).to(1,5).to(2,4);
+    curve.withAngle(45).from(2,4).to(3,3).to(2,2);
+
+}
+
+Shape W {
+    line.from(4,6).to(6,2).to(8,6).to(10,2).to(12,6);
+}
+
+Shape four {
+    line.from(13,2).to(13,6).to(15,6);
+    line.from(13,5).to(15,5);
+}
+
+Shape one {
+    line.from(16,6).to(16,2);
+}
+
+Shape eight {
+    curve.withAngle(90).from(18,2)
+}
