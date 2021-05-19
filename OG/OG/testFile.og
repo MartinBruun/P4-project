@@ -69,11 +69,9 @@ shape SpadeStand {
 shape Spade {
     number xMiddle = 5;
     point start = (xMiddle, -7);
-    
     number topX = xMiddle;
     number topY = -3;
     point top = (topX,topY);
-    
     number edgeX = 0;
     number edgeY = -7;
     point edge = (edgeX,edgeY);
