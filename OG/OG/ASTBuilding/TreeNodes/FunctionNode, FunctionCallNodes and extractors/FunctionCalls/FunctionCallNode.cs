@@ -9,7 +9,6 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
 
-
         public FunctionCallNode(IdNode functionName, List<ParameterNode> parameters, string expression)
             : base(expression,ExpressionType.FunctionCall)
         {
@@ -17,12 +16,15 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             Parameters = parameters;
         }
 
-
-      
-        public override void Accept(IVisitor visitor)
+        public FunctionCallNode(FunctionCallNode node) : base(node)
         {
-            visitor.Visit(this);
+            FunctionName = node.FunctionName;
+            Parameters = node.Parameters;
+        }
 
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }

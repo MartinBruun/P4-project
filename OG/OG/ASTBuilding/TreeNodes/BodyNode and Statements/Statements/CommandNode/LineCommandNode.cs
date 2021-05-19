@@ -2,6 +2,7 @@
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.AstVisiting;
 using OG.CodeGeneration;
+using OG.Compiler;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
@@ -10,18 +11,20 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         public LineCommandNode(PointReferenceNode fromPosition, List<PointReferenceNode> toPosition): base(fromPosition, toPosition, MovementType.Line)
         {
         }
-
-
+        
+        public LineCommandNode(LineCommandNode node) : base(node)
+        {
+            
+        }
+        
         public void Accept(ILineCommandNodeVisitor visitor)
         {
             visitor.Visit(this);
         }
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
+
         }
-
     }
-
-  
 }

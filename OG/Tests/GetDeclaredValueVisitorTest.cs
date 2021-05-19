@@ -54,17 +54,41 @@ namespace Tests
             OGParser parser = CreateParser(fileName, "Correct programs/");
             AstBuilderContainer<AstBuilder, ProgramNode> astContainer =
                 new AstBuilderContainer<AstBuilder, ProgramNode>(parser, new AstBuilder("program"));
+            
 
             ProgramNode p = astContainer.AstTreeTopNode;
+                
+                
+                
+                
             CreateSymbolTableVisitor ST = new CreateSymbolTableVisitor();
             p.Accept(ST);
+            var errors = ST.GetErrors();
+            
+            
+            
+            
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
-            p.Accept(TT);
+            try
+            {
+                p.Accept(TT);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+            }
+            errors.AddRange( TT.GetErrors());
+
             GetDeclaredValueVisitor GV = new GetDeclaredValueVisitor(TT.GetSymbolTable());
             p.Accept(GV);
-            var symboltable = GV.GetSymbolTable();
-            var errors = GV.GetErrors();
+            errors.AddRange( GV.GetErrors());
 
+            PrintsymboltableAddress PA = new PrintsymboltableAddress();
+            p.Accept(PA);
+            // var symboltable = GV.GetSymbolTable();
+            //
             #region ErrorPrinter
             Console.WriteLine("\n--- Symboltable Errors---");
             foreach (var item in ST.GetErrors())
@@ -85,14 +109,14 @@ namespace Tests
                 Console.WriteLine(item);
             }
             #endregion
-
-            #region SymboltablePrinter
-            Console.WriteLine("\n-----Contents of symboltable-----");
-            foreach (var item in symboltable)
-            {
-                Console.WriteLine(item.Key + ":" + item.Value);
-            }
-            #endregion
+            //
+            // #region SymboltablePrinter
+            // Console.WriteLine("\n-----Contents of symboltable-----");
+            // foreach (var item in symboltable)
+            // {
+            //     Console.WriteLine(item.Key + ":" + item.Value);
+            // }
+            // #endregion
 
             Assert.AreEqual(0,errors.Count,
              description);

@@ -11,11 +11,14 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         {
             Id = id;
         }
-
-        public override void Accept(IVisitor visitor)
+        public BoolExprIdNode(BoolExprIdNode node) : base(node)
         {
-            visitor.Visit(this);
+            Id = node.Id;
+        }
 
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }

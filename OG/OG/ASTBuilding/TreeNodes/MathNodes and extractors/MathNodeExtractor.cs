@@ -56,11 +56,17 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
                 case OGLexer.Plus_Minus:
                     if (context.op.Text == "+")
                     {
-                        return new AdditionNode(rhsNode, lhsNode);
+                        return new AdditionNode(rhsNode, lhsNode) {
+                            Line =context.Start.Line,
+                            Column = context.Start.Column
+                        };
                     }
                     else if (context.op.Text == "-")
                     {
-                        return new SubtractionNode(rhsNode, lhsNode);
+                        return new SubtractionNode(rhsNode, lhsNode) {
+                            Line =context.Start.Line,
+                            Column = context.Start.Column
+                        };
                     }
                     break;
                 default:
@@ -234,17 +240,26 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 
         public override MathNode VisitAtomId(OGParser.AtomIdContext context)
         {
-            return new MathIdNode(context.GetText(),new IdNode(context.id.Text));
+            return new MathIdNode(context.GetText(),new IdNode(context.id.Text)) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public override MathNode VisitNumber(OGParser.NumberContext context)
         {
-            return new NumberNode(double.Parse(context.value.Text, CultureInfo.InvariantCulture));
+            return new NumberNode(double.Parse(context.value.Text, CultureInfo.InvariantCulture)) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         public MathNode VisitAtomXyValue(OGParser.AtomXYValueContext context)
         {
-            return new CoordinateXyValueNode(context.xyValue.GetText(), MathNode.MathType.CoordinateXyValueNode);
+            return new CoordinateXyValueNode(context.xyValue.GetText(), MathNode.MathType.CoordinateXyValueNode) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
         }
 
         /// <summary>
@@ -307,7 +322,10 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         {
             MathNode lhs = ExtractMathNode(context.lhs);
             MathNode rhs = ExtractMathNode(context.rhs);
-            return new PowerNode(rhs, lhs);
+            return new PowerNode(rhs, lhs) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
            
         }
 
@@ -326,12 +344,18 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
                 case OGLexer.Mul_Div:
                     if (context.op.Text.Contains("*"))
                     {
-                        return new MultiplicationNode(rhsNode, lhsNode);
+                        return new MultiplicationNode(rhsNode, lhsNode) {
+                            Line =context.Start.Line,
+                            Column = context.Start.Column
+                        };
                     }
 
                     if (context.op.Text.Contains("/"))
                     {
-                        return new DivisionNode(rhsNode, lhsNode);
+                        return new DivisionNode(rhsNode, lhsNode) {
+                            Line =context.Start.Line,
+                            Column = context.Start.Column
+                        };
                     }
 
                     break;

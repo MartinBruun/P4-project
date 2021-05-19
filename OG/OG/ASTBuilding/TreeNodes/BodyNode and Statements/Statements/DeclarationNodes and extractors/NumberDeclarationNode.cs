@@ -6,16 +6,24 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
 {
     public class NumberDeclarationNode : DeclarationNode
     {
-        public NumberDeclarationNode(IdNode id, MathNode assignedAssignedExpression) : base(id, assignedAssignedExpression, DeclarationType.NumberDeclarationNode)
+        public NumberDeclarationNode(IdNode id, ExpressionNode assignedAssignedExpression) : base(id, assignedAssignedExpression, DeclarationType.NumberDeclarationNode)
         {
-
-            AssignedExpression = assignedAssignedExpression;
+            
+        }
+        public NumberDeclarationNode(NumberDeclarationNode node) : base(node)
+        {
+            
         }
 
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
 
+        }
+
+        public override string ToString()
+        {
+            return "Number: " + Id + "  Assigned value: " + AssignedExpression;
         }
     }
     

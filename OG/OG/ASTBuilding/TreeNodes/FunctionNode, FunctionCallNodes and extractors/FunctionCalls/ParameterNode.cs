@@ -1,3 +1,4 @@
+using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
 using OG.AstVisiting;
@@ -17,10 +18,13 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         }
 
         public ParameterType ParamType { get; set; }
+        
         /// <summary>
-        /// ParameterId is set to null ParameterType is not Id.
+        /// ParameterId Is the id that is passed as a parameter , is set to null ParameterType is not Id.
         /// </summary>
         public IdNode ParameterId { get; set; } = null;
+
+        public IdNode FormalParameterId { get;set; } = null;
 
         /// <summary>
         /// Expression is set to null ParameterType is Id.
@@ -45,25 +49,28 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
         /// <param name="id"></param>
         public ParameterNode(IdNode id)
         {
-            Expression = null;
             ParamType = ParameterType.Id;
             ParameterId = id;
         }
+
+        public ParameterNode(IdNode id, ExpressionNode expression ):this(id)
+        {
+            Expression = expression;
+        }
+
         public ParameterNode()
         {
             Expression = null;
             ParamType = ParameterType.NotAssignedType;
             ParameterId = new IdNode("");
         }
-
-        public ParameterNode(IdNode id, PointReferenceNode startPoint)
+        public ParameterNode(ParameterNode node) : base(node)
         {
-            ParameterId = id;
-            Expression = startPoint;
+            Expression = node.Expression;
+            ParamType = node.ParamType;
+            ParameterId = node.ParameterId;
         }
         
-       
-
         public override string ToString()
         {
             if (ParameterId != null)
@@ -77,13 +84,9 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             return "Parameter does not contain id: " + ParamType.ToString();
         }
         
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
-
+            return visitor.Visit(this);
         }
     }
-
-
-    
 }

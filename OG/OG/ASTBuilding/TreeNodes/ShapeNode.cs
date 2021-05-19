@@ -16,15 +16,19 @@ namespace OG.ASTBuilding.TreeNodes
             Id = id;
             Body = bodyNode;
         }
+        public ShapeNode(ShapeNode node) : base(node)
+        {
+            Id = node.Id;
+            Body = node.Body;
+        }
         public override string ToString()
         {
             return "ShapeDeclarationNode with ID: " + Id;
         }
 
-        
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);        
+            return visitor.Visit(this);
         }
     }
 }

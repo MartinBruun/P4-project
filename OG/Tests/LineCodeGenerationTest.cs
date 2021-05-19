@@ -17,22 +17,9 @@ namespace Tests
 {
     public class LineCodeGenerationTest
     {
+        private static Regex G00Regex { get; } = new Regex(@"^G00 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+$");
         private static Regex G01Regex { get; } = new Regex(@"^G01 X-?\d*\.{0,1}\d+ Y-?\d*\.{0,1}\d+$");
-
-        private OGParser CreateParser(string fileName, string dirName)
-        {
-            Dictionary<string, string> symbolTable = new Dictionary<string, string>();
-
-            string code = File.ReadAllText("../../../Fixtures/" + dirName + fileName);
-            LexerContainer lexCon = new LexerContainer(code);
-            ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
-            OGParser parser = parCon.Parser;
-            ErrorListenerHelper<IToken> listener = new ErrorListenerHelper<IToken>();
-            parser.AddErrorListener(listener);
-            return parser;
-        }
-
-
+        
         [TestCase(-0.000001, -0.000001, 999999.9999,9999999.9999)]
         [TestCase(-0.01, -0.01, 0.01,0.001)]
         [TestCase(-0, -1000, 0, 0)]
@@ -51,21 +38,13 @@ namespace Tests
 
         public void Point_Tuples_Should_Give_Equivalent_XY_Value_SingleTo(double x1, double y1, double x2, double y2)
         {
-            NumberNode x1Val = new NumberNode(x1);
-            NumberNode y1Val = new NumberNode(y2);
-            
-            NumberNode x2Val = new NumberNode(x2);
-            NumberNode y2Val = new NumberNode(y2);
-            List<PointReferenceNode> toCommands = new List<PointReferenceNode>();
-            toCommands.Add(new TuplePointNode("", x2Val, y2Val));
+            LineCommandNode lineCommand = SetupLineNode(x1, y1);
+            LineEmitter emitter = SetupLineEmitter(lineCommand);
             List<string> result = new List<string>();
 
             Assert.DoesNotThrow(() =>
             {
-                LineEmitterVisitor emitter = new LineEmitterVisitor(null, new List<SemanticError>());
-                LineCommandNode lineCommand = new LineCommandNode(new TuplePointNode("", x1Val, y1Val), toCommands);
-
-                lineCommand.Accept(emitter);
+                emitter.SetupGCodeResult(lineCommand);
                 result = emitter.Emit().Split('\n').ToList();
             });
 
@@ -73,7 +52,7 @@ namespace Tests
             result.RemoveAll(string.IsNullOrWhiteSpace);
             result.ForEach(str =>
             {
-                Assert.IsTrue(G01Regex.IsMatch(str));
+                Assert.IsTrue(G01Regex.IsMatch(str) || G00Regex.IsMatch(str));
             });
 
         }
@@ -95,12 +74,38 @@ namespace Tests
         [TestCase(-1, -1)]
         public void Point_Tuples_Should_Give_Equivalent_XY_Value_Using_To_Chaining(double x1, double y1)
         {
+            LineCommandNode lineCommand = SetupLineNode(x1, y1);
+            LineEmitter emitter = SetupLineEmitter(lineCommand);
+            
+            List<string> result = new List<string>();
+            Assert.DoesNotThrow(() =>
+            {
+                result = emitter.Emit().Split('\n').ToList();
+            });
+
+            
+            result.RemoveAll(string.IsNullOrWhiteSpace);
+            result.ForEach(str =>
+            {
+                Assert.IsTrue(G01Regex.IsMatch(str) || G00Regex.IsMatch(str));
+            });
+        }
+
+        public LineEmitter SetupLineEmitter(LineCommandNode node)
+        {
+            LineEmitter emitter = new LineEmitter(new List<SemanticError>());
+            emitter.SetupGCodeResult(node);
+            return emitter;
+        }
+
+        public LineCommandNode SetupLineNode(double x1, double y1)
+        {
             NumberNode x1Val = new NumberNode(x1);
             NumberNode y1Val = new NumberNode(y1);
             NumberNode x2Val = new NumberNode(x1 + 5);
             NumberNode y2Val = new NumberNode(y1 + 5);
-
-
+            
+            
             List<TuplePointNode> tupleNodes = new List<TuplePointNode>();
 
             for (int n = 0; n < 20; n++)
@@ -113,27 +118,8 @@ namespace Tests
             
             List<PointReferenceNode> toCommands = new List<PointReferenceNode>();
             toCommands.AddRange(tupleNodes);
-            
-            List<string> result = new List<string>();
-            Assert.DoesNotThrow(() =>
-            {
-                LineEmitterVisitor emitter = new LineEmitterVisitor(null, new List<SemanticError>());
-                LineCommandNode lineCommand = new LineCommandNode(new TuplePointNode("", x1Val, y1Val), toCommands);
-
-                lineCommand.Accept(emitter);
-                result = emitter.Emit().Split('\n').ToList();
-            });
-
-            
-            result.RemoveAll(string.IsNullOrWhiteSpace);
-            result.ForEach(str =>
-            {
-                Assert.IsTrue(G01Regex.IsMatch(str));
-            });
+            return new LineCommandNode(new TuplePointNode("", x1Val, y1Val), toCommands);
         }
-        
-        
-        
-      
+ 
     }
 }

@@ -122,6 +122,7 @@ expression      : id=ID
                 | functionCall
                 | mathExpression 
                 | boolExpression 
+                | pointReference
                 ;    
                      //term   ((Plus_Minus) term)*
 mathExpression  : lhs=term op=Plus_Minus rhs=mathExpression        #infixAdditionExpr //operand står i midten
@@ -241,8 +242,7 @@ passedParam : id = ID                                       #passedID
  
 
 
-returnStatement         : 'return' id=ID ';'         #returnValueReference
-                        | 'return' expr=expression ';' #returnDirectValue
+returnStatement         :  'return' expr=expression ';' 
                         ;
 
 

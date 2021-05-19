@@ -12,14 +12,14 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             Predicate = predicate;
         }
         
-
-
-        public override void Accept(IVisitor visitor)
+        public UntilFunctionCallNode(UntilFunctionCallNode node) : base(node)
         {
-            visitor.Visit(this);
+            Predicate = node.Predicate;
+        }
 
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
         }
     }
-
-
 }

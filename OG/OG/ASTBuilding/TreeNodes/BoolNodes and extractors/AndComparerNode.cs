@@ -8,13 +8,15 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         {
             
         }
-
         
-
-        public override void Accept(IVisitor visitor)
+        public AndComparerNode(AndComparerNode node) : base(node)
         {
-            visitor.Visit(this);
+            
+        }
 
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }

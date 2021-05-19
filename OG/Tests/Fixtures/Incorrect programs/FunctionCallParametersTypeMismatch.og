@@ -4,12 +4,12 @@ draw { }
 
 
 function bool ParamFunc(number n,bool b,point p){
-return b;
+ return b;
 }
 
 function void testParameters(){
     point po = (2,2);
     bool a = 2>3;
-    a=ParamFunc(true, po, 1 );
+    a = ParamFunc(true, po, 1 );
 }
 

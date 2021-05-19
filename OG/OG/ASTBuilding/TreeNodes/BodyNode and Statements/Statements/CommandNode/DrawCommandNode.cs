@@ -11,7 +11,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
 
         public DrawCommandNode(IdNode id, PointReferenceNode from):this(id)
         {
-
             From = from;
         }
 
@@ -21,16 +20,15 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
             From = null;
         }
 
-    
-
-        // public void Accept(IStatementVisitorBundle visitorBundle)
-        // {
-        //     visitorBundle.Visit(this);
-        // }
-        public override void Accept(IVisitor visitor)
+        public DrawCommandNode(DrawCommandNode node) : base(node)
         {
-            visitor.Visit(this);
-
+            Id = node.Id;
+            From = node.From;
+        }
+        
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }

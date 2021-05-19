@@ -6,15 +6,18 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
 {
     public class PointDeclarationNode : DeclarationNode
     {
-        public PointDeclarationNode(IdNode id, PointReferenceNode pointRef):base(id, pointRef, DeclarationType.PointDeclarationNode)
+        public PointDeclarationNode(IdNode id, ExpressionNode pointRef):base(id, pointRef, DeclarationType.PointDeclarationNode)
+        {
+            
+        }
+        public PointDeclarationNode(PointDeclarationNode node) : base(node)
         {
             
         }
 
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
-
+            return visitor.Visit(this);
         }
     }
 }

@@ -21,7 +21,11 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
             Id = id;
             AssignedExpression = startAssignedExpression;
         }
+        public DeclarationNode(DeclarationNode node) : base(node)
+        {
+            DeclaredType = node.DeclaredType;
+            Id = node.Id;
+            AssignedExpression = node.AssignedExpression;
+        }
     }
-
-   
 }

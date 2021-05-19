@@ -60,6 +60,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
                     OGParser.SingleParameterContext singleParam = (OGParser.SingleParameterContext) context;
                     ParameterNode result = _paramExtractor.VisitSingleParameter(singleParam);
                     //Console.WriteLine(result.Expression?.Value);
+                    //result.Expression.Value = result.ParameterId.Value;
                     parameters.Add(result);
                     return parameters;
 

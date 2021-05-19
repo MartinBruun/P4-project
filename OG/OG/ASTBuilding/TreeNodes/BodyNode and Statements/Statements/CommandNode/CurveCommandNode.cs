@@ -3,6 +3,7 @@ using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.PointReferences;
 using OG.AstVisiting;
 using OG.CodeGeneration;
+using OG.Compiler;
 
 namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNode
 {
@@ -15,16 +16,15 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
         {
             Angle = angleExpression;
         }
-
-      
-        public override void Accept(IVisitor visitor)
+        public CurveCommandNode(CurveCommandNode node) : base(node)
         {
-            visitor.Visit(this);
-
+            Angle = node.Angle;
         }
 
-       
-    }
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
 
-    
+        }
+    }
 }

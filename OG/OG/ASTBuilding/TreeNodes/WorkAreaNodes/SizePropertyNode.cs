@@ -1,4 +1,6 @@
 ﻿// using OG.ASTBuilding.MachineSettings;
+
+using System.Drawing;
 using OG.ASTBuilding.Terminals;
 using OG.ASTBuilding.TreeNodes.MathNodes_and_extractors;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
@@ -34,15 +36,19 @@ namespace OG.ASTBuilding.TreeNodes.WorkAreaNodes
         {
             Initialize(xmin, xmax, ymin, ymax, new NumberNode(0), new NumberNode(100));
         }
+        public SizePropertyNode(SizePropertyNode node) : base(node)
+        {
+            Initialize(node.XMin,node.XMax,node.YMin,node.YMax,node.ZMin,node.ZMax);
+        }
 
         public override string ToString()
         {
             return $"SizeProperty with XMin={XMin}, XMax={XMax},YMin={YMin},YMax={YMax},ZMin={ZMin},ZMax={ZMax}";
         }
         
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);        
+            return visitor.Visit(this);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using OG.AstVisiting;
+﻿using System.Diagnostics.Contracts;
+using OG.ASTBuilding.TreeNodes.TerminalNodes;
+using OG.AstVisiting;
 
 namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
 {
@@ -7,17 +9,23 @@ namespace OG.ASTBuilding.TreeNodes.MathNodes_and_extractors
         public AdditionNode(MathNode rhs, MathNode lhs) : base(rhs, lhs, MathType.AdditionNode)
         {
         }
+
+        public AdditionNode(AdditionNode node) : base(node)
+        {
+            
+        }
         
  
 
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);        
+            return visitor.Visit(this);
+    
         }
         
-        public override void Accept(CodeGeneration.IMathNodeVisitor visitor)
+        public override  NumberNode Accept(CodeGeneration.IMathNodeVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }

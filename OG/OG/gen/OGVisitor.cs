@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/saxjax/developer/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -660,19 +660,11 @@ public interface IOGVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitPassedStartPointReference([NotNull] OGParser.PassedStartPointReferenceContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>returnValueReference</c>
-	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
+	/// Visit a parse tree produced by <see cref="OGParser.returnStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitReturnValueReference([NotNull] OGParser.ReturnValueReferenceContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>returnDirectValue</c>
-	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context);
+	Result VisitReturnStatement([NotNull] OGParser.ReturnStatementContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="OGParser.startPointReference"/>.
 	/// </summary>

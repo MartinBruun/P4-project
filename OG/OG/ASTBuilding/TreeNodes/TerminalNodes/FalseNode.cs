@@ -8,11 +8,15 @@ namespace OG.ASTBuilding.TreeNodes.TerminalNodes
         public FalseNode(string value) : base(value,BoolType.FalseNode)
         {
         }
-        
-        
-        public override void Accept(IVisitor visitor)
+        public FalseNode(FalseNode node) : base(node)
         {
-            visitor.Visit(this);        
+            
+        }
+
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
+  
         }
 
         public override string ToString()

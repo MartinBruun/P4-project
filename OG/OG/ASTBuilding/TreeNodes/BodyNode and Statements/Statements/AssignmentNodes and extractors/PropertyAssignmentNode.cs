@@ -12,15 +12,18 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         public PropertyAssignmentNode(CoordinateXyValueNode xyValue, MathNode value) : base(xyValue.Id, AssignmentType.PropertyAssignmentNode)
         {
             assignedValue =  value;
-            this.coordinateValueNode = xyValue;
+            coordinateValueNode = xyValue;
+        }
+        
+        public PropertyAssignmentNode(PropertyAssignmentNode node) : base(node)
+        {
+            assignedValue = node.assignedValue;
+            coordinateValueNode = node.coordinateValueNode;
         }
 
-        
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
-
+            return visitor.Visit(this);
         }
     }
-    
 }

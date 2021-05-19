@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using OG.ASTBuilding.TreeNodes.BodyNode_and_Statements;
 using OG.ASTBuilding.TreeNodes.FunctionCalls;
 using OG.ASTBuilding.TreeNodes.TerminalNodes;
@@ -10,11 +11,10 @@ namespace OG.ASTBuilding.TreeNodes
     public class FunctionNode : AstNode
     {
         public IdNode Id { get; set; }
-        // public List<ParameterNode> Params { get; set; }
-            
 
         public ParameterNode Type { get; set; }
         public string ReturnType { get; set; }
+        public ExpressionNode ReturnValue { get; set; }
         public BodyNode Body;
         public List<ParameterTypeNode> Parameters { get; set; }
 
@@ -25,18 +25,23 @@ namespace OG.ASTBuilding.TreeNodes
             Parameters = parameters ?? new List<ParameterTypeNode>();
             Body = body;
         }
+        public FunctionNode(FunctionNode node) : base(node)
+        {
+            Id = node.Id;
+            Type = node.Type;
+            ReturnType = node.ReturnType;
+            ReturnValue = node.ReturnValue;
+            Body = node.Body;
+            Parameters = node.Parameters;
+        }
         public override string ToString()
         {
             return "FunctionNode with ID: " + Id.ToString();
         }
         
-        
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
-
+            return visitor.Visit(this);
         }
     }
-
-  
 }

@@ -2,15 +2,12 @@ Machine.WorkArea.size(xmin=0,xmax=10,ymin=0,ymax=222);
 draw { }
 
 function number boolToNumber(number a,bool b){
-a = b;/*Error type mismatch*/
 bool B = true;
-/*number n = true; /*kan ikke parses bør tilføje til error listen frem for at crashe  */
+number N = B;       /*Error type mismatch*/
+a = b;              /*Error type mismatch*/
+N = ABoolianFunc(); /*Error type mismatch*/
+return B;           /*Return type mismatch*/
 
-/*number M = 3>2;   /*kan ikke parses bør tilføje til error listen frem for at crashe  */
-
-number N = B;/*Error type mismatch*/
-N = ABoolianFunc();/*Error type mismatch*/
-return B;/* Burde give en typemismatch fejl */
 }
 
 function bool ABoolianFunc(){

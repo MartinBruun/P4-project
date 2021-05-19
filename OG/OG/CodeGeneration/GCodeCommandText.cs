@@ -10,7 +10,7 @@
         public string CommandText { get; }
 
         public string CreateGCodeTextCommand()
-        {
+            {
             return CommandText;
         }
 
@@ -18,6 +18,5 @@
         {
             return new GCodeCommandText(g1.CommandText + g2.CommandText);
         }
-        
     }
 }

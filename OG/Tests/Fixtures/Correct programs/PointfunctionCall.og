@@ -1,0 +1,65 @@
+﻿
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    
+  TestShape;    
+}
+
+
+/*
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    Test naming convention: Each test must have a name "f"+{expectedReturnValue}
+    Variables must be named similarly: "n"+{expectedValue} for positive vars,
+                                        "nm"+{expectedValue}
+                                        
+    Result to be checked must lie in Results function!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
+
+function point Results() 
+{
+    point n0 = function0();
+    point n80 = function80Point();
+    point n40 = function40();
+
+    point a = (1,1);
+    return a;
+}
+
+
+
+function point function80Point() {
+    point b = (2*4, 9*0);
+    return b;
+}
+
+function point function40() {  
+        point p = (40,61);
+        return p;
+}
+
+function point function0() {
+    point q = (2, function1());
+    return q;
+}
+
+function number function1() {
+    number a = (1 + 1 - 1 + 1 - 1 * 0) + 1;
+    return a;
+}
+function number function2() {
+    number b = function1();
+    b = b + function1();
+
+    return b;
+}
+
+
+
+shape TestShape{
+    point a = Results();
+}
+
+
+

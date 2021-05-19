@@ -14,8 +14,8 @@ function bool boolFuncA (point a, point b) {
            repeat.end
     repeat.end
     
-    
-	return dist(a, b) < 6.6;
+    bool result = dist(a, b) < 6.6;
+    return result;
 }
 
 

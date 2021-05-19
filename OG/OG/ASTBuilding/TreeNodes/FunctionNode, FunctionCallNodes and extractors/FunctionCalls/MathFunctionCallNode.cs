@@ -9,23 +9,26 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
     {
         public IdNode FunctionName { get; set; }
         public List<ParameterNode> Parameters { get; set; }
-
-       
+        
         public MathFunctionCallNode(string value, IdNode id, List<ParameterNode> parameters) : base(value, MathType.FunctionCallNode)
         {
             FunctionName = id;
             Parameters = parameters;
         }
-
-        public override void Accept(IVisitor visitor)
+        public MathFunctionCallNode(MathFunctionCallNode node) : base(node)
         {
-            visitor.Visit(this);
+            FunctionName = node.FunctionName;
+            Parameters = node.Parameters;
+        }
 
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
         }
         
-        public override void Accept(CodeGeneration.IMathNodeVisitor visitor)
+        public override NumberNode Accept(CodeGeneration.IMathNodeVisitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }

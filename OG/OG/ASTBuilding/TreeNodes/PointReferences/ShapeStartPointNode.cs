@@ -8,16 +8,19 @@ namespace OG.ASTBuilding.TreeNodes.PointReferences
         public ShapeStartPointNode(string pointText, IdNode shapeName) : base(pointText,  shapeName, PointReferenceNodeType.ShapeStartPointNode)
         {
         }
+        public ShapeStartPointNode(ShapeStartPointNode node) : base(node)
+        {
+            
+        }
         
         public override void Accept(IPointReferenceNodeVisitor visitor)
         {
             visitor.Visit(this);
         }
-
-
-        public override void Accept(IVisitor visitor)
+        
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);        
+            return visitor.Visit(this);
         }
     }
 }

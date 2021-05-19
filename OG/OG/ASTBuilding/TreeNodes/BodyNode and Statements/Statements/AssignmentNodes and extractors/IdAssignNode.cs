@@ -11,12 +11,16 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         {
             AssignedValue = value;
         }
-        public override void Accept(IVisitor visitor)
+
+        public IdAssignNode(IdAssignNode node) : base(node)
         {
-            visitor.Visit(this);
+            AssignedValue = node.AssignedValue;
+        }
+        
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
 
         }
     }
-
-   
 }

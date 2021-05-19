@@ -26,16 +26,25 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         {
             BoolNodeType = type;
         }
+
+        public BoolNode(OGParser.BoolExpressionContext boolExprContext, BoolType type) : base(boolExprContext.GetText(),ExpressionType.BoolExpression)
+        {
+            BoolNodeType = type;
+        }
+        
+        public BoolNode(BoolNode node) : base(node)
+        {
+            BoolNodeType = node.BoolNodeType;
+        }
         
         public override string ToString()
         {
             return "Type: " + BoolNodeType.ToString() + "\t Value: " + Value;
         }
 
-        public override void Accept(IVisitor visitor)
+        public override object Accept(IVisitor visitor)
         {
-            visitor.Visit(this);
-
+            return visitor.Visit(this);
         }
     }
 

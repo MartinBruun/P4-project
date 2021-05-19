@@ -13,8 +13,8 @@ function bool boolFuncA (point a, point b) {
     repeat.until (boolFuncA(a,start)) 
         point a = (3,3);
     repeat.end
-    
-	return dist(a, b) < 6.6;
+    bool result = dist(a, b) < 6.6;
+    return result;
 }
 
 shape D{

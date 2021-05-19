@@ -19,7 +19,11 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             _parameterListBuilder = new ParameterNodeListBuilder(SemanticErrors);
             IdNode id = new IdNode(context.id.Text);
            parameterNodes = _parameterListBuilder.VisitFunctionCall(context);
-            return new MathFunctionCallNode(context.GetText(), id, parameterNodes);
+           
+           return new MathFunctionCallNode(context.GetText(), id, parameterNodes) {
+                Line =context.Start.Line,
+                Column = context.Start.Column
+            };
 
         }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /Users/saxjax/developer/P4-project/OG/OG/OG.g4 by ANTLR 4.9.1
+// Generated from C:/Users/Martin/projects/P4/P4-project/OG/OG\OG.g4 by ANTLR 4.9.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -1292,33 +1292,17 @@ public partial class OGBaseListener : IOGListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPassedStartPointReference([NotNull] OGParser.PassedStartPointReferenceContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>returnValueReference</c>
-	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
+	/// Enter a parse tree produced by <see cref="OGParser.returnStatement"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterReturnValueReference([NotNull] OGParser.ReturnValueReferenceContext context) { }
+	public virtual void EnterReturnStatement([NotNull] OGParser.ReturnStatementContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>returnValueReference</c>
-	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
+	/// Exit a parse tree produced by <see cref="OGParser.returnStatement"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitReturnValueReference([NotNull] OGParser.ReturnValueReferenceContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>returnDirectValue</c>
-	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>returnDirectValue</c>
-	/// labeled alternative in <see cref="OGParser.returnStatement"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitReturnDirectValue([NotNull] OGParser.ReturnDirectValueContext context) { }
+	public virtual void ExitReturnStatement([NotNull] OGParser.ReturnStatementContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="OGParser.startPointReference"/>.
 	/// <para>The default implementation does nothing.</para>

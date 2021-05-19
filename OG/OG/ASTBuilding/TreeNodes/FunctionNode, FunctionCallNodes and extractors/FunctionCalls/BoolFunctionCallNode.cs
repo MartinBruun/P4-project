@@ -7,21 +7,22 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
 {
     public class BoolFunctionCallNode : BoolTerminalNode, IFunctionCallNode
     {
+        public IdNode FunctionName { get; set; }
+        public List<ParameterNode> Parameters { get; set; }
         public BoolFunctionCallNode(string value, IdNode id, List<ParameterNode> parameters) : base(value, BoolType.FunctionCallNode)
         {
             FunctionName = id;
             Parameters = parameters;
         }
-
-        public IdNode FunctionName { get; set; }
-        public List<ParameterNode> Parameters { get; set; }
-       
-        public override void Accept(IVisitor visitor)
+        public BoolFunctionCallNode(BoolFunctionCallNode node) : base(node)
         {
-            visitor.Visit(this);
-
+            FunctionName = node.FunctionName;
+            Parameters = node.Parameters;
         }
-
-     
+        
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

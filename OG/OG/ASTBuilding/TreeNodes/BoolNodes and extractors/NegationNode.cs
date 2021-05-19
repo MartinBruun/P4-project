@@ -10,17 +10,14 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         {
             BoolExpression = boolExpr;
         }
-
-        // public void Accept(IBoolNodeVisitor visitor)
-        // {
-        //     visitor.Visit(this);
-        // }
-
-   
-        public override void Accept(IVisitor visitor)
+        public NegationNode(NegationNode node) : base(node)
         {
-            visitor.Visit(this);
-
+            BoolExpression = node.BoolExpression;
+        }
+        
+        public override object Accept(IVisitor visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 
