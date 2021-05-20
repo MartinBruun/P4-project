@@ -1,0 +1,24 @@
+Machine.WorkArea.size(xmin=0,xmax=100,ymin=0,ymax=100);
+
+draw {
+    repeatShape;
+}
+
+
+Shape repeatShape {
+    number startX = 1;
+    number startY = 1;
+    point startPoint = (startX, startY);
+    point endPoint = (1, 4);
+    
+    repeat(4) 
+        line.from(startPoint).to(endPoint);
+        startPoint = endPoint;
+        endPoint = (startX+1, startY+1);
+        startX = startX + 1;
+        startY = startY + 1;
+    repeat.end
+
+
+}
+

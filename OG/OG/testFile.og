@@ -4,9 +4,11 @@ draw{
     Diamond;
     Club;
     Heart;
-    Spade;
+    Spade
 }
-
+function number newNumber(number nn){
+return nn+1;
+}
 function number getMiddlePoint(number x1, number x2){
         return (x1 + x2) / 2;
 }
@@ -67,6 +69,8 @@ shape SpadeStand {
 }
 
 shape Spade {
+    number testNumber = 0;
+    point testPoint = (0,0);
     number xMiddle = 5;
     point start = (xMiddle, -7);
     number topX = xMiddle;
@@ -83,6 +87,8 @@ shape Spade {
 
     SpadeStand;
     repeat(2)
+        testNumber = newNumber(testNumber);
+        
         edgeX = xMiddle + (xOffset * sideVal);
         edge = (edgeX,edgeY);
         middleX = getMiddlePoint(edgeX, topX);

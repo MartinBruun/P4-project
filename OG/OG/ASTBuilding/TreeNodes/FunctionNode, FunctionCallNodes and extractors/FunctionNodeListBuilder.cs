@@ -23,7 +23,7 @@ namespace OG.ASTBuilding.TreeNodes
             //If current is valid
             if (current != null && !current.IsEmpty)
             {
-                Console.WriteLine("\nFunction found. Detecting return type... "+current.GetText());
+                //Console.WriteLine("\nFunction found. Detecting return type... "+current.GetText());
                 _functionNodes.Add(_functionNodeExtractor.VisitFunctionDcl(current));
             }
             

@@ -53,7 +53,8 @@ namespace OG
             if (errors.Count > 0)
             {
                 Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
-                foreach (var item in errors)
+                
+              foreach (var item in errors)
                 {
                     Console.Write("\n" + item + "\n");
                 }
@@ -72,6 +73,8 @@ namespace OG
             string gcode = gCodeGeneratorVisitor.Emit();
             string gcodeFileLoc = fileLoc.Replace(".og", ".gcode");
             File.WriteAllText(Directory.GetCurrentDirectory()+$"/{gcodeFileLoc}",gcode);
+
+            
         }
     }
 }

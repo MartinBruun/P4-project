@@ -31,29 +31,30 @@ namespace OG.ASTBuilding
             List<ShapeNode> shapeNodes = null;
             
             
-            
+            Console.WriteLine("---Converting ANTLR TO AST---");
+
             if (context.settings != null)
             {
-                Console.WriteLine("Visiting machine settings...");
+                Console.WriteLine("  Visiting machine settings...");
                 machineSettingNode = _settingsNodeExtractor.VisitMachineSettings(context.settings);
-                Console.WriteLine(machineSettingNode);
+               // Console.WriteLine(machineSettingNode);
             }
 
             
             if (context.drawFunction != null)
             {
-                Console.WriteLine("Visiting draw function...");
+                Console.WriteLine("  Visiting draw function...");
                 drawCommands = _drawNodeListBuilder.VisitDraw(context.drawFunction);
             }
             if (context.functionsDeclarations != null)
             {
-                Console.WriteLine("\nVisiting functions...");
+                Console.WriteLine("  Visiting functions...");
                 functionNodes = _functionNodeListBuilder.VisitFunctionDcls(context.functionsDeclarations);
             }
 
             if (context.shapeDeclarations != null)
             {
-                Console.WriteLine("Visiting shapes...");
+                Console.WriteLine("  Visiting shapes...");
                 shapeNodes = _shapeNodeListBuilderExtractor.VisitShapeDcls(context.shapeDeclarations);
             }
 
