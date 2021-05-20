@@ -26,9 +26,12 @@ namespace OG
         private static async Task Main(string[] args)
         {
             // Load file
-            string fileName = args.Length != 0 ? args[0] : "testFile.og";
-            string fileLoc = args.Length != 0 ? null : $"../../../{fileName}";
+            // string fileName = args.Length != 0 ? args[0] : "testFile.og";
+            string fileLoc = args.Length != 0 ? args[0] : $"../../../testFile.og";
+            bool testPrint = args.Length == 2 ? true : false;
             string sourceFile = File.ReadAllText(fileLoc);
+            string targetFile="";
+            string SavedfilePath = "";
 
             // Syntactic Analysis
             Console.WriteLine("\n\n-----Lexical ERRORS!----- :\n");
@@ -51,7 +54,24 @@ namespace OG
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             p.Accept(TT);
             errors.AddRange(TT.GetErrors());
-            if (errors.Count == 0)
+
+            if (errors.Count > 0)
+            {
+                Console.WriteLine("-----Declaration ERRORS!----- :");
+                foreach (var item in ST.GetErrors())
+                {
+                    Console.Write("\n" + item + "\n");
+                }
+
+                Console.WriteLine("\n-----Type ERRORS!----- :");
+                foreach (var item in TT.GetErrors())
+                {
+                    Console.Write("\n" + item + "\n");
+                }
+            }
+
+            
+            else if (errors.Count == 0)
             {
                 // AST Complexity Reduction
                 symbolTable = TT.GetSymbolTable();
@@ -64,20 +84,23 @@ namespace OG
                 CodeGeneratorVisitor gCodeGeneratorVisitor = new CodeGeneratorVisitor(symbolTable, errors, reducer);
                 p.Accept(gCodeGeneratorVisitor);
                 string gcode = gCodeGeneratorVisitor.Emit();
-                string gcodeFileLoc = fileLoc.Replace(".og", ".gcode");
-                File.WriteAllText(Directory.GetCurrentDirectory() + $"/{gcodeFileLoc}", gcode);
+                targetFile = gcode;
+                if (args.Length < 2)
+                {
+                    string gcodeFileLoc = fileLoc.Replace(".og", ".gcode");
+                    File.WriteAllText(gcodeFileLoc, gcode);
+                    SavedfilePath = gcodeFileLoc;
+                }
             }
-
-            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
-            Console.WriteLine("-----Declaration ERRORS!----- :");
-            foreach (var item in ST.GetErrors())
+            
+            if (testPrint)
             {
-                Console.Write("\n" + item + "\n");
+                Console.WriteLine("\n\n ---THE Target G-code File---\n\n");
+                Console.WriteLine(targetFile);
             }
-            Console.WriteLine("\n-----Type ERRORS!----- :");
-            foreach (var item in TT.GetErrors())
+            else
             {
-                Console.Write("\n" + item + "\n");
+                Console.WriteLine($"\n\nProduced the following file:\n\n{SavedfilePath}");
             }
         }
     }
