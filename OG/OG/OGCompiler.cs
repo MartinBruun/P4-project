@@ -26,7 +26,6 @@ namespace OG
         private static async Task Main(string[] args)
         {
             // Load file
-            // string fileName = args.Length != 0 ? args[0] : "testFile.og";
             string fileLoc = args.Length != 0 ? args[0] : $"../../../testFile.og";
             bool testPrint = args.Length == 2 ? true : false;
             string sourceFile = File.ReadAllText(fileLoc);

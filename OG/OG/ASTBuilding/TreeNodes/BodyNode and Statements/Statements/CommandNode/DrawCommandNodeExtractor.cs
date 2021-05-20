@@ -35,7 +35,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.CommandNod
                 return null;
             }
 
-            //Console.WriteLine("\tCreating drawCommand node for fromCommand...");
             IdNode id = new IdNode(context.id.Text);
             PointReferenceNode pointRef = _pointReferenceNodeExtractor.ExtractPointReferenceNode(context.fromCmd);
 

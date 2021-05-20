@@ -63,7 +63,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
 
         public override DeclarationNode VisitNumberDcl(OGParser.NumberDclContext context)
         {
-            //Console.WriteLine("\t\t Trying to create DeclarationNode from " + context.GetText());
             IdNode id = new IdNode(context.numberDcl.id.Text);
             MathNode number = _mathNodeExtractor.ExtractMathNode(context.numberDcl.mathExpression());
             return new NumberDeclarationNode(id, number) {
@@ -74,7 +73,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
 
         public override DeclarationNode VisitBoolDcl(OGParser.BoolDclContext context)
         {
-            //Console.WriteLine("\t\t Trying to create DeclarationNode from " + context.GetText());
             OGParser.BoolExpressionContext boolContext = context.boolDcl.value;
             BoolNode assignedExpression = _boolNodeExtractor.ExtractBoolNode(boolContext);
             IdNode variableId = new IdNode(context.boolDcl.id.Text);
@@ -86,7 +84,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
 
         public override DeclarationNode VisitPointDcl(OGParser.PointDclContext context)
         {
-            //Console.WriteLine("\t\t Trying to create DeclarationNode from " + context.GetText());
             try
             {
 

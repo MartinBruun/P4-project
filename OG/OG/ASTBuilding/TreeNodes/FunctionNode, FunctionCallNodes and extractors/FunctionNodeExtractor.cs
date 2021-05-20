@@ -41,11 +41,7 @@ namespace OG.ASTBuilding.TreeNodes
                 functionName = voidFunction.id.Text;
                 returnType = voidFunction.type.Text;
                 IdNode id = new IdNode(functionName);
-                if (voidFunction.paramDcls != null && !voidFunction.paramDcls.IsEmpty)
-                {
-                    //Console.WriteLine("Checking out params for " + voidFunction.id.Text);
-                }
-                //Console.WriteLine("\t{1} function named {0} detected! Creating node...", functionName, returnType);
+               
                
                 List<ParameterTypeNode> paramDcls = paramDclsListBuilder.VisitVoidFunctionDCL(voidFunction);
                 return new FunctionNode(id, returnType, _bodyNodeExtractor.VisitBody(voidFunction.body()),paramDcls) {
@@ -63,8 +59,7 @@ namespace OG.ASTBuilding.TreeNodes
                 //TODO: fjern dette det er blot print til debug, eller erstat med en writeDebugInfoTo//Console() funktion
                 if (returnFunction.paramDcls != null && !returnFunction.paramDcls.IsEmpty)
                 {
-                    //Console.WriteLine("----------- TEST PRINTING Found Params----------");
-                    // //Console.WriteLine(returnFunction.paramDcls?.children.Count );
+                   
                     if (returnFunction.paramDcls.ChildCount > 0)
                     {
                         foreach (var param in returnFunction.paramDcls.children)
@@ -72,12 +67,9 @@ namespace OG.ASTBuilding.TreeNodes
                             string parameter = param.GetText();
                             if (parameter != ",")
                             {
-                                //Console.WriteLine("parameter: " + parameter);
                                 string paramType = parameter.Substring(0, parameter.Length - 1);
-                                //Console.WriteLine("parameter type: " + paramType);
                                 string paramID = parameter[parameter.Length - 1].ToString();
-                                //Console.WriteLine("parameter id: " + paramID);
-                                //Console.WriteLine("return : " + returnFunction.returnStatement().GetText());
+                                
 
                             }
 

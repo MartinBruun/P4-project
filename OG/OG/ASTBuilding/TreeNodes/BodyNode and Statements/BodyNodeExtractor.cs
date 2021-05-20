@@ -25,7 +25,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements
 
 
 
-//Try and extract assignments, declarations and commands from the current statement.
 
           
     
