@@ -23,7 +23,7 @@ namespace OG.ASTBuilding.TreeNodes.BoolNodes_and_extractors
         private BoolFunctionCallNodeExtractor _boolFunctionNodeExtractor = null;
         public BoolNode ExtractBoolNode(OGParser.BoolExpressionContext context)
         {
-            Console.WriteLine("\tCreating bool node from expression {0}", context.GetText());
+            //Console.WriteLine("\tCreating bool node from expression {0}", context.GetText());
             try
             {
                 //First split on "&& and ||"

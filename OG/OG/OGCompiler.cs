@@ -71,8 +71,7 @@ namespace OG
                 }
 
             }
-
-           
+            
 
             Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
             foreach (var item in errors)

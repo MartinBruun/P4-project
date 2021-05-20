@@ -34,7 +34,7 @@ namespace OG.AstVisiting.Visitors
         {
             foreach (var item in S.Elements)
             {
-                // //Console.WriteLine(item.Key + ":" + item.Value);
+                Console.WriteLine(item.Key + ":" + item.Value);
             }
         }
         
@@ -56,9 +56,8 @@ namespace OG.AstVisiting.Visitors
         public object Visit(ProgramNode node)
         {   
              S.enterScope("Global");
-             //Console.WriteLine("\n\n---Creating SymbolTable---");
+             Console.WriteLine("---Creating SymbolTable---");
                             
-            // ProgramStartElementNaming();
             foreach (var item in node.FunctionDcls)
             {
                 if (S.Add(item.Id.Value, item.ReturnType, item))
@@ -72,7 +71,6 @@ namespace OG.AstVisiting.Visitors
                 }
                 
                 item.Accept(this);
-                // ProgramFunctionListElementNaming(item);
             }
             
             foreach (var item in node.ShapeDcls)
@@ -86,26 +84,17 @@ namespace OG.AstVisiting.Visitors
                 {
                     errors.Add(new SemanticError(node,$"{S.GetCurrentScope()+"_"+item.Id.Value} Already exists in SymbolTable visitProgram"));
                 }
-                // ProgramShapeListElementNaming(item);
                 item.Accept(this);
 
             }
             S.exitScope("Global");
-            // //Console.WriteLine("\n---SYMBOLTABLE:---");
-            // //Console.WriteLine($"Reached S.GetCurrentScope() {S.GetCurrentScope()} on stack\n");
-            PrintSymbolTable();
-            // //Console.WriteLine("\n---Double declared---");
-            foreach (var item in errors)
-            {
-                // //Console.WriteLine(item);
-            }
+            
             return new object();
         }
 
         public object Visit(FunctionNode node)
         {
-            // //Console.Write($"Scope {S.GetCurrentScope()} | ");
-            // //Console.WriteLine(node.ToString()); 
+            
 
             S.enterScope(node.Id.Value);
             foreach (ParameterTypeNode param in node.Parameters)

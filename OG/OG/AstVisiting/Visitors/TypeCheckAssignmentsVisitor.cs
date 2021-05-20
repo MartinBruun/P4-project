@@ -28,15 +28,7 @@ namespace OG.AstVisiting.Visitors
         {
             S.Elements = symbolTable;
         }
-
         
-        void PrintSymbolTable()
-        {
-            foreach (var item in S.Elements)
-            { 
-                Console.WriteLine(item.Key + ":" + item.Value);
-            }
-        }
         
         //Mark: Getters
         public Dictionary<string, AstNode> GetSymbolTable()
@@ -58,7 +50,7 @@ namespace OG.AstVisiting.Visitors
         //ENTER--> Exit SCOPE
         public object Visit(ProgramNode node)
         {   S.enterScope("Global"); 
-           // Console.WriteLine("\n\n--- TypeChecking ---\n\n");
+           Console.WriteLine("--- TypeChecking ---");
 
             foreach (var item in node.MachineSettingNodes)
             {
