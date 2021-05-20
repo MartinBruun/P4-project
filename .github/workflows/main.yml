@@ -18,6 +18,9 @@ jobs:
           nuget restore
           cd OG
           msbuild OG.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+          dotnet publish -c Release -r win10-x64 -p:PublishReadyToRun=true --self-contained true
+          dotnet publish -c Release -r osx.11.0-x64 -p:PublishReadyToRun=true --self-contained true
+
 
   AutoTests:
     runs-on: windows-latest
