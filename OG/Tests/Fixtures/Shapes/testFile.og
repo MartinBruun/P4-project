@@ -1,0 +1,103 @@
+Machine.WorkArea.size(xmin=-10,xmax=10,ymin=-10,ymax=10);
+
+draw{
+    Diamond;
+    Club;
+    Heart;
+    Spade;
+}
+function number newNumber(number nn){
+return nn+1;
+}
+function number getMiddlePoint(number x1, number x2){
+        return (x1 + x2) / 2;
+}
+
+shape Diamond {
+    point start = (-5,-7);
+    line.from(start).to(-4,-5).to(-5,-3).to(-6,-5).to(start);
+}
+
+shape ClubStand {
+    point start = (5,3);
+    
+    curve.withAngle(20).from(start).to(6,2);
+    line.from(6,2).to(4,2);
+    curve.withAngle(20).from(4,2).to(start);
+}
+
+shape Club {
+    point start = (5,3);
+
+    ClubStand;
+    curve.withAngle(90).from(start).to(6,5).to(4,5).to(start);
+}
+
+shape Heart {
+    point start = (-5, 7);
+    number edgeY = 7;
+    number rightEdgeX = -3;
+    point rightEdge = (rightEdgeX,edgeY);
+    number leftEdgeX = -7;
+    point leftEdge = (leftEdgeX,edgeY);
+    number bottomPointX = -5;
+    number bottomPointY = 4;
+    point bottomPoint = (bottomPointX,bottomPointY);
+    number rightMiddleX = getMiddlePoint(rightEdgeX, bottomPointX);
+    number rightMiddleY = getMiddlePoint(edgeY,bottomPointY);
+    point rightMiddlePoint = (rightMiddleX,rightMiddleY);
+    number leftMiddleX = getMiddlePoint(leftEdgeX, bottomPointX);
+    number leftMiddleY = getMiddlePoint(edgeY, bottomPointY);
+    point leftMiddlePoint = (leftMiddleX,leftMiddleY);
+
+    curve.withAngle(-90).from(start).to(rightEdge);
+    curve.withAngle(-45).from(rightEdge).to(rightMiddlePoint);
+    curve.withAngle(45).from(rightMiddlePoint).to(bottomPoint).to(leftMiddlePoint);
+    curve.withAngle(-45).from(leftMiddlePoint).to(leftEdge);
+    curve.withAngle(-90).from(leftEdge).to(start);
+}
+
+shape SpadeStand {
+    point start = (5,-7);
+    number bottomY = -9;
+    number leftSide = 4;
+    number rightSide = 6;
+    
+    curve.withAngle(20).from(start).to(rightSide,bottomY);
+    line.from(rightSide,bottomY).to(leftSide,bottomY);
+    curve.withAngle(20).from(leftSide,bottomY).to(start);
+}
+
+shape Spade {
+    number testNumber = 0;
+    point testPoint = (0,0);
+    number xMiddle = 5;
+    point start = (xMiddle, -7);
+    number topX = xMiddle;
+    number topY = -3;
+    point top = (topX,topY);
+    number edgeX = 0;
+    number edgeY = -7;
+    point edge = (edgeX,edgeY);
+    number middleX = 0;
+    number middleY = 0;
+    point middlePoint = (0,0);
+    number sideVal = 1;
+    number xOffset = -2;
+
+    SpadeStand;
+    repeat(2)
+        testNumber = newNumber(testNumber);
+        
+        edgeX = xMiddle + (xOffset * sideVal);
+        edge = (edgeX,edgeY);
+        middleX = getMiddlePoint(edgeX, topX);
+        middleY = getMiddlePoint(edgeY,topY);
+        middlePoint = (middleX,middleY);
+
+        curve.withAngle(sideVal * -90).from(start).to(edge);
+        curve.withAngle(sideVal * -25).from(edge).to(middlePoint);
+        curve.withAngle(sideVal * 25).from(middlePoint).to(top);
+        sideVal = -1;
+    repeat.end
+}
