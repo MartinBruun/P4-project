@@ -16,7 +16,7 @@ namespace OG.ASTBuilding.TreeNodes.FunctionCalls
             if (context.id.Text != string.Empty)
             {
                 IdNode id = new IdNode(context.id.Text);
-                Console.WriteLine("!!!Creating Functioncall:"+context.passedParams().GetText());
+                //Console.WriteLine("!!!Creating Functioncall:"+context.passedParams().GetText());
                 parameterNodes = _parameterNodeListBuilder.VisitFunctionCall(context);
                 
                 FunctionCallNode F = new FunctionCallNode(id, parameterNodes, context.GetText());

@@ -31,7 +31,7 @@ namespace OG.ASTBuilding.TreeNodes
             //Create node from current drawCommand
             if (currentCommand != null && !currentCommand.IsEmpty)
             {
-                Console.WriteLine("\nDraw command found. Detecting drawCommand type... ");
+                //Console.WriteLine("\nDraw command found. Detecting drawCommand type... ");
                 DrawCommandNodes.Add(ExtractDrawCommandNode(currentCommand));
             }
             
@@ -58,8 +58,7 @@ namespace OG.ASTBuilding.TreeNodes
                         string id = fromContext.id.Text;
                         string valueString = Concat(fromContext.GetText().Replace(";","").Replace(".from","").Replace(id,"")
                             .Where(c => !char.IsWhiteSpace(c)));
-                        Console.WriteLine("\tFromCommand with ID '{0}' and from value {1} detected. Creating Node...",
-                            id, valueString);
+                        //Console.WriteLine("\tFromCommand with ID '{0}' and from value {1} detected. Creating Node...",id, valueString);
                         result = _drawCommandNodeExtractor.VisitDrawFromCmd(fromContext);
                         return result;
                     }
@@ -72,8 +71,7 @@ namespace OG.ASTBuilding.TreeNodes
                 OGParser.DrawCmdContext drawContext = (OGParser.DrawCmdContext) context;
                 if (!drawContext.IsEmpty)
                 {
-                    Console.WriteLine("\tDrawCmd with ID \"{0}\" detected. Creating Node...",
-                        drawContext.id.Text);
+                    //Console.WriteLine("\tDrawCmd with ID \"{0}\" detected. Creating Node...",drawContext.id.Text);
                     result = _drawCommandNodeExtractor.VisitDrawCmd(drawContext);
                     return result;
                 }

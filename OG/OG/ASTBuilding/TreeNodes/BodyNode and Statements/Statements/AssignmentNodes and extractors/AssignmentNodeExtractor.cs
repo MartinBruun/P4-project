@@ -45,7 +45,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
             else if (propertyAssignment != null && !propertyAssignment.IsEmpty)
             {
                 ResultNode = ExtractAssignmentNode(propertyAssignment);
-                Console.WriteLine(ResultNode);
             }
 
             return ResultNode ?? null;
@@ -169,7 +168,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         {
             string id = context.id.Text;
             string value = context.value.Text;
-            Console.Write("\t\tCreating IDAssignmentNode from expression {0} = {1}.", id, value);
             
             return new IdAssignNode(new IdNode(id),new IdNode(value)) {
                 Line =context.Start.Line,
@@ -192,7 +190,6 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Assignment
         {
             string id = context.id.Text;
             string value = context.value.GetText();
-            Console.Write("\t\tCreating NumberAssignmentNode from expression {0} = {1}.", id, value);
 
             MathNode mathNode = _mathNodeExtractor.ExtractMathNode(context.value);
             return new MathAssignmentNode(new IdNode(id), mathNode) {

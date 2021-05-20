@@ -22,7 +22,7 @@ namespace OG.ASTBuilding.TreeNodes.BodyNode_and_Statements.Statements.Declaratio
         /// <returns>List of AssignmentNodes or null</returns>
         public override List<DeclarationNode> VisitBody(OGParser.BodyContext context)
         {
-            Console.WriteLine("\tCreating declarationNodesnodes...");
+            //Console.WriteLine("\tCreating declarationNodesnodes...");
             if (context.statements != null && !context.statements.IsEmpty)
             {
                 return VisitStmts(context.statements);

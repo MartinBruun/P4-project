@@ -102,7 +102,7 @@ namespace OG.AstVisiting.Visitors
         /// <returns></returns>
         public bool Add(string id, string type, AstNode node)
         {
-            Console.WriteLine($"pCount {parameterCount} adding {id} to symtbl, {node}");
+            //Console.WriteLine($"pCount {parameterCount} adding {id} to symtbl, {node}");
             try
             {
                 node.CompileTimeType = type;
@@ -176,9 +176,9 @@ namespace OG.AstVisiting.Visitors
             
                 try
                 {
-                    Console.Write($"\nChecking {IdInScope}");
+                    //Console.Write($"\nChecking {IdInScope}");
                     var result = Elements[IdInScope].CompileTimeType;
-                    Console.WriteLine($": found {result}");
+                    //Console.WriteLine($": found {result}");
                     return result;
 
                 }
@@ -187,23 +187,23 @@ namespace OG.AstVisiting.Visitors
                 
                 Stack<string> stackCopy1 = new Stack<string>(stack.ToArray());
                 Stack<string> stackCopy = new Stack<string>(stackCopy1.ToArray());
-                // Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
+                // //Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
                //Alle containing scopes gennemløbes
                while (stackCopy.Count > 0)
                 {
                     try
                     {
                         string name = stackCopy.Pop() + "_" + id;
-                        Console.Write($"\n--nextScope {name}");
+                        //Console.Write($"\n--nextScope {name}");
                         var result = Elements[name].CompileTimeType;
-                        Console.WriteLine($": found {result}");
+                        //Console.WriteLine($": found {result}");
                         return result;
                     }
                     catch { }
                 }
             //TODO: Lav en ordentlig exception type
             // return "!Not Found!";
-            Console.Write($"\n--{id} has not been declared");
+            //Console.Write($"\n--{id} has not been declared");
            // throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
            return null;
         }
@@ -216,9 +216,9 @@ namespace OG.AstVisiting.Visitors
             
             try
             {
-                Console.Write($"\nChecking {currentScopeName + "_" + id}");
+                //Console.Write($"\nChecking {currentScopeName + "_" + id}");
                 var result = Elements[IdInScope];
-                Console.WriteLine($": found {result}");
+                //Console.WriteLine($": found {result}");
                 return result;
             }
             catch { }
@@ -226,23 +226,23 @@ namespace OG.AstVisiting.Visitors
                 
             Stack<string> stackCopy1 = new Stack<string>(stack.ToArray());
             Stack<string> stackCopy = new Stack<string>(stackCopy1.ToArray());
-            // Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
+            // //Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
             //Alle containing scopes gennemløbes
             while (stackCopy.Count > 0)
             {
                 try
                 {
                     string name = stackCopy.Pop() + "_" + id;
-                    Console.Write($"\n--nextScope {name}");
+                    //Console.Write($"\n--nextScope {name}");
                     var result = Elements[name];
-                    Console.WriteLine($": found {result}");
+                    //Console.WriteLine($": found {result}");
                     return result;
                 }
                 catch { }
             }
             //TODO: Lav en ordentlig exception type
             // return "!Not Found!";
-            Console.Write($"\n--{id} has not been declared");
+            //Console.Write($"\n--{id} has not been declared");
             //throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
             return null;
         }
@@ -253,9 +253,9 @@ namespace OG.AstVisiting.Visitors
             
             try
             {
-                Console.Write($"\nChecking {IdInScope}");
+                //Console.Write($"\nChecking {IdInScope}");
                 var result = Elements[IdInScope].CompileTimeType;
-                Console.WriteLine($": found {IdInScope}");
+                //Console.WriteLine($": found {IdInScope}");
                 return IdInScope;
             }
             catch { }
@@ -263,23 +263,23 @@ namespace OG.AstVisiting.Visitors
                 
             Stack<string> stackCopy1 = new Stack<string>(stack.ToArray());
             Stack<string> stackCopy = new Stack<string>(stackCopy1.ToArray());
-            // Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
+            // //Console.Write($"\nChecking {stackCopy.Peek()+ "_" + id}\n");
             //Alle containing scopes gennemløbes
             while (stackCopy.Count > 0)
             {
                 try
                 {
                     string name = stackCopy.Pop() + "_" + id;
-                    Console.Write($"\n--nextScope {name}");
+                    //Console.Write($"\n--nextScope {name}");
                     var result = Elements[name].CompileTimeType;
-                    Console.WriteLine($": found {name}");
+                    //Console.WriteLine($": found {name}");
                     return name;
                 }
                 catch { }
             }
             //TODO: Lav en ordentlig exception type
             // return "!Not Found!";
-            Console.Write($"\n--{id} has not been declared");
+            //Console.Write($"\n--{id} has not been declared");
             //throw new Exception($"After having checked the local scopes it turns out that the {id} is not in symboltable");
             return null;
         }
@@ -292,7 +292,7 @@ namespace OG.AstVisiting.Visitors
             }
             catch
             {
-                Console.Write($"\n--{address} has not been declared");
+                //Console.Write($"\n--{address} has not been declared");
                 // throw new Exception($"After having checked the local scopes it turns out that the {address} is not in symboltable");
             }
 
