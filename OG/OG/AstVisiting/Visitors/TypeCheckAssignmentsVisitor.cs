@@ -862,19 +862,30 @@ namespace OG.AstVisiting.Visitors
         }
         object IVisitor.Visit(DrawNode node)
         {
-           
-            foreach (var drawCommandNode in node.drawCommands)
+
+            try
             {
-                drawCommandNode.Id.Accept(this);
-               
-               if (drawCommandNode.Id.CompileTimeType != "shape")
-               {
-                   errors.Add(new SemanticError(drawCommandNode, $"{drawCommandNode.Id.Value} is not a shape node!"));
-               }
-               drawCommandNode.CompileTimeType = drawCommandNode.Id.CompileTimeType;
-               drawCommandNode.Line = drawCommandNode.Id.Line;
-               drawCommandNode.Line = drawCommandNode.Id.Column;
+                foreach (var drawCommandNode in node.drawCommands)
+                {
+                    drawCommandNode.Id.Accept(this);
+
+                    if (drawCommandNode.Id.CompileTimeType != "shape")
+                    {
+                        errors.Add(new SemanticError(drawCommandNode,
+                            $"{drawCommandNode.Id.Value} is not a shape node!"));
+                    }
+
+                    drawCommandNode.CompileTimeType = drawCommandNode.Id.CompileTimeType;
+                    drawCommandNode.Line = drawCommandNode.Id.Line;
+                    drawCommandNode.Line = drawCommandNode.Id.Column;
+                }
             }
+            catch
+            {
+                errors.Add(new SemanticError(node, "It seems like you have a lexical error in the Draw section, check the lexical errors section at the beginning of this console."));
+            }
+            
+
             return new object();
         }
 

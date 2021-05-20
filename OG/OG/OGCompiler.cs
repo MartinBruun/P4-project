@@ -31,6 +31,7 @@ namespace OG
             string sourceFile = File.ReadAllText(fileLoc);
 
             // Syntactic Analysis
+            Console.WriteLine("\n\n-----Lexical ERRORS!----- :\n");
             LexerContainer lexCon = new LexerContainer(sourceFile);
             ParserContainer parCon = new ParserContainer(lexCon.TokenSource);
 
@@ -50,31 +51,34 @@ namespace OG
             TypeCheckAssignmentsVisitor TT = new TypeCheckAssignmentsVisitor(ST.GetSymbolTable());
             p.Accept(TT);
             errors.AddRange(TT.GetErrors());
-            if (errors.Count > 0)
+            if (errors.Count == 0)
             {
-                Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
-                
-              foreach (var item in errors)
-                {
-                    Console.Write("\n" + item + "\n");
-                }
+                // AST Complexity Reduction
+                symbolTable = TT.GetSymbolTable();
+                LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable, errors);
+                p.Accept(loopUnfolder);
+
+                ExpressionReducerVisitor reducer = new ExpressionReducerVisitor(symbolTable, errors);
+
+                // Code Generation
+                CodeGeneratorVisitor gCodeGeneratorVisitor = new CodeGeneratorVisitor(symbolTable, errors, reducer);
+                p.Accept(gCodeGeneratorVisitor);
+                string gcode = gCodeGeneratorVisitor.Emit();
+                string gcodeFileLoc = fileLoc.Replace(".og", ".gcode");
+                File.WriteAllText(Directory.GetCurrentDirectory() + $"/{gcodeFileLoc}", gcode);
             }
-            
-            // AST Complexity Reduction
-            symbolTable = TT.GetSymbolTable();
-            LoopUnfolderVisitor loopUnfolder = new LoopUnfolderVisitor(symbolTable,errors);
-            p.Accept(loopUnfolder);
 
-            ExpressionReducerVisitor reducer = new ExpressionReducerVisitor(symbolTable, errors);
-            
-            // Code Generation
-            CodeGeneratorVisitor gCodeGeneratorVisitor = new CodeGeneratorVisitor(symbolTable, errors, reducer );
-            p.Accept(gCodeGeneratorVisitor);
-            string gcode = gCodeGeneratorVisitor.Emit();
-            string gcodeFileLoc = fileLoc.Replace(".og", ".gcode");
-            File.WriteAllText(Directory.GetCurrentDirectory()+$"/{gcodeFileLoc}",gcode);
-
-            
+            Console.WriteLine("\n\n-----FIX the following ERRORS!----- :\n");
+            Console.WriteLine("-----Declaration ERRORS!----- :");
+            foreach (var item in ST.GetErrors())
+            {
+                Console.Write("\n" + item + "\n");
+            }
+            Console.WriteLine("\n-----Type ERRORS!----- :");
+            foreach (var item in TT.GetErrors())
+            {
+                Console.Write("\n" + item + "\n");
+            }
         }
     }
 }

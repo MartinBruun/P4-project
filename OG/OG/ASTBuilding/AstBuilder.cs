@@ -31,7 +31,7 @@ namespace OG.ASTBuilding
             List<ShapeNode> shapeNodes = null;
             
             
-            Console.WriteLine("---Converting ANTLR TO AST---");
+            Console.WriteLine("\n\n\n---Converting ANTLR TO AST---");
 
             if (context.settings != null)
             {
