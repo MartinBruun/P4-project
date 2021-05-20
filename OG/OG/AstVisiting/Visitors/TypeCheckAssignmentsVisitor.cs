@@ -50,7 +50,6 @@ namespace OG.AstVisiting.Visitors
         //ENTER--> Exit SCOPE
         public object Visit(ProgramNode node)
         {   S.enterScope("Global"); 
-           Console.WriteLine("--- TypeChecking ---");
 
             foreach (var item in node.MachineSettingNodes)
             {
