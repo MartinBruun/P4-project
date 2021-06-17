@@ -18,4 +18,10 @@
       <Compile Remove="Compiler\SymbolTables.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="..\..\..\..\OneDrive - Aalborg Universitet\p4materiale\projekt eksamen\eksamen1.og">
+        <Link>eksamen1.og</Link>
+      </Content>
+    </ItemGroup>
+
 </Project>

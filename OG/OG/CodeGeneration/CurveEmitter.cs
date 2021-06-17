@@ -54,7 +54,7 @@ namespace OG.CodeGeneration
         public void SetupGCodeResult(CurveCommandNode node)
         {
             _angleRadians = (((NumberNode) node.Angle).NumberValue) * Math.PI / 180;
-            
+            Console.WriteLine( _angleRadians);
             if (_angleRadians == 0 && CheckNodeValidity(node))
             {
                 LineEmitter lineEmitter = new LineEmitter(SemanticErrors);
@@ -121,7 +121,10 @@ namespace OG.CodeGeneration
             double fromToDist = Math.Sqrt(Math.Pow(from.Item1 - to.Item1, 2) + Math.Pow(@from.Item2 - to.Item2, 2));
             double angle = Math.Cos(0.5 * Math.PI - Math.Abs(_angleRadians));
 
-            var result = (fromToDist / 2) / angle;
+            var result = (fromToDist / 2) / angle/2; //jeg har delt med 2 en gang til
+            Console.WriteLine("curveEmitter beregner: linie 125");
+            Console.WriteLine(fromToDist);
+            Console.WriteLine(angle);
             return result;
 
         }
